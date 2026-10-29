@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>00 — Decisões Estratégicas & Pendências Abertas | Birthub 360°</title>
+  <style>
+    :root {
+      --bg: #F4F7FB; --surface: #FFFFFF; --surface2: #F1F5F9; --ink: #0B132B; --muted: #475569;
+      --border: rgba(15, 23, 42, 0.12); --neon-blue: #0284C7; --neon-pink: #D91B7C; --neon-gold: #D97706; --neon-iris: #7C3AED;
+    }
+    body { background: var(--bg); color: var(--ink); font-family: 'Inter', sans-serif; line-height: 1.6; padding: 40px 20px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    h1 { font-family: 'Sora', sans-serif; font-size: 2.3rem; font-weight: 800; background: linear-gradient(135deg, #0284C7 0%, #D91B7C 50%, #D97706 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    h2 { font-family: 'Sora', sans-serif; font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-top: 30px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    h3 { font-family: 'Sora', sans-serif; font-size: 1.15rem; font-weight: 600; background: linear-gradient(135deg, #D91B7C 0%, #BE123C 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-top: 18px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06); }
+    .status-tag { display: inline-block; padding: 2px 10px; border-radius: 9999px; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; font-weight: 600; }
+    .status-aprov { border: 1px solid rgba(22, 163, 74, 0.4); background: rgba(22, 163, 74, 0.1); color: #16A34A; }
+    .status-pend { border: 1px solid rgba(217, 119, 6, 0.4); background: rgba(217, 119, 6, 0.1); color: #D97706; }
+    table { width: 100%; border-collapse: collapse; margin-top: 14px; }
+    th, td { padding: 10px 14px; border-bottom: 1px solid var(--border); font-size: 0.9rem; text-align: left; }
+    th { background: var(--surface2); color: var(--muted); font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div style="margin-bottom: 20px;"><a href="00_PORTAL_MESTRE.html" style="color: var(--neon-blue); text-decoration: none; font-weight: 600;">← Voltar ao Portal Mestre</a></div>
+    <h1>00 — REGISTRO DE DECISÕES HOMOLOGADAS & PENDÊNCIAS</h1>
+    <p><span class="status-tag status-aprov">STATUS: CONSOLIDADO</span> • <strong>Versão:</strong> 1.0.0 • <strong>ID:</strong> GOV-DECISIONS-360</p>
+
+    <div class="card">
+      <h3>1. Decisões Arquiteturais e de Produto Homologadas (OFICIAL)</h3>
+      <table>
+        <thead><tr><th>Código</th><th>Decisão Homologada</th><th>Justificativa Técnica</th><th>Impacto</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>DEC-001</code></td>
+            <td>Light Mode como Padrão do Design System Neon 360°</td>
+            <td>Melhor ergonomia e contraste WCAG 2.2 AA em jornadas de uso diurno de operadores e gestores.</td>
+            <td><span class="status-tag status-aprov">APROVADA</span></td>
+          </tr>
+          <tr>
+            <td><code>DEC-002</code></td>
+            <td>Supervisor 360° Desacoplado com Ferramentas Auditáveis</td>
+            <td>Prevenir "alucinações" de IA em operações comerciais críticas; toda ação tem ferramenta real e registro.</td>
+            <td><span class="status-tag status-aprov">APROVADA</span></td>
+          </tr>
+          <tr>
+            <td><code>DEC-003</code></td>
+            <td>Isolamento PostgreSQL na Porta 5433 (Sem Conflito Legado)</td>
+            <td>Garantir zero impacto no banco de dados e containers do projeto anterior.</td>
+            <td><span class="status-tag status-aprov">APROVADA</span></td>
+          </tr>
+          <tr>
+            <td><code>DEC-004</code></td>
+            <td>Kanban Comercial com Drag-and-Drop e Auditoria de Estágios</td>
+            <td>Permitir gestão ágil de oportunidades com registro histórico obrigatório de motivos de perda.</td>
+            <td><span class="status-tag status-aprov">APROVADA</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>2. Questões Abertas & Pendências Comerciais (PENDENTE DE DECISÃO)</h3>
+      <table>
+        <thead><tr><th>Código</th><th>Questão Pendente</th><th>Área Responsável</th><th>Alternativas Avaliadas</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>PEN-001</code></td>
+            <td>Modelo de Cobrança de IA: Inclusa no Assento vs Por Token Excedente</td>
+            <td>Financeiro / CPO</td>
+            <td>Franquia mensal inclusa de 20k tokens ou cobrança pura sob demanda (pay-as-you-go).</td>
+          </tr>
+          <tr>
+            <td><code>PEN-002</code></td>
+            <td>Provider Principal de Telefonia e VoIP: 3CX On-Premise vs Twilio Cloud</td>
+            <td>Infraestrutura / CPO</td>
+            <td>3CX para redução de custo Brasil ou Twilio para facilidade de onboarding global.</td>
+          </tr>
+          <tr>
+            <td><code>PEN-003</code></td>
+            <td>Hospedagem em Produção Futura: AWS (ECS/RDS) vs Fly.io / Bare-metal OCI</td>
+            <td>DevOps / CTO</td>
+            <td>Aguardar aprovação de orçamento de infraestrutura antes da Fase de Deploy.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>04.1 — Catálogo Mestre dos 394 Agentes & Supervisor | Birthub 360°</title>
+  <style>
+    :root {
+      --bg: #F4F7FB; --surface: #FFFFFF; --surface2: #F1F5F9; --ink: #0B132B; --muted: #475569;
+      --border: rgba(15, 23, 42, 0.12); --neon-blue: #0284C7; --neon-pink: #D91B7C; --neon-gold: #D97706; --neon-iris: #7C3AED;
+    }
+    body { background: var(--bg); color: var(--ink); font-family: 'Inter', sans-serif; line-height: 1.6; padding: 40px 20px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    h1 { font-family: 'Sora', sans-serif; font-size: 2.3rem; font-weight: 800; background: linear-gradient(135deg, #0284C7 0%, #D91B7C 50%, #D97706 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    h2 { font-family: 'Sora', sans-serif; font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-top: 30px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    h3 { font-family: 'Sora', sans-serif; font-size: 1.15rem; font-weight: 600; background: linear-gradient(135deg, #D91B7C 0%, #BE123C 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-top: 18px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06); }
+    .status-tag { display: inline-block; padding: 2px 10px; border-radius: 9999px; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; font-weight: 600; border: 1px solid rgba(2, 132, 199, 0.4); background: rgba(2, 132, 199, 0.1); color: var(--neon-blue); }
+    pre { font-family: 'IBM Plex Mono', monospace; background: #0B132B; color: #38BDF8; padding: 16px; border-radius: 10px; overflow-x: auto; font-size: 0.85rem; line-height: 1.4; }
+    table { width: 100%; border-collapse: collapse; margin-top: 14px; }
+    th, td { padding: 10px 14px; border-bottom: 1px solid var(--border); font-size: 0.9rem; text-align: left; }
+    th { background: var(--surface2); color: var(--muted); font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div style="margin-bottom: 20px;"><a href="../00_PORTAL_MESTRE.html" style="color: var(--neon-blue); text-decoration: none; font-weight: 600;">← Voltar ao Portal Mestre</a></div>
+    <h1>04.1 — O SUPERVISOR 360° & CATÁLOGO DOS 394 AGENTES</h1>
+    <p><span class="status-tag">STATUS: OFICIAL & HOMOLOGADO</span> • <strong>Versão:</strong> 1.0.0 • <strong>Lote D</strong></p>
+
+    <div class="card">
+      <h3>1. Arquitetura Obrigatória do Supervisor</h3>
+      <pre>
+Usuário (Prompt Natural) 
+   │
+   ▼
+Supervisor 360° Facade
+   ├── 1. Interpretação de Intenção e Contexto (CRM, Pipeline, RevOps, Hub)
+   ├── 2. Identificação do Agente no Catálogo dos 394
+   ├── 3. Validação de Autorização RBAC (ADMIN, MANAGER, CLOSER, SDR, BDR)
+   ├── 4. Seleção de Ferramentas Autorizadas
+   ├── 5. Despacho Real ou Modo Governança (se não-executável)
+   ├── 6. Persistência de Auditoria no PostgreSQL (supervisor_executions)
+   ▼
+Resultado Estruturado com Evidências de Ação
+      </pre>
+    </div>
+
+    <div class="card">
+      <h3>2. Distribuição Canônica dos 394 Agentes por Domínio</h3>
+      <table>
+        <thead><tr><th>Domínio</th><th>Qtd Agentes</th><th>Escopo</th><th>Exemplos Notáveis</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Vendas & Pipeline</strong></td><td>78 agentes</td><td>Especializado</td><td>Deal Closer Assistant, Objections Solver, Discount Evaluator</td><td><span class="status-tag">3 Executáveis / 75 Catálogo</span></td></tr>
+          <tr><td><strong>Intelligence & ICP</strong></td><td>64 agentes</td><td>Especializado</td><td>ICP Analyzer, Tech Fit Scorer, Market Intent Detector</td><td><span class="status-tag">2 Executáveis / 62 Catálogo</span></td></tr>
+          <tr><td><strong>RevOps & Performance</strong></td><td>45 agentes</td><td>Especializado</td><td>RevOps Intelligence Analyzer, Churn Early Warner, Forecast Model</td><td><span class="status-tag">1 Executável / 44 Catálogo</span></td></tr>
+          <tr><td><strong>Marketing & Inbound</strong></td><td>52 agentes</td><td>Especializado</td><td>ABTestAutomator, Content Personalizer, Attribution Engine</td><td><span class="status-tag">Catálogo & Governança</span></td></tr>
+          <tr><td><strong>Compliance & Jurídico</strong></td><td>38 agentes</td><td>Universal</td><td>AccessRightAuditor, LGPD Sanitizer, Contract Clause Inspector</td><td><span class="status-tag">Catálogo & Governança</span></td></tr>
+          <tr><td><strong>Operações & Hub Core</strong></td><td>83 agentes</td><td>Universal</td><td>Supervisor Core, Commercial Activity Copilot, Notification Broker</td><td><span class="status-tag">2 Executáveis / 81 Catálogo</span></td></tr>
+          <tr><td><strong>Célula Comercial Especial</strong></td><td>15 agentes</td><td>Especializado</td><td>High-Ticket Negotiation Copilot, Bidding Analyzer</td><td><span class="status-tag">Catálogo & Governança</span></td></tr>
+          <tr><td><strong>TOTAL CONSOLIDADO</strong></td><td><strong>394 agentes</strong></td><td>-</td><td>Normalizados conforme Snapshot 79e15047</td><td><strong>8 Executáveis Reais / 386 Catálogo</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>3. Governança das Ferramentas & Regras de Acesso</h3>
+      <p>Ferramentas ativas no backend homologado:</p>
+      <ul>
+        <li><code>create_crm_activity</code>: Criação persistente de tarefas e follow-ups (Requer perfil SDR ou superior).</li>
+        <li><code>calculate_revops_metrics</code>: Cálculo analítico de pipeline ponderado e win rate (Requer perfil MANAGER ou superior).</li>
+        <li><code>inspect_crm_pipeline</code>: Leitura de gargalos no funil Kanban (Requer perfil CLOSER ou superior).</li>
+        <li><code>query_market_data</code>: Consulta de atributos de ICP para contas (Requer perfil SDR ou superior).</li>
+      </ul>
+      <p style="color: var(--neon-gold); font-size: 0.85rem;">Nota de Transparência: Nenhum agente sem código executável é simulado como funcional; eles operam com plano de governança explícito.</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,242 @@
+const API_BASE = 'http://localhost:3001/api';
+
+export const api = {
+  getToken: () => localStorage.getItem('birthhub_token'),
+  setToken: (token: string) => localStorage.setItem('birthhub_token', token),
+  clearToken: () => localStorage.removeItem('birthhub_token'),
+
+  getHeaders: () => {
+    const token = localStorage.getItem('birthhub_token');
+    return {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {})
+    };
+  },
+
+  async login(email: string, password: string) {
+    const res = await fetch(`${API_BASE}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    return res.json();
+  },
+
+  async getMe() {
+    const res = await fetch(`${API_BASE}/auth/me`, {
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  async getAssignees() {
+    const res = await fetch(`${API_BASE}/crm/assignees`, {
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  async getDashboardMetrics() {
+    const res = await fetch(`${API_BASE}/dashboard/metrics`, {
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  // COMPANIES
+  async getCompanies(query?: { search?: string; page?: number; limit?: number }) {
+    const params = new URLSearchParams();
+    if (query?.search) params.append('search', query.search);
+    if (query?.page) params.append('page', query.page.toString());
+    if (query?.limit) params.append('limit', query.limit.toString());
+    const res = await fetch(`${API_BASE}/crm/companies?${params.toString()}`, {
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  async createCompany(data: any) {
+    const res = await fetch(`${API_BASE}/crm/companies`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify(data)
+    });
+    return res.json();
+  },
+
+  async updateCompany(id: string, data: any) {
+    const res = await fetch(`${API_BASE}/crm/companies/${id}`, {
+      method: 'PUT',
+      headers: this.getHeaders(),
+      body: JSON.stringify(data)
+    });
+    return res.json();
+  },
+
+  async deleteCompany(id: string) {
+    const res = await fetch(`${API_BASE}/crm/companies/${id}`, {
+      method: 'DELETE',
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  // CONTACTS
+  async getContacts(search?: string) {
+    const params = search ? `?search=${encodeURIComponent(search)}` : '';
+    const res = await fetch(`${API_BASE}/crm/contacts${params}`, {
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  async createContact(data: any) {
+    const res = await fetch(`${API_BASE}/crm/contacts`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify(data)
+    });
+    return res.json();
+  },
+
+  async deleteContact(id: string) {
+    const res = await fetch(`${API_BASE}/crm/contacts/${id}`, {
+      method: 'DELETE',
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  // LEADS
+  async getLeads(search?: string) {
+    const params = search ? `?search=${encodeURIComponent(search)}` : '';
+    const res = await fetch(`${API_BASE}/crm/leads${params}`, {
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  async createLead(data: any) {
+    const res = await fetch(`${API_BASE}/crm/leads`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify(data)
+    });
+    return res.json();
+  },
+
+  async deleteLead(id: string) {
+    const res = await fetch(`${API_BASE}/crm/leads/${id}`, {
+      method: 'DELETE',
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  // DEALS & PIPELINE KANBAN
+  async getDeals(search?: string) {
+    const params = search ? `?search=${encodeURIComponent(search)}` : '';
+    const res = await fetch(`${API_BASE}/crm/deals${params}`, {
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  async createDeal(data: any) {
+    const res = await fetch(`${API_BASE}/crm/deals`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify(data)
+    });
+    return res.json();
+  },
+
+  async updateDealStage(id: string, stage: string, lostReason?: string, notes?: string) {
+    const res = await fetch(`${API_BASE}/crm/deals/${id}/stage`, {
+      method: 'PATCH',
+      headers: this.getHeaders(),
+      body: JSON.stringify({ stage, lostReason, notes })
+    });
+    return res.json();
+  },
+
+  async deleteDeal(id: string) {
+    const res = await fetch(`${API_BASE}/crm/deals/${id}`, {
+      method: 'DELETE',
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  async getDealHistory(id: string) {
+    const res = await fetch(`${API_BASE}/crm/deals/${id}/history`, {
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  // ACTIVITIES & ACOMPANHAMENTO
+  async getActivities() {
+    const res = await fetch(`${API_BASE}/crm/activities`, {
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  async createActivity(data: any) {
+    const res = await fetch(`${API_BASE}/crm/activities`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify(data)
+    });
+    return res.json();
+  },
+
+  async updateActivityStatus(id: string, status: string) {
+    const res = await fetch(`${API_BASE}/crm/activities/${id}/status`, {
+      method: 'PATCH',
+      headers: this.getHeaders(),
+      body: JSON.stringify({ status })
+    });
+    return res.json();
+  },
+
+  async deleteActivity(id: string) {
+    const res = await fetch(`${API_BASE}/crm/activities/${id}`, {
+      method: 'DELETE',
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  async getTimeline() {
+    const res = await fetch(`${API_BASE}/crm/timeline`, {
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  // AGENTS & SUPERVISOR
+  async getAgentsCatalog() {
+    const res = await fetch(`${API_BASE}/supervisor/agents`, {
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  async orchestrateSupervisor(payload: { targetModule: string; prompt: string }) {
+    const res = await fetch(`${API_BASE}/supervisor/orchestrate`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify(payload)
+    });
+    return res.json();
+  },
+
+  async getSupervisorExecutions() {
+    const res = await fetch(`${API_BASE}/supervisor/executions`, {
+      headers: this.getHeaders()
+    });
+    return res.json();
+  }
+};
