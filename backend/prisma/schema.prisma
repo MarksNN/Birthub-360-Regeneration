@@ -1,0 +1,304 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  MANAGER
+  CLOSER
+  SDR
+  BDR
+  VIEWER
+}
+
+enum CompanyStatus {
+  ATIVO
+  INATIVO
+  EM_ANALISE
+}
+
+enum ContactStatus {
+  ATIVO
+  INATIVO
+}
+
+enum LeadStatus {
+  LEAD_RECEBIDO
+  CADENCIA_INICIADA
+  QUALIFICACAO_SDR
+  REUNIAO_AGENDADA
+  LEAD_DESQUALIFICADO
+  CONVERTIDO_EM_OPORTUNIDADE
+}
+
+enum DealStage {
+  PROSPECT
+  QUALIFICACAO
+  PROPOSTA_ENVIADA
+  NEGOCIACAO
+  FECHADO_GANHO
+  FECHADO_PERDIDO
+}
+
+enum ActivityType {
+  TAREFA
+  LIGACAO
+  REUNIAO
+  FOLLOW_UP
+  EMAIL
+}
+
+enum ActivityStatus {
+  PENDENTE
+  CONCLUIDA
+  CANCELADA
+}
+
+enum AgentScope {
+  UNIVERSAL
+  SPECIALIZED
+}
+
+model Organization {
+  id          String       @id @default(uuid())
+  name        String
+  slug        String       @unique
+  plan        String       @default("ENTERPRISE_360")
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  users              User[]
+  companies          Company[]
+  contacts           Contact[]
+  leads              Lead[]
+  deals              Deal[]
+  activities         Activity[]
+  auditLogs          AuditLog[]
+  dealHistories      DealStageHistory[]
+  agentRegistrations AgentRegistration[]
+  agentExecutions    SupervisorExecution[]
+
+  @@map("organizations")
+}
+
+model User {
+  id             String       @id @default(uuid())
+  email          String       @unique
+  name           String
+  passwordHash   String
+  role           UserRole     @default(SDR)
+  organizationId String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  organization        Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  leadsAssigned       Lead[]       @relation("AssignedLeads")
+  dealsAssigned       Deal[]       @relation("AssignedDeals")
+  activitiesAssigned  Activity[]   @relation("AssignedActivities")
+  auditLogsTriggered  AuditLog[]   @relation("UserAuditLogs")
+  dealHistoriesMoved  DealStageHistory[] @relation("UserDealHistories")
+  executionsRequested SupervisorExecution[]
+
+  @@map("users")
+}
+
+model Company {
+  id             String         @id @default(uuid())
+  organizationId String
+  name           String
+  tradeName      String?
+  cnpj           String?
+  industry       String?
+  website        String?
+  phone          String?
+  status         CompanyStatus  @default(ATIVO)
+  annualRevenue  Float?
+  employeeCount  Int?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  contacts       Contact[]
+  leads          Lead[]
+  deals          Deal[]
+  activities     Activity[]
+
+  @@unique([organizationId, cnpj])
+  @@map("companies")
+}
+
+model Contact {
+  id             String         @id @default(uuid())
+  organizationId String
+  companyId      String?
+  name           String
+  email          String?
+  phone          String?
+  roleTitle      String?
+  status         ContactStatus  @default(ATIVO)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  company        Company?       @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  leads          Lead[]
+  activities     Activity[]
+
+  @@map("contacts")
+}
+
+model Lead {
+  id             String         @id @default(uuid())
+  organizationId String
+  companyId      String?
+  contactId      String?
+  assignedToId   String?
+  title          String
+  source         String?
+  status         LeadStatus     @default(LEAD_RECEBIDO)
+  score          Int            @default(50)
+  estimatedValue Float?
+  notes          String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  company        Company?       @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  contact        Contact?       @relation(fields: [contactId], references: [id], onDelete: SetNull)
+  assignedTo     User?          @relation("AssignedLeads", fields: [assignedToId], references: [id], onDelete: SetNull)
+  deals          Deal[]
+  activities     Activity[]
+
+  @@map("leads")
+}
+
+model Deal {
+  id             String         @id @default(uuid())
+  organizationId String
+  companyId      String?
+  leadId         String?
+  assignedToId   String?
+  title          String
+  amount         Float          @default(0.0)
+  stage          DealStage      @default(PROSPECT)
+  expectedClose  DateTime?
+  probability    Int            @default(20)
+  lostReason     String?        // Motivo de perda
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  company        Company?       @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  lead           Lead?          @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  assignedTo     User?          @relation("AssignedDeals", fields: [assignedToId], references: [id], onDelete: SetNull)
+  activities     Activity[]
+  stageHistories DealStageHistory[]
+
+  @@map("deals")
+}
+
+model DealStageHistory {
+  id             String       @id @default(uuid())
+  organizationId String
+  dealId         String
+  fromStage      DealStage
+  toStage        DealStage
+  movedById      String?
+  notes          String?
+  createdAt      DateTime     @default(now())
+
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  deal           Deal         @relation(fields: [dealId], references: [id], onDelete: Cascade)
+  movedBy        User?        @relation("UserDealHistories", fields: [movedById], references: [id], onDelete: SetNull)
+
+  @@map("deal_stage_histories")
+}
+
+model Activity {
+  id             String         @id @default(uuid())
+  organizationId String
+  assignedToId   String?
+  companyId      String?
+  contactId      String?
+  leadId         String?
+  dealId         String?
+  type           ActivityType   @default(TAREFA)
+  title          String
+  description    String?
+  dueDate        DateTime
+  status         ActivityStatus @default(PENDENTE)
+  completedAt    DateTime?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  assignedTo     User?          @relation("AssignedActivities", fields: [assignedToId], references: [id], onDelete: SetNull)
+  company        Company?       @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  contact        Contact?       @relation(fields: [contactId], references: [id], onDelete: SetNull)
+  lead           Lead?          @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  deal           Deal?          @relation(fields: [dealId], references: [id], onDelete: SetNull)
+
+  @@map("activities")
+}
+
+model AuditLog {
+  id             String       @id @default(uuid())
+  organizationId String
+  userId         String?
+  entityType     String       // COMPANY, CONTACT, LEAD, DEAL, ACTIVITY
+  entityId       String
+  action         String       // CREATE, UPDATE, DELETE, STAGE_CHANGE
+  diff           Json?
+  createdAt      DateTime     @default(now())
+
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user           User?        @relation("UserAuditLogs", fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("audit_logs")
+}
+
+model AgentRegistration {
+  id              String      @id @default(uuid())
+  organizationId  String?
+  agentCode       String      @unique
+  name            String
+  domain          String
+  subgroup        String
+  scope           AgentScope  @default(SPECIALIZED)
+  description     String
+  capabilities    String[]    // Lista de capacidades documentadas
+  allowedTools    String[]    // Ferramentas autorizadas
+  requiredRole    UserRole    @default(SDR)
+  isActive        Boolean     @default(true)
+  isExecutable    Boolean     @default(false)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  organization    Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@map("agent_registrations")
+}
+
+model SupervisorExecution {
+  id              String      @id @default(uuid())
+  organizationId  String
+  requestedById   String
+  targetModule    String      // Ex: CRM, FORECAST, INTELLIGENCE, REVOPS
+  userPrompt      String
+  routedAgentCode String?
+  selectedTools   String[]
+  status          String      @default("COMPLETED") // PENDING, PROCESSING, COMPLETED, FAILED, FORBIDDEN
+  resultSummary   String?
+  executionTimeMs Int?
+  createdAt       DateTime    @default(now())
+
+  organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  requestedBy     User         @relation(fields: [requestedById], references: [id], onDelete: Cascade)
+
+  @@map("supervisor_executions")
+}

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relatório Executivo Fase 02 — Birthub 360 Regeneration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F8FAFC;
+      --surface: #FFFFFF;
+      --surface2: #F1F5F9;
+      --ink: #0B132B;
+      --muted: #475569;
+      --border: rgba(15, 23, 42, 0.12);
+      --neon-blue: #0284C7;
+      --neon-pink: #D91B7C;
+      --neon-gold: #D97706;
+      --neon-iris: #7C3AED;
+      --neon-success: #16A34A;
+      --neon-danger: #DC2626;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    /* REGRA RIGOROSA: NENHUM TÍTULO OU SUBTÍTULO UTILIZA PRETO OU BRANCO */
+    h1 {
+      font-family: 'Sora', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #0284C7 0%, #D91B7C 50%, #D97706 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+    h2 {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-top: 36px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+    h3 {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, #D91B7C 0%, #BE123C 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    h4 {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.0rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-top: 14px;
+      margin-bottom: 8px;
+    }
+    p, li {
+      color: #334155;
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+    .badge-sub {
+      color: var(--muted);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 24px;
+      display: block;
+    }
+    .card {
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
+    }
+    .card-highlight {
+      border: 1px solid rgba(2, 132, 199, 0.4);
+      box-shadow: 0 8px 24px rgba(2, 132, 199, 0.1);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .kpi {
+      background-color: var(--surface2);
+      border-radius: 12px;
+      padding: 16px;
+      border: 1px solid var(--border);
+    }
+    .kpi-title {
+      color: var(--muted);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      display: block;
+    }
+    .kpi-val {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--neon-blue);
+      display: block;
+      margin: 4px 0;
+    }
+    .kpi-sub {
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    code, pre {
+      font-family: 'IBM Plex Mono', monospace;
+      background: #0B132B;
+      color: #38BDF8;
+      border-radius: 8px;
+    }
+    code {
+      padding: 2px 6px;
+      font-size: 0.85rem;
+    }
+    pre {
+      padding: 16px;
+      overflow-x: auto;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin: 12px 0;
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 0.9rem;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background-color: var(--surface2);
+      color: var(--muted);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+    }
+    td {
+      color: var(--ink);
+    }
+    .status-pill {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 600;
+      border: 1px solid rgba(22, 163, 74, 0.4);
+      background: rgba(22, 163, 74, 0.1);
+      color: #16A34A;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header style="margin-bottom: 30px;">
+      <h1>BIRTHUB 360° — REGENERATION</h1>
+      <span class="badge-sub">Fase 02: CRM Comercial, Pipeline Visual & RevOps Funcionais • Relatório Executivo</span>
+    </header>
+
+    <div class="card card-highlight">
+      <h3>Sumário da Entrega — Fase 02</h3>
+      <p>
+        A <strong>Fase 02</strong> evoluiu a fundação da Fase 01 para um sistema comercial plenamente operacional e utilizável, preservando integralmente o isolamento multi-tenant, o banco PostgreSQL dedicado, o catálogo dos 394 agentes e o Design System Neon 360° (com modo Light padrão e suporte a Dark).
+      </p>
+      <div class="grid" style="margin-top: 16px;">
+        <div class="kpi">
+          <span class="kpi-title">Pipeline Ativo</span>
+          <span class="kpi-val">R$ 1.620.000</span>
+          <span class="kpi-sub">Funil Kanban com Drag-and-Drop</span>
+        </div>
+        <div class="kpi">
+          <span class="kpi-title">Forecast Ponderado</span>
+          <span class="kpi-val" style="color: #D97706;">R$ 1.622.000</span>
+          <span class="kpi-sub">Fórmula: Receita Ganha + Σ(Valor × Prob)</span>
+        </div>
+        <div class="kpi">
+          <span class="kpi-title">Atividades & Cadência</span>
+          <span class="kpi-val" style="color: #D91B7C;">Tarefas / Call</span>
+          <span class="kpi-sub">Vínculos com Negócios e Contatos</span>
+        </div>
+        <div class="kpi">
+          <span class="kpi-title">Supervisor Integrado</span>
+          <span class="kpi-val" style="color: #16A34A;">Ação Real</span>
+          <span class="kpi-sub">Despacho de Ferramenta no CRM</span>
+        </div>
+      </div>
+    </div>
+
+    <h2>1. Funcionalidades Entregues na Fase 02</h2>
+    <div class="card">
+      <ul>
+        <li><strong>CRUD Completo & Relacionamentos:</strong> Criação, edição, exclusão e pesquisa dinâmica em Empresas, Contatos, Leads e Negócios.</li>
+        <li><strong>Validação e Prevenção de Duplicidades:</strong> Validação de CNPJ único por organização (`organizationId_cnpj`), bloqueando duplicidades com código HTTP 409.</li>
+        <li><strong>Pipeline Comercial com Funil Visual (Kanban):</strong> Colunas ordenadas com contadores e totalizadores de receita em tempo real. Suporte a Drag-and-Drop nativo entre estágios com persistência imediata no PostgreSQL.</li>
+        <li><strong>Histórico de Transições (`DealStageHistory`):</strong> Cada movimentação no funil registra a etapa de origem, destino, usuário responsável, data e notas/motivo de perda. Modal dedicado para auditoria na interface.</li>
+        <li><strong>Atividades Comerciais:</strong> Módulo completo de Tarefas, Ligações, Reuniões e Follow-ups vinculados a entidades do CRM, com detecção e destaque de atividades atrasadas.</li>
+        <li><strong>Cálculos de RevOps & Revenue Intelligence:</strong>
+          <ul>
+            <li><em>Pipeline Ativo:</em> Somatório do valor dos negócios abertos no funil.</li>
+            <li><em>Receita Fechada Ganha:</em> Somatório dos negócios com estágio <code>FECHADO_GANHO</code>.</li>
+            <li><em>Previsão Ponderada (Weighted Forecast):</em> Somatório de <code>amount * (probability / 100)</code> para negócios em aberto + 100% dos negócios ganhos.</li>
+            <li><em>Taxa de Conversão (Win Rate):</em> <code>(Ganhos / (Ganhos + Perdidos)) * 100</code>.</li>
+            <li><em>Ticket Médio:</em> Receita ganha dividida pelo total de contratos ganhos.</li>
+            <li><em>Performance por Responsável:</em> Volume de pipeline e receita prevista agrupados por vendedor (AE/SDR).</li>
+          </ul>
+        </li>
+        <li><strong>Supervisor Contextual com Ferramentas Reais:</strong> O Supervisor 360° reconhece ordens em linguagem natural e agora despacha ações reais no CRM (ex: <code>create_crm_activity</code> e <code>calculate_revops_metrics</code>), mantendo os demais agentes no catálogo como não executáveis para transparência.</li>
+      </ul>
+    </div>
+
+    <h2>2. Evidência Comprovada de Testes</h2>
+    <div class="card">
+      <h3>Suíte de Integração Backend (Vitest Fase 02)</h3>
+      <pre>
+> npx vitest run tests/fase02.test.ts
+ RUN  v2.1.9 C:/Birthub 360  Regeneration/03_PLATAFORMA/backend
+
+ ✓ tests/fase02.test.ts (5 tests) 124ms
+   ✓ 1. CRUD e Validação de Empresas com prevenção de duplicidade de CNPJ
+   ✓ 2. Pipeline Kanban: Transição de Estágio e Histórico com Persistência
+   ✓ 3. Atividades Comerciais: Tarefas, Ligações, Reuniões e Vencimentos
+   ✓ 4. Revenue Intelligence: Cálculos de Pipeline, Weighted Forecast e Win Rate
+   ✓ 5. Supervisor Contextual: Execução Real de Atividade no CRM
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+      </pre>
+
+      <h3>Fluxo E2E de Ponta a Ponta Executado via HTTP</h3>
+      <pre>
+=== INICIANDO TESTE E2E FASE 02: CRM, PIPELINE & REVOPS ===
+1. AUTH LOGIN CLOSER: true User: Marina Torres (Account Executive) Role: CLOSER
+2. DEAL CREATED: true ID: 6254f679-e862-4aa2-b441-05a56005c253 Title: Contrato Piloto Inteligência VTech 2026 Stage: PROSPECT
+3. DEAL STAGE MOVED: true New Stage: NEGOCIACAO New Prob: 80
+4. DEAL HISTORY COUNT: 2 Transitions: [ 'PROSPECT->NEGOCIACAO', 'PROSPECT->PROSPECT' ]
+5. ACTIVITY CREATED & LINKED: true Type: TAREFA Title: Enviar proposta ajustada com desconto de 5%
+6. ACTIVITY STATUS UPDATED: true Status: CONCLUIDA
+7. REVOPS METRICS: true {
+  totalPipeline: 1620000,
+  weightedForecast: 1622000,
+  totalDeals: 6,
+  winRate: '100%'
+}
+8. SUPERVISOR REAL ACTION: true Agent: Commercial Activity Copilot Output: [Operação Executada] Atividade criada com sucesso. Ferramenta 'create_crm_activity' despachada.
+=== TESTE E2E FASE 02 CONCLUÍDO COM 100% DE SUCESSO ===
+      </pre>
+    </div>
+
+    <h2>3. Arquivos Criados ou Atualizados</h2>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>Arquivo</th>
+            <th>Módulo</th>
+            <th>Escopo das Modificações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>backend/prisma/schema.prisma</code></td>
+            <td>Banco / Prisma</td>
+            <td>Adicionados modelos <code>Activity</code>, <code>DealStageHistory</code>, <code>AuditLog</code> e campos <code>lostReason</code>, enums de atividade.</td>
+          </tr>
+          <tr>
+            <td><code>backend/src/routes/crm.routes.ts</code></td>
+            <td>Backend Express</td>
+            <td>CRUDs completos, endpoint de transição de estágio (`/deals/:id/stage`), histórico, atividades e timeline.</td>
+          </tr>
+          <tr>
+            <td><code>backend/src/routes/dashboard.routes.ts</code></td>
+            <td>RevOps</td>
+            <td>Cálculos reais no PostgreSQL de pipeline ponderado, ticket médio, win rate e performance por AE.</td>
+          </tr>
+          <tr>
+            <td><code>backend/src/modules/supervisor/supervisor.engine.ts</code></td>
+            <td>Supervisor 360°</td>
+            <td>Despacho e execução real de ferramentas de CRM (`create_crm_activity`, `calculate_revops_metrics`).</td>
+          </tr>
+          <tr>
+            <td><code>frontend/src/components/PipelineKanbanView.tsx</code></td>
+            <td>Frontend React</td>
+            <td>Funil visual Kanban com Drag-and-Drop nativo, totalizadores por coluna e modal de histórico.</td>
+          </tr>
+          <tr>
+            <td><code>frontend/src/components/ActivitiesView.tsx</code></td>
+            <td>Frontend React</td>
+            <td>Gestão de tarefas, ligações registradas, reuniões agendadas e alertas de vencimento.</td>
+          </tr>
+          <tr>
+            <td><code>frontend/src/components/RevOpsDashboardView.tsx</code></td>
+            <td>Frontend React</td>
+            <td>Cockpit analítico de RevOps com gráficos de dispersão por etapa e distribuição por responsável.</td>
+          </tr>
+          <tr>
+            <td><code>frontend/src/components/CompaniesView.tsx</code></td>
+            <td>Frontend React</td>
+            <td>Tabela com busca, edição modal, exclusão e exibição de contadores de vínculos.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>4. Instruções para Execução</h2>
+    <div class="card">
+      <p>A plataforma está em execução no ambiente local:</p>
+      <ul>
+        <li><strong>Frontend:</strong> <a href="http://localhost:5173" target="_blank">http://localhost:5173</a></li>
+        <li><strong>Backend API:</strong> <a href="http://localhost:3001/api/health" target="_blank">http://localhost:3001/api/health</a></li>
+        <li><strong>PostgreSQL Isolado:</strong> Porta 5433 (Container <code>birthhub360_regen_db</code>)</li>
+      </ul>
+      <h4>Perfis de Acesso Disponíveis:</h4>
+      <ul>
+        <li><strong>Administrador:</strong> <code>admin@birthhub360.com</code> | Senha: <code>admin123</code></li>
+        <li><strong>Account Executive (Closer):</strong> <code>closer@birthhub360.com</code> | Senha: <code>admin123</code></li>
+        <li><strong>Operador SDR:</strong> <code>sdr@birthhub360.com</code> | Senha: <code>admin123</code></li>
+      </ul>
+    </div>
+
+    <footer style="margin-top: 40px; text-align: center; border-top: 1px solid var(--border); padding-top: 20px;">
+      <span class="badge-sub">Birthub 360° Regeneration • Fase 02 Homologada • Outubro 2026</span>
+    </footer>
+  </div>
+</body>
+</html>

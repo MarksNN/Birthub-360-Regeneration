@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>09 — Handoff para Revalidação das Fases 01 e 02 | Birthub 360°</title>
+  <style>
+    :root {
+      --bg: #F4F7FB; --surface: #FFFFFF; --surface2: #F1F5F9; --ink: #0B132B; --muted: #475569;
+      --border: rgba(15, 23, 42, 0.12); --neon-blue: #0284C7; --neon-pink: #D91B7C; --neon-gold: #D97706; --neon-iris: #7C3AED;
+    }
+    body { background: var(--bg); color: var(--ink); font-family: 'Inter', sans-serif; line-height: 1.6; padding: 40px 20px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    h1 { font-family: 'Sora', sans-serif; font-size: 2.3rem; font-weight: 800; background: linear-gradient(135deg, #0284C7 0%, #D91B7C 50%, #D97706 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    h2 { font-family: 'Sora', sans-serif; font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-top: 30px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    h3 { font-family: 'Sora', sans-serif; font-size: 1.15rem; font-weight: 600; background: linear-gradient(135deg, #D91B7C 0%, #BE123C 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-top: 18px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06); }
+    .status-tag { display: inline-block; padding: 2px 10px; border-radius: 9999px; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; font-weight: 600; border: 1px solid rgba(2, 132, 199, 0.4); background: rgba(2, 132, 199, 0.1); color: var(--neon-blue); }
+    table { width: 100%; border-collapse: collapse; margin-top: 14px; }
+    th, td { padding: 10px 14px; border-bottom: 1px solid var(--border); font-size: 0.9rem; text-align: left; }
+    th { background: var(--surface2); color: var(--muted); font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div style="margin-bottom: 20px;"><a href="../00_PORTAL_MESTRE.html" style="color: var(--neon-blue); text-decoration: none; font-weight: 600;">← Voltar ao Portal Mestre</a></div>
+    <h1>09 — PLANO DE HANDOFF & MATRIZ DE ADERÊNCIA (FASES 01 E 02)</h1>
+    <p><span class="status-tag">STATUS: ESPECIFICAÇÃO DE REVALIDAÇÃO</span> • <strong>Versão:</strong> 1.0.0 • <strong>Nota:</strong> Sem execução revalidatória na Fase 00</p>
+
+    <div class="card">
+      <h3>1. Matriz de Aderência Contratual das Entregas</h3>
+      <table>
+        <thead><tr><th>Requisito da Fase 00</th><th>Implementação F01 / F02</th><th>Evidência de Código</th><th>Aderência Observada</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Monorepo desacoplado com Postgres 16</td>
+            <td>Docker compose na porta 5433, Express + Vite</td>
+            <td><code>03_PLATAFORMA/docker-compose.yml</code></td>
+            <td><strong style="color: #16A34A;">100% CONFORME</strong></td>
+          </tr>
+          <tr>
+            <td>Design System Neon 360° (Light default)</td>
+            <td>CSS tokens, Sora/Inter/Mono, Light padrão</td>
+            <td><code>frontend/src/index.css</code></td>
+            <td><strong style="color: #16A34A;">100% CONFORME</strong></td>
+          </tr>
+          <tr>
+            <td>Funil Kanban com Drag-and-Drop</td>
+            <td>Kanban nativo, persistência de transição</td>
+            <td><code>frontend/src/components/PipelineKanbanView.tsx</code></td>
+            <td><strong style="color: #16A34A;">100% CONFORME</strong></td>
+          </tr>
+          <tr>
+            <td>Métricas de RevOps em tempo real</td>
+            <td>Fórmulas ponderadas de forecast no Postgres</td>
+            <td><code>backend/src/routes/dashboard.routes.ts</code></td>
+            <td><strong style="color: #16A34A;">100% CONFORME</strong></td>
+          </tr>
+          <tr>
+            <td>Supervisor com ações reais</td>
+            <td>Despacho real de ferramentas no banco</td>
+            <td><code>backend/src/modules/supervisor/supervisor.engine.ts</code></td>
+            <td><strong style="color: #16A34A;">100% CONFORME</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>2. Protocolo para Revalidação Futura (Autorização Separada)</h3>
+      <p>Quando autorizado formalmente o início do ciclo de revalidação técnica:</p>
+      <ol>
+        <li>Executar verificação de build do frontend: <code>npm run build</code> em <code>03_PLATAFORMA/frontend</code>.</li>
+        <li>Executar compilação do backend: <code>npx tsc --noEmit</code> em <code>03_PLATAFORMA/backend</code>.</li>
+        <li>Executar a suíte de integração Vitest: <code>npx vitest run</code>.</li>
+        <li>Executar o script automatizado E2E HTTP: <code>node tests/e2e-fase02.js</code>.</li>
+        <li>Registrar eventuais divergências na Matriz de Aderência sem modificar a arquitetura base.</li>
+      </ol>
+    </div>
+  </div>
+</body>
+</html>

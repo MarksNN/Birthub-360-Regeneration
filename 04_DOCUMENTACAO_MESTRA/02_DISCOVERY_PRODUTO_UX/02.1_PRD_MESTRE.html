@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>02.1 — PRD Mestre | Birthub 360°</title>
+  <style>
+    :root {
+      --bg: #F4F7FB; --surface: #FFFFFF; --surface2: #F1F5F9; --ink: #0B132B; --muted: #475569;
+      --border: rgba(15, 23, 42, 0.12); --neon-blue: #0284C7; --neon-pink: #D91B7C; --neon-gold: #D97706; --neon-iris: #7C3AED;
+    }
+    body { background: var(--bg); color: var(--ink); font-family: 'Inter', sans-serif; line-height: 1.6; padding: 40px 20px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    h1 { font-family: 'Sora', sans-serif; font-size: 2.3rem; font-weight: 800; background: linear-gradient(135deg, #0284C7 0%, #D91B7C 50%, #D97706 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    h2 { font-family: 'Sora', sans-serif; font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-top: 30px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    h3 { font-family: 'Sora', sans-serif; font-size: 1.15rem; font-weight: 600; background: linear-gradient(135deg, #D91B7C 0%, #BE123C 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-top: 18px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06); }
+    .status-tag { display: inline-block; padding: 2px 10px; border-radius: 9999px; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; font-weight: 600; border: 1px solid rgba(2, 132, 199, 0.4); background: rgba(2, 132, 199, 0.1); color: var(--neon-blue); }
+    table { width: 100%; border-collapse: collapse; margin-top: 14px; }
+    th, td { padding: 10px 14px; border-bottom: 1px solid var(--border); font-size: 0.9rem; text-align: left; }
+    th { background: var(--surface2); color: var(--muted); font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div style="margin-bottom: 20px;"><a href="../00_PORTAL_MESTRE.html" style="color: var(--neon-blue); text-decoration: none; font-weight: 600;">← Voltar ao Portal Mestre</a></div>
+    <h1>02.1 — PRODUCT REQUIREMENTS DOCUMENT (PRD MESTRE)</h1>
+    <p><span class="status-tag">STATUS: OFICIAL</span> • <strong>Versão:</strong> 1.0.0 • <strong>ID:</strong> PRD-MESTRE-360</p>
+
+    <div class="card">
+      <h3>1. Visão Geral do Produto e Problemas que Resolve</h3>
+      <p>O <strong>Birthub 360°</strong> resolve a fragmentação entre CRM tradicional, planilhas desatualizadas e ferramentas pontuais de automação de vendas. Ele fornece uma central unificada operada pelo <em>Supervisor 360°</em>, orquestrando inteligência ativa sobre o pipeline comercial de médias e grandes empresas.</p>
+    </div>
+
+    <div class="card">
+      <h3>2. Requisitos Funcionais do Produto (RF)</h3>
+      <table>
+        <thead><tr><th>ID</th><th>Requisito Funcional</th><th>Status</th><th>Módulo / Pilar</th></tr></thead>
+        <tbody>
+          <tr><td><strong>PRD-001</strong></td><td>Autenticação JWT e controle de acesso baseado em papéis (ADMIN, MANAGER, CLOSER, SDR, BDR).</td><td><span class="status-tag">IMPLEMENTADO</span></td><td>Segurança & IAM</td></tr>
+          <tr><td><strong>PRD-002</strong></td><td>Isolamento multi-tenant estrito por organização em todas as consultas SQL/Prisma.</td><td><span class="status-tag">IMPLEMENTADO</span></td><td>Core SaaS</td></tr>
+          <tr><td><strong>PRD-003</strong></td><td>Gestão de Contas (Empresas) com validação de unicidade de CNPJ.</td><td><span class="status-tag">IMPLEMENTADO</span></td><td>CRM Operacional</td></tr>
+          <tr><td><strong>PRD-004</strong></td><td>Funil Visual Kanban com Drag-and-Drop e persistência de histórico de etapas.</td><td><span class="status-tag">IMPLEMENTADO</span></td><td>Pipeline Comercial</td></tr>
+          <tr><td><strong>PRD-005</strong></td><td>Atividades Comerciais: Tarefas, reuniões, ligações e follow-ups com alertas de vencimento.</td><td><span class="status-tag">IMPLEMENTADO</span></td><td>Cadência Comercial</td></tr>
+          <tr><td><strong>PRD-006</strong></td><td>Cálculos em tempo real de RevOps (Weighted Forecast, Win Rate, Ticket Médio).</td><td><span class="status-tag">IMPLEMENTADO</span></td><td>Revenue Intelligence</td></tr>
+          <tr><td><strong>PRD-007</strong></td><td>Supervisor Central com interpretação de linguagem natural e despacho de ferramentas reais.</td><td><span class="status-tag">IMPLEMENTADO</span></td><td>Supervisor 360°</td></tr>
+          <tr><td><strong>PRD-008</strong></td><td>Sequenciamento multicanal ativo (WhatsApp Baileys, Telefonia 3CX, E-mail SMTP).</td><td><span class="status-tag" style="border-color: #8B7DFF; color: #8B7DFF; background: rgba(139,125,255,0.1);">FUTURO</span></td><td>Cadência & Engajamento</td></tr>
+          <tr><td><strong>PRD-009</strong></td><td>Simulador comercial com roleplay de objeções por voz/LLM em tempo real.</td><td><span class="status-tag" style="border-color: #8B7DFF; color: #8B7DFF; background: rgba(139,125,255,0.1);">FUTURO</span></td><td>Copiloto IA</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>3. Requisitos Não Funcionais (RNF)</h3>
+      <ul>
+        <li><strong>RNF-001 (Latência):</strong> Respostas de APIs transacionais de CRM &lt; 200ms sob carga nominal.</li>
+        <li><strong>RNF-002 (Disponibilidade Alvo):</strong> Arquitetura preparada para 99.9% de uptime quando hospedada em cluster.</li>
+        <li><strong>RNF-003 (Acessibilidade & Design):</strong> WCAG 2.2 AA inegociável, contraste reforçado e nenhum título preto/branco.</li>
+        <li><strong>RNF-004 (Privacidade & LGPD):</strong> Separação estrita de PII e retenção controlada por tenant.</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

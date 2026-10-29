@@ -1,0 +1,49 @@
+{
+  "name": "Birthub 360 Design Tokens",
+  "version": "1.0.0",
+  "status": "OFICIAL",
+  "colors": {
+    "brand": {
+      "blue": "#00D4FF",
+      "pink": "#FF2D9B",
+      "gold": "#FFC107",
+      "iris": "#8B7DFF"
+    },
+    "light": {
+      "bg": "#F4F7FB",
+      "surface": "#FFFFFF",
+      "surface2": "#F1F5F9",
+      "ink": "#0B132B",
+      "muted": "#475569",
+      "border": "rgba(15, 23, 42, 0.12)",
+      "accentBlue": "#0284C7",
+      "accentPink": "#D91B7C",
+      "accentGold": "#D97706"
+    },
+    "dark": {
+      "bg": "#0D0D0D",
+      "surface": "#14141A",
+      "surface2": "#1C1C24",
+      "ink": "#F8F9FF",
+      "muted": "#9EADC8",
+      "border": "rgba(255, 255, 255, 0.08)"
+    },
+    "semantic": {
+      "success": "#16A34A",
+      "danger": "#DC2626",
+      "warning": "#D97706",
+      "info": "#0284C7"
+    }
+  },
+  "typography": {
+    "display": "Sora, sans-serif",
+    "interface": "Inter, sans-serif",
+    "mono": "IBM Plex Mono, monospace"
+  },
+  "radii": {
+    "control": "12px",
+    "card": "16px",
+    "modal": "20px",
+    "pill": "9999px"
+  }
+}

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Mestre de Documentação | Birthub 360°</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F4F7FB;
+      --surface: #FFFFFF;
+      --surface2: #F1F5F9;
+      --ink: #0B132B;
+      --muted: #475569;
+      --border: rgba(15, 23, 42, 0.12);
+      --neon-blue: #0284C7;
+      --neon-pink: #D91B7C;
+      --neon-gold: #D97706;
+      --neon-iris: #7C3AED;
+      --neon-success: #16A34A;
+      --neon-danger: #DC2626;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    /* REGRA RIGOROSA: NENHUM TÍTULO OU SUBTÍTULO UTILIZA PRETO OU BRANCO */
+    h1 {
+      font-family: 'Sora', sans-serif;
+      font-size: 2.6rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #0284C7 0%, #D91B7C 50%, #D97706 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+    h2 {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-top: 36px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+    h3 {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, #D91B7C 0%, #BE123C 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+    .badge-sub {
+      color: var(--muted);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 24px;
+      display: block;
+    }
+    .card {
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
+      transition: all 0.2s ease-in-out;
+    }
+    .card:hover {
+      border-color: var(--neon-blue);
+      box-shadow: 0 8px 24px rgba(2, 132, 199, 0.12);
+    }
+    .card-highlight {
+      border: 1px solid rgba(2, 132, 199, 0.4);
+      background: linear-gradient(to right, #FFFFFF, #F8FAFC);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .status-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 9999px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .status-oficial { border: 1px solid rgba(22, 163, 74, 0.4); background: rgba(22, 163, 74, 0.1); color: #16A34A; }
+    .status-link { color: var(--neon-blue); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+    .status-link:hover { text-decoration: underline; color: #0369A1; }
+    table { width: 100%; border-collapse: collapse; margin-top: 14px; }
+    th, td { padding: 12px; border-bottom: 1px solid var(--border); font-size: 0.9rem; text-align: left; }
+    th { background: var(--surface2); color: var(--muted); font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; text-transform: uppercase; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header style="margin-bottom: 30px;">
+      <h1>BIRTHUB 360° — PORTAL MESTRE DE DOCUMENTAÇÃO</h1>
+      <span class="badge-sub">Operação Regeneration • Fase 00: Arquitetura Definitiva & Product Blueprint</span>
+    </header>
+
+    <div class="card card-highlight">
+      <h3>Visão Geral e Propósito do Portal Mestre</h3>
+      <p>
+        Este portal consolida a <strong>especificação técnica, arquitetural e funcional definitiva</strong> da nova plataforma <strong>Birthub 360°</strong>. Desenvolvido a partir da convergência entre a visão executiva de produto, a engenharia reversa das fontes normativas, o catálogo oficial dos 394 agentes e as fundações operacionais das Fases 01 e 02.
+      </p>
+      <div style="margin-top: 14px; display: flex; gap: 12px; flex-wrap: wrap;">
+        <span class="status-tag status-oficial">✓ Navegação 100% Offline</span>
+        <span class="status-tag status-oficial">✓ Rastreabilidade End-to-End</span>
+        <span class="status-tag status-oficial">✓ Light Mode Padrão (WCAG 2.2 AA)</span>
+        <span class="status-tag status-oficial">✓ 394 Agentes Mapeados</span>
+      </div>
+    </div>
+
+    <h2>1. Navegação Rápida pelos Blocos Documentais</h2>
+    <div class="grid">
+      <!-- Bloco 01 -->
+      <div class="card">
+        <h3>01. Fundação, Estratégia e Branding</h3>
+        <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 14px;">
+          Brandbook, paleta Neon 360°, trinca tipográfica (Sora/Inter/Mono), Manifesto verbal, ICP Matrix e estratégia de monetização.
+        </p>
+        <div style="space-y: 6px;">
+          <div><a class="status-link" href="01_ESTRATEGIA_E_BRANDING/01.1_BRANDBOOK_OFICIAL.html">01.1 — Brandbook Oficial Neon 360° →</a></div>
+          <div><a class="status-link" href="01_ESTRATEGIA_E_BRANDING/01.2_ESTRATEGIA_ICP_MONETIZACAO.html">01.2 — Manifesto, ICP & Monetização →</a></div>
+        </div>
+      </div>
+
+      <!-- Bloco 02 -->
+      <div class="card">
+        <h3>02. Discovery, PRD e Produto UX</h3>
+        <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 14px;">
+          PRD Mestre completo, mapeamento exaustivo dos 8 Pilares Oficiais, jornadas de personas e Aha! Moment comercial.
+        </p>
+        <div><a class="status-link" href="02_DISCOVERY_PRODUTO_UX/02.1_PRD_MESTRE.html">02.1 — PRD Mestre de Produto →</a></div>
+        <div><a class="status-link" href="02_DISCOVERY_PRODUTO_UX/02.2_OITO_PILARES_OFICIAIS.html">02.2 — Os Oito Pilares Oficiais →</a></div>
+      </div>
+
+      <!-- Bloco 03 -->
+      <div class="card">
+        <h3>03. Arquitetura e Engenharia</h3>
+        <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 14px;">
+          Diagramas C4 (Contexto, Contêineres, Componentes), modelo de dados relacional e registros de decisão arquitetural (ADRs).
+        </p>
+        <div><a class="status-link" href="03_ARQUITETURA_ENGENHARIA/03.1_DIAGRAMAS_C4_E_MODULOS.html">03.1 — Diagramas C4 & Arquitetura →</a></div>
+        <div><a class="status-link" href="03_ARQUITETURA_ENGENHARIA/03.2_ADRS_ARQUITETURAIS.html">03.2 — Registros de Decisão (ADRs) →</a></div>
+      </div>
+
+      <!-- Bloco 04 -->
+      <div class="card">
+        <h3>04. Supervisor e os 394 Agentes</h3>
+        <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 14px;">
+          Arquitetura Facade do Supervisor, catálogo canônico dos 394 agentes por domínios e governança de ferramentas autorizadas.
+        </p>
+        <div><a class="status-link" href="04_SUPERVISOR_E_394_AGENTES/04.1_SUPERVISOR_E_394_AGENTES.html">04.1 — Supervisor & Catálogo 394 Agentes →</a></div>
+      </div>
+
+      <!-- Bloco 05 e 06 -->
+      <div class="card">
+        <h3>05 e 06. Qualidade, Governança & GTM</h3>
+        <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 14px;">
+          Pirâmide de testes, DoR/DoD, conformidade com LGPD, isolamento multi-tenant, onboarding de clientes e Customer Success.
+        </p>
+        <div><a class="status-link" href="05_QUALIDADE_GOVERNANCA/05.1_QUALIDADE_E_GOVERNANCA.html">05.1 — Governança, Qualidade & GTM →</a></div>
+      </div>
+
+      <!-- Bloco 07 e 00 -->
+      <div class="card">
+        <h3>07, 08 e 09. Roadmap, Matriz & Handoff</h3>
+        <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 14px;">
+          Roadmap faseado, Matriz Mestra de Rastreabilidade End-to-End, Registro de Decisões e Handoff para Revalidação das Fases 01 e 02.
+        </p>
+        <div><a class="status-link" href="07_ROADMAP_E_BACKLOG/07.1_ROADMAP_ESTRATEGICO.html">07.1 — Roadmap Estratégico →</a></div>
+        <div><a class="status-link" href="00_MATRIZ_MESTRA_DE_RASTREABILIDADE.html">00 — Matriz Mestra de Rastreabilidade →</a></div>
+        <div><a class="status-link" href="00_DECISOES_E_PENDENCIAS.html">00 — Decisões & Pendências Abertas →</a></div>
+        <div><a class="status-link" href="09_HANDOFF_REVALIDACAO_FASES_01_02/MATRIZ_DE_ADERENCIA_E_HANDOFF.html">09 — Matriz de Aderência & Handoff F01/F02 →</a></div>
+      </div>
+    </div>
+
+    <h2>2. Rastreabilidade Sintética dos Pilares vs Implementação</h2>
+    <div class="card">
+      <table>
+        <thead><tr><th>Pilar do Ecossistema</th><th>Domínio de Negócio</th><th>Status Atual</th><th>Agente Representativo</th></tr></thead>
+        <tbody>
+          <tr><td>1. Hub Central</td><td>Cockpit Executivo & Atividades</td><td><span class="status-tag status-oficial">IMPLEMENTADO (F01/F02)</span></td><td>Supervisor 360 Core</td></tr>
+          <tr><td>2. Intelligence & Scoring</td><td>Qualificação Preditiva & ICP</td><td><span class="status-tag status-oficial">IMPLEMENTADO (F01/F02)</span></td><td>ICP Analyzer</td></tr>
+          <tr><td>3. Sales Orchestration</td><td>Pipeline Kanban & Histórico</td><td><span class="status-tag status-oficial">IMPLEMENTADO (F02)</span></td><td>Deal Closer Assistant</td></tr>
+          <tr><td>4. Real-time Performance</td><td>RevOps & Métricas em Tempo Real</td><td><span class="status-tag status-oficial">IMPLEMENTADO (F02)</span></td><td>RevOps Intelligence Analyzer</td></tr>
+          <tr><td>5. Revenue Forecast</td><td>Previsão Ponderada de Receita</td><td><span class="status-tag status-oficial">IMPLEMENTADO (F02)</span></td><td>Forecast Engine Agent</td></tr>
+          <tr><td>6. Copiloto IA</td><td>Roleplay & Suporte ao Vivo</td><td><span class="status-tag" style="border: 1px solid rgba(139,125,255,0.4); background: rgba(139,125,255,0.1); color: #7C3AED;">FUTURO (F04)</span></td><td>Sales Copilot</td></tr>
+          <tr><td>7. Automações & Gatilhos</td><td>Distribuição & Triggers de Alerta</td><td><span class="status-tag" style="border: 1px solid rgba(139,125,255,0.4); background: rgba(139,125,255,0.1); color: #7C3AED;">FUTURO (F03)</span></td><td>Automation Dispatcher</td></tr>
+          <tr><td>8. Cadência & Engajamento</td><td>Sequenciador Multicanal Ativo</td><td><span class="status-tag" style="border: 1px solid rgba(139,125,255,0.4); background: rgba(139,125,255,0.1); color: #7C3AED;">FUTURO (F04)</span></td><td>Cadence Sequencer</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer style="margin-top: 40px; text-align: center; border-top: 1px solid var(--border); padding-top: 20px;">
+      <span class="badge-sub">Birthub 360° Regeneration • Fase 00 Homologada • Outubro 2026</span>
+    </footer>
+  </div>
+</body>
+</html>

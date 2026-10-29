@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>03.1 — Diagramas C4 & Arquitetura Modular | Birthub 360°</title>
+  <style>
+    :root {
+      --bg: #F4F7FB; --surface: #FFFFFF; --surface2: #F1F5F9; --ink: #0B132B; --muted: #475569;
+      --border: rgba(15, 23, 42, 0.12); --neon-blue: #0284C7; --neon-pink: #D91B7C; --neon-gold: #D97706; --neon-iris: #7C3AED;
+    }
+    body { background: var(--bg); color: var(--ink); font-family: 'Inter', sans-serif; line-height: 1.6; padding: 40px 20px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    h1 { font-family: 'Sora', sans-serif; font-size: 2.3rem; font-weight: 800; background: linear-gradient(135deg, #0284C7 0%, #D91B7C 50%, #D97706 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    h2 { font-family: 'Sora', sans-serif; font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-top: 30px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    h3 { font-family: 'Sora', sans-serif; font-size: 1.15rem; font-weight: 600; background: linear-gradient(135deg, #D91B7C 0%, #BE123C 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-top: 18px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06); }
+    .status-tag { display: inline-block; padding: 2px 10px; border-radius: 9999px; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; font-weight: 600; border: 1px solid rgba(2, 132, 199, 0.4); background: rgba(2, 132, 199, 0.1); color: var(--neon-blue); }
+    pre { font-family: 'IBM Plex Mono', monospace; background: #0B132B; color: #38BDF8; padding: 16px; border-radius: 10px; overflow-x: auto; font-size: 0.85rem; line-height: 1.4; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div style="margin-bottom: 20px;"><a href="../00_PORTAL_MESTRE.html" style="color: var(--neon-blue); text-decoration: none; font-weight: 600;">← Voltar ao Portal Mestre</a></div>
+    <h1>03.1 — ARQUITETURA DE ENGENHARIA & DIAGRAMAS C4</h1>
+    <p><span class="status-tag">STATUS: OFICIAL & IMPLEMENTADO</span> • <strong>Versão:</strong> 1.0.0 • <strong>Lote C</strong></p>
+
+    <div class="card">
+      <h3>1. C1 — Diagrama de Contexto do Sistema</h3>
+      <pre>
++---------------------------------------------------------------------------------------+
+|                                    ECOSSISTEMA CLIENTE                                |
+|  [Operadores Comerciais]   [Liderança Executiva]   [RevOps & Admins]                  |
++---------------------------------------------------------------------------------------+
+                                           |
+                                    HTTPS / WSS
+                                           v
++---------------------------------------------------------------------------------------+
+|                                 BIRTHUB 360° PLATFORM                                 |
+|                                                                                       |
+|   +------------------------------------+    +------------------------------------+   |
+|   |         FRONTEND SPA (REACT)       |    |        SUPERVISOR 360° FACADE      |   |
+|   |   Design System Neon 360° (Light)  |    |  Intenção -> Roteamento -> RBAC    |   |
+|   +------------------------------------+    +------------------------------------+   |
+|                     |                                         |                      |
+|                     +--------------------+--------------------+                      |
+|                                          | API REST (Express + Zod)                  |
+|                                          v                                           |
+|   +------------------------------------------------------------------------------+   |
+|   |                           BACKEND CORE MONOREPO                              |   |
+|   |  - Auth & RBAC Middleware          - Pipeline Kanban Engine                  |   |
+|   |  - CRM Domain Services             - Revenue Intelligence & RevOps Metrics   |   |
+|   |  - Atividades & Cadência           - Audit & Execution Dispatcher            |   |
+|   +------------------------------------------------------------------------------+   |
+|                                          |                                           |
+|                                   Prisma ORM (v5)                                    |
+|                                          v                                           |
+|   +------------------------------------------------------------------------------+   |
+|   |                     POSTGRESQL 16 ISOLADO (Docker: 5433)                     |   |
+|   |  Multi-tenancy RLS por orgId | Tabelas Relacionais | Auditoria Transacional  |   |
+|   +------------------------------------------------------------------------------+   |
++---------------------------------------------------------------------------------------+
+      </pre>
+    </div>
+
+    <div class="card">
+      <h3>2. C2 — Contêineres e Componentes de Runtime</h3>
+      <ul>
+        <li><strong>Frontend Container:</strong> Servido via Vite em produção, componentização modular em TypeScript, TailwindCSS configurado para tema Light oficial (com chaveador Dark).</li>
+        <li><strong>Backend API Container:</strong> Node.js v22 rodando Express, TypeScript estrito, middlewares de sanitização Zod, autenticação JWT stateless com expiração de 7 dias e RBAC integrado.</li>
+        <li><strong>Supervisor Orchestration Engine:</strong> Módulo desacoplado em <code>src/modules/supervisor</code>, responsável por validar permissões, despachar ferramentas e persistir telemetria de IA no PostgreSQL.</li>
+        <li><strong>Database Container:</strong> PostgreSQL 16 Alpine isolado na porta local 5433 com volume dedicado (sem colisão com o banco legado).</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>03.2 — Architectural Decision Records (ADRs) | Birthub 360°</title>
+  <style>
+    :root {
+      --bg: #F4F7FB; --surface: #FFFFFF; --surface2: #F1F5F9; --ink: #0B132B; --muted: #475569;
+      --border: rgba(15, 23, 42, 0.12); --neon-blue: #0284C7; --neon-pink: #D91B7C; --neon-gold: #D97706; --neon-iris: #7C3AED;
+    }
+    body { background: var(--bg); color: var(--ink); font-family: 'Inter', sans-serif; line-height: 1.6; padding: 40px 20px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    h1 { font-family: 'Sora', sans-serif; font-size: 2.3rem; font-weight: 800; background: linear-gradient(135deg, #0284C7 0%, #D91B7C 50%, #D97706 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    h2 { font-family: 'Sora', sans-serif; font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-top: 30px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    h3 { font-family: 'Sora', sans-serif; font-size: 1.15rem; font-weight: 600; background: linear-gradient(135deg, #D91B7C 0%, #BE123C 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-top: 18px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06); }
+    .status-tag { display: inline-block; padding: 2px 10px; border-radius: 9999px; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; font-weight: 600; border: 1px solid rgba(2, 132, 199, 0.4); background: rgba(2, 132, 199, 0.1); color: var(--neon-blue); }
+    table { width: 100%; border-collapse: collapse; margin-top: 14px; }
+    th, td { padding: 10px 14px; border-bottom: 1px solid var(--border); font-size: 0.9rem; text-align: left; }
+    th { background: var(--surface2); color: var(--muted); font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div style="margin-bottom: 20px;"><a href="../00_PORTAL_MESTRE.html" style="color: var(--neon-blue); text-decoration: none; font-weight: 600;">← Voltar ao Portal Mestre</a></div>
+    <h1>03.2 — REGISTROS DE DECISÃO ARQUITETURAL (ADRs MESTRES)</h1>
+    <p><span class="status-tag">STATUS: OFICIAL & HOMOLOGADO</span> • <strong>Versão:</strong> 1.0.0 • <strong>Lote C</strong></p>
+
+    <div class="card">
+      <table>
+        <thead><tr><th>ADR</th><th>Título & Decisão</th><th>Contexto & Justificativa</th><th>Consequências & Status</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>ADR-001</strong></td>
+            <td>Monorepo Estruturado Modular (Backend Express + Frontend Vite)</td>
+            <td>Necessidade de desacoplar contratos de API e interfaces sem a complexidade de microserviços prematuros.</td>
+            <td><span class="status-tag">APROVADO / IMPL</span> Build rápido, tipagem estrita compartilhável.</td>
+          </tr>
+          <tr>
+            <td><strong>ADR-002</strong></td>
+            <td>Isolamento Multi-tenant via `organizationId` Rigoroso em Banco Único</td>
+            <td>Custo-eficiência para estágio inicial combinado com integridade referencial forte via chaves estrangeiras.</td>
+            <td><span class="status-tag">APROVADO / IMPL</span> Toda query Prisma exige filtro por `organizationId`.</td>
+          </tr>
+          <tr>
+            <td><strong>ADR-003</strong></td>
+            <td>PostgreSQL Isolado em Docker na Porta 5433</td>
+            <td>Evitar colisões catastróficas com bancos e instâncias do repositório antigo na porta 5432.</td>
+            <td><span class="status-tag">APROVADO / IMPL</span> Preserva ambiente legado intacto.</td>
+          </tr>
+          <tr>
+            <td><strong>ADR-004</strong></td>
+            <td>Supervisor como Facade Único com Despacho Real de Ferramentas</td>
+            <td>Evitar chatbots fictícios; toda chamada avalia intenção, autorização RBAC e despacha ferramentas auditáveis.</td>
+            <td><span class="status-tag">APROVADO / IMPL</span> Transparência total sobre agentes reais vs catalogados.</td>
+          </tr>
+          <tr>
+            <td><strong>ADR-005</strong></td>
+            <td>Design System Neon 360° com Light Mode como Padrão</td>
+            <td>Adequação à jornada executiva de trabalho diurno mantendo chaveador rápido para Dark Mode e WCAG 2.2 AA.</td>
+            <td><span class="status-tag">APROVADO / IMPL</span> Contraste impecável, títulos sem preto/branco.</td>
+          </tr>
+          <tr>
+            <td><strong>ADR-006</strong></td>
+            <td>Estratégia de Filas Assíncronas para Integrações Externas (BullMQ/Redis)</td>
+            <td>Processamento resiliente de Webhooks Bitrix24 e envios em massa sem degradar API transacional.</td>
+            <td><span class="status-tag" style="border-color: #8B7DFF; color: #8B7DFF; background: rgba(139,125,255,0.1);">PROPOSTO (F03)</span> Requer ativação do Redis do novo compose.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

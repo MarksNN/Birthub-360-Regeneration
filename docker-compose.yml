@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: birthhub360_regen_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: birthhub_user
+      POSTGRES_PASSWORD: birthhub_secure_pwd_2026
+      POSTGRES_DB: birthhub360_regen
+    ports:
+      - "5433:5432"
+    volumes:
+      - birthhub360_regen_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U birthhub_user -d birthhub360_regen"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  birthhub360_regen_pgdata:
+    name: birthhub360_regen_pgdata
