@@ -134,6 +134,19 @@ export class IntegrationSyncEngineService {
 
         // Processamento das mudanças (ex.: upsert de empresa no CRM Birthub)
         for (const change of changes) {
+          if (change.action === 'delete') {
+            // Exclusões externas exigem política explícita; jamais re-criar o registro.
+            await prisma.integrationConflict.create({
+              data: {
+                organizationId: ev.organizationId,
+                connectionId: ev.connectionId,
+                entity: change.entity, externalId: change.externalId,
+                strategy: 'MANUAL', status: 'OPEN',
+                remoteSnapshot: { action: 'delete', data: change.data || {} }
+              }
+            });
+            continue;
+          }
           if (change.entity === 'customer' && change.data) {
             const mapped = adapter.mapper.toLocal('customer', change.data);
             const cnpj = (mapped.cnpj as string) || (mapped.taxId as string);
@@ -279,58 +292,160 @@ export class IntegrationSyncEngineService {
   /**
    * Executa uma reconciliação completa entre a base local e o provedor remoto.
    */
+  /**
+   * Consumidor de saída persistente. Executar por worker dedicado; nunca na requisição HTTP.
+   */
+  public static async processPendingOutboxEvents(limit = 20) {
+    const rows = await prisma.integrationOutboxEvent.findMany({
+      where: {
+        status: { in: [EventProcessingStatus.PENDING, EventProcessingStatus.RETRY_SCHEDULED] },
+        nextAttemptAt: { lte: new Date() }
+      },
+      orderBy: { createdAt: 'asc' }, take: Math.max(1, Math.min(100, limit))
+    });
+    const results: Array<{ id: string; status: EventProcessingStatus }> = [];
+    for (const event of rows) {
+      const claimed = await prisma.integrationOutboxEvent.updateMany({
+        where: { id: event.id, status: event.status },
+        data: { status: EventProcessingStatus.PROCESSING, attempts: { increment: 1 } }
+      });
+      if (!claimed.count) continue;
+      const attempts = event.attempts + 1;
+      try {
+        if (!event.connectionId) throw new Error('Evento sem conexão externa vinculada');
+        const connection = await prisma.integrationConnection.findFirst({
+          where: { id: event.connectionId, organizationId: event.organizationId },
+          include: { connector: true }
+        });
+        if (!connection || !connection.syncEnabled || connection.status !== 'ACTIVE') {
+          throw new Error('Conexão inativa ou não autorizada para sincronização');
+        }
+        const adapter = ConnectorRegistry.getInstance().get(connection.connector.key, connection.connector.version);
+        if (!adapter?.outbound) throw new Error('Conector não implementa sincronização de saída');
+        await adapter.outbound.push(
+          { organizationId: event.organizationId, connectionId: connection.id, config: connection.config as Record<string, unknown> },
+          event.aggregateType, event.payload as Record<string, unknown>,
+          { idempotencyKey: event.idempotencyKey }
+        );
+        await prisma.integrationOutboxEvent.update({
+          where: { id: event.id },
+          data: { status: EventProcessingStatus.PROCESSED, dispatchedAt: new Date(), lastError: null }
+        });
+        results.push({ id: event.id, status: EventProcessingStatus.PROCESSED });
+      } catch (err: any) {
+        const permanent = attempts >= event.maxAttempts ||
+          /sem conexão|inativa|não autorizada|não implementa/i.test(String(err.message));
+        const status = permanent ? EventProcessingStatus.QUARANTINED : EventProcessingStatus.RETRY_SCHEDULED;
+        const delayMs = Math.min(60000, Math.pow(2, attempts) * 1000);
+        await prisma.integrationOutboxEvent.update({
+          where: { id: event.id },
+          data: { status, nextAttemptAt: new Date(Date.now() + delayMs), lastError: String(err.message).slice(0, 400) }
+        });
+        results.push({ id: event.id, status });
+      }
+    }
+    return { processedCount: results.length, details: results };
+  }
+
+  /**
+   * Reconciliação efetiva: pagina registros, compara CRM local e persiste diferenças.
+   * Contadores de sucesso refletem somente alterações realmente realizadas.
+   */
   public static async runReconciliation(connectionId: string, organizationId: string) {
     const connection = await prisma.integrationConnection.findFirst({
       where: { id: connectionId, organizationId },
       include: { connector: true }
     });
-
     if (!connection) throw new IntegrationNotFoundError('Conexão');
-
-    const syncRun = await prisma.integrationSyncRun.create({
-      data: {
-        organizationId,
-        connectionId: connection.id,
-        kind: SyncRunKind.RECONCILIATION,
-        status: 'RUNNING'
-      }
+    const run = await prisma.integrationSyncRun.create({
+      data: { organizationId, connectionId, kind: SyncRunKind.RECONCILIATION, status: 'RUNNING' }
     });
-
-    const registry = ConnectorRegistry.getInstance();
-    const adapter = registry.get(connection.connector.key, connection.connector.version);
-
-    if (!adapter || !adapter.inbound) {
-      await prisma.integrationSyncRun.update({
-        where: { id: syncRun.id },
-        data: { status: 'FAILED', error: 'Inbound adapter não disponível para este conector' }
-      });
-      return { success: false, syncRunId: syncRun.id };
-    }
-
-    const ctx = {
-      organizationId,
-      connectionId: connection.id,
-      config: connection.config as any
-    };
-
-    const remote = await adapter.inbound.list(ctx, 'customer');
-
-    await prisma.integrationSyncRun.update({
-      where: { id: syncRun.id },
-      data: {
-        status: 'COMPLETED',
-        finishedAt: new Date(),
-        stats: {
-          remoteRecordsExamined: remote.records.length,
-          reconciledSuccessfully: remote.records.length
+    let examined = 0, reconciled = 0, conflicted = 0, skipped = 0;
+    try {
+      const adapter = ConnectorRegistry.getInstance().get(connection.connector.key, connection.connector.version);
+      if (!adapter?.inbound) throw new Error('Conector não possui adaptador inbound');
+      const ctx = {
+        organizationId, connectionId, config: connection.config as Record<string, unknown>
+      };
+      let cursor: string | undefined;
+      const seen = new Set<string>();
+      for (let page = 0; page < 100; page++) {
+        const response = await adapter.inbound.list(ctx, 'customer', cursor);
+        for (const item of response.records) {
+          examined++;
+          if (item.entity !== 'customer') { skipped++; continue; }
+          const mapped = adapter.mapper.toLocal('customer', item.data);
+          const cnpj = String(mapped.cnpj || mapped.taxId || '').trim();
+          if (!cnpj) { skipped++; continue; }
+          const previous = await prisma.company.findUnique({
+            where: { organizationId_cnpj: { organizationId, cnpj } }
+          });
+          if (previous && connection.conflictStrategy === 'MANUAL' &&
+              previous.name !== String(mapped.name || previous.name)) {
+            const existingConflict = await prisma.integrationConflict.findFirst({
+              where: { organizationId, connectionId, entity: 'company',
+                externalId: item.externalId, status: 'OPEN' }
+            });
+            if (!existingConflict) {
+              await prisma.integrationConflict.create({
+                data: {
+                  organizationId, connectionId, entity: 'company', externalId: item.externalId,
+                  localId: previous.id, localSnapshot: { name: previous.name, cnpj },
+                  remoteSnapshot: item.data, strategy: 'MANUAL', status: 'OPEN'
+                }
+              });
+            }
+            conflicted++;
+            continue;
+          }
+          const company = await prisma.company.upsert({
+            where: { organizationId_cnpj: { organizationId, cnpj } },
+            update: {
+              name: String(mapped.name || previous?.name || 'Empresa Importada'),
+              annualRevenue: mapped.annualRevenue == null ? undefined : Number(mapped.annualRevenue)
+            },
+            create: {
+              organizationId, cnpj,
+              name: String(mapped.name || 'Empresa Importada'),
+              annualRevenue: mapped.annualRevenue == null ? undefined : Number(mapped.annualRevenue)
+            }
+          });
+          await prisma.integrationEntityLink.upsert({
+            where: { connectionId_entity_externalId: {
+              connectionId, entity: 'company', externalId: item.externalId
+            } },
+            update: { localId: company.id, lastSyncedAt: new Date() },
+            create: {
+              organizationId, connectionId, entity: 'company', externalId: item.externalId,
+              localId: company.id
+            }
+          });
+          reconciled++;
         }
+        if (!response.nextCursor) break;
+        if (seen.has(response.nextCursor)) throw new Error('Cursor repetido pelo provedor');
+        seen.add(response.nextCursor);
+        cursor = response.nextCursor;
+        if (page === 99) throw new Error('Limite de páginas atingido; continuar em outro lote');
       }
-    });
-
-    return {
-      success: true,
-      syncRunId: syncRun.id,
-      recordsChecked: remote.records.length
-    };
+      const status = conflicted || skipped ? 'PARTIAL' : 'COMPLETED';
+      await prisma.integrationSyncRun.update({
+        where: { id: run.id },
+        data: { status, finishedAt: new Date(),
+          stats: { remoteRecordsExamined: examined, reconciledSuccessfully: reconciled, conflicts: conflicted, skipped } }
+      });
+      return { success: status === 'COMPLETED', syncRunId: run.id,
+        recordsChecked: examined, recordsSynced: reconciled, conflicts: conflicted, skipped };
+    } catch (err: any) {
+      await prisma.integrationSyncRun.update({
+        where: { id: run.id },
+        data: { status: 'FAILED', error: String(err.message).slice(0, 400), finishedAt: new Date(),
+          stats: { remoteRecordsExamined: examined, reconciledSuccessfully: reconciled, conflicts: conflicted, skipped } }
+      });
+      return { success: false, syncRunId: run.id,
+        recordsChecked: examined, recordsSynced: reconciled, conflicts: conflicted, skipped,
+        error: String(err.message).slice(0, 400) };
+    }
   }
+
 }
