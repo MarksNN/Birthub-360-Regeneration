@@ -17,6 +17,31 @@ import { IntegrationProjectStatus, ProposalKind, ProposalVersionStatus, Approval
 
 const router = Router();
 
+/**
+ * Versões e estimativas contêm breakdown interno de custos/margens.
+ * Nunca retornar esse conteúdo a usuários de organizações clientes.
+ */
+function redactCustomerProject<T extends Record<string, any>>(project: T): T {
+  return {
+    ...project,
+    estimates: project.estimates?.map(({ internalBreakdown, pricingSnapshot, ...safe }: any) => safe),
+    proposals: project.proposals?.map((proposal: any) => ({
+      ...proposal,
+      versions: proposal.versions?.map((version: any) => {
+        const content = (version.content && typeof version.content === 'object' &&
+          !Array.isArray(version.content)) ? { ...version.content } : version.content;
+        if (content && typeof content === 'object') {
+          delete content.estimateBreakdownJson;
+          delete content.internalBreakdown;
+          delete content.pricingSnapshot;
+        }
+        return { ...version, content };
+      })
+    }))
+  } as T;
+}
+
+
 // Webhook endpoint (externo/autenticado por assinatura)
 router.post('/webhooks/:connectionId', async (req, res): Promise<void> => {
   try {
@@ -156,7 +181,7 @@ router.get('/projects', async (req: AuthenticatedRequest, res: Response): Promis
       orderBy: { createdAt: 'desc' }
     });
 
-    res.json({ success: true, data: projects });
+    res.json({ success: true, data: projects.map(redactCustomerProject) });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
   }
@@ -196,12 +221,7 @@ router.get('/projects/:id', async (req: AuthenticatedRequest, res: Response): Pr
       return;
     }
 
-    // Custos internos e regras de margem são exclusivos do operador da plataforma.
-    const publicProject = {
-      ...project,
-      estimates: project.estimates.map(({ internalBreakdown, pricingSnapshot, ...publicEstimate }) => publicEstimate)
-    };
-    res.json({ success: true, data: publicProject });
+    res.json({ success: true, data: redactCustomerProject(project) });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
   }
@@ -290,7 +310,8 @@ router.get('/connections', async (req: AuthenticatedRequest, res: Response): Pro
       }
     });
 
-    res.json({ success: true, data: connections });
+    const publicConnections = connections.map(({ config, credentialRef, webhookSecretHash, ...safe }) => safe);
+    res.json({ success: true, data: publicConnections });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
   }
@@ -300,6 +321,10 @@ router.post('/connections/:id/reconcile', async (req: AuthenticatedRequest, res:
   try {
     const orgId = req.user!.organizationId;
     const result = await IntegrationSyncEngineService.runReconciliation(req.params.id, orgId);
+    if (!result.success) {
+      res.status(409).json({ success: false, error: result.error || 'Reconciliação parcial: verifique os conflitos e registros ignorados.', data: result });
+      return;
+    }
     res.json({ success: true, data: result });
   } catch (err: any) {
     res.status(400).json({ success: false, error: err.message });

@@ -300,12 +300,11 @@ export function IntegrationHubView({ userRole, onRefreshData }: IntegrationHubVi
     setLoading(true);
     try {
       const res = await (api as any).reconcileConnection(connectionId);
-      if (res.success) {
-        setActionMessage({
-          type: 'success',
-          text: `Reconciliação executada com sucesso! ${res.data.recordsChecked || 0} registros verificados.`
-        });
+      if (res.success && res.data?.success) {
+        setActionMessage({ type: 'success', text: 'Reconciliação concluída: ' + (res.data.recordsSynced || 0) + ' registros atualizados.' });
         loadData();
+      } else {
+        setActionMessage({ type: 'error', text: res.error || 'Reconciliação parcial ou falhou; verifique conflitos.' });
       }
     } catch (err: any) {
       setActionMessage({ type: 'error', text: err.message });
@@ -425,7 +424,7 @@ export function IntegrationHubView({ userRole, onRefreshData }: IntegrationHubVi
       {activeTab === 'catalog' && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-bold text-ink">Provedores e Conectores Homologados</h2>
+            <h2 className="text-sm font-bold neon-title-iris">Provedores e Conectores Homologados</h2>
             <span className="text-xs text-muted font-mono">{catalog.length} provedores listados</span>
           </div>
 
@@ -447,7 +446,7 @@ export function IntegrationHubView({ userRole, onRefreshData }: IntegrationHubVi
                       {prov.catalogStatus}
                     </span>
                   </div>
-                  <h3 className="font-bold text-sm text-ink">{prov.name}</h3>
+                  <h3 className="font-bold text-sm neon-title-iris">{prov.name}</h3>
                   <p className="text-xs text-muted line-clamp-2">
                     Squad: <strong>{prov.squad}</strong> • Auth: {prov.authMethods?.join(', ') || 'API_KEY'}
                   </p>
@@ -478,7 +477,7 @@ export function IntegrationHubView({ userRole, onRefreshData }: IntegrationHubVi
       {activeTab === 'request' && (
         <div className="card-neon p-6 max-w-2xl mx-auto space-y-4">
           <div className="border-b border-border pb-3">
-            <h2 className="text-base font-bold text-ink font-display">Solicitar Nova Integração Sob Demanda</h2>
+            <h2 className="text-base font-bold neon-title-iris font-display">Solicitar Nova Integração Sob Demanda</h2>
             <p className="text-xs text-muted mt-1">
               Descreva sua necessidade técnica ou comercial. O Supervisor e os agentes especialistas estruturarão o escopo e orçamento para sua análise.
             </p>
@@ -542,7 +541,7 @@ export function IntegrationHubView({ userRole, onRefreshData }: IntegrationHubVi
       {activeTab === 'projects' && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-bold text-ink">Projetos de Integração da Organização</h2>
+            <h2 className="text-sm font-bold neon-title-iris">Projetos de Integração da Organização</h2>
             <button
               onClick={() => setActiveTab('request')}
               className="px-3 py-1.5 rounded-control bg-neon-blue text-white text-xs font-semibold hover:bg-neon-blue/90"
@@ -616,7 +615,7 @@ export function IntegrationHubView({ userRole, onRefreshData }: IntegrationHubVi
             <div>
               <div className="flex items-center space-x-2">
                 <span className="font-mono text-neon-blue font-bold text-sm">{selectedProject.code}</span>
-                <h2 className="text-base font-bold text-ink">{selectedProject.title}</h2>
+                <h2 className="text-base font-bold neon-title-iris">{selectedProject.title}</h2>
               </div>
               <p className="text-xs text-muted mt-0.5">
                 Squad: <strong>{selectedProject.squad}</strong> | Status Atual:{' '}
@@ -637,7 +636,7 @@ export function IntegrationHubView({ userRole, onRefreshData }: IntegrationHubVi
               {/* Card de Discovery */}
               <div className="card-neon p-4 space-y-3">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-xs text-ink uppercase tracking-wider flex items-center space-x-2">
+                  <h3 className="font-bold text-xs neon-title-iris uppercase tracking-wider flex items-center space-x-2">
                     <Search className="w-4 h-4 text-neon-blue" />
                     <span>Discovery & Requisitos Técnicos</span>
                   </h3>
@@ -753,7 +752,7 @@ export function IntegrationHubView({ userRole, onRefreshData }: IntegrationHubVi
                 <div className="card-neon p-4 space-y-4">
                   <div className="flex items-center justify-between border-b border-border pb-2">
                     <div>
-                      <h3 className="font-bold text-sm text-ink flex items-center space-x-2">
+                      <h3 className="font-bold text-sm neon-title-iris flex items-center space-x-2">
                         <DollarSign className="w-4 h-4 text-neon-gold" />
                         <span>Proposta Comercial #{selectedProject.proposals[0].proposalNumber}</span>
                       </h3>
@@ -836,7 +835,7 @@ export function IntegrationHubView({ userRole, onRefreshData }: IntegrationHubVi
             {/* Coluna 3: Esteira e Histórico */}
             <div className="space-y-4">
               <div className="card-neon p-4 space-y-3">
-                <h3 className="font-bold text-xs text-ink uppercase tracking-wider flex items-center space-x-2">
+                <h3 className="font-bold text-xs neon-title-iris uppercase tracking-wider flex items-center space-x-2">
                   <Activity className="w-4 h-4 text-neon-success" />
                   <span>Esteira Controlada</span>
                 </h3>
@@ -896,7 +895,7 @@ export function IntegrationHubView({ userRole, onRefreshData }: IntegrationHubVi
       {activeTab === 'connections' && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-bold text-ink">Conexões Operacionais Disponibilizadas</h2>
+            <h2 className="text-sm font-bold neon-title-iris">Conexões Operacionais Disponibilizadas</h2>
             <button onClick={loadData} className="text-xs text-muted hover:text-ink flex items-center space-x-1">
               <RefreshCw className="w-3.5 h-3.5" />
               <span>Atualizar</span>
@@ -907,7 +906,7 @@ export function IntegrationHubView({ userRole, onRefreshData }: IntegrationHubVi
             {connections.map((conn) => (
               <div key={conn.id} className="card-neon p-4 space-y-3">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-sm text-ink">{conn.name}</h3>
+                  <h3 className="font-bold text-sm neon-title-iris">{conn.name}</h3>
                   <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-neon-success/10 text-neon-success font-bold">
                     {conn.status}
                   </span>
@@ -941,7 +940,7 @@ export function IntegrationHubView({ userRole, onRefreshData }: IntegrationHubVi
       {activeTab === 'admin' && userRole === 'ADMIN' && pricingAdmin && (
         <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-bold text-ink">Tabela Administrativa de Precificação Comercial</h2>
+            <h2 className="text-sm font-bold neon-title-iris">Tabela Administrativa de Precificação Comercial</h2>
             <span className="text-xs text-muted font-mono">Política Oficial 2026</span>
           </div>
 
