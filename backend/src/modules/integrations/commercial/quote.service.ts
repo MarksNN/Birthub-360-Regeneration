@@ -96,7 +96,7 @@ export class IntegrationProposalService {
       await CommercialLockService.transition(projectId, orgId, S.SCOPE_DRAFT, actor, 'Escopo formalizado', undefined, tx);
       const scope = await tx.integrationScope.create({
         data: {
-          organizationId: orgId, projectId, version: 1, content: input.scope,
+          organizationId: orgId, projectId, version: 1, content: input.scope as any,
           contentHash: hashDocument(input.scope), createdById: actor.userId
         }
       });
@@ -104,10 +104,10 @@ export class IntegrationProposalService {
       const estimate = await tx.integrationEstimate.create({
         data: {
           organizationId: orgId, projectId, scopeId: scope.id, kind: ProposalKind.MAIN,
-          status: 'COMMERCIALLY_APPROVED', currency: priced.currency, effort: input.effort,
-          internalBreakdown: priced.internalBreakdown, clientBreakdown: priced.clientBreakdown,
+          status: 'COMMERCIALLY_APPROVED', currency: priced.currency, effort: input.effort as any,
+          internalBreakdown: priced.internalBreakdown as any, clientBreakdown: priced.clientBreakdown as any,
           oneTimeTotal: priced.oneTimeTotal, monthlyTotal: priced.monthlyTotal,
-          discountPct: priced.discountPct, pricingSnapshot: priced.pricingSnapshot,
+          discountPct: priced.discountPct, pricingSnapshot: priced.pricingSnapshot as any,
           createdByType: 'PLATFORM_OPERATOR', createdById: actor.userId
         }
       });
@@ -130,7 +130,7 @@ export class IntegrationProposalService {
           status: ProposalVersionStatus.SENT,
           scopeId: scope.id, estimateId: estimate.id,
           currency: priced.currency, oneTimeTotal: priced.oneTimeTotal,
-          monthlyTotal: priced.monthlyTotal, content: artifacts,
+          monthlyTotal: priced.monthlyTotal, content: artifacts as any,
           contentHash: artifacts.contentHash, validUntil,
           commerciallyApprovedById: actor.userId, commerciallyApprovedAt: new Date(),
           sentById: actor.userId, sentAt: new Date()

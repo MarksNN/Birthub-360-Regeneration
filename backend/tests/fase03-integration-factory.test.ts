@@ -317,7 +317,7 @@ describe('Fase 03 — Integration Factory & Universal Connector Hub (Full Suite 
         organizationId: testOrgId,
         proposalId: proposal.id,
         version: 1,
-        status: ProposalVersionStatus.COMMERCIALLY_APPROVED,
+        status: ProposalVersionStatus.SENT,
         scopeId: 'scope-id-placeholder',
         estimateId: 'estimate-id-placeholder',
         currency: 'BRL',

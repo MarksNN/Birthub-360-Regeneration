@@ -35,6 +35,33 @@ export class IntegrationApprovalService {
       );
     }
 
+    // Expiração precisa persistir mesmo quando a solicitação for rejeitada.
+    // Nunca lançar o erro dentro da transação que grava EXPIRED.
+    const preflight = await prisma.integrationProposalVersion.findFirst({
+      where: { id: input.proposalVersionId, organizationId },
+      include: { proposal: true }
+    });
+    if (preflight?.validUntil && preflight.validUntil.getTime() < Date.now()) {
+      await prisma.$transaction(async tx => {
+        await tx.integrationProposalVersion.update({
+          where: { id: preflight.id }, data: { status: ProposalVersionStatus.EXPIRED }
+        });
+        if (preflight.proposal.kind === 'MAIN') {
+          const current = await tx.integrationProject.findFirst({
+            where: { id: projectId, organizationId }
+          });
+          if (current && (current.status === IntegrationProjectStatus.AWAITING_CUSTOMER_APPROVAL ||
+              current.status === IntegrationProjectStatus.PROPOSAL_SENT)) {
+            await CommercialLockService.transition(
+              projectId, organizationId, IntegrationProjectStatus.EXPIRED,
+              actor, 'Prazo de validade da proposta expirado', undefined, tx
+            );
+          }
+        }
+      });
+      throw new CommercialLockError(['Proposta expirada. Solicite uma nova versão antes do aceite.']);
+    }
+
     return prisma.$transaction(async (tx) => {
       const project = await tx.integrationProject.findFirst({
         where: { id: projectId, organizationId },
@@ -58,35 +85,51 @@ export class IntegrationApprovalService {
         throw new IntegrationNotFoundError('Versão da proposta');
       }
 
-      // Proposta precisa estar em estado comercialmente aprovado ou enviado
-      if (
-        version.status !== ProposalVersionStatus.SENT
-      ) {
-        throw new CommercialLockError([
-          `A versão da proposta (v${version.version}) está com status ${version.status} e não está apta para aceite do cliente.`
-        ]);
-      }
-
-      if (proposal.kind === 'MAIN' && project.status !== IntegrationProjectStatus.AWAITING_CUSTOMER_APPROVAL) {
-        throw new CommercialLockError(['O projeto não está aguardando o aceite do cliente.']);
-      }
-
-      // Verificar validade
-      if (version.validUntil && new Date() > version.validUntil) {
+      // Aditivos não devem reiniciar a contratação principal já aceita.
+      if (proposal.kind === 'CHANGE_ORDER') {
+        if (![ProposalVersionStatus.COMMERCIALLY_APPROVED, ProposalVersionStatus.SENT].includes(version.status)) {
+          throw new CommercialLockError(['Aditivo não autorizado para aceite.']);
+        }
+        if (!['IN_DEVELOPMENT','IN_TESTING','AWAITING_ACCEPTANCE','ACCEPTED','AVAILABLE'].includes(project.status)) {
+          throw new CommercialLockError(['Aditivo só pode ser aceito em projeto já contratado.']);
+        }
+        if (!proposal.changeRequestId) throw new IntegrationNotFoundError('Solicitação de alteração');
+        const changeRequest = await tx.integrationChangeRequest.findFirst({
+          where: { id: proposal.changeRequestId, organizationId, projectId }
+        });
+        if (!changeRequest) throw new IntegrationNotFoundError('Solicitação de alteração');
+        const accepted = input.decision === ApprovalDecision.ACCEPTED;
+        const decisionRecord = await tx.integrationApproval.create({
+          data: {
+            organizationId, projectId, proposalVersionId: version.id,
+            decision: input.decision, userId: actor.userId!,
+            userRoleSnapshot: actor.role || 'ADMIN',
+            hadContractingAuthority: true,
+            approvedAmounts: accepted ? { oneTimeTotal: Number(version.oneTimeTotal),
+              monthlyTotal: Number(version.monthlyTotal), currency: version.currency } : {},
+            approvedScopeHash: (version.content as any)?.scopeHash || version.contentHash,
+            documentHash: version.contentHash,
+            conditionsAccepted: accepted ? input.conditionsAccepted : {},
+            effectsAcknowledged: accepted,
+            reason: accepted ? 'Aditivo autorizado pelo contratante' : (input.rejectionReason || 'Aditivo rejeitado'),
+            legalStatus: accepted ? 'AUDITABLE_ACCEPTANCE_PENDING_LEGAL_VALIDATION' : 'REJECTED_BY_CUSTOMER'
+          }
+        });
         await tx.integrationProposalVersion.update({
           where: { id: version.id },
-          data: { status: ProposalVersionStatus.EXPIRED }
+          data: { status: accepted ? ProposalVersionStatus.ACCEPTED : ProposalVersionStatus.REJECTED }
         });
-        await CommercialLockService.transition(
-          projectId,
-          organizationId,
-          IntegrationProjectStatus.EXPIRED,
-          actor,
-          'Proposta expirou antes da aprovação do cliente',
-          undefined,
-          tx
-        );
-        throw new CommercialLockError(['A proposta comercial expirou. Solicite a emissão de uma nova versão.']);
+        await tx.integrationChangeRequest.update({
+          where: { id: changeRequest.id },
+          data: { status: accepted ? 'ACCEPTED' : 'REJECTED' }
+        });
+        return { approval: decisionRecord, order: null };
+      }
+
+      // Proposta MAIN: aceite apenas da versão enviada e do estado contratual correto.
+      if (version.status !== ProposalVersionStatus.SENT ||
+          project.status !== IntegrationProjectStatus.AWAITING_CUSTOMER_APPROVAL) {
+        throw new CommercialLockError(['A proposta vigente ainda não foi formalmente enviada para aceite.']);
       }
 
       if (input.decision === ApprovalDecision.REJECTED) {
