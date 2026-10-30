@@ -5,6 +5,7 @@ import { authenticateToken, AuthenticatedRequest } from '../../middlewares/auth.
 import { SupervisorEngine } from './supervisor.engine';
 import { TenantSecurityError } from '../../lib/tenant-guard';
 import { AgentOperationalStatus, AgentScope, UserRole } from '@prisma/client';
+import kernelRoutes from './kernel.routes';
 
 const router = Router();
 router.use(authenticateToken);
@@ -149,5 +150,7 @@ router.get('/executions', async (req: AuthenticatedRequest, res: Response): Prom
     res.status(500).json({ success: false, error: error.message });
   }
 });
+
+router.use(kernelRoutes);
 
 export default router;

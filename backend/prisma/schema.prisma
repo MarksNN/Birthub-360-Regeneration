@@ -89,6 +89,7 @@ model Organization {
   dealHistories      DealStageHistory[]
   agentRegistrations AgentRegistration[]
   agentExecutions    SupervisorExecution[]
+  supervisorMissions SupervisorMissionRecord[]
 
   @@map("organizations")
 }
@@ -110,6 +111,7 @@ model User {
   auditLogsTriggered  AuditLog[]   @relation("UserAuditLogs")
   dealHistoriesMoved  DealStageHistory[] @relation("UserDealHistories")
   executionsRequested SupervisorExecution[]
+  missionsRequested   SupervisorMissionRecord[]
 
   @@index([organizationId])
   @@map("users")
@@ -330,4 +332,22 @@ model SupervisorExecution {
 
   @@index([organizationId])
   @@map("supervisor_executions")
+}
+
+model SupervisorMissionRecord {
+  id             String   @id
+  organizationId String
+  requestedById  String
+  correlationId  String
+  status         String
+  payload        Json
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  requestedBy  User         @relation(fields: [requestedById], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, correlationId])
+  @@index([organizationId])
+  @@map("supervisor_missions")
 }
