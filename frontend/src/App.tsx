@@ -13,6 +13,7 @@ import { PipelineKanbanView } from './components/PipelineKanbanView';
 import { ActivitiesView } from './components/ActivitiesView';
 import { RevOpsDashboardView } from './components/RevOpsDashboardView';
 import { AgentsCatalogView } from './components/AgentsCatalogView';
+import { IntegrationHubView } from './components/IntegrationHubView';
 import {
   findSubmoduleByPath,
   PillarDefinition,
@@ -316,6 +317,13 @@ export function App() {
                   meta={agentsMeta}
                   userRole={currentUser.role}
                   onRefresh={loadAllData}
+                />
+              )}
+
+              {(activeSubmodule.id === 'integration_hub' || activeSubmodule.id === 'triggers_hub') && (
+                <IntegrationHubView
+                  userRole={currentUser.role}
+                  onRefreshData={loadAllData}
                 />
               )}
             </>

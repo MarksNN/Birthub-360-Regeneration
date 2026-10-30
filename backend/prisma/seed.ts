@@ -293,6 +293,180 @@ async function main() {
   // 8. Importação Idempotente do Catálogo Oficial dos 394 Agentes
   const syncResult = await syncAgentsCatalogIdempotent(prisma);
   console.log('--- Catálogo 394 Agentes Sincronizado ---', syncResult);
+
+  // 9. Fase 03 — Atualizar Administrador com Poder de Contratação e Papel de Plataforma
+  await prisma.user.update({
+    where: { email: 'admin@birthhub360.com' },
+    data: {
+      platformRole: 'PLATFORM_ADMIN',
+      canApproveIntegrationProposals: true
+    }
+  });
+
+  // 10. Fase 03 — Parâmetros de Precificação Comercial e Políticas
+  const pricingParams = [
+    { key: 'HOURLY_COST_ANALYSIS', label: 'Hora Técnica de Análise e Discovery', category: 'ANALYSIS', unit: 'CURRENCY_PER_HOUR', value: null },
+    { key: 'HOURLY_COST_DEVELOPMENT', label: 'Hora Técnica de Desenvolvimento de Conectores', category: 'DEVELOPMENT', unit: 'CURRENCY_PER_HOUR', value: null },
+    { key: 'HOURLY_COST_INTEGRATION', label: 'Hora Técnica de Integração de APIs e Webhooks', category: 'API_INTEGRATION', unit: 'CURRENCY_PER_HOUR', value: null },
+    { key: 'HOURLY_COST_DATA_MAPPING', label: 'Hora Técnica de Mapeamento de Entidades', category: 'DATA_MAPPING', unit: 'CURRENCY_PER_HOUR', value: null },
+    { key: 'HOURLY_COST_MIGRATION', label: 'Hora Técnica de Carga Inicial e Migração', category: 'MIGRATION', unit: 'CURRENCY_PER_HOUR', value: null },
+    { key: 'HOURLY_COST_TESTING', label: 'Hora Técnica de Testes e Homologação', category: 'TESTING', unit: 'CURRENCY_PER_HOUR', value: null },
+    { key: 'HOURLY_COST_DEPLOYMENT', label: 'Hora Técnica de Implantação e Staging', category: 'DEPLOYMENT', unit: 'CURRENCY_PER_HOUR', value: null },
+    { key: 'HOURLY_COST_TRAINING', label: 'Hora Técnica de Documentação e Treinamento', category: 'TRAINING', unit: 'CURRENCY_PER_HOUR', value: null },
+    { key: 'INFRASTRUCTURE_BASE_SETUP', label: 'Custo Base de Infraestrutura e Sandbox', category: 'INFRASTRUCTURE', unit: 'CURRENCY', value: null },
+    { key: 'DEFAULT_MAINTENANCE_MONTHLY', label: 'Mensalidade Padrão de Manutenção Preventiva', category: 'MONTHLY', unit: 'CURRENCY_PER_MONTH', value: null },
+    { key: 'DEFAULT_SUPPORT_MONTHLY', label: 'Mensalidade Padrão de Suporte Operacional', category: 'MONTHLY', unit: 'CURRENCY_PER_MONTH', value: null }
+  ];
+
+  for (const p of pricingParams) {
+    await prisma.integrationPricingParameter.upsert({
+      where: { key: p.key },
+      update: {},
+      create: {
+        key: p.key,
+        label: p.label,
+        category: p.category,
+        unit: p.unit,
+        value: p.value,
+        currency: 'BRL',
+        isActive: true
+      }
+    });
+  }
+
+  await prisma.integrationPricingPolicy.upsert({
+    where: { id: 'default-pricing-policy-2026' },
+    update: {},
+    create: {
+      id: 'default-pricing-policy-2026',
+      name: 'Política Comercial Oficial 2026',
+      isActive: true,
+      currency: 'BRL',
+      defaultMarginPct: 30.0,
+      maxDiscountPct: 20.0,
+      supervisorMaxDiscountPct: 5.0,
+      taxRatePct: 12.0,
+      proposalValidityDays: 15,
+      paymentTerms: '50% na autorização interna e 50% na homologação final da entrega',
+      warrantyTerms: '30 dias corridos de garantia pós-homologação',
+      changeScopeTerms: 'Alterações materiais de escopo serão formalizadas via Change Request complementar'
+    }
+  });
+
+  await prisma.integrationPlanEntitlement.upsert({
+    where: { plan_component: { plan: 'ENTERPRISE_360', component: 'MAINTENANCE' } },
+    update: {},
+    create: { plan: 'ENTERPRISE_360', component: 'MAINTENANCE', included: true, notes: 'Manutenção preventiva inclusa' }
+  });
+
+  const providersData = [
+    {
+      key: 'BITRIX24',
+      name: 'Bitrix24 CRM & Telefonia',
+      category: 'CRM',
+      squad: 'CRM_INTEGRATION' as const,
+      documentationUrl: 'https://training.bitrix24.com/rest_help/',
+      hasOfficialApi: true,
+      authMethods: ['OAUTH2', 'WEBHOOK_INBOUND'],
+      supportsWebhooks: true,
+      catalogStatus: 'AVAILABLE' as const
+    },
+    {
+      key: 'HUBSPOT',
+      name: 'HubSpot CRM',
+      category: 'CRM',
+      squad: 'CRM_INTEGRATION' as const,
+      documentationUrl: 'https://developers.hubspot.com/',
+      hasOfficialApi: true,
+      authMethods: ['OAUTH2', 'API_KEY'],
+      supportsWebhooks: true,
+      catalogStatus: 'AVAILABLE_FOR_PROPOSAL' as const
+    },
+    {
+      key: 'PIPEDRIVE',
+      name: 'Pipedrive CRM',
+      category: 'CRM',
+      squad: 'CRM_INTEGRATION' as const,
+      documentationUrl: 'https://developers.pipedrive.com/',
+      hasOfficialApi: true,
+      authMethods: ['OAUTH2', 'API_KEY'],
+      supportsWebhooks: true,
+      catalogStatus: 'AVAILABLE_FOR_PROPOSAL' as const
+    },
+    {
+      key: 'SIMULATED_ERP',
+      name: 'ERP Corporativo Simulado',
+      category: 'ERP',
+      squad: 'FINANCIAL_INTEGRATION' as const,
+      documentationUrl: 'https://api.birthhub360.local/docs/simulated-erp',
+      hasOfficialApi: true,
+      authMethods: ['API_KEY'],
+      supportsWebhooks: true,
+      catalogStatus: 'AVAILABLE' as const
+    },
+    {
+      key: 'SERASA_DATA',
+      name: 'Serasa Experian / Clearbit Data',
+      category: 'DATA_PROVIDER',
+      squad: 'DATA_INTELLIGENCE' as const,
+      hasOfficialApi: true,
+      authMethods: ['API_KEY'],
+      supportsWebhooks: false,
+      catalogStatus: 'AVAILABLE_FOR_PROPOSAL' as const
+    },
+    {
+      key: 'WHATSAPP_ZENVIA',
+      name: 'WhatsApp Business / Zenvia',
+      category: 'COMMUNICATION',
+      squad: 'COMMUNICATION' as const,
+      hasOfficialApi: true,
+      authMethods: ['API_KEY', 'WEBHOOK_INBOUND'],
+      supportsWebhooks: true,
+      catalogStatus: 'AVAILABLE_FOR_PROPOSAL' as const
+    }
+  ];
+
+  for (const prov of providersData) {
+    const p = await prisma.integrationProvider.upsert({
+      where: { key: prov.key },
+      update: { catalogStatus: prov.catalogStatus },
+      create: {
+        key: prov.key,
+        name: prov.name,
+        category: prov.category,
+        squad: prov.squad,
+        documentationUrl: prov.documentationUrl || null,
+        hasOfficialApi: prov.hasOfficialApi,
+        authMethods: prov.authMethods,
+        supportsWebhooks: prov.supportsWebhooks,
+        catalogStatus: prov.catalogStatus
+      }
+    });
+
+    if (prov.key === 'SIMULATED_ERP') {
+      await prisma.integrationConnector.upsert({
+        where: { key_version: { key: 'simulated-erp', version: '1.0.0' } },
+        update: {},
+        create: {
+          providerId: p.id,
+          key: 'simulated-erp',
+          version: '1.0.0',
+          name: 'ERP Corporativo Simulado Connector',
+          visibility: 'SHARED',
+          isExclusive: false,
+          catalogStatus: 'AVAILABLE',
+          manifest: {
+            id: 'simulated-erp',
+            version: '1.0.0',
+            providerKey: 'SIMULATED_ERP',
+            category: 'ERP'
+          },
+          manifestHash: 'hash-simulated-erp-v1',
+          isSimulated: true
+        }
+      });
+    }
+  }
   console.log('--- Seed Concluído com Sucesso ---');
 }
 

@@ -16,7 +16,8 @@
     "test:unit": "vitest run tests/agents-394.test.ts",
     "test:integration": "vitest run tests/integration.test.ts tests/fase02.test.ts tests/multi-tenant.test.ts",
     "test:e2e": "playwright test",
-    "lint": "biome lint --config-path ../biome.json src tests"
+    "lint": "biome lint --config-path ../biome.json src tests",
+    "worker:integrations": "tsx src/workers/integration-sync.worker.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.21.1",
