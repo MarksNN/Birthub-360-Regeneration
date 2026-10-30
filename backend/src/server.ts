@@ -5,6 +5,7 @@ import authRoutes from './routes/auth.routes';
 import crmRoutes from './routes/crm.routes';
 import dashboardRoutes from './routes/dashboard.routes';
 import supervisorRoutes from './modules/supervisor/supervisor.routes';
+import integrationRoutes from './modules/integrations/integrations.routes';
 
 const app = express();
 
@@ -21,13 +22,14 @@ app.use('/api/auth', authRoutes);
 app.use('/api/crm', crmRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/supervisor', supervisorRoutes);
+app.use('/api/integrations', integrationRoutes);
 
 // Healthcheck
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'ONLINE',
     service: 'Birthub 360 Regeneration API',
-    phase: 'FASE 01 - FUNDAÇÃO OPERACIONAL',
+    phase: 'FASE 03 - INTEGRATION FACTORY & UNIVERSAL CONNECTOR HUB',
     timestamp: new Date().toISOString()
   });
 });

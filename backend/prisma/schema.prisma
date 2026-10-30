@@ -90,6 +90,17 @@ model Organization {
   agentRegistrations AgentRegistration[]
   agentExecutions    SupervisorExecution[]
 
+  // Fase 03 — Integration Factory & Universal Connector Hub
+  integrationProjects     IntegrationProject[]
+  integrationRequests     IntegrationRequest[]
+  integrationConnections  IntegrationConnection[]
+  integrationProposals    IntegrationProposal[]
+  integrationApprovals    IntegrationApproval[]
+  integrationOrders       IntegrationProjectOrder[]
+  privateConnectors       IntegrationConnector[]
+  webhookInboxEvents      WebhookInboxEvent[]
+  integrationOutboxEvents IntegrationOutboxEvent[]
+
   @@map("organizations")
 }
 
@@ -110,6 +121,11 @@ model User {
   auditLogsTriggered  AuditLog[]   @relation("UserAuditLogs")
   dealHistoriesMoved  DealStageHistory[] @relation("UserDealHistories")
   executionsRequested SupervisorExecution[]
+
+  // Fase 03 — Papel do operador da plataforma (separado do RBAC da organização cliente)
+  platformRole                   PlatformRole?
+  // Fase 03 — Usuário com poderes para contratar/aprovar propostas em nome da organização
+  canApproveIntegrationProposals Boolean       @default(false)
 
   @@index([organizationId])
   @@map("users")
@@ -330,4 +346,820 @@ model SupervisorExecution {
 
   @@index([organizationId])
   @@map("supervisor_executions")
+}
+
+
+// =====================================================================================
+// FASE 03 — INTEGRATION FACTORY & UNIVERSAL CONNECTOR HUB
+// Modelos aditivos. Nenhuma tabela das Fases 00–02 é alterada de forma destrutiva.
+// =====================================================================================
+
+enum PlatformRole {
+  PLATFORM_ADMIN       // Operador administrador do Birthub 360 (todas as ações administrativas)
+  PLATFORM_COMMERCIAL  // Revisão/aprovação comercial de propostas e parâmetros de preço
+  PLATFORM_ENGINEERING // Execução técnica, revisão técnica e homologação de conectores
+}
+
+enum IntegrationProjectStatus {
+  REQUESTED
+  DISCOVERY
+  FEASIBILITY_REVIEW
+  SCOPE_DRAFT
+  PRICING_REVIEW
+  PROPOSAL_READY
+  PROPOSAL_SENT
+  AWAITING_CUSTOMER_APPROVAL
+  APPROVED_BY_CUSTOMER
+  REJECTED_BY_CUSTOMER
+  EXPIRED
+  INTERNAL_AUTHORIZATION
+  AUTHORIZED_FOR_DEVELOPMENT
+  IN_DEVELOPMENT
+  IN_TESTING
+  AWAITING_ACCEPTANCE
+  ACCEPTED
+  AVAILABLE
+  ON_HOLD
+  CANCELLED
+}
+
+enum ConnectorCatalogStatus {
+  PLANNED
+  UNDER_DISCOVERY
+  AVAILABLE_FOR_PROPOSAL
+  UNDER_DEVELOPMENT
+  IN_TESTING
+  HOMOLOGATED
+  AVAILABLE
+  DEPRECATED
+}
+
+enum ConnectorVisibility {
+  SHARED   // Reutilizável por múltiplas organizações
+  PRIVATE  // Desenvolvido para uma organização específica
+  CUSTOM   // Adaptação contratada de um provedor existente
+}
+
+enum IntegrationSquad {
+  CRM_INTEGRATION
+  DATA_INTELLIGENCE
+  COMMUNICATION
+  AI_PROVIDER
+  PRODUCTIVITY
+  FINANCIAL_INTEGRATION
+  CUSTOM_ENTERPRISE
+}
+
+enum ProposalKind {
+  MAIN            // Proposta principal do projeto (única que autoriza desenvolvimento)
+  PAID_DISCOVERY  // Descoberta técnica adicional com custo próprio
+  CHANGE_ORDER    // Proposta complementar por alteração de escopo
+}
+
+enum ProposalVersionStatus {
+  ESTIMATE_PENDING_APPROVAL // Estimativa — valores ainda não definitivos
+  COMMERCIALLY_APPROVED     // Validada pela governança comercial da plataforma
+  SENT                      // Enviada ao cliente
+  ACCEPTED
+  REJECTED
+  EXPIRED
+  SUPERSEDED                // Substituída por nova versão (alteração material)
+}
+
+enum ApprovalDecision {
+  ACCEPTED
+  REJECTED
+}
+
+enum ProjectOrderStatus {
+  PENDING_INTERNAL_AUTHORIZATION
+  EXECUTABLE
+  INVALIDATED
+  CANCELLED
+}
+
+enum DevelopmentTaskStatus {
+  PENDING
+  QUEUED
+  IN_PROGRESS
+  AWAITING_ENGINEERING
+  DONE
+  BLOCKED
+  FAILED
+}
+
+enum ReleaseStatus {
+  DRAFT
+  IN_REVIEW
+  TECHNICALLY_APPROVED
+  TECHNICALLY_REJECTED
+  CUSTOMER_ACCEPTED
+  RELEASED
+}
+
+enum ChangeRequestStatus {
+  REGISTERED
+  ESTIMATED
+  PROPOSAL_ISSUED
+  ACCEPTED
+  REJECTED
+  CANCELLED
+}
+
+enum ConnectionStatus {
+  PENDING_CONFIGURATION
+  ACTIVE
+  PAUSED
+  ERROR
+  DISABLED
+}
+
+enum SyncDirection {
+  INBOUND
+  OUTBOUND
+  BIDIRECTIONAL
+}
+
+enum SyncRunKind {
+  INBOUND
+  OUTBOUND
+  RECONCILIATION
+  ENRICHMENT
+  QUERY
+}
+
+enum EventProcessingStatus {
+  PENDING
+  PROCESSING
+  PROCESSED
+  RETRY_SCHEDULED
+  QUARANTINED
+  DUPLICATE
+}
+
+// ---------------------------------------------------------------- Catálogo e SDK
+
+model IntegrationProvider {
+  id                    String                 @id @default(uuid())
+  key                   String                 @unique
+  name                  String
+  category              String
+  squad                 IntegrationSquad
+  description           String?
+  website               String?
+  documentationUrl      String?
+  hasOfficialApi        Boolean?               // null = não determinado
+  authMethods           String[]               @default([])
+  supportsWebhooks      Boolean?
+  rateLimitNotes        String?
+  readCapabilities      String[]               @default([])
+  writeCapabilities     String[]               @default([])
+  licensingNotes        String?
+  catalogStatus         ConnectorCatalogStatus @default(PLANNED)
+  factsSource           String?                // Origem das informações técnicas
+  factsVerifiedAt       DateTime?              // null = informação pública ainda não verificada pelo API Research
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+
+  connectors IntegrationConnector[]
+  projects   IntegrationProject[]
+
+  @@index([squad, catalogStatus])
+  @@map("integration_providers")
+}
+
+model IntegrationConnector {
+  id                   String                 @id @default(uuid())
+  providerId           String
+  key                  String
+  version              String
+  name                 String
+  visibility           ConnectorVisibility    @default(SHARED)
+  ownerOrganizationId  String?                // Obrigatório para PRIVATE/CUSTOM
+  isExclusive          Boolean                @default(false)
+  catalogStatus        ConnectorCatalogStatus @default(PLANNED)
+  manifest             Json
+  manifestHash         String
+  isSimulated          Boolean                @default(false) // Conector de provedor simulado (testes)
+  originProjectId      String?
+  technicalApprovedById String?
+  technicalApprovedAt  DateTime?
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+
+  provider          IntegrationProvider     @relation(fields: [providerId], references: [id], onDelete: Restrict)
+  ownerOrganization Organization?           @relation(fields: [ownerOrganizationId], references: [id], onDelete: Cascade)
+  connections       IntegrationConnection[]
+  releases          IntegrationRelease[]
+
+  @@unique([key, version])
+  @@index([ownerOrganizationId])
+  @@map("integration_connectors")
+}
+
+model IntegrationConnection {
+  id                String           @id @default(uuid())
+  organizationId    String
+  connectorId       String
+  name              String
+  status            ConnectionStatus @default(PENDING_CONFIGURATION)
+  direction         SyncDirection    @default(INBOUND)
+  conflictStrategy  String           @default("MANUAL") // MANUAL | REMOTE_WINS | LOCAL_WINS | LAST_WRITE_WINS
+  config            Json             @default("{}")
+  credentialRef     String?          // Referência a cofre de segredos — nunca o segredo em si
+  webhookSecretHash String?
+  syncEnabled       Boolean          @default(false)
+  activatedById     String?
+  activatedAt       DateTime?
+  lastSyncAt        DateTime?
+  createdById       String?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  organization  Organization             @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  connector     IntegrationConnector     @relation(fields: [connectorId], references: [id], onDelete: Restrict)
+  fieldMappings IntegrationFieldMapping[]
+  syncRuns      IntegrationSyncRun[]
+  conflicts     IntegrationConflict[]
+  entityLinks   IntegrationEntityLink[]
+  inboxEvents   WebhookInboxEvent[]
+  outboxEvents  IntegrationOutboxEvent[]
+
+  @@index([organizationId])
+  @@map("integration_connections")
+}
+
+// ---------------------------------------------------------------- Solicitação e projeto
+
+model IntegrationRequest {
+  id                    String   @id @default(uuid())
+  organizationId        String
+  requestedById         String
+  channel               String   @default("FORM") // FORM | SUPERVISOR
+  requestedProviderName String?
+  rawRequest            String
+  createdAt             DateTime @default(now())
+
+  organization Organization        @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  project      IntegrationProject?
+
+  @@index([organizationId])
+  @@map("integration_requests")
+}
+
+model IntegrationProject {
+  id                   String                   @id @default(uuid())
+  organizationId       String
+  requestId            String                   @unique
+  code                 String                   @unique
+  title                String
+  providerId           String?
+  squad                IntegrationSquad?
+  status               IntegrationProjectStatus @default(REQUESTED)
+  onHoldFromStatus     IntegrationProjectStatus?
+  priority             Int                      @default(3)
+  contractedVersionId  String?                  // Versão da proposta MAIN efetivamente aceita
+  connectorId          String?
+  createdAt            DateTime                 @default(now())
+  updatedAt            DateTime                 @updatedAt
+
+  organization   Organization                       @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  request        IntegrationRequest                 @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  provider       IntegrationProvider?               @relation(fields: [providerId], references: [id], onDelete: SetNull)
+  discovery      IntegrationDiscovery?
+  feasibilities  IntegrationFeasibilityAssessment[]
+  scopes         IntegrationScope[]
+  estimates      IntegrationEstimate[]
+  proposals      IntegrationProposal[]
+  approvals      IntegrationApproval[]
+  orders         IntegrationProjectOrder[]
+  milestones     IntegrationProjectMilestone[]
+  tasks          IntegrationDevelopmentTask[]
+  releases       IntegrationRelease[]
+  changeRequests IntegrationChangeRequest[]
+  history        IntegrationProjectStatusHistory[]
+  artifacts      IntegrationArtifact[]
+
+  @@index([organizationId, status])
+  @@map("integration_projects")
+}
+
+model IntegrationProjectStatusHistory {
+  id             String                    @id @default(uuid())
+  organizationId String
+  projectId      String
+  fromStatus     IntegrationProjectStatus?
+  toStatus       IntegrationProjectStatus
+  actorType      String                    // USER | SUPERVISOR | WORKER | PLATFORM_OPERATOR | SYSTEM
+  actorId        String?
+  channel        String?                   // UI | API | SUPERVISOR | WORKER | SERVICE
+  reason         String?
+  metadata       Json?
+  createdAt      DateTime                  @default(now())
+
+  project IntegrationProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, projectId])
+  @@map("integration_project_status_history")
+}
+
+model IntegrationDiscovery {
+  id                     String   @id @default(uuid())
+  organizationId         String
+  projectId              String   @unique
+  toolName               String?
+  objective              String?
+  processes              String[] @default([])
+  dataEntities           Json     @default("[]")
+  direction              SyncDirection?
+  frequency              String?
+  estimatedVolume        String?
+  technicalRequirements  String[] @default([])
+  authenticationNeeds    String?
+  thirdPartyDependencies String[] @default([])
+  operationalConstraints String[] @default([])
+  questions              Json     @default("[]") // [{id, question, field, answer, answeredAt, answeredById}]
+  completeness           Int      @default(0)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  project IntegrationProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@map("integration_discoveries")
+}
+
+model IntegrationFeasibilityAssessment {
+  id                     String   @id @default(uuid())
+  organizationId         String
+  projectId              String
+  version                Int
+  verdict                String   // FEASIBLE | FEASIBLE_WITH_RESTRICTIONS | NOT_FEASIBLE | UNDETERMINED
+  complexity             String   // LOW | MEDIUM | HIGH | VERY_HIGH | UNKNOWN
+  hasOfficialApi         Boolean?
+  documentationUrl       String?
+  authMethods            String[] @default([])
+  rateLimitNotes         String?
+  supportsWebhooks       Boolean?
+  readCapabilities       String[] @default([])
+  writeCapabilities      String[] @default([])
+  licensingDependencies  String?
+  risks                  Json     @default("[]")
+  uncertainties          Json     @default("[]")
+  reusableConnectorIds   String[] @default([])
+  requiresPaidDiscovery  Boolean  @default(false)
+  assessedBy             Json     @default("[]") // Responsáveis funcionais (agentes do catálogo) + executor real
+  createdAt              DateTime @default(now())
+
+  project IntegrationProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, version])
+  @@index([organizationId])
+  @@map("integration_feasibility_assessments")
+}
+
+model IntegrationScope {
+  id             String   @id @default(uuid())
+  organizationId String
+  projectId      String
+  version        Int
+  content        Json
+  contentHash    String
+  createdById    String?
+  createdAt      DateTime @default(now())
+
+  project   IntegrationProject    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  estimates IntegrationEstimate[]
+
+  @@unique([projectId, version])
+  @@index([organizationId])
+  @@map("integration_scopes")
+}
+
+model IntegrationEstimate {
+  id               String   @id @default(uuid())
+  organizationId   String
+  projectId        String
+  scopeId          String
+  kind             ProposalKind @default(MAIN)
+  status           String   @default("ESTIMATE_PENDING_APPROVAL")
+  currency         String
+  effort           Json     // Horas por categoria
+  internalBreakdown Json    // Custos internos, margem — restrito ao operador da plataforma
+  clientBreakdown  Json     // Valores apresentados ao cliente
+  oneTimeTotal     Decimal  @db.Decimal(14, 2)
+  monthlyTotal     Decimal  @db.Decimal(14, 2)
+  discountPct      Decimal  @db.Decimal(5, 2) @default(0)
+  pricingSnapshot  Json     // Parâmetros e política utilizados no cálculo
+  createdByType    String   // SUPERVISOR | USER | PLATFORM_OPERATOR
+  createdById      String?
+  createdAt        DateTime @default(now())
+
+  project IntegrationProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  scope   IntegrationScope   @relation(fields: [scopeId], references: [id], onDelete: Restrict)
+
+  @@index([organizationId, projectId])
+  @@map("integration_estimates")
+}
+
+// ---------------------------------------------------------------- Motor comercial
+
+model IntegrationPricingParameter {
+  id          String   @id @default(uuid())
+  key         String   @unique
+  label       String
+  category    String   // ANALYSIS, DEVELOPMENT, API_INTEGRATION, ... | MULTIPLIER | MONTHLY | CONSUMPTION
+  unit        String   // CURRENCY_PER_HOUR | HOURS | MULTIPLIER | CURRENCY_PER_MONTH | CURRENCY_PER_1000_CALLS
+  value       Decimal? @db.Decimal(14, 4) // null = pendente de configuração pelo administrador
+  currency    String   @default("BRL")
+  isActive    Boolean  @default(true)
+  description String?
+  updatedById String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("integration_pricing_parameters")
+}
+
+model IntegrationPricingPolicy {
+  id                              String   @id @default(uuid())
+  name                            String
+  isActive                        Boolean  @default(false)
+  currency                        String   @default("BRL")
+  defaultMarginPct                Decimal? @db.Decimal(5, 2)
+  maxDiscountPct                  Decimal? @db.Decimal(5, 2)
+  supervisorMaxDiscountPct        Decimal  @db.Decimal(5, 2) @default(0)
+  taxRatePct                      Decimal? @db.Decimal(5, 2)
+  proposalValidityDays            Int?
+  paymentTerms                    String?
+  warrantyTerms                   String?
+  changeScopeTerms                String?
+  requirePaymentConfirmationToStart Boolean @default(true)
+  updatedById                     String?
+  createdAt                       DateTime @default(now())
+  updatedAt                       DateTime @updatedAt
+
+  @@map("integration_pricing_policies")
+}
+
+model IntegrationPlanEntitlement {
+  id               String   @id @default(uuid())
+  plan             String
+  component        String   // Categoria de custo coberta pelo plano (ex.: SUPPORT, INFRASTRUCTURE)
+  included         Boolean  @default(true)
+  notes            String?
+  createdAt        DateTime @default(now())
+
+  @@unique([plan, component])
+  @@map("integration_plan_entitlements")
+}
+
+model IntegrationProposal {
+  id               String       @id @default(uuid())
+  organizationId   String
+  projectId        String
+  kind             ProposalKind @default(MAIN)
+  proposalNumber   String       @unique
+  currentVersionId String?
+  changeRequestId  String?
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  organization Organization                 @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  project      IntegrationProject           @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  versions     IntegrationProposalVersion[]
+
+  @@index([organizationId, projectId])
+  @@map("integration_proposals")
+}
+
+model IntegrationProposalVersion {
+  id                     String                @id @default(uuid())
+  organizationId         String
+  proposalId             String
+  version                Int
+  status                 ProposalVersionStatus @default(ESTIMATE_PENDING_APPROVAL)
+  scopeId                String
+  estimateId             String
+  currency               String
+  oneTimeTotal           Decimal               @db.Decimal(14, 2)
+  monthlyTotal           Decimal               @db.Decimal(14, 2)
+  content                Json                  // Documento canônico apresentado ao cliente
+  contentHash            String                // SHA-256 do conteúdo canônico (integridade)
+  validUntil             DateTime?
+  changeReason           String?
+  commerciallyApprovedById String?
+  commerciallyApprovedAt DateTime?
+  sentAt                 DateTime?
+  sentById               String?
+  supersededAt           DateTime?
+  createdAt              DateTime              @default(now())
+
+  proposal  IntegrationProposal   @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+  approvals IntegrationApproval[]
+
+  @@unique([proposalId, version])
+  @@index([organizationId])
+  @@map("integration_proposal_versions")
+}
+
+model IntegrationApproval {
+  id                  String           @id @default(uuid())
+  organizationId      String
+  projectId           String
+  proposalVersionId   String
+  decision            ApprovalDecision
+  userId              String
+  userRoleSnapshot    String
+  hadContractingAuthority Boolean
+  approvedAmounts     Json
+  approvedScopeHash   String
+  documentHash        String
+  conditionsAccepted  Json
+  effectsAcknowledged Boolean          @default(false)
+  reason              String?
+  ipAddress           String?
+  userAgent           String?
+  legalStatus         String           @default("AUDITABLE_ACCEPTANCE_PENDING_LEGAL_VALIDATION")
+  invalidatedAt       DateTime?
+  invalidationReason  String?
+  decidedAt           DateTime         @default(now())
+
+  organization    Organization               @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  project         IntegrationProject         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  proposalVersion IntegrationProposalVersion @relation(fields: [proposalVersionId], references: [id], onDelete: Restrict)
+  order           IntegrationProjectOrder?
+
+  @@index([organizationId, projectId])
+  @@map("integration_approvals")
+}
+
+model IntegrationProjectOrder {
+  id                         String             @id @default(uuid())
+  organizationId             String
+  projectId                  String
+  approvalId                 String             @unique
+  proposalVersionId          String
+  orderNumber                String             @unique
+  status                     ProjectOrderStatus @default(PENDING_INTERNAL_AUTHORIZATION)
+  paymentAuthorizationStatus String             @default("PENDING") // PENDING | CONFIRMED | NOT_REQUIRED
+  authorizationChecklist     Json?
+  authorizedById             String?
+  authorizedAt               DateTime?
+  invalidatedAt              DateTime?
+  invalidationReason         String?
+  createdAt                  DateTime           @default(now())
+  updatedAt                  DateTime           @updatedAt
+
+  organization Organization                 @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  project      IntegrationProject           @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  approval     IntegrationApproval          @relation(fields: [approvalId], references: [id], onDelete: Restrict)
+  tasks        IntegrationDevelopmentTask[]
+
+  @@index([organizationId, projectId])
+  @@map("integration_project_orders")
+}
+
+model IntegrationArtifact {
+  id                String   @id @default(uuid())
+  organizationId    String
+  projectId         String
+  proposalVersionId String?
+  type              String   // INTEGRATION_SCOPE | TECHNICAL_FEASIBILITY | COMMERCIAL_PROPOSAL | ESTIMATE_BREAKDOWN | ACCEPTANCE_TERMS | INTEGRATION_PROJECT_ORDER | TEST_EVIDENCE
+  fileName          String
+  mimeType          String
+  content           String
+  contentHash       String
+  createdAt         DateTime @default(now())
+
+  project IntegrationProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, projectId])
+  @@map("integration_artifacts")
+}
+
+// ---------------------------------------------------------------- Esteira de desenvolvimento
+
+model IntegrationProjectMilestone {
+  id             String    @id @default(uuid())
+  organizationId String
+  projectId      String
+  code           String
+  title          String
+  sequence       Int
+  status         String    @default("PENDING") // PENDING | IN_PROGRESS | DONE
+  completedAt    DateTime?
+  createdAt      DateTime  @default(now())
+
+  project IntegrationProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, code])
+  @@map("integration_project_milestones")
+}
+
+model IntegrationDevelopmentTask {
+  id                String                @id @default(uuid())
+  organizationId    String
+  projectId         String
+  orderId           String
+  changeRequestId   String?
+  step              Int
+  code              String
+  title             String
+  squad             IntegrationSquad?
+  responsibleRole   String                // Responsabilidade funcional (ex.: Connector Development Agent)
+  responsibleAgent  String?               // Código do agente do catálogo dos 394 (quando equivalente)
+  executor          String                // AUTOMATED_PLATFORM_SERVICE | ENGINEERING_TEAM
+  status            DevelopmentTaskStatus @default(PENDING)
+  attempts          Int                   @default(0)
+  evidence          Json?
+  lastError         String?
+  startedAt         DateTime?
+  completedAt       DateTime?
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+
+  project IntegrationProject      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  order   IntegrationProjectOrder @relation(fields: [orderId], references: [id], onDelete: Restrict)
+
+  @@index([organizationId, projectId])
+  @@map("integration_development_tasks")
+}
+
+model IntegrationRelease {
+  id                    String        @id @default(uuid())
+  organizationId        String
+  projectId             String
+  connectorId           String?
+  version               String
+  status                ReleaseStatus @default(DRAFT)
+  testEvidence          Json          @default("[]")
+  submittedById         String?
+  technicalReviewerId   String?
+  technicalReviewedAt   DateTime?
+  technicalNotes        String?
+  customerAcceptedById  String?
+  customerAcceptedAt    DateTime?
+  releasedAt            DateTime?
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  project   IntegrationProject    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  connector IntegrationConnector? @relation(fields: [connectorId], references: [id], onDelete: SetNull)
+
+  @@index([organizationId, projectId])
+  @@map("integration_releases")
+}
+
+model IntegrationChangeRequest {
+  id                  String              @id @default(uuid())
+  organizationId      String
+  projectId           String
+  description         String
+  requestedById       String?
+  contractedScopeHash String
+  impactSummary       Json?
+  deltaHours          Decimal?            @db.Decimal(10, 2)
+  deltaOneTime        Decimal?            @db.Decimal(14, 2)
+  deltaMonthly        Decimal?            @db.Decimal(14, 2)
+  deltaDays           Int?
+  status              ChangeRequestStatus @default(REGISTERED)
+  proposalId          String?
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+
+  project IntegrationProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, projectId])
+  @@map("integration_change_requests")
+}
+
+// ---------------------------------------------------------------- Motor universal de sincronização
+
+model IntegrationFieldMapping {
+  id             String        @id @default(uuid())
+  organizationId String
+  connectionId   String
+  entity         String
+  localField     String
+  remoteField    String
+  direction      SyncDirection @default(BIDIRECTIONAL)
+  transform      String?       // Somente transformações declarativas da lista branca do SDK
+  isRequired     Boolean       @default(false)
+  createdAt      DateTime      @default(now())
+
+  connection IntegrationConnection @relation(fields: [connectionId], references: [id], onDelete: Cascade)
+
+  @@unique([connectionId, entity, localField])
+  @@index([organizationId])
+  @@map("integration_field_mappings")
+}
+
+model IntegrationEntityLink {
+  id             String   @id @default(uuid())
+  organizationId String
+  connectionId   String
+  entity         String
+  externalId     String
+  localId        String
+  remoteHash     String?
+  localHash      String?
+  lastSyncedAt   DateTime @default(now())
+
+  connection IntegrationConnection @relation(fields: [connectionId], references: [id], onDelete: Cascade)
+
+  @@unique([connectionId, entity, externalId])
+  @@index([organizationId, entity, localId])
+  @@map("integration_entity_links")
+}
+
+model IntegrationSyncRun {
+  id             String      @id @default(uuid())
+  organizationId String
+  connectionId   String
+  kind           SyncRunKind
+  status         String      @default("RUNNING") // RUNNING | COMPLETED | FAILED | PARTIAL
+  stats          Json        @default("{}")
+  error          String?
+  startedAt      DateTime    @default(now())
+  finishedAt     DateTime?
+
+  connection IntegrationConnection @relation(fields: [connectionId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, connectionId])
+  @@map("integration_sync_runs")
+}
+
+model IntegrationConflict {
+  id             String    @id @default(uuid())
+  organizationId String
+  connectionId   String
+  entity         String
+  externalId     String
+  localId        String?
+  localSnapshot  Json?
+  remoteSnapshot Json?
+  strategy       String
+  status         String    @default("OPEN") // OPEN | RESOLVED
+  resolution     String?
+  resolvedById   String?
+  resolvedAt     DateTime?
+  createdAt      DateTime  @default(now())
+
+  connection IntegrationConnection @relation(fields: [connectionId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, status])
+  @@map("integration_conflicts")
+}
+
+model WebhookInboxEvent {
+  id              String                @id @default(uuid())
+  organizationId  String
+  connectionId    String
+  providerKey     String
+  eventType       String
+  externalEventId String?
+  idempotencyKey  String
+  payload         Json
+  signatureValid  Boolean               @default(false)
+  status          EventProcessingStatus @default(PENDING)
+  attempts        Int                   @default(0)
+  maxAttempts     Int                   @default(5)
+  nextAttemptAt   DateTime?
+  lastError       String?
+  receivedAt      DateTime              @default(now())
+  processedAt     DateTime?
+
+  organization Organization          @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  connection   IntegrationConnection @relation(fields: [connectionId], references: [id], onDelete: Cascade)
+
+  @@unique([connectionId, idempotencyKey])
+  @@index([organizationId, status])
+  @@map("webhook_inbox_events")
+}
+
+model IntegrationOutboxEvent {
+  id             String                @id @default(uuid())
+  organizationId String
+  connectionId   String?
+  projectId      String?
+  aggregateType  String
+  aggregateId    String
+  eventType      String
+  payload        Json
+  idempotencyKey String                @unique
+  status         EventProcessingStatus @default(PENDING)
+  attempts       Int                   @default(0)
+  maxAttempts    Int                   @default(5)
+  nextAttemptAt  DateTime              @default(now())
+  lastError      String?
+  createdAt      DateTime              @default(now())
+  dispatchedAt   DateTime?
+
+  organization Organization           @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  connection   IntegrationConnection? @relation(fields: [connectionId], references: [id], onDelete: Cascade)
+
+  @@index([status, nextAttemptAt])
+  @@index([organizationId])
+  @@map("integration_outbox_events")
 }

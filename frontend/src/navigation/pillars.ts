@@ -245,14 +245,23 @@ export const EIGHT_PILLARS: PillarDefinition[] = [
     supervisorContext: 'AUTOMATIONS',
     submodules: [
       {
+        id: 'integration_hub',
+        label: 'Central de Integrações & Projetos',
+        path: '/automations/integrations',
+        pillarId: 'automations',
+        supervisorContext: 'AUTOMATIONS',
+        minRole: 'VIEWER',
+        isImplemented: true,
+        description: 'Universal Connector Hub, solicitações sob demanda, discovery, proposta comercial, esteira e conexões ativas.'
+      },
+      {
         id: 'triggers_hub',
         label: 'Orquestrador de Gatilhos & Sync',
         path: '/automations/triggers',
         pillarId: 'automations',
         supervisorContext: 'AUTOMATIONS',
         minRole: 'ADMIN',
-        isImplemented: false,
-        plannedPhase: 'Fase 03',
+        isImplemented: true,
         description: 'Regras automatizadas de distribuição de leads, alertas de estagnação e webhooks.'
       }
     ]

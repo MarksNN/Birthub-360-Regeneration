@@ -1,6 +1,10 @@
 import prisma from '../../lib/prisma';
 import { SupervisorRequest, SupervisorPlan } from './supervisor.types';
-import { UserRole, DealStage, ActivityType, AgentOperationalStatus } from '@prisma/client';
+import { UserRole, DealStage, ActivityType, AgentOperationalStatus, IntegrationProjectStatus } from '@prisma/client';
+import { CommercialLockService } from '../integrations/services/commercial-lock.service';
+import { IntegrationFeasibilityService } from '../integrations/services/feasibility.service';
+import { IntegrationDiscoveryService } from '../integrations/services/discovery.service';
+import { loadUserActor } from '../integrations/domain/actor';
 import { TenantGuard, TenantSecurityError } from '../../lib/tenant-guard';
 
 export class SupervisorEngine {
@@ -74,6 +78,13 @@ export class SupervisorEngine {
         targetAgent = registeredAgents.find((a) => a.agentCode === 'contract-signature');
       } else if (promptLower.includes('churn') || promptLower.includes('retenção')) {
         targetAgent = registeredAgents.find((a) => a.agentCode === 'churn-retention');
+      } else if (
+        promptLower.includes('integra') ||
+        promptLower.includes('conectar') ||
+        promptLower.includes('erp') ||
+        promptLower.includes('conector')
+      ) {
+        targetAgent = registeredAgents.find((a) => a.agentCode === 'api-integration-builder' || a.agentCode === 'coordinator-commercial');
       } else {
         // Busca por nome, código ou capacidade no prompt
         targetAgent = registeredAgents.find(
@@ -141,7 +152,30 @@ export class SupervisorEngine {
     let executedTools: string[] = [];
     let executionRecordStatus = 'COMPLETED';
 
-    if (!hasPermission) {
+    // REGRA ABSOLUTA — BLOQUEIO COMERCIAL NO SUPERVISOR (P0):
+    // Nenhuma solicitação de desenvolvimento pode prosseguir sem validação comercial,
+    // independentemente do agente roteado ou do status do catálogo!
+    if (
+      promptLower.includes('iniciar desenvolvimento') ||
+      promptLower.includes('começar desenvolvimento') ||
+      promptLower.includes('desenvolver conector') ||
+      promptLower.includes('desenvolver integração')
+    ) {
+      executedTools.push('verify_commercial_lock');
+      const projectId = request.contextData?.projectId;
+      if (projectId) {
+        const lockCheck = await CommercialLockService.evaluateDevelopmentPreconditions(projectId, organizationId);
+        if (!lockCheck.canProceedToDevelopment) {
+          output = `[Bloqueio Comercial P0] Operação bloqueada: nenhum projeto de integração pode entrar em desenvolvimento antes do aceite comercial válido da proposta e da autorização interna da plataforma. Pendências: ${lockCheck.reasons.join('; ')}`;
+          executionRecordStatus = 'COMMERCIAL_LOCK_BLOCKED';
+        } else {
+          output = `[Autorizado] O projeto ${projectId} foi validado comercialmente e encaminhado para execução.`;
+        }
+      } else {
+        output = `[Bloqueio Comercial P0] Operação bloqueada: nenhum projeto de integração sob demanda pode entrar em desenvolvimento sem aceite comercial válido e ordem interna executável.`;
+        executionRecordStatus = 'COMMERCIAL_LOCK_BLOCKED';
+      }
+    } else if (!hasPermission) {
       output = `Acesso negado: A operação com o agente ${selected.name} (${selected.agentCode}) requer o perfil ${selected.requiredRole}, mas seu usuário possui perfil ${userRole}.`;
       executionRecordStatus = 'FORBIDDEN';
     } else if (opStatus === 'DISABLED' || !selected.isActive) {
@@ -154,6 +188,14 @@ export class SupervisorEngine {
     } else {
       // 4. Execução REAL de ferramentas autorizadas apenas para agentes EXECUTABLE
       if (
+        promptLower.includes('integrar') ||
+        promptLower.includes('conectar erp') ||
+        promptLower.includes('conectar meu novo crm') ||
+        promptLower.includes('conectar crm')
+      ) {
+        executedTools.push('integration_discovery_intake');
+        output = `Vou identificar os requisitos e preparar o escopo técnico e comercial para sua avaliação. O fluxo oficial de discovery foi iniciado e o desenvolvimento somente começará após a sua aprovação formal e a respectiva autorização interna.`;
+      } else if (
         promptLower.includes('criar tarefa') ||
         promptLower.includes('agendar follow-up') ||
         promptLower.includes('registrar ligação')

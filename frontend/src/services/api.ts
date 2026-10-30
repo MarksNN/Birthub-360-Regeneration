@@ -244,5 +244,95 @@ export const api = {
       headers: this.getHeaders()
     });
     return res.json();
+  },
+
+  // FASE 03 — INTEGRATION FACTORY & UNIVERSAL CONNECTOR HUB
+  async getIntegrationCatalog(category?: string) {
+    const params = category ? `?category=${encodeURIComponent(category)}` : '';
+    const res = await fetch(`${API_BASE}/integrations/catalog${params}`, {
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  async createIntegrationRequest(data: { requestedProviderName?: string; rawRequest: string; channel?: string }) {
+    const res = await fetch(`${API_BASE}/integrations/requests`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify(data)
+    });
+    return res.json();
+  },
+
+  async getIntegrationProjects() {
+    const res = await fetch(`${API_BASE}/integrations/projects`, {
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  async getIntegrationProjectById(id: string) {
+    const res = await fetch(`${API_BASE}/integrations/projects/${id}`, {
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  async updateIntegrationDiscovery(id: string, data: any) {
+    const res = await fetch(`${API_BASE}/integrations/projects/${id}/discovery`, {
+      method: 'PATCH',
+      headers: this.getHeaders(),
+      body: JSON.stringify(data)
+    });
+    return res.json();
+  },
+
+  async acceptIntegrationProposal(id: string, data: any) {
+    const res = await fetch(`${API_BASE}/integrations/projects/${id}/proposals/accept`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify(data)
+    });
+    return res.json();
+  },
+
+  async acceptDeliveryByCustomer(id: string, releaseId: string) {
+    const res = await fetch(`${API_BASE}/integrations/projects/${id}/delivery/accept`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify({ releaseId })
+    });
+    return res.json();
+  },
+
+  async getIntegrationConnections() {
+    const res = await fetch(`${API_BASE}/integrations/connections`, {
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  async reconcileConnection(id: string) {
+    const res = await fetch(`${API_BASE}/integrations/connections/${id}/reconcile`, {
+      method: 'POST',
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  async getIntegrationPricingParameters() {
+    const res = await fetch(`${API_BASE}/integrations/admin/pricing-parameters`, {
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  async authorizeIntegrationOrder(orderId: string, paymentStatus?: string) {
+    const res = await fetch(`${API_BASE}/integrations/admin/orders/${orderId}/authorize`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify({ paymentStatus })
+    });
+    return res.json();
   }
 };
