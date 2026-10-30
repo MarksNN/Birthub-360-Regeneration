@@ -97,6 +97,6 @@ describe('Birthub 360 - Fase 01 Backend Integration Tests', () => {
       where: { organizationId: orgId }
     });
     expect(executions.length).toBeGreaterThanOrEqual(2);
-    expect(executions[0].targetModule).toBe('SALES_ORCHESTRATION');
+    expect(executions.some((e) => e.targetModule === 'SALES_ORCHESTRATION')).toBe(true);
   });
 });

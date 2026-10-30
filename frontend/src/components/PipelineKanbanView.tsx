@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
 import { 
-  CheckCircle2, 
   Plus, 
   Search, 
-  Filter, 
-  TrendingUp, 
-  DollarSign, 
-  Calendar, 
-  AlertCircle,
-  Clock,
   History,
   X
 } from 'lucide-react';
@@ -51,12 +44,12 @@ export const PipelineKanbanView: React.FC<PipelineKanbanViewProps> = ({
   const [loading, setLoading] = useState(false);
 
   const stages = [
-    { id: 'PROSPECT', label: '1. Prospecção', color: 'border-muted', defaultProb: 20 },
-    { id: 'QUALIFICACAO', label: '2. Qualificação', color: 'border-neon-blue', defaultProb: 40 },
-    { id: 'PROPOSTA_ENVIADA', label: '3. Proposta Enviada', color: 'border-neon-iris', defaultProb: 60 },
-    { id: 'NEGOCIACAO', label: '4. Negociação', color: 'border-neon-gold', defaultProb: 80 },
-    { id: 'FECHADO_GANHO', label: '5. Fechado Ganho', color: 'border-neon-success', defaultProb: 100 },
-    { id: 'FECHADO_PERDIDO', label: '6. Fechado Perdido', color: 'border-neon-danger', defaultProb: 0 }
+    { id: 'PROSPECT', label: 'Prospecção', color: 'border-muted', defaultProb: 20 },
+    { id: 'QUALIFICACAO', label: 'Qualificação', color: 'border-neon-blue', defaultProb: 40 },
+    { id: 'PROPOSTA_ENVIADA', label: 'Proposta Enviada', color: 'border-neon-iris', defaultProb: 60 },
+    { id: 'NEGOCIACAO', label: 'Negociação', color: 'border-neon-gold', defaultProb: 80 },
+    { id: 'FECHADO_GANHO', label: 'Fechado Ganho', color: 'border-neon-success', defaultProb: 100 },
+    { id: 'FECHADO_PERDIDO', label: 'Fechado Perdido', color: 'border-neon-danger', defaultProb: 0 }
   ];
 
   const formatCurrency = (val: number) => {
@@ -72,11 +65,7 @@ export const PipelineKanbanView: React.FC<PipelineKanbanViewProps> = ({
     e.preventDefault();
   };
 
-  const handleDrop = async (e: React.DragEvent, targetStage: string) => {
-    e.preventDefault();
-    const dealId = e.dataTransfer.getData('text/plain');
-    if (!dealId) return;
-
+  const moveDealToStage = async (dealId: string, targetStage: string) => {
     let lostReason: string | undefined = undefined;
     if (targetStage === 'FECHADO_PERDIDO') {
       const reason = prompt('Qual o principal motivo de perda da oportunidade? (ex: Preço, Concorrente, Projeto Pausado)');
@@ -93,6 +82,13 @@ export const PipelineKanbanView: React.FC<PipelineKanbanViewProps> = ({
     } catch (err: any) {
       alert(err.message);
     }
+  };
+
+  const handleDrop = async (e: React.DragEvent, targetStage: string) => {
+    e.preventDefault();
+    const dealId = e.dataTransfer.getData('text/plain');
+    if (!dealId) return;
+    await moveDealToStage(dealId, targetStage);
   };
 
   const handleOpenHistory = async (deal: any) => {
@@ -159,7 +155,7 @@ export const PipelineKanbanView: React.FC<PipelineKanbanViewProps> = ({
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" data-testid="pipeline-kanban-view">
       {/* Header do Funil */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -195,7 +191,9 @@ export const PipelineKanbanView: React.FC<PipelineKanbanViewProps> = ({
           </select>
 
           <button
+            type="button"
             onClick={() => setShowModal(true)}
+            data-testid="new-deal-btn"
             className="btn-neon-cta flex items-center space-x-2 text-xs"
           >
             <Plus className="w-4 h-4" />
@@ -213,6 +211,7 @@ export const PipelineKanbanView: React.FC<PipelineKanbanViewProps> = ({
           return (
             <div
               key={st.id}
+              data-testid={`kanban-col-${st.id}`}
               onDragOver={handleDragOver}
               onDrop={(e) => handleDrop(e, st.id)}
               className="bg-surface2/60 border border-border rounded-card p-3 min-h-[500px] flex flex-col transition-colors hover:border-neon-gold/30"
@@ -238,6 +237,7 @@ export const PipelineKanbanView: React.FC<PipelineKanbanViewProps> = ({
                   colDeals.map(deal => (
                     <div
                       key={deal.id}
+                      data-testid={`deal-card-${deal.id}`}
                       draggable
                       onDragStart={(e) => handleDragStart(e, deal.id)}
                       className="bg-surface border border-border rounded-control p-3 shadow-sm hover:border-neon-blue/40 cursor-grab active:cursor-grabbing transition-all select-none space-y-2"
@@ -247,6 +247,7 @@ export const PipelineKanbanView: React.FC<PipelineKanbanViewProps> = ({
                           {deal.title}
                         </span>
                         <button
+                          type="button"
                           onClick={() => handleOpenHistory(deal)}
                           className="text-muted hover:text-neon-iris p-0.5"
                           title="Ver histórico de movimentações"
@@ -273,6 +274,20 @@ export const PipelineKanbanView: React.FC<PipelineKanbanViewProps> = ({
                         <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-surface2 text-neon-success font-semibold">
                           {deal.probability}%
                         </span>
+                      </div>
+
+                      <div className="pt-1">
+                        <select
+                          aria-label={`Mover etapa de ${deal.title}`}
+                          data-testid={`deal-stage-select-${deal.id}`}
+                          value={deal.stage}
+                          onChange={(e) => moveDealToStage(deal.id, e.target.value)}
+                          className="w-full bg-surface2 border border-border rounded px-1.5 py-1 text-[10px] text-ink focus:outline-none focus:border-neon-gold"
+                        >
+                          {stages.map(s => (
+                            <option key={s.id} value={s.id}>{s.label}</option>
+                          ))}
+                        </select>
                       </div>
 
                       {deal.lostReason && (
@@ -307,6 +322,7 @@ export const PipelineKanbanView: React.FC<PipelineKanbanViewProps> = ({
                 </span>
               </div>
               <button
+                type="button"
                 onClick={() => setShowHistoryModal(false)}
                 className="text-muted hover:text-ink p-1"
               >
@@ -357,6 +373,7 @@ export const PipelineKanbanView: React.FC<PipelineKanbanViewProps> = ({
                 <input
                   type="text"
                   required
+                  data-testid="deal-title-input"
                   placeholder="Ex: Contrato Anual Torre de Controle"
                   value={form.title}
                   onChange={e => setForm({ ...form, title: e.target.value })}
@@ -368,6 +385,7 @@ export const PipelineKanbanView: React.FC<PipelineKanbanViewProps> = ({
                 <div>
                   <label className="text-xs text-muted block mb-1">Empresa</label>
                   <select
+                    data-testid="deal-company-select"
                     value={form.companyId}
                     onChange={e => setForm({ ...form, companyId: e.target.value })}
                     className="w-full bg-surface2 border border-border rounded-control px-3 py-2 text-sm text-ink focus:outline-none focus:border-neon-gold"
@@ -382,6 +400,7 @@ export const PipelineKanbanView: React.FC<PipelineKanbanViewProps> = ({
                 <div>
                   <label className="text-xs text-muted block mb-1">Lead de Origem</label>
                   <select
+                    data-testid="deal-lead-select"
                     value={form.leadId}
                     onChange={e => setForm({ ...form, leadId: e.target.value })}
                     className="w-full bg-surface2 border border-border rounded-control px-3 py-2 text-sm text-ink focus:outline-none focus:border-neon-gold"
@@ -400,6 +419,7 @@ export const PipelineKanbanView: React.FC<PipelineKanbanViewProps> = ({
                   <input
                     type="number"
                     required
+                    data-testid="deal-amount-input"
                     placeholder="Ex: 150000"
                     value={form.amount}
                     onChange={e => setForm({ ...form, amount: e.target.value })}
@@ -456,6 +476,7 @@ export const PipelineKanbanView: React.FC<PipelineKanbanViewProps> = ({
                 <button
                   type="submit"
                   disabled={loading}
+                  data-testid="save-deal-btn"
                   className="btn-neon-cta text-xs"
                 >
                   {loading ? 'Salvando...' : 'Salvar no Funil'}

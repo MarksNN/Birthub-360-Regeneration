@@ -64,6 +64,13 @@ enum AgentScope {
   SPECIALIZED
 }
 
+enum AgentOperationalStatus {
+  REGISTERED
+  AVAILABLE
+  EXECUTABLE
+  DISABLED
+}
+
 model Organization {
   id          String       @id @default(uuid())
   name        String
@@ -104,6 +111,7 @@ model User {
   dealHistoriesMoved  DealStageHistory[] @relation("UserDealHistories")
   executionsRequested SupervisorExecution[]
 
+  @@index([organizationId])
   @@map("users")
 }
 
@@ -129,6 +137,7 @@ model Company {
   activities     Activity[]
 
   @@unique([organizationId, cnpj])
+  @@index([organizationId])
   @@map("companies")
 }
 
@@ -149,6 +158,7 @@ model Contact {
   leads          Lead[]
   activities     Activity[]
 
+  @@index([organizationId])
   @@map("contacts")
 }
 
@@ -174,6 +184,7 @@ model Lead {
   deals          Deal[]
   activities     Activity[]
 
+  @@index([organizationId])
   @@map("leads")
 }
 
@@ -199,6 +210,7 @@ model Deal {
   activities     Activity[]
   stageHistories DealStageHistory[]
 
+  @@index([organizationId])
   @@map("deals")
 }
 
@@ -216,6 +228,7 @@ model DealStageHistory {
   deal           Deal         @relation(fields: [dealId], references: [id], onDelete: Cascade)
   movedBy        User?        @relation("UserDealHistories", fields: [movedById], references: [id], onDelete: SetNull)
 
+  @@index([organizationId, dealId])
   @@map("deal_stage_histories")
 }
 
@@ -243,6 +256,7 @@ model Activity {
   lead           Lead?          @relation(fields: [leadId], references: [id], onDelete: SetNull)
   deal           Deal?          @relation(fields: [dealId], references: [id], onDelete: SetNull)
 
+  @@index([organizationId])
   @@map("activities")
 }
 
@@ -259,28 +273,42 @@ model AuditLog {
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   user           User?        @relation("UserAuditLogs", fields: [userId], references: [id], onDelete: SetNull)
 
+  @@index([organizationId])
   @@map("audit_logs")
 }
 
 model AgentRegistration {
-  id              String      @id @default(uuid())
-  organizationId  String?
-  agentCode       String      @unique
-  name            String
-  domain          String
-  subgroup        String
-  scope           AgentScope  @default(SPECIALIZED)
-  description     String
-  capabilities    String[]    // Lista de capacidades documentadas
-  allowedTools    String[]    // Ferramentas autorizadas
-  requiredRole    UserRole    @default(SDR)
-  isActive        Boolean     @default(true)
-  isExecutable    Boolean     @default(false)
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
+  id                      String                 @id @default(uuid())
+  organizationId          String?
+  agentCode               String                 @unique
+  name                    String
+  characterRole           String?
+  domain                  String
+  subgroup                String
+  origin                  String                 @default("CATÁLOGO_NORMALIZADO")
+  sourceVersion           String                 @default("79e150471d920b2737e6df6707c6afe5b10ed55d")
+  scope                   AgentScope             @default(SPECIALIZED)
+  description             String
+  mission                 String?
+  universalCapabilities   String[]               @default([])
+  specializedCapabilities String[]               @default([])
+  capabilities            String[]               // Lista consolidada de capacidades documentadas
+  allowedTools            String[]               // Ferramentas associadas
+  inputs                  String[]               @default([])
+  outputs                 String[]               @default([])
+  dependencies            String[]               @default([])
+  permissionsSummary      Json?
+  promptRef               String?
+  operationalStatus       AgentOperationalStatus @default(REGISTERED)
+  requiredRole            UserRole               @default(SDR)
+  isActive                Boolean                @default(true)
+  isExecutable            Boolean                @default(false)
+  createdAt               DateTime               @default(now())
+  updatedAt               DateTime               @updatedAt
 
-  organization    Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organization            Organization?          @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
+  @@index([domain, operationalStatus])
   @@map("agent_registrations")
 }
 
@@ -300,5 +328,6 @@ model SupervisorExecution {
   organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   requestedBy     User         @relation(fields: [requestedById], references: [id], onDelete: Cascade)
 
+  @@index([organizationId])
   @@map("supervisor_executions")
 }
