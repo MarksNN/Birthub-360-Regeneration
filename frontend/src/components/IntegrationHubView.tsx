@@ -52,6 +52,90 @@ export function IntegrationHubView({ userRole, onRefreshData }: IntegrationHubVi
   const [discoveryFrequency, setDiscoveryFrequency] = useState('TEMPO_REAL');
   const [discoveryVolume, setDiscoveryVolume] = useState('');
 
+  // Pré-orçamento: valores e esforço são definidos pelo operador, nunca inferidos automaticamente.
+  const hourNames = ['analysisHours','developmentHours','apiIntegrationHours','dataMappingHours','initialMigrationHours','testingHours','homologationHours','documentationHours','deploymentHours','trainingHours'] as const;
+  const [quoteHours, setQuoteHours] = useState<Record<string, number>>(
+    Object.fromEntries(hourNames.map(name => [name, 0]))
+  );
+  const [quoteDocUrl, setQuoteDocUrl] = useState('');
+  const [quoteApiVerified, setQuoteApiVerified] = useState<'UNKNOWN' | 'YES' | 'NO'>('UNKNOWN');
+  const [quoteVerdict, setQuoteVerdict] = useState('UNDETERMINED');
+  const [quoteComplexity, setQuoteComplexity] = useState('UNKNOWN');
+  const [quoteDeliverables, setQuoteDeliverables] = useState('');
+  const [quoteAcceptance, setQuoteAcceptance] = useState('');
+  const [quoteJustification, setQuoteJustification] = useState('');
+  const [quoteTimeline, setQuoteTimeline] = useState(10);
+  const [pricingDraft, setPricingDraft] = useState<Record<string, string>>({});
+  const [preparingQuote, setPreparingQuote] = useState(false);
+
+  const handlePrepareProposal = async () => {
+    if (!selectedProject) return;
+    const split = (value: string) => value.split('\n').map(s => s.trim()).filter(Boolean);
+    if (quoteApiVerified === 'UNKNOWN' || quoteVerdict === 'UNDETERMINED' ||
+        !split(quoteDeliverables).length || !split(quoteAcceptance).length ||
+        !quoteJustification.trim() || !quoteTimeline ||
+        (quoteApiVerified === 'YES' && !quoteDocUrl.trim()) ||
+        !Object.values(quoteHours).some(n => n > 0)) {
+      setActionMessage({ type: 'error', text: 'Informe evidências de API, viabilidade, entregáveis, critérios de aceite, justificativa, cronograma e horas reais antes de enviar a proposta.' });
+      return;
+    }
+    setPreparingQuote(true);
+    try {
+      const res = await (api as any).prepareIntegrationProposal(selectedProject.id, {
+        effort: quoteHours,
+        validityDays: 15,
+        discountPct: 0,
+        scope: {
+          objective: selectedProject.discovery?.objective || selectedProject.title,
+          justification: quoteJustification.trim(),
+          deliverables: split(quoteDeliverables),
+          includedFeatures: split(quoteDeliverables),
+          excludedFeatures: ['Qualquer item não especificado no escopo aprovado'],
+          integratedEntities: [],
+          syncFlows: [],
+          dependencies: [],
+          clientPrerequisites: [],
+          acceptanceCriteria: split(quoteAcceptance),
+          limitations: [],
+          estimatedTimelineDays: quoteTimeline,
+          risksAndAssumptions: []
+        },
+        feasibility: {
+          verdict: quoteVerdict,
+          complexity: quoteComplexity,
+          hasOfficialApi: quoteApiVerified === 'YES',
+          documentationUrl: quoteDocUrl.trim() || undefined,
+          authMethods: [],
+          supportsWebhooks: null,
+          readCapabilities: [],
+          writeCapabilities: [],
+          risks: [], uncertainties: [], reusableConnectorIds: [],
+          requiresPaidDiscovery: false
+        }
+      });
+      if (!res.success) throw new Error(res.error || 'Proposta não gerada');
+      setActionMessage({ type: 'success', text: 'Proposta enviada ao cliente para aceite formal. Nenhum desenvolvimento foi iniciado.' });
+      await loadProjectDetail(selectedProject.id);
+    } catch (err: any) {
+      setActionMessage({ type: 'error', text: err.message || 'Não foi possível emitir a proposta.' });
+    } finally {
+      setPreparingQuote(false);
+    }
+  };
+
+  const handleSavePricing = async (key: string, current: unknown) => {
+    const raw = pricingDraft[key] ?? (current == null ? '' : String(current));
+    if (!raw.trim() || !Number.isFinite(Number(raw)) || Number(raw) < 0) {
+      setActionMessage({ type: 'error', text: 'Informe um valor válido para ' + key });
+      return;
+    }
+    const res = await (api as any).updateIntegrationPricingParameter(key, Number(raw));
+    setActionMessage(res.success
+      ? { type: 'success', text: 'Parâmetro comercial atualizado por operador autorizado.' }
+      : { type: 'error', text: res.error || 'Não autorizado a editar parâmetros' });
+    if (res.success) await loadData();
+  };
+
   // Aceite formal
   const [effectsAcknowledged, setEffectsAcknowledged] = useState(false);
   const [termsAgreed, setTermsAgreed] = useState(false);
@@ -604,6 +688,66 @@ export function IntegrationHubView({ userRole, onRefreshData }: IntegrationHubVi
                 </button>
               </div>
 
+              {/* Somente operadores da plataforma conseguem emitir a proposta final.
+                  A API valida PLATFORM_COMMERCIAL/PLATFORM_ADMIN independentemente deste botão. */}
+              {userRole === 'ADMIN' && selectedProject.status === 'DISCOVERY' && !selectedProject.proposals?.length && (
+                <div className="card-neon p-4 space-y-3">
+                  <h3 className="font-bold neon-title-gold">Preparar Escopo e Proposta Comercial</h3>
+                  <p className="text-xs text-muted">Acesso exclusivo ao operador da plataforma. Informe valores e evidências reais; a proposta só será enviada após validação.</p>
+                  <textarea rows={3} value={quoteDeliverables} onChange={e => setQuoteDeliverables(e.target.value)}
+                    placeholder="Entregáveis — um por linha" className="w-full p-2 bg-surface border border-border rounded text-ink text-xs" />
+                  <textarea rows={3} value={quoteAcceptance} onChange={e => setQuoteAcceptance(e.target.value)}
+                    placeholder="Critérios de aceite — um por linha" className="w-full p-2 bg-surface border border-border rounded text-ink text-xs" />
+                  <input value={quoteJustification} onChange={e => setQuoteJustification(e.target.value)}
+                    placeholder="Justificativa técnica e comercial" className="w-full p-2 bg-surface border border-border rounded text-ink text-xs" />
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <label>API oficial verificada?
+                      <select value={quoteApiVerified} onChange={e => setQuoteApiVerified(e.target.value as 'UNKNOWN' | 'YES' | 'NO')}
+                        className="w-full p-2 bg-surface border border-border rounded text-ink">
+                        <option value="UNKNOWN">Não verificada</option><option value="YES">Sim</option><option value="NO">Não (via alternativa documentada)</option>
+                      </select>
+                    </label>
+                    <label>Viabilidade
+                      <select value={quoteVerdict} onChange={e => setQuoteVerdict(e.target.value)}
+                        className="w-full p-2 bg-surface border border-border rounded text-ink">
+                        <option value="UNDETERMINED">Pendente</option>
+                        <option value="FEASIBLE">Viável</option>
+                        <option value="FEASIBLE_WITH_RESTRICTIONS">Viável com restrições</option>
+                        <option value="NOT_FEASIBLE">Inviável</option>
+                      </select>
+                    </label>
+                    <label>Complexidade
+                      <select value={quoteComplexity} onChange={e => setQuoteComplexity(e.target.value)}
+                        className="w-full p-2 bg-surface border border-border rounded text-ink">
+                        <option value="UNKNOWN">Não definida</option>
+                        <option value="LOW">Baixa</option><option value="MEDIUM">Média</option>
+                        <option value="HIGH">Alta</option><option value="VERY_HIGH">Muito alta</option>
+                      </select>
+                    </label>
+                    <label>Prazo estimado (dias)
+                      <input type="number" min={1} value={quoteTimeline} onChange={e => setQuoteTimeline(Number(e.target.value))}
+                        className="w-full p-2 bg-surface border border-border rounded text-ink"/>
+                    </label>
+                  </div>
+                  <input value={quoteDocUrl} onChange={e => setQuoteDocUrl(e.target.value)}
+                    placeholder="URL da documentação técnica verificada (obrigatória para API oficial)"
+                    className="w-full p-2 bg-surface border border-border rounded text-ink text-xs" />
+                  <div className="grid grid-cols-2 gap-2">
+                    {hourNames.map(name => (
+                      <label key={name} className="text-[11px] text-muted">{name}
+                        <input type="number" min="0" step="0.5" value={quoteHours[name]}
+                          onChange={e => setQuoteHours(prev => ({...prev, [name]: Number(e.target.value)}))}
+                          className="w-full p-2 bg-surface border border-border rounded text-ink"/>
+                      </label>
+                    ))}
+                  </div>
+                  <button type="button" onClick={handlePrepareProposal} disabled={preparingQuote}
+                    className="w-full p-2 rounded bg-neon-gold/20 border border-neon-gold/50 neon-title-gold text-xs font-bold">
+                    {preparingQuote ? 'Validando proposta...' : 'Validar, precificar e enviar ao cliente'}
+                  </button>
+                </div>
+              )}
+
               {/* Card de Proposta Comercial e Orçamento */}
               {selectedProject.proposals?.[0]?.versions?.[0] ? (
                 <div className="card-neon p-4 space-y-4">
@@ -818,7 +962,12 @@ export function IntegrationHubView({ userRole, onRefreshData }: IntegrationHubVi
                     <td className="p-3 text-muted">{p.label}</td>
                     <td className="p-3 font-mono text-[11px] text-muted">{p.category}</td>
                     <td className="p-3 text-right font-mono font-bold text-neon-blue">
-                      R$ {Number(p.value).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                      <input type="number" min="0" step="0.01" aria-label={p.key}
+                        value={pricingDraft[p.key] ?? (p.value == null ? '' : String(p.value))}
+                        onChange={e => setPricingDraft(prev => ({...prev, [p.key]: e.target.value}))}
+                        className="w-24 p-1 bg-surface border border-border text-ink rounded" />
+                      <button type="button" onClick={() => handleSavePricing(p.key, p.value)}
+                        className="ml-2 text-neon-blue underline">Salvar</button>
                     </td>
                   </tr>
                 ))}

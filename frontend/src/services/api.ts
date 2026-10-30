@@ -327,6 +327,20 @@ export const api = {
     return res.json();
   },
 
+  async prepareIntegrationProposal(id: string, data: any) {
+    const res = await fetch(API_BASE + '/integrations/admin/projects/' + encodeURIComponent(id) + '/proposal', {
+      method: 'POST', headers: this.getHeaders(), body: JSON.stringify(data)
+    });
+    return res.json();
+  },
+
+  async updateIntegrationPricingParameter(key: string, value: number) {
+    const res = await fetch(API_BASE + '/integrations/admin/pricing-parameters/' + encodeURIComponent(key), {
+      method: 'PATCH', headers: this.getHeaders(), body: JSON.stringify({ value })
+    });
+    return res.json();
+  },
+
   async authorizeIntegrationOrder(orderId: string, paymentStatus?: string) {
     const res = await fetch(`${API_BASE}/integrations/admin/orders/${orderId}/authorize`, {
       method: 'POST',

@@ -385,6 +385,22 @@ router.get('/admin/pricing-parameters', async (req: AuthenticatedRequest, res: R
   }
 });
 
+// Edição dos parâmetros comerciais: exclusivamente operador humano da plataforma.
+router.patch('/admin/pricing-parameters/:key', async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+  try {
+    const actor = await loadUserActor(req.user!.userId, 'API');
+    assertPlatformOperator(actor, ['PLATFORM_COMMERCIAL', 'PLATFORM_ADMIN'], 'configurar preços');
+    const { value } = z.object({ value: z.number().finite().min(0) }).parse(req.body);
+    const param = await prisma.integrationPricingParameter.update({
+      where: { key: req.params.key },
+      data: { value, updatedById: actor.userId }
+    });
+    res.json({ success: true, data: param });
+  } catch (err: any) {
+    res.status(err.statusCode || 400).json({ success: false, error: err.message });
+  }
+});
+
 router.post('/admin/orders/:orderId/authorize', async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
     const actor = await loadUserActor(req.user!.userId, 'API');

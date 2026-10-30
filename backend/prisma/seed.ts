@@ -305,23 +305,23 @@ async function main() {
 
   // 10. Fase 03 — Parâmetros de Precificação Comercial e Políticas
   const pricingParams = [
-    { key: 'HOURLY_COST_ANALYSIS', label: 'Hora Técnica de Análise e Discovery', category: 'ANALYSIS', unit: 'CURRENCY_PER_HOUR', value: 150.0 },
-    { key: 'HOURLY_COST_DEVELOPMENT', label: 'Hora Técnica de Desenvolvimento de Conectores', category: 'DEVELOPMENT', unit: 'CURRENCY_PER_HOUR', value: 180.0 },
-    { key: 'HOURLY_COST_INTEGRATION', label: 'Hora Técnica de Integração de APIs e Webhooks', category: 'API_INTEGRATION', unit: 'CURRENCY_PER_HOUR', value: 175.0 },
-    { key: 'HOURLY_COST_DATA_MAPPING', label: 'Hora Técnica de Mapeamento de Entidades', category: 'DATA_MAPPING', unit: 'CURRENCY_PER_HOUR', value: 140.0 },
-    { key: 'HOURLY_COST_MIGRATION', label: 'Hora Técnica de Carga Inicial e Migração', category: 'MIGRATION', unit: 'CURRENCY_PER_HOUR', value: 130.0 },
-    { key: 'HOURLY_COST_TESTING', label: 'Hora Técnica de Testes e Homologação', category: 'TESTING', unit: 'CURRENCY_PER_HOUR', value: 140.0 },
-    { key: 'HOURLY_COST_DEPLOYMENT', label: 'Hora Técnica de Implantação e Staging', category: 'DEPLOYMENT', unit: 'CURRENCY_PER_HOUR', value: 160.0 },
-    { key: 'HOURLY_COST_TRAINING', label: 'Hora Técnica de Documentação e Treinamento', category: 'TRAINING', unit: 'CURRENCY_PER_HOUR', value: 120.0 },
-    { key: 'INFRASTRUCTURE_BASE_SETUP', label: 'Custo Base de Infraestrutura e Sandbox', category: 'INFRASTRUCTURE', unit: 'CURRENCY', value: 800.0 },
-    { key: 'DEFAULT_MAINTENANCE_MONTHLY', label: 'Mensalidade Padrão de Manutenção Preventiva', category: 'MONTHLY', unit: 'CURRENCY_PER_MONTH', value: 1200.0 },
-    { key: 'DEFAULT_SUPPORT_MONTHLY', label: 'Mensalidade Padrão de Suporte Operacional', category: 'MONTHLY', unit: 'CURRENCY_PER_MONTH', value: 800.0 }
+    { key: 'HOURLY_COST_ANALYSIS', label: 'Hora Técnica de Análise e Discovery', category: 'ANALYSIS', unit: 'CURRENCY_PER_HOUR', value: null },
+    { key: 'HOURLY_COST_DEVELOPMENT', label: 'Hora Técnica de Desenvolvimento de Conectores', category: 'DEVELOPMENT', unit: 'CURRENCY_PER_HOUR', value: null },
+    { key: 'HOURLY_COST_INTEGRATION', label: 'Hora Técnica de Integração de APIs e Webhooks', category: 'API_INTEGRATION', unit: 'CURRENCY_PER_HOUR', value: null },
+    { key: 'HOURLY_COST_DATA_MAPPING', label: 'Hora Técnica de Mapeamento de Entidades', category: 'DATA_MAPPING', unit: 'CURRENCY_PER_HOUR', value: null },
+    { key: 'HOURLY_COST_MIGRATION', label: 'Hora Técnica de Carga Inicial e Migração', category: 'MIGRATION', unit: 'CURRENCY_PER_HOUR', value: null },
+    { key: 'HOURLY_COST_TESTING', label: 'Hora Técnica de Testes e Homologação', category: 'TESTING', unit: 'CURRENCY_PER_HOUR', value: null },
+    { key: 'HOURLY_COST_DEPLOYMENT', label: 'Hora Técnica de Implantação e Staging', category: 'DEPLOYMENT', unit: 'CURRENCY_PER_HOUR', value: null },
+    { key: 'HOURLY_COST_TRAINING', label: 'Hora Técnica de Documentação e Treinamento', category: 'TRAINING', unit: 'CURRENCY_PER_HOUR', value: null },
+    { key: 'INFRASTRUCTURE_BASE_SETUP', label: 'Custo Base de Infraestrutura e Sandbox', category: 'INFRASTRUCTURE', unit: 'CURRENCY', value: null },
+    { key: 'DEFAULT_MAINTENANCE_MONTHLY', label: 'Mensalidade Padrão de Manutenção Preventiva', category: 'MONTHLY', unit: 'CURRENCY_PER_MONTH', value: null },
+    { key: 'DEFAULT_SUPPORT_MONTHLY', label: 'Mensalidade Padrão de Suporte Operacional', category: 'MONTHLY', unit: 'CURRENCY_PER_MONTH', value: null }
   ];
 
   for (const p of pricingParams) {
     await prisma.integrationPricingParameter.upsert({
       where: { key: p.key },
-      update: { value: p.value },
+      update: {},
       create: {
         key: p.key,
         label: p.label,
