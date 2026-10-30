@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Lock, Clock, Layers } from 'lucide-react';
 import { api } from './services/api';
 import { Sidebar } from './components/Sidebar';
 import { Topbar } from './components/Topbar';
@@ -12,10 +13,17 @@ import { PipelineKanbanView } from './components/PipelineKanbanView';
 import { ActivitiesView } from './components/ActivitiesView';
 import { RevOpsDashboardView } from './components/RevOpsDashboardView';
 import { AgentsCatalogView } from './components/AgentsCatalogView';
+import {
+  findSubmoduleByPath,
+  PillarDefinition,
+  SubmoduleDefinition,
+  hasRolePermission
+} from './navigation/pillars';
 
 export function App() {
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [checkingAuth, setCheckingAuth] = useState(true);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // MODO LIGHT COMO PADRÃO
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
@@ -33,12 +41,37 @@ export function App() {
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   };
 
-  // Navegação
-  const [activePillar, setActivePillar] = useState('hub');
-  const [activeModule, setActiveModule] = useState('pipeline');
+  // Navegação Real Baseada em Rotas (window.location.pathname + History API)
+  const initialRoute = findSubmoduleByPath(window.location.pathname);
+  const [activePillar, setActivePillar] = useState<PillarDefinition>(initialRoute.pillar);
+  const [activeSubmodule, setActiveSubmodule] = useState<SubmoduleDefinition>(initialRoute.submodule);
+
+  useEffect(() => {
+    // Garantir que se estiver na raiz '/', atualize a URL para a rota canônica inicial
+    if (window.location.pathname === '/' || window.location.pathname === '') {
+      window.history.replaceState({}, '', initialRoute.submodule.path);
+    }
+
+    const handlePopState = () => {
+      const resolved = findSubmoduleByPath(window.location.pathname);
+      setActivePillar(resolved.pillar);
+      setActiveSubmodule(resolved.submodule);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const handleNavigate = (pillar: PillarDefinition, submodule: SubmoduleDefinition) => {
+    setActivePillar(pillar);
+    setActiveSubmodule(submodule);
+    if (window.location.pathname !== submodule.path) {
+      window.history.pushState({}, '', submodule.path);
+    }
+  };
 
   // Dados Reais da Aplicação
   const [metrics, setMetrics] = useState<any>(null);
@@ -49,6 +82,7 @@ export function App() {
   const [activities, setActivities] = useState<any[]>([]);
   const [assignees, setAssignees] = useState<any[]>([]);
   const [agents, setAgents] = useState<any[]>([]);
+  const [agentsMeta, setAgentsMeta] = useState<any>(null);
   const [loadingData, setLoadingData] = useState(false);
 
   useEffect(() => {
@@ -97,7 +131,10 @@ export function App() {
       if (dRes.success) setDeals(dRes.data);
       if (actRes.success) setActivities(actRes.data);
       if (assRes.success) setAssignees(assRes.data);
-      if (agRes.success) setAgents(agRes.data);
+      if (agRes.success) {
+        setAgents(agRes.data);
+        setAgentsMeta(agRes.meta);
+      }
     } catch (err) {
       console.error('Erro ao carregar dados:', err);
     } finally {
@@ -108,20 +145,6 @@ export function App() {
   const handleLogout = () => {
     api.clearToken();
     setCurrentUser(null);
-  };
-
-  const getPillarTitle = () => {
-    const pMap: Record<string, string> = {
-      hub: 'Hub Central (Cockpit 360°)',
-      intelligence: 'Intelligence & ICP Scoring',
-      sales: 'Sales Orchestration & Playbooks',
-      realtime: 'Real-time Performance & Metas',
-      forecast: 'Revenue Forecast & Dispersão',
-      copilot: 'Copiloto IA & Roleplay',
-      automations: 'Automações & Gatilhos',
-      cadence: 'Cadência & Multicanal'
-    };
-    return pMap[activePillar] || 'Hub Central';
   };
 
   if (checkingAuth) {
@@ -145,14 +168,18 @@ export function App() {
     );
   }
 
+  const userHasAccess = hasRolePermission(currentUser.role, activeSubmodule.minRole);
+
   return (
     <div className="flex h-screen bg-bg overflow-hidden text-ink transition-colors">
-      {/* Sidebar com os 8 Pilares e Módulos */}
+      {/* Sidebar Oficial com os 8 Pilares e Submódulos */}
       <Sidebar
-        activePillar={activePillar}
-        setActivePillar={setActivePillar}
-        activeModule={activeModule}
-        setActiveModule={setActiveModule}
+        activePillarId={activePillar.id}
+        activeSubmodule={activeSubmodule}
+        userRole={currentUser.role}
+        onNavigate={handleNavigate}
+        mobileOpen={mobileMenuOpen}
+        onCloseMobile={() => setMobileMenuOpen(false)}
       />
 
       {/* Área Central Principal */}
@@ -160,68 +187,138 @@ export function App() {
         <Topbar
           user={currentUser}
           onLogout={handleLogout}
-          activePillarLabel={getPillarTitle()}
+          activePillarLabel={activePillar.label}
+          activeSubmoduleLabel={activeSubmodule.label}
           theme={theme}
           onToggleTheme={toggleTheme}
+          onOpenMobileMenu={() => setMobileMenuOpen(true)}
         />
 
         <main className="flex-1 overflow-y-auto p-6 space-y-6">
-          {/* Supervisor Central Desacoplado Integrado */}
+          {/* Supervisor Central Desacoplado com Contexto do Pilar/Submódulo */}
           <SupervisorPanel
-            currentModule={activeModule}
+            currentModule={activeSubmodule.id}
+            supervisorContext={activeSubmodule.supervisorContext}
+            pillarLabel={`${activePillar.label} / ${activeSubmodule.label}`}
             onRefreshData={loadAllData}
           />
 
-          {/* Renderização Condicional dos Módulos Comerciais da Fase 02 */}
-          {activeModule === 'overview' && (
-            <DashboardView metrics={metrics} loading={loadingData} />
-          )}
+          {/* Verificação de Permissão RBAC na Navegação */}
+          {!userHasAccess ? (
+            <div
+              data-testid="module-access-denied"
+              className="card-neon p-8 text-center space-y-3 border border-neon-danger/40"
+            >
+              <div className="w-12 h-12 rounded-full bg-neon-danger/10 text-neon-danger flex items-center justify-center mx-auto">
+                <Lock className="w-6 h-6" />
+              </div>
+              <h2 className="font-display text-lg font-bold neon-title-pink">
+                Acesso Restrito por Perfil (RBAC)
+              </h2>
+              <p className="text-xs text-muted max-w-md mx-auto">
+                O módulo <strong>{activeSubmodule.label}</strong> no pilar{' '}
+                <strong>{activePillar.label}</strong> requer o perfil mínimo{' '}
+                <span className="font-mono text-neon-gold font-bold">{activeSubmodule.minRole}</span>. Seu perfil atual é{' '}
+                <span className="font-mono text-neon-blue font-bold">{currentUser.role}</span>.
+              </p>
+            </div>
+          ) : !activeSubmodule.isImplemented ? (
+            /* Representação Explícita de Funcionalidade Futura (Sem fingir operacionalidade) */
+            <div
+              data-testid="planned-module-view"
+              className="card-neon p-8 space-y-4 border border-neon-gold/40"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 rounded-full bg-neon-gold/10 text-neon-gold flex items-center justify-center">
+                    <Clock className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h2 className="font-display text-lg font-bold neon-title-gold">
+                      {activeSubmodule.label} — Funcionalidade Planejada ({activeSubmodule.plannedPhase || 'Roadmap'})
+                    </h2>
+                    <span className="text-xs font-mono text-muted">
+                      Pilar: {activePillar.label} • Rota: {activeSubmodule.path}
+                    </span>
+                  </div>
+                </div>
+                <span className="px-3 py-1 rounded-pill text-xs font-mono font-bold bg-neon-gold/15 text-neon-gold border border-neon-gold/30">
+                  ROADMAP OFICIAL ({activeSubmodule.plannedPhase || 'PRÓXIMA FASE'})
+                </span>
+              </div>
 
-          {activeModule === 'pipeline' && (
-            <PipelineKanbanView
-              deals={deals}
-              companies={companies}
-              leads={leads}
-              assignees={assignees}
-              onRefresh={loadAllData}
-            />
-          )}
+              <p className="text-sm text-muted">{activeSubmodule.description}</p>
 
-          {activeModule === 'companies' && (
-            <CompaniesView companies={companies} onRefresh={loadAllData} />
-          )}
+              <div className="p-4 rounded-control bg-surface2 border border-border text-xs font-mono space-y-1">
+                <div className="flex items-center space-x-2 text-neon-blue font-semibold">
+                  <Layers className="w-4 h-4" />
+                  <span>Governança de Transparência Birthub 360°</span>
+                </div>
+                <p className="text-muted">
+                  Este módulo faz parte da arquitetura oficial de 8 pilares e está catalogado para entrega na{' '}
+                  <strong>{activeSubmodule.plannedPhase || 'Fase 03'}</strong>. Nenhuma operação simulada ou mockada é exibida como funcional antes da homologação de suas ferramentas de backend.
+                </p>
+              </div>
+            </div>
+          ) : (
+            /* Renderização dos Módulos Reais Implementados */
+            <>
+              {activeSubmodule.id === 'overview' && (
+                <DashboardView metrics={metrics} loading={loadingData} />
+              )}
 
-          {activeModule === 'contacts' && (
-            <ContactsView contacts={contacts} companies={companies} onRefresh={loadAllData} />
-          )}
+              {activeSubmodule.id === 'pipeline' && (
+                <PipelineKanbanView
+                  deals={deals}
+                  companies={companies}
+                  leads={leads}
+                  assignees={assignees}
+                  onRefresh={loadAllData}
+                />
+              )}
 
-          {activeModule === 'leads' && (
-            <LeadsView
-              leads={leads}
-              companies={companies}
-              contacts={contacts}
-              assignees={assignees}
-              onRefresh={loadAllData}
-            />
-          )}
+              {activeSubmodule.id === 'companies' && (
+                <CompaniesView companies={companies} onRefresh={loadAllData} />
+              )}
 
-          {activeModule === 'activities' && (
-            <ActivitiesView
-              activities={activities}
-              companies={companies}
-              contacts={contacts}
-              deals={deals}
-              assignees={assignees}
-              onRefresh={loadAllData}
-            />
-          )}
+              {activeSubmodule.id === 'contacts' && (
+                <ContactsView contacts={contacts} companies={companies} onRefresh={loadAllData} />
+              )}
 
-          {activeModule === 'revops' && (
-            <RevOpsDashboardView metrics={metrics} loading={loadingData} />
-          )}
+              {activeSubmodule.id === 'leads' && (
+                <LeadsView
+                  leads={leads}
+                  companies={companies}
+                  contacts={contacts}
+                  assignees={assignees}
+                  onRefresh={loadAllData}
+                />
+              )}
 
-          {activeModule === 'agents_catalog' && (
-            <AgentsCatalogView agents={agents} />
+              {activeSubmodule.id === 'activities' && (
+                <ActivitiesView
+                  activities={activities}
+                  companies={companies}
+                  contacts={contacts}
+                  deals={deals}
+                  assignees={assignees}
+                  onRefresh={loadAllData}
+                />
+              )}
+
+              {(activeSubmodule.id === 'revops' || activeSubmodule.id === 'weighted_forecast') && (
+                <RevOpsDashboardView metrics={metrics} loading={loadingData} />
+              )}
+
+              {activeSubmodule.id === 'agents_catalog' && (
+                <AgentsCatalogView
+                  agents={agents}
+                  meta={agentsMeta}
+                  userRole={currentUser.role}
+                  onRefresh={loadAllData}
+                />
+              )}
+            </>
           )}
         </main>
       </div>

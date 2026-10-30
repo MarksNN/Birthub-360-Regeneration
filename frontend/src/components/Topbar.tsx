@@ -1,36 +1,54 @@
 import React from 'react';
-import { 
-  LogOut, 
-  Bell, 
-  Shield, 
+import {
+  LogOut,
+  Bell,
+  Shield,
   Sparkles,
   Sun,
-  Moon
+  Moon,
+  Menu
 } from 'lucide-react';
 
 interface TopbarProps {
   user: any;
   onLogout: () => void;
   activePillarLabel: string;
+  activeSubmoduleLabel?: string;
   theme: 'light' | 'dark';
   onToggleTheme: () => void;
+  onOpenMobileMenu?: () => void;
 }
 
-export const Topbar: React.FC<TopbarProps> = ({ 
-  user, 
-  onLogout, 
+export const Topbar: React.FC<TopbarProps> = ({
+  user,
+  onLogout,
   activePillarLabel,
+  activeSubmoduleLabel,
   theme,
-  onToggleTheme
+  onToggleTheme,
+  onOpenMobileMenu
 }) => {
   return (
-    <header className="h-16 bg-surface border-b border-border px-6 flex items-center justify-between transition-colors">
-      {/* Context Pillar Indicator */}
+    <header className="h-16 bg-surface border-b border-border px-4 md:px-6 flex items-center justify-between transition-colors">
+      {/* Context Pillar Indicator + Mobile Menu Button */}
       <div className="flex items-center space-x-3">
+        {onOpenMobileMenu && (
+          <button
+            type="button"
+            data-testid="mobile-menu-trigger"
+            onClick={onOpenMobileMenu}
+            aria-label="Abrir navegação"
+            className="md:hidden p-2 rounded-control border border-border text-muted hover:text-ink hover:bg-surface2"
+          >
+            <Menu className="w-4 h-4" />
+          </button>
+        )}
+
         <div className="flex items-center space-x-2 px-3 py-1 bg-surface2 rounded-pill border border-border">
           <Sparkles className="w-3.5 h-3.5 text-neon-blue" />
-          <span className="text-xs font-mono font-medium neon-title-cyan">
-            Pilar Ativo: {activePillarLabel}
+          <span data-testid="active-pillar-indicator" className="text-xs font-mono font-medium neon-title-cyan">
+            {activePillarLabel}
+            {activeSubmoduleLabel ? ` • ${activeSubmoduleLabel}` : ''}
           </span>
         </div>
       </div>
@@ -83,7 +101,7 @@ export const Topbar: React.FC<TopbarProps> = ({
               <span>{user?.role || 'SDR'}</span>
             </span>
           </div>
-          
+
           <button
             onClick={onLogout}
             title="Encerrar Sessão"

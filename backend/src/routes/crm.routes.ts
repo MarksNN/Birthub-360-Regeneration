@@ -3,10 +3,23 @@ import { z } from 'zod';
 import prisma from '../lib/prisma';
 import { authenticateToken, AuthenticatedRequest } from '../middlewares/auth.middleware';
 import { logAudit } from '../lib/audit';
+import { TenantGuard, TenantSecurityError } from '../lib/tenant-guard';
 import { DealStage, ActivityType, ActivityStatus, CompanyStatus, ContactStatus, LeadStatus } from '@prisma/client';
 
 const router = Router();
 router.use(authenticateToken);
+
+function handleRouteError(res: Response, error: any): void {
+  if (error instanceof TenantSecurityError) {
+    res.status(error.statusCode).json({ success: false, error: error.message });
+    return;
+  }
+  if (error instanceof z.ZodError) {
+    res.status(400).json({ success: false, error: error.errors[0]?.message || 'Dados inválidos' });
+    return;
+  }
+  res.status(400).json({ success: false, error: error.message || 'Erro na operação comercial' });
+}
 
 // ==========================================
 // USUÁRIOS COMERCIAIS / RESPONSÁVEIS
@@ -45,8 +58,8 @@ router.get('/companies', async (req: AuthenticatedRequest, res: Response): Promi
     const orgId = req.user!.organizationId;
     const search = req.query.search as string | undefined;
     const status = req.query.status as CompanyStatus | undefined;
-    const page = parseInt(req.query.page as string || '1');
-    const limit = parseInt(req.query.limit as string || '50');
+    const page = parseInt((req.query.page as string) || '1');
+    const limit = parseInt((req.query.limit as string) || '50');
     const skip = (page - 1) * limit;
 
     const where: any = { organizationId: orgId };
@@ -117,7 +130,7 @@ router.post('/companies', async (req: AuthenticatedRequest, res: Response): Prom
 
     res.status(201).json({ success: true, data: company });
   } catch (error: any) {
-    res.status(400).json({ success: false, error: error.message });
+    handleRouteError(res, error);
   }
 });
 
@@ -129,13 +142,26 @@ router.put('/companies/:id', async (req: AuthenticatedRequest, res: Response): P
 
     const old = await prisma.company.findFirst({ where: { id, organizationId: orgId } });
     if (!old) {
-      res.status(404).json({ success: false, error: 'Empresa não encontrada' });
+      res.status(404).json({ success: false, error: 'Empresa não encontrada na sua organização' });
       return;
+    }
+
+    if (data.cnpj && data.cnpj.trim() && data.cnpj.trim() !== old.cnpj) {
+      const duplicate = await prisma.company.findUnique({
+        where: { organizationId_cnpj: { organizationId: orgId, cnpj: data.cnpj.trim() } }
+      });
+      if (duplicate) {
+        res.status(409).json({ success: false, error: `Já existe outra empresa com o CNPJ ${data.cnpj}` });
+        return;
+      }
     }
 
     const updated = await prisma.company.update({
       where: { id },
-      data
+      data: {
+        ...data,
+        cnpj: data.cnpj !== undefined ? (data.cnpj?.trim() || null) : undefined
+      }
     });
 
     await logAudit({
@@ -149,7 +175,7 @@ router.put('/companies/:id', async (req: AuthenticatedRequest, res: Response): P
 
     res.json({ success: true, data: updated });
   } catch (error: any) {
-    res.status(400).json({ success: false, error: error.message });
+    handleRouteError(res, error);
   }
 });
 
@@ -160,7 +186,7 @@ router.delete('/companies/:id', async (req: AuthenticatedRequest, res: Response)
 
     const old = await prisma.company.findFirst({ where: { id, organizationId: orgId } });
     if (!old) {
-      res.status(404).json({ success: false, error: 'Empresa não encontrada' });
+      res.status(404).json({ success: false, error: 'Empresa não encontrada na sua organização' });
       return;
     }
 
@@ -182,7 +208,7 @@ router.delete('/companies/:id', async (req: AuthenticatedRequest, res: Response)
 });
 
 // ==========================================
-// CONTATOS (CONTACTS) - CRUD + PESQUISA
+// CONTATOS (CONTACTS) - CRUD + PESQUISA + ISOLAMENTO
 // ==========================================
 const contactSchema = z.object({
   companyId: z.string().optional().nullable(),
@@ -229,9 +255,12 @@ router.post('/contacts', async (req: AuthenticatedRequest, res: Response): Promi
     const orgId = req.user!.organizationId;
     const data = contactSchema.parse(req.body);
 
-    const contact = await prisma.contact.create({
-      data: { ...data, organizationId: orgId },
-      include: { company: { select: { id: true, name: true } } }
+    const contact = await prisma.$transaction(async (tx) => {
+      await TenantGuard.assertCompanyInTenant(data.companyId, orgId, tx);
+      return tx.contact.create({
+        data: { ...data, organizationId: orgId },
+        include: { company: { select: { id: true, name: true } } }
+      });
     });
 
     await logAudit({
@@ -245,7 +274,7 @@ router.post('/contacts', async (req: AuthenticatedRequest, res: Response): Promi
 
     res.status(201).json({ success: true, data: contact });
   } catch (error: any) {
-    res.status(400).json({ success: false, error: error.message });
+    handleRouteError(res, error);
   }
 });
 
@@ -257,14 +286,19 @@ router.put('/contacts/:id', async (req: AuthenticatedRequest, res: Response): Pr
 
     const old = await prisma.contact.findFirst({ where: { id, organizationId: orgId } });
     if (!old) {
-      res.status(404).json({ success: false, error: 'Contato não encontrado' });
+      res.status(404).json({ success: false, error: 'Contato não encontrado na sua organização' });
       return;
     }
 
-    const updated = await prisma.contact.update({
-      where: { id },
-      data,
-      include: { company: { select: { id: true, name: true } } }
+    const updated = await prisma.$transaction(async (tx) => {
+      if (data.companyId !== undefined) {
+        await TenantGuard.assertCompanyInTenant(data.companyId, orgId, tx);
+      }
+      return tx.contact.update({
+        where: { id },
+        data,
+        include: { company: { select: { id: true, name: true } } }
+      });
     });
 
     await logAudit({
@@ -278,7 +312,7 @@ router.put('/contacts/:id', async (req: AuthenticatedRequest, res: Response): Pr
 
     res.json({ success: true, data: updated });
   } catch (error: any) {
-    res.status(400).json({ success: false, error: error.message });
+    handleRouteError(res, error);
   }
 });
 
@@ -289,7 +323,7 @@ router.delete('/contacts/:id', async (req: AuthenticatedRequest, res: Response):
 
     const old = await prisma.contact.findFirst({ where: { id, organizationId: orgId } });
     if (!old) {
-      res.status(404).json({ success: false, error: 'Contato não encontrado' });
+      res.status(404).json({ success: false, error: 'Contato não encontrado na sua organização' });
       return;
     }
 
@@ -311,7 +345,7 @@ router.delete('/contacts/:id', async (req: AuthenticatedRequest, res: Response):
 });
 
 // ==========================================
-// LEADS - CRUD + RESPONSÁVEL + ICP SCORE
+// LEADS - CRUD + RESPONSÁVEL + ICP SCORE + ISOLAMENTO
 // ==========================================
 const leadSchema = z.object({
   title: z.string().min(2, 'Título do lead é obrigatório'),
@@ -364,18 +398,31 @@ router.post('/leads', async (req: AuthenticatedRequest, res: Response): Promise<
   try {
     const orgId = req.user!.organizationId;
     const data = leadSchema.parse(req.body);
+    const targetAssigneeId = data.assignedToId || req.user!.userId;
 
-    const lead = await prisma.lead.create({
-      data: {
-        ...data,
-        organizationId: orgId,
-        assignedToId: data.assignedToId || req.user!.userId
-      },
-      include: {
-        company: { select: { id: true, name: true } },
-        contact: { select: { id: true, name: true } },
-        assignedTo: { select: { id: true, name: true } }
-      }
+    const lead = await prisma.$transaction(async (tx) => {
+      await TenantGuard.assertRelationsInTenant(
+        {
+          companyId: data.companyId,
+          contactId: data.contactId,
+          assignedToId: targetAssigneeId
+        },
+        orgId,
+        tx
+      );
+
+      return tx.lead.create({
+        data: {
+          ...data,
+          organizationId: orgId,
+          assignedToId: targetAssigneeId
+        },
+        include: {
+          company: { select: { id: true, name: true } },
+          contact: { select: { id: true, name: true } },
+          assignedTo: { select: { id: true, name: true } }
+        }
+      });
     });
 
     await logAudit({
@@ -389,7 +436,7 @@ router.post('/leads', async (req: AuthenticatedRequest, res: Response): Promise<
 
     res.status(201).json({ success: true, data: lead });
   } catch (error: any) {
-    res.status(400).json({ success: false, error: error.message });
+    handleRouteError(res, error);
   }
 });
 
@@ -401,18 +448,30 @@ router.put('/leads/:id', async (req: AuthenticatedRequest, res: Response): Promi
 
     const old = await prisma.lead.findFirst({ where: { id, organizationId: orgId } });
     if (!old) {
-      res.status(404).json({ success: false, error: 'Lead não encontrado' });
+      res.status(404).json({ success: false, error: 'Lead não encontrado na sua organização' });
       return;
     }
 
-    const updated = await prisma.lead.update({
-      where: { id },
-      data,
-      include: {
-        company: { select: { id: true, name: true } },
-        contact: { select: { id: true, name: true } },
-        assignedTo: { select: { id: true, name: true } }
-      }
+    const updated = await prisma.$transaction(async (tx) => {
+      await TenantGuard.assertRelationsInTenant(
+        {
+          companyId: data.companyId,
+          contactId: data.contactId,
+          assignedToId: data.assignedToId
+        },
+        orgId,
+        tx
+      );
+
+      return tx.lead.update({
+        where: { id },
+        data,
+        include: {
+          company: { select: { id: true, name: true } },
+          contact: { select: { id: true, name: true } },
+          assignedTo: { select: { id: true, name: true } }
+        }
+      });
     });
 
     await logAudit({
@@ -426,7 +485,7 @@ router.put('/leads/:id', async (req: AuthenticatedRequest, res: Response): Promi
 
     res.json({ success: true, data: updated });
   } catch (error: any) {
-    res.status(400).json({ success: false, error: error.message });
+    handleRouteError(res, error);
   }
 });
 
@@ -437,7 +496,7 @@ router.delete('/leads/:id', async (req: AuthenticatedRequest, res: Response): Pr
 
     const old = await prisma.lead.findFirst({ where: { id, organizationId: orgId } });
     if (!old) {
-      res.status(404).json({ success: false, error: 'Lead não encontrado' });
+      res.status(404).json({ success: false, error: 'Lead não encontrado na sua organização' });
       return;
     }
 
@@ -459,7 +518,7 @@ router.delete('/leads/:id', async (req: AuthenticatedRequest, res: Response): Pr
 });
 
 // ==========================================
-// NEGÓCIOS (DEALS / PIPELINE KANBAN)
+// NEGÓCIOS (DEALS / PIPELINE KANBAN) + ISOLAMENTO E TRANSAÇÕES
 // ==========================================
 const dealSchema = z.object({
   title: z.string().min(2, 'Título do negócio é obrigatório'),
@@ -511,30 +570,44 @@ router.post('/deals', async (req: AuthenticatedRequest, res: Response): Promise<
   try {
     const orgId = req.user!.organizationId;
     const data = dealSchema.parse(req.body);
+    const targetAssigneeId = data.assignedToId || req.user!.userId;
 
-    const deal = await prisma.deal.create({
-      data: {
-        ...data,
-        expectedClose: data.expectedClose ? new Date(data.expectedClose) : null,
-        organizationId: orgId,
-        assignedToId: data.assignedToId || req.user!.userId
-      },
-      include: {
-        company: { select: { id: true, name: true } },
-        assignedTo: { select: { id: true, name: true } }
-      }
-    });
+    const deal = await prisma.$transaction(async (tx) => {
+      await TenantGuard.assertRelationsInTenant(
+        {
+          companyId: data.companyId,
+          leadId: data.leadId,
+          assignedToId: targetAssigneeId
+        },
+        orgId,
+        tx
+      );
 
-    // Registrar histórico inicial de criação na etapa
-    await prisma.dealStageHistory.create({
-      data: {
-        organizationId: orgId,
-        dealId: deal.id,
-        fromStage: deal.stage,
-        toStage: deal.stage,
-        movedById: req.user!.userId,
-        notes: 'Criação do negócio no funil'
-      }
+      const created = await tx.deal.create({
+        data: {
+          ...data,
+          expectedClose: data.expectedClose ? new Date(data.expectedClose) : null,
+          organizationId: orgId,
+          assignedToId: targetAssigneeId
+        },
+        include: {
+          company: { select: { id: true, name: true } },
+          assignedTo: { select: { id: true, name: true } }
+        }
+      });
+
+      await tx.dealStageHistory.create({
+        data: {
+          organizationId: orgId,
+          dealId: created.id,
+          fromStage: created.stage,
+          toStage: created.stage,
+          movedById: req.user!.userId,
+          notes: 'Criação do negócio no funil'
+        }
+      });
+
+      return created;
     });
 
     await logAudit({
@@ -548,11 +621,11 @@ router.post('/deals', async (req: AuthenticatedRequest, res: Response): Promise<
 
     res.status(201).json({ success: true, data: deal });
   } catch (error: any) {
-    res.status(400).json({ success: false, error: error.message });
+    handleRouteError(res, error);
   }
 });
 
-// Transição de etapa no pipeline (Drag-and-Drop)
+// Transição de etapa no pipeline (Drag-and-Drop) com Transação Atômica
 router.patch('/deals/:id/stage', async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
     const orgId = req.user!.organizationId;
@@ -567,13 +640,12 @@ router.patch('/deals/:id/stage', async (req: AuthenticatedRequest, res: Response
 
     const deal = await prisma.deal.findFirst({ where: { id, organizationId: orgId } });
     if (!deal) {
-      res.status(404).json({ success: false, error: 'Negócio não encontrado' });
+      res.status(404).json({ success: false, error: 'Negócio não encontrado na sua organização' });
       return;
     }
 
     const fromStage = deal.stage;
 
-    // Atualização inteligente de probabilidade padrão por estágio
     let defaultProb = deal.probability;
     if (stage === DealStage.PROSPECT) defaultProb = 20;
     else if (stage === DealStage.QUALIFICACAO) defaultProb = 40;
@@ -582,29 +654,32 @@ router.patch('/deals/:id/stage', async (req: AuthenticatedRequest, res: Response
     else if (stage === DealStage.FECHADO_GANHO) defaultProb = 100;
     else if (stage === DealStage.FECHADO_PERDIDO) defaultProb = 0;
 
-    const updated = await prisma.deal.update({
-      where: { id },
-      data: {
-        stage,
-        probability: defaultProb,
-        lostReason: stage === DealStage.FECHADO_PERDIDO ? (lostReason || deal.lostReason) : null
-      },
-      include: {
-        company: { select: { id: true, name: true } },
-        assignedTo: { select: { id: true, name: true } }
-      }
-    });
+    const updated = await prisma.$transaction(async (tx) => {
+      const u = await tx.deal.update({
+        where: { id },
+        data: {
+          stage,
+          probability: defaultProb,
+          lostReason: stage === DealStage.FECHADO_PERDIDO ? (lostReason || deal.lostReason) : null
+        },
+        include: {
+          company: { select: { id: true, name: true } },
+          assignedTo: { select: { id: true, name: true } }
+        }
+      });
 
-    // Registrar histórico da transição de etapa
-    await prisma.dealStageHistory.create({
-      data: {
-        organizationId: orgId,
-        dealId: id,
-        fromStage,
-        toStage: stage,
-        movedById: req.user!.userId,
-        notes: notes || `Movido de ${fromStage} para ${stage}`
-      }
+      await tx.dealStageHistory.create({
+        data: {
+          organizationId: orgId,
+          dealId: id,
+          fromStage,
+          toStage: stage,
+          movedById: req.user!.userId,
+          notes: notes || `Movido de ${fromStage} para ${stage}`
+        }
+      });
+
+      return u;
     });
 
     await logAudit({
@@ -618,7 +693,7 @@ router.patch('/deals/:id/stage', async (req: AuthenticatedRequest, res: Response
 
     res.json({ success: true, data: updated });
   } catch (error: any) {
-    res.status(400).json({ success: false, error: error.message });
+    handleRouteError(res, error);
   }
 });
 
@@ -630,20 +705,32 @@ router.put('/deals/:id', async (req: AuthenticatedRequest, res: Response): Promi
 
     const old = await prisma.deal.findFirst({ where: { id, organizationId: orgId } });
     if (!old) {
-      res.status(404).json({ success: false, error: 'Negócio não encontrado' });
+      res.status(404).json({ success: false, error: 'Negócio não encontrado na sua organização' });
       return;
     }
 
-    const updated = await prisma.deal.update({
-      where: { id },
-      data: {
-        ...data,
-        expectedClose: data.expectedClose !== undefined ? (data.expectedClose ? new Date(data.expectedClose) : null) : undefined
-      },
-      include: {
-        company: { select: { id: true, name: true } },
-        assignedTo: { select: { id: true, name: true } }
-      }
+    const updated = await prisma.$transaction(async (tx) => {
+      await TenantGuard.assertRelationsInTenant(
+        {
+          companyId: data.companyId,
+          leadId: data.leadId,
+          assignedToId: data.assignedToId
+        },
+        orgId,
+        tx
+      );
+
+      return tx.deal.update({
+        where: { id },
+        data: {
+          ...data,
+          expectedClose: data.expectedClose !== undefined ? (data.expectedClose ? new Date(data.expectedClose) : null) : undefined
+        },
+        include: {
+          company: { select: { id: true, name: true } },
+          assignedTo: { select: { id: true, name: true } }
+        }
+      });
     });
 
     await logAudit({
@@ -657,7 +744,7 @@ router.put('/deals/:id', async (req: AuthenticatedRequest, res: Response): Promi
 
     res.json({ success: true, data: updated });
   } catch (error: any) {
-    res.status(400).json({ success: false, error: error.message });
+    handleRouteError(res, error);
   }
 });
 
@@ -668,7 +755,7 @@ router.delete('/deals/:id', async (req: AuthenticatedRequest, res: Response): Pr
 
     const old = await prisma.deal.findFirst({ where: { id, organizationId: orgId } });
     if (!old) {
-      res.status(404).json({ success: false, error: 'Negócio não encontrado' });
+      res.status(404).json({ success: false, error: 'Negócio não encontrado na sua organização' });
       return;
     }
 
@@ -695,6 +782,12 @@ router.get('/deals/:id/history', async (req: AuthenticatedRequest, res: Response
     const orgId = req.user!.organizationId;
     const { id } = req.params;
 
+    const deal = await prisma.deal.findFirst({ where: { id, organizationId: orgId }, select: { id: true } });
+    if (!deal) {
+      res.status(404).json({ success: false, error: 'Negócio não encontrado na sua organização' });
+      return;
+    }
+
     const histories = await prisma.dealStageHistory.findMany({
       where: { dealId: id, organizationId: orgId },
       include: {
@@ -710,7 +803,7 @@ router.get('/deals/:id/history', async (req: AuthenticatedRequest, res: Response
 });
 
 // ==========================================
-// ATIVIDADES & ACOMPANHAMENTO COMERCIAL
+// ATIVIDADES & ACOMPANHAMENTO COMERCIAL + ISOLAMENTO
 // ==========================================
 const activitySchema = z.object({
   title: z.string().min(2, 'Título da atividade é obrigatório'),
@@ -765,19 +858,34 @@ router.post('/activities', async (req: AuthenticatedRequest, res: Response): Pro
   try {
     const orgId = req.user!.organizationId;
     const data = activitySchema.parse(req.body);
+    const targetAssigneeId = data.assignedToId || req.user!.userId;
 
-    const activity = await prisma.activity.create({
-      data: {
-        ...data,
-        dueDate: new Date(data.dueDate),
-        organizationId: orgId,
-        assignedToId: data.assignedToId || req.user!.userId
-      },
-      include: {
-        assignedTo: { select: { id: true, name: true } },
-        company: { select: { id: true, name: true } },
-        deal: { select: { id: true, title: true } }
-      }
+    const activity = await prisma.$transaction(async (tx) => {
+      await TenantGuard.assertRelationsInTenant(
+        {
+          companyId: data.companyId,
+          contactId: data.contactId,
+          leadId: data.leadId,
+          dealId: data.dealId,
+          assignedToId: targetAssigneeId
+        },
+        orgId,
+        tx
+      );
+
+      return tx.activity.create({
+        data: {
+          ...data,
+          dueDate: new Date(data.dueDate),
+          organizationId: orgId,
+          assignedToId: targetAssigneeId
+        },
+        include: {
+          assignedTo: { select: { id: true, name: true } },
+          company: { select: { id: true, name: true } },
+          deal: { select: { id: true, title: true } }
+        }
+      });
     });
 
     await logAudit({
@@ -791,7 +899,57 @@ router.post('/activities', async (req: AuthenticatedRequest, res: Response): Pro
 
     res.status(201).json({ success: true, data: activity });
   } catch (error: any) {
-    res.status(400).json({ success: false, error: error.message });
+    handleRouteError(res, error);
+  }
+});
+
+router.put('/activities/:id', async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+  try {
+    const orgId = req.user!.organizationId;
+    const { id } = req.params;
+    const data = activitySchema.partial().parse(req.body);
+
+    const old = await prisma.activity.findFirst({ where: { id, organizationId: orgId } });
+    if (!old) {
+      res.status(404).json({ success: false, error: 'Atividade não encontrada na sua organização' });
+      return;
+    }
+
+    const updated = await prisma.$transaction(async (tx) => {
+      await TenantGuard.assertRelationsInTenant(
+        {
+          companyId: data.companyId,
+          contactId: data.contactId,
+          leadId: data.leadId,
+          dealId: data.dealId,
+          assignedToId: data.assignedToId
+        },
+        orgId,
+        tx
+      );
+
+      return tx.activity.update({
+        where: { id },
+        data: {
+          ...data,
+          dueDate: data.dueDate ? new Date(data.dueDate) : undefined,
+          completedAt: data.status === ActivityStatus.CONCLUIDA ? new Date() : undefined
+        }
+      });
+    });
+
+    await logAudit({
+      organizationId: orgId,
+      userId: req.user!.userId,
+      entityType: 'ACTIVITY',
+      entityId: id,
+      action: 'UPDATE',
+      diff: { before: old, after: updated }
+    });
+
+    res.json({ success: true, data: updated });
+  } catch (error: any) {
+    handleRouteError(res, error);
   }
 });
 
@@ -803,7 +961,7 @@ router.patch('/activities/:id/status', async (req: AuthenticatedRequest, res: Re
 
     const old = await prisma.activity.findFirst({ where: { id, organizationId: orgId } });
     if (!old) {
-      res.status(404).json({ success: false, error: 'Atividade não encontrada' });
+      res.status(404).json({ success: false, error: 'Atividade não encontrada na sua organização' });
       return;
     }
 
@@ -826,7 +984,7 @@ router.patch('/activities/:id/status', async (req: AuthenticatedRequest, res: Re
 
     res.json({ success: true, data: updated });
   } catch (error: any) {
-    res.status(400).json({ success: false, error: error.message });
+    handleRouteError(res, error);
   }
 });
 
@@ -837,7 +995,7 @@ router.delete('/activities/:id', async (req: AuthenticatedRequest, res: Response
 
     const old = await prisma.activity.findFirst({ where: { id, organizationId: orgId } });
     if (!old) {
-      res.status(404).json({ success: false, error: 'Atividade não encontrada' });
+      res.status(404).json({ success: false, error: 'Atividade não encontrada na sua organização' });
       return;
     }
 

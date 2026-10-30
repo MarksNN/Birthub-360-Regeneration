@@ -1,10 +1,11 @@
-import { PrismaClient, UserRole, AgentScope, CompanyStatus, ContactStatus, LeadStatus, DealStage, ActivityType, ActivityStatus } from '@prisma/client';
+import { PrismaClient, UserRole, CompanyStatus, ContactStatus, LeadStatus, DealStage, ActivityType, ActivityStatus } from '@prisma/client';
 import bcrypt from 'bcryptjs';
+import { syncAgentsCatalogIdempotent } from '../src/modules/supervisor/catalog/catalog-importer';
 
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('--- Iniciando Seed Fase 02 Birthub 360 CRM & RevOps ---');
+  console.log('--- Iniciando Seed Birthub 360 (CRM, RevOps & Catálogo 394 Agentes) ---');
 
   // 1. Organização Principal
   const org = await prisma.organization.upsert({
@@ -266,7 +267,7 @@ async function main() {
       type: ActivityType.LIGACAO,
       title: 'Follow-up de minuta contratual com Dra. Beatriz',
       description: 'Confirmar recebimento das condições comerciais com o comitê executivo.',
-      dueDate: yesterday, // Atrasada para teste de indicador RevOps
+      dueDate: yesterday,
       status: ActivityStatus.PENDENTE
     }
   });
@@ -289,45 +290,10 @@ async function main() {
     }
   });
 
-  // 8. Agentes Especializados Fase 02
-  const extraAgents = [
-    {
-      agentCode: 'revops-intelligence-analyzer',
-      name: 'RevOps Intelligence Analyzer',
-      domain: 'Real-time Performance',
-      subgroup: 'Análise de Pipeline',
-      scope: AgentScope.SPECIALIZED,
-      description: 'Calcula dispersão de pipeline, taxa de conversão entre etapas e receita prevista ponderada.',
-      capabilities: ['Cálculo de Weighted Forecast', 'Win Rate Diagnostic', 'Análise de Gargalos'],
-      allowedTools: ['calculate_revops_metrics', 'inspect_crm_pipeline'],
-      requiredRole: UserRole.MANAGER,
-      isActive: true,
-      isExecutable: true
-    },
-    {
-      agentCode: 'commercial-activity-copilot',
-      name: 'Commercial Activity Copilot',
-      domain: 'Hub Central',
-      subgroup: 'Gestão de Produtividade',
-      scope: AgentScope.UNIVERSAL,
-      description: 'Gerencia tarefas, ligações pendentes, follow-ups e alerta sobre atividades atrasadas.',
-      capabilities: ['Agendamento Inteligente', 'Priorização de Cadência'],
-      allowedTools: ['create_crm_activity', 'read_overdue_activities'],
-      requiredRole: UserRole.SDR,
-      isActive: true,
-      isExecutable: true
-    }
-  ];
-
-  for (const agent of extraAgents) {
-    await prisma.agentRegistration.upsert({
-      where: { agentCode: agent.agentCode },
-      update: {},
-      create: agent
-    });
-  }
-
-  console.log('--- Seed Fase 02 Concluído com Sucesso ---');
+  // 8. Importação Idempotente do Catálogo Oficial dos 394 Agentes
+  const syncResult = await syncAgentsCatalogIdempotent(prisma);
+  console.log('--- Catálogo 394 Agentes Sincronizado ---', syncResult);
+  console.log('--- Seed Concluído com Sucesso ---');
 }
 
 main()

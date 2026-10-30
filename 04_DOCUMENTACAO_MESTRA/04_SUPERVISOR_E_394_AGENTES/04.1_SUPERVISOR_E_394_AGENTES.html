@@ -25,7 +25,7 @@
   <div class="container">
     <div style="margin-bottom: 20px;"><a href="../00_PORTAL_MESTRE.html" style="color: var(--neon-blue); text-decoration: none; font-weight: 600;">← Voltar ao Portal Mestre</a></div>
     <h1>04.1 — O SUPERVISOR 360° & CATÁLOGO DOS 394 AGENTES</h1>
-    <p><span class="status-tag">STATUS: OFICIAL & HOMOLOGADO</span> • <strong>Versão:</strong> 1.0.0 • <strong>Lote D</strong></p>
+    <p><span class="status-tag">STATUS: OFICIAL & HOMOLOGADO</span> • <strong>Versão:</strong> 1.1.0 (Consolidação 394 Agentes Canônicos) • <strong>Lote D</strong></p>
 
     <div class="card">
       <h3>1. Arquitetura Obrigatória do Supervisor</h3>
@@ -35,10 +35,10 @@ Usuário (Prompt Natural)
    ▼
 Supervisor 360° Facade
    ├── 1. Interpretação de Intenção e Contexto (CRM, Pipeline, RevOps, Hub)
-   ├── 2. Identificação do Agente no Catálogo dos 394
-   ├── 3. Validação de Autorização RBAC (ADMIN, MANAGER, CLOSER, SDR, BDR)
-   ├── 4. Seleção de Ferramentas Autorizadas
-   ├── 5. Despacho Real ou Modo Governança (se não-executável)
+   ├── 2. Identificação do Agente no Catálogo dos 394 (agentCode estável)
+   ├── 3. Validação de Isolamento Multi-Tenant (TenantGuard) e Autorização RBAC
+   ├── 4. Seleção de Ferramentas Autorizadas e Verificação de Status Operacional
+   ├── 5. Despacho Real (EXECUTABLE) ou Plano Governado (AVAILABLE / REGISTERED)
    ├── 6. Persistência de Auditoria no PostgreSQL (supervisor_executions)
    ▼
 Resultado Estruturado com Evidências de Ação
@@ -46,32 +46,35 @@ Resultado Estruturado com Evidências de Ação
     </div>
 
     <div class="card">
-      <h3>2. Distribuição Canônica dos 394 Agentes por Domínio</h3>
+      <h3>2. Distribuição Canônica Exata dos 394 Agentes por Domínio</h3>
+      <p>Extraída integralmente de <code>BIRTHUB360_MAPEAMENTO_FUNCIONAL_394_AGENTES.json</code> (Snapshot <code>79e15047</code>): <strong>379</strong> agentes do <code>CATÁLOGO_NORMALIZADO</code> + <strong>15</strong> agentes da <code>CÉLULA_COMERCIAL</code> = <strong>394 agentes únicos</strong>.</p>
       <table>
-        <thead><tr><th>Domínio</th><th>Qtd Agentes</th><th>Escopo</th><th>Exemplos Notáveis</th><th>Status</th></tr></thead>
+        <thead><tr><th>Domínio Oficial</th><th>Qtd Agentes</th><th>Origens</th><th>Agentes Notáveis (agentCode)</th><th>Status Operacional</th></tr></thead>
         <tbody>
-          <tr><td><strong>Vendas & Pipeline</strong></td><td>78 agentes</td><td>Especializado</td><td>Deal Closer Assistant, Objections Solver, Discount Evaluator</td><td><span class="status-tag">3 Executáveis / 75 Catálogo</span></td></tr>
-          <tr><td><strong>Intelligence & ICP</strong></td><td>64 agentes</td><td>Especializado</td><td>ICP Analyzer, Tech Fit Scorer, Market Intent Detector</td><td><span class="status-tag">2 Executáveis / 62 Catálogo</span></td></tr>
-          <tr><td><strong>RevOps & Performance</strong></td><td>45 agentes</td><td>Especializado</td><td>RevOps Intelligence Analyzer, Churn Early Warner, Forecast Model</td><td><span class="status-tag">1 Executável / 44 Catálogo</span></td></tr>
-          <tr><td><strong>Marketing & Inbound</strong></td><td>52 agentes</td><td>Especializado</td><td>ABTestAutomator, Content Personalizer, Attribution Engine</td><td><span class="status-tag">Catálogo & Governança</span></td></tr>
-          <tr><td><strong>Compliance & Jurídico</strong></td><td>38 agentes</td><td>Universal</td><td>AccessRightAuditor, LGPD Sanitizer, Contract Clause Inspector</td><td><span class="status-tag">Catálogo & Governança</span></td></tr>
-          <tr><td><strong>Operações & Hub Core</strong></td><td>83 agentes</td><td>Universal</td><td>Supervisor Core, Commercial Activity Copilot, Notification Broker</td><td><span class="status-tag">2 Executáveis / 81 Catálogo</span></td></tr>
-          <tr><td><strong>Célula Comercial Especial</strong></td><td>15 agentes</td><td>Especializado</td><td>High-Ticket Negotiation Copilot, Bidding Analyzer</td><td><span class="status-tag">Catálogo & Governança</span></td></tr>
-          <tr><td><strong>TOTAL CONSOLIDADO</strong></td><td><strong>394 agentes</strong></td><td>-</td><td>Normalizados conforme Snapshot 79e15047</td><td><strong>8 Executáveis Reais / 386 Catálogo</strong></td></tr>
+          <tr><td><strong>Vendas</strong></td><td>111 agentes</td><td>100 Normalizados / 11 Célula Comercial</td><td><code>closer-sales</code>, <code>sdr-outreach</code>, <code>bdr-prospector</code>, <code>ae-closer</code>, <code>sales-forecast-model</code></td><td><span class="status-tag">4 EXECUTABLE / 13 AVAILABLE / 94 REGISTERED</span></td></tr>
+          <tr><td><strong>Operações</strong></td><td>77 agentes</td><td>76 Normalizados / 1 Célula Comercial</td><td><code>ops-pack</code>, <code>revops-operator</code>, <code>workflow-trigger-router</code></td><td><span class="status-tag">1 EXECUTABLE / 1 AVAILABLE / 75 REGISTERED</span></td></tr>
+          <tr><td><strong>Marketing</strong></td><td>51 agentes</td><td>50 Normalizados / 1 Célula Comercial</td><td><code>cmo-pack</code>, <code>abtestautomator</code>, <code>demand-gen-scorer</code></td><td><span class="status-tag">1 EXECUTABLE / 1 AVAILABLE / 49 REGISTERED</span></td></tr>
+          <tr><td><strong>Customer Success</strong></td><td>47 agentes</td><td>46 Normalizados / 1 Célula Comercial</td><td><code>cs-retention</code>, <code>churn-early-warner</code>, <code>nps-health-monitor</code></td><td><span class="status-tag">1 EXECUTABLE / 46 REGISTERED</span></td></tr>
+          <tr><td><strong>Financeiro</strong></td><td>46 agentes</td><td>46 Normalizados</td><td><code>cfo-pack</code>, <code>arr-reconciliation-agent</code>, <code>billing-risk-analyzer</code></td><td><span class="status-tag">2 AVAILABLE / 44 REGISTERED</span></td></tr>
+          <tr><td><strong>Compliance/Jurídico</strong></td><td>45 agentes</td><td>45 Normalizados</td><td><code>legal-pack</code>, <code>accessrightauditor</code>, <code>lgpd-data-guard</code></td><td><span class="status-tag">5 AVAILABLE / 40 REGISTERED</span></td></tr>
+          <tr><td><strong>Executivo</strong></td><td>13 agentes</td><td>13 Normalizados</td><td><code>ceo-pack</code>, <code>cro-pack</code>, <code>coo-pack</code>, <code>board-report-synthesizer</code></td><td><span class="status-tag">1 EXECUTABLE / 10 AVAILABLE / 2 REGISTERED</span></td></tr>
+          <tr><td><strong>Plataforma</strong></td><td>2 agentes</td><td>1 Normalizado / 1 Célula Comercial</td><td><code>maestro-orchestrator</code>, <code>policy-runtime-guard</code></td><td><span class="status-tag">1 AVAILABLE / 1 REGISTERED</span></td></tr>
+          <tr><td><strong>RH</strong></td><td>1 agente</td><td>1 Normalizado</td><td><code>rh-pack</code> (People & Talent Analytics)</td><td><span class="status-tag">1 AVAILABLE</span></td></tr>
+          <tr><td><strong>Tecnologia</strong></td><td>1 agente</td><td>1 Normalizado</td><td><code>cto-pack</code> (Architecture & Engineering Advisor)</td><td><span class="status-tag">1 AVAILABLE</span></td></tr>
+          <tr><td><strong>TOTAL CONSOLIDADO</strong></td><td><strong>394 agentes</strong></td><td><strong>379 Normalizados + 15 Célula Comercial</strong></td><td>Soma exata verificada: 111+77+51+47+46+45+13+2+1+1 = 394</td><td><strong>8 EXECUTABLE / 35 AVAILABLE / 351 REGISTERED</strong></td></tr>
         </tbody>
       </table>
     </div>
 
     <div class="card">
-      <h3>3. Governança das Ferramentas & Regras de Acesso</h3>
-      <p>Ferramentas ativas no backend homologado:</p>
+      <h3>3. Status Operacionais e Governança das Ferramentas</h3>
       <ul>
-        <li><code>create_crm_activity</code>: Criação persistente de tarefas e follow-ups (Requer perfil SDR ou superior).</li>
-        <li><code>calculate_revops_metrics</code>: Cálculo analítico de pipeline ponderado e win rate (Requer perfil MANAGER ou superior).</li>
-        <li><code>inspect_crm_pipeline</code>: Leitura de gargalos no funil Kanban (Requer perfil CLOSER ou superior).</li>
-        <li><code>query_market_data</code>: Consulta de atributos de ICP para contas (Requer perfil SDR ou superior).</li>
+        <li><strong>EXECUTABLE (8 agentes):</strong> <code>ceo-pack</code>, <code>closer-sales</code>, <code>sdr-outreach</code>, <code>bdr-prospector</code>, <code>ae-closer</code>, <code>cs-retention</code>, <code>cmo-pack</code>, <code>ops-pack</code>. Possuem executor real conectado às ferramentas do backend e banco PostgreSQL.</li>
+        <li><strong>AVAILABLE (35 agentes):</strong> Agentes com permissões especializadas de domínio mapeadas e planos táticos estruturados pelo Supervisor.</li>
+        <li><strong>REGISTERED (351 agentes):</strong> Agentes catalogados com metadados completos (missão, entradas, saídas, capacidades universais) governados pelo Supervisor sem simulação falsa de execução.</li>
+        <li><strong>DISABLED:</strong> Agentes desativados administrativamente que bloqueiam despacho no Supervisor.</li>
       </ul>
-      <p style="color: var(--neon-gold); font-size: 0.85rem;">Nota de Transparência: Nenhum agente sem código executável é simulado como funcional; eles operam com plano de governança explícito.</p>
+      <p style="color: var(--neon-gold); font-size: 0.85rem;">Nota de Transparência: Nenhum agente sem executor real é mascarado como funcional; o Supervisor diferencia explicitamente agentes EXECUTABLE de agentes AVAILABLE/REGISTERED.</p>
     </div>
   </div>
 </body>

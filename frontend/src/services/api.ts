@@ -217,14 +217,20 @@ export const api = {
   },
 
   // AGENTS & SUPERVISOR
-  async getAgentsCatalog() {
-    const res = await fetch(`${API_BASE}/supervisor/agents`, {
+  async getAgentsCatalog(query?: Record<string, string>) {
+    const params = query ? `?${new URLSearchParams(query).toString()}` : '';
+    const res = await fetch(`${API_BASE}/supervisor/agents${params}`, {
       headers: this.getHeaders()
     });
     return res.json();
   },
 
-  async orchestrateSupervisor(payload: { targetModule: string; prompt: string }) {
+  async orchestrateSupervisor(payload: {
+    targetModule: string;
+    prompt: string;
+    agentCode?: string;
+    contextData?: Record<string, any>;
+  }) {
     const res = await fetch(`${API_BASE}/supervisor/orchestrate`, {
       method: 'POST',
       headers: this.getHeaders(),
