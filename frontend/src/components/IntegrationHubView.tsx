@@ -142,7 +142,7 @@ export function IntegrationHubView({ userRole, onRefreshData }: IntegrationHubVi
   const [acceptingProposal, setAcceptingProposal] = useState(false);
 
   useEffect(() => {
-    loadData();
+    void loadData();
   }, [activeTab]);
 
   const loadData = async () => {
@@ -302,7 +302,7 @@ export function IntegrationHubView({ userRole, onRefreshData }: IntegrationHubVi
       const res = await (api as any).reconcileConnection(connectionId);
       if (res.success && res.data?.success) {
         setActionMessage({ type: 'success', text: 'Reconciliação concluída: ' + (res.data.recordsSynced || 0) + ' registros atualizados.' });
-        loadData();
+        await loadData();
       } else {
         setActionMessage({ type: 'error', text: res.error || 'Reconciliação parcial ou falhou; verifique conflitos.' });
       }
@@ -485,10 +485,11 @@ export function IntegrationHubView({ userRole, onRefreshData }: IntegrationHubVi
 
           <form onSubmit={handleCreateRequest} className="space-y-4 text-xs">
             <div>
-              <label className="block font-semibold text-ink mb-1">
+              <label htmlFor="integration-request-provider" className="block font-semibold text-ink mb-1">
                 Nome da Ferramenta, ERP ou Provedor:
               </label>
               <input
+                id="integration-request-provider"
                 type="text"
                 value={requestProvider}
                 onChange={(e) => setRequestProvider(e.target.value)}
@@ -498,10 +499,11 @@ export function IntegrationHubView({ userRole, onRefreshData }: IntegrationHubVi
             </div>
 
             <div>
-              <label className="block font-semibold text-ink mb-1">
+              <label htmlFor="integration-request-objective" className="block font-semibold text-ink mb-1">
                 Objetivo Comercial e Processos a Integrar (*):
               </label>
               <textarea
+                id="integration-request-objective"
                 rows={4}
                 required
                 value={requestDetails}
@@ -585,7 +587,7 @@ export function IntegrationHubView({ userRole, onRefreshData }: IntegrationHubVi
                     <td className="p-3 text-right">
                       <button
                         onClick={() => {
-                          loadProjectDetail(proj.id);
+                          void loadProjectDetail(proj.id);
                           setActiveTab('detail');
                         }}
                         className="px-2.5 py-1 rounded bg-surface2 hover:bg-surface text-neon-blue font-semibold text-xs border border-border"
@@ -647,8 +649,9 @@ export function IntegrationHubView({ userRole, onRefreshData }: IntegrationHubVi
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
                   <div>
-                    <label className="block text-muted font-medium mb-1">Ferramenta Alvo:</label>
+                    <label htmlFor="integration-discovery-tool" className="block text-muted font-medium mb-1">Ferramenta Alvo:</label>
                     <input
+                      id="integration-discovery-tool"
                       type="text"
                       value={discoveryToolName}
                       onChange={(e) => setDiscoveryToolName(e.target.value)}
@@ -656,8 +659,9 @@ export function IntegrationHubView({ userRole, onRefreshData }: IntegrationHubVi
                     />
                   </div>
                   <div>
-                    <label className="block text-muted font-medium mb-1">Direção do Fluxo:</label>
+                    <label htmlFor="integration-discovery-direction" className="block text-muted font-medium mb-1">Direção do Fluxo:</label>
                     <select
+                      id="integration-discovery-direction"
                       value={discoveryDirection}
                       onChange={(e) => setDiscoveryDirection(e.target.value)}
                       className="w-full p-2 rounded bg-surface border border-border text-ink"
@@ -670,8 +674,9 @@ export function IntegrationHubView({ userRole, onRefreshData }: IntegrationHubVi
                 </div>
 
                 <div className="text-xs">
-                  <label className="block text-muted font-medium mb-1">Objetivo da Integração:</label>
+                  <label htmlFor="integration-discovery-objective" className="block text-muted font-medium mb-1">Objetivo da Integração:</label>
                   <input
+                    id="integration-discovery-objective"
                     type="text"
                     value={discoveryObjective}
                     onChange={(e) => setDiscoveryObjective(e.target.value)}
@@ -693,11 +698,11 @@ export function IntegrationHubView({ userRole, onRefreshData }: IntegrationHubVi
                 <div className="card-neon p-4 space-y-3">
                   <h3 className="font-bold neon-title-gold">Preparar Escopo e Proposta Comercial</h3>
                   <p className="text-xs text-muted">Acesso exclusivo ao operador da plataforma. Informe valores e evidências reais; a proposta só será enviada após validação.</p>
-                  <textarea rows={3} value={quoteDeliverables} onChange={e => setQuoteDeliverables(e.target.value)}
+                  <textarea aria-label="Entregáveis — um por linha" rows={3} value={quoteDeliverables} onChange={e => setQuoteDeliverables(e.target.value)}
                     placeholder="Entregáveis — um por linha" className="w-full p-2 bg-surface border border-border rounded text-ink text-xs" />
-                  <textarea rows={3} value={quoteAcceptance} onChange={e => setQuoteAcceptance(e.target.value)}
+                  <textarea aria-label="Critérios de aceite — um por linha" rows={3} value={quoteAcceptance} onChange={e => setQuoteAcceptance(e.target.value)}
                     placeholder="Critérios de aceite — um por linha" className="w-full p-2 bg-surface border border-border rounded text-ink text-xs" />
-                  <input value={quoteJustification} onChange={e => setQuoteJustification(e.target.value)}
+                  <input aria-label="Justificativa técnica e comercial" value={quoteJustification} onChange={e => setQuoteJustification(e.target.value)}
                     placeholder="Justificativa técnica e comercial" className="w-full p-2 bg-surface border border-border rounded text-ink text-xs" />
                   <div className="grid grid-cols-2 gap-2 text-xs">
                     <label>API oficial verificada?
@@ -728,7 +733,7 @@ export function IntegrationHubView({ userRole, onRefreshData }: IntegrationHubVi
                         className="w-full p-2 bg-surface border border-border rounded text-ink"/>
                     </label>
                   </div>
-                  <input value={quoteDocUrl} onChange={e => setQuoteDocUrl(e.target.value)}
+                  <input aria-label="URL da documentação técnica verificada" value={quoteDocUrl} onChange={e => setQuoteDocUrl(e.target.value)}
                     placeholder="URL da documentação técnica verificada (obrigatória para API oficial)"
                     className="w-full p-2 bg-surface border border-border rounded text-ink text-xs" />
                   <div className="grid grid-cols-2 gap-2">

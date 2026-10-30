@@ -13,7 +13,7 @@ export function canonicalJson(value: unknown): string {
     const obj = value as Record<string, unknown>;
     const keys = Object.keys(obj)
       .filter((k) => obj[k] !== undefined)
-      .sort();
+      .sort((a, b) => a.localeCompare(b, 'en'));
     return `{${keys.map((k) => `${JSON.stringify(k)}:${canonicalJson(obj[k])}`).join(',')}}`;
   }
   if (typeof value === 'object' && value !== null && 'toString' in (value as object)) {
