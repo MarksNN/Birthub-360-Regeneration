@@ -60,13 +60,15 @@ export class IntegrationApprovalService {
 
       // Proposta precisa estar em estado comercialmente aprovado ou enviado
       if (
-        version.status !== ProposalVersionStatus.COMMERCIALLY_APPROVED &&
-        version.status !== ProposalVersionStatus.SENT &&
-        version.status !== ProposalVersionStatus.ESTIMATE_PENDING_APPROVAL
+        version.status !== ProposalVersionStatus.SENT
       ) {
         throw new CommercialLockError([
           `A versão da proposta (v${version.version}) está com status ${version.status} e não está apta para aceite do cliente.`
         ]);
+      }
+
+      if (proposal.kind === 'MAIN' && project.status !== IntegrationProjectStatus.AWAITING_CUSTOMER_APPROVAL) {
+        throw new CommercialLockError(['O projeto não está aguardando o aceite do cliente.']);
       }
 
       // Verificar validade

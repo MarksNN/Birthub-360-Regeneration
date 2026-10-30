@@ -10,6 +10,7 @@ import { IntegrationDevelopmentPipelineService } from './services/development-pi
 import { IntegrationSyncEngineService } from './services/sync-engine.service';
 import { IntegrationCommercialEngine } from './commercial/pricing.engine';
 import { ProposalArtifactGenerator } from './commercial/proposal.generator';
+import { IntegrationProposalService } from './commercial/quote.service';
 import { CommercialLockService } from './services/commercial-lock.service';
 import { ConnectorRegistry } from './sdk/registry';
 import { IntegrationProjectStatus, ProposalKind, ProposalVersionStatus, ApprovalDecision, ConnectorCatalogStatus } from '@prisma/client';
@@ -302,6 +303,70 @@ router.post('/connections/:id/reconcile', async (req: AuthenticatedRequest, res:
     res.json({ success: true, data: result });
   } catch (err: any) {
     res.status(400).json({ success: false, error: err.message });
+  }
+});
+
+// A proposta comercial inicial só pode ser emitida por operador da plataforma.
+const hours = z.number().finite().min(0);
+const effortSchema = z.object({
+  analysisHours: hours, developmentHours: hours, apiIntegrationHours: hours,
+  dataMappingHours: hours, initialMigrationHours: hours, testingHours: hours,
+  homologationHours: hours, documentationHours: hours,
+  deploymentHours: hours, trainingHours: hours
+});
+const proposalInputSchema = z.object({
+  effort: effortSchema,
+  options: z.object({
+    includeMaintenanceMonthly: z.boolean().optional(),
+    includePremiumSupportMonthly: z.boolean().optional(),
+    externalLicensesMonthly: hours.optional(),
+    projectedApiConsumptionMonthly: hours.optional()
+  }).optional(),
+  discountPct: z.number().finite().min(0).max(100).optional(),
+  validityDays: z.number().int().min(1).max(90).optional(),
+  scope: z.object({
+    objective: z.string().min(10),
+    justification: z.string().min(5),
+    deliverables: z.array(z.string()).min(1),
+    includedFeatures: z.array(z.string()).min(1),
+    excludedFeatures: z.array(z.string()),
+    integratedEntities: z.array(z.object({
+      name: z.string(), localTarget: z.string(),
+      fields: z.array(z.string()), syncDirection: z.string()
+    })),
+    syncFlows: z.array(z.string()),
+    dependencies: z.array(z.string()),
+    clientPrerequisites: z.array(z.string()),
+    acceptanceCriteria: z.array(z.string()).min(1),
+    limitations: z.array(z.string()),
+    estimatedTimelineDays: z.number().int().min(1),
+    risksAndAssumptions: z.array(z.string())
+  }),
+  feasibility: z.object({
+    verdict: z.enum(['FEASIBLE', 'FEASIBLE_WITH_RESTRICTIONS', 'NOT_FEASIBLE', 'UNDETERMINED']),
+    complexity: z.enum(['LOW', 'MEDIUM', 'HIGH', 'VERY_HIGH', 'UNKNOWN']),
+    hasOfficialApi: z.boolean().nullable(),
+    documentationUrl: z.string().url().optional().nullable(),
+    authMethods: z.array(z.string()),
+    supportsWebhooks: z.boolean().nullable(),
+    readCapabilities: z.array(z.string()),
+    writeCapabilities: z.array(z.string()),
+    risks: z.array(z.string()),
+    uncertainties: z.array(z.string()),
+    reusableConnectorIds: z.array(z.string()),
+    requiresPaidDiscovery: z.boolean(),
+    rateLimitNotes: z.string().optional().nullable(),
+    licensingDependencies: z.string().optional().nullable()
+  })
+});
+router.post('/admin/projects/:id/proposal', async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+  try {
+    const actor = await loadUserActor(req.user!.userId, 'API');
+    const payload = proposalInputSchema.parse(req.body);
+    const result = await IntegrationProposalService.prepareAndSend(req.params.id, payload, actor);
+    res.status(201).json({ success: true, data: result });
+  } catch (err: any) {
+    res.status(err.statusCode || 400).json({ success: false, error: err.message });
   }
 });
 
