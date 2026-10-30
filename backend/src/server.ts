@@ -6,6 +6,11 @@ import crmRoutes from './routes/crm.routes';
 import dashboardRoutes from './routes/dashboard.routes';
 import supervisorRoutes from './modules/supervisor/supervisor.routes';
 import integrationRoutes from './modules/integrations/integrations.routes';
+import { ConnectorRegistry } from './modules/integrations/sdk/registry';
+import { MockConnectorAdapter } from './modules/integrations/sdk/mock-provider.adapter';
+
+// Inicializar os adaptadores no processo HTTP, não apenas nos testes.
+ConnectorRegistry.getInstance().register(new MockConnectorAdapter());
 
 const app = express();
 

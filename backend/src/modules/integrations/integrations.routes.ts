@@ -2,7 +2,7 @@ import { Router, Response } from 'express';
 import { z } from 'zod';
 import prisma from '../../lib/prisma';
 import { authenticateToken, AuthenticatedRequest } from '../../middlewares/auth.middleware';
-import { loadUserActor } from './domain/actor';
+import { loadUserActor, assertPlatformOperator } from './domain/actor';
 import { IntegrationDiscoveryService } from './services/discovery.service';
 import { IntegrationFeasibilityService } from './services/feasibility.service';
 import { IntegrationApprovalService } from './services/approval.service';
@@ -195,7 +195,12 @@ router.get('/projects/:id', async (req: AuthenticatedRequest, res: Response): Pr
       return;
     }
 
-    res.json({ success: true, data: project });
+    // Custos internos e regras de margem são exclusivos do operador da plataforma.
+    const publicProject = {
+      ...project,
+      estimates: project.estimates.map(({ internalBreakdown, pricingSnapshot, ...publicEstimate }) => publicEstimate)
+    };
+    res.json({ success: true, data: publicProject });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
   }
@@ -303,13 +308,15 @@ router.post('/connections/:id/reconcile', async (req: AuthenticatedRequest, res:
 // ---------------------------------------------------------------- Administração da Plataforma
 router.get('/admin/pricing-parameters', async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
+    const actor = await loadUserActor(req.user!.userId, 'API');
+    assertPlatformOperator(actor, ['PLATFORM_COMMERCIAL', 'PLATFORM_ADMIN'], 'consultar custos internos');
     const params = await prisma.integrationPricingParameter.findMany({
       orderBy: { category: 'asc' }
     });
     const policy = await prisma.integrationPricingPolicy.findFirst({ where: { isActive: true } });
     res.json({ success: true, data: { parameters: params, policy } });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(err.statusCode || 500).json({ success: false, error: err.message });
   }
 });
 

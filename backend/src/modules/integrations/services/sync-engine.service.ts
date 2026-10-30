@@ -26,7 +26,7 @@ export class IntegrationSyncEngineService {
     if (!connection) throw new IntegrationNotFoundError('Conexão');
 
     const registry = ConnectorRegistry.getInstance();
-    const adapter = registry.get(connection.connector.key, connection.connector.version) || registry.get('simulated-erp');
+    const adapter = registry.get(connection.connector.key, connection.connector.version);
 
     if (!adapter || !adapter.webhook) {
       throw new Error(`Conector ${connection.connector.key} não implementa WebhookHandler`);
@@ -40,6 +40,10 @@ export class IntegrationSyncEngineService {
 
     // Validação de assinatura
     const signatureValid = adapter.webhook.verify(ctx, input.headers, input.body);
+    if (!signatureValid) {
+      // Nunca reservar chave de idempotência de webhook não autenticado.
+      throw new Error('Assinatura do webhook inválida.');
+    }
     const idempotencyKey = adapter.webhook.idempotencyKey(input.body);
     const eventType = adapter.webhook.eventType(input.body);
 
@@ -107,7 +111,7 @@ export class IntegrationSyncEngineService {
     const results: Array<{ id: string; status: EventProcessingStatus; error?: string }> = [];
 
     for (const ev of events) {
-      const adapter = registry.get(ev.connection.connector.key, ev.connection.connector.version) || registry.get('simulated-erp');
+      const adapter = registry.get(ev.connection.connector.key, ev.connection.connector.version);
 
       if (!adapter || !adapter.webhook) {
         await prisma.webhookInboxEvent.update({
@@ -247,6 +251,8 @@ export class IntegrationSyncEngineService {
     tx: Omit<PrismaClient, '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'> = prisma
   ) {
     const idempotencyKey = hashDocument({
+      organizationId: data.organizationId,
+      connectionId: data.connectionId || null,
       aggregateType: data.aggregateType,
       aggregateId: data.aggregateId,
       eventType: data.eventType,
@@ -291,7 +297,7 @@ export class IntegrationSyncEngineService {
     });
 
     const registry = ConnectorRegistry.getInstance();
-    const adapter = registry.get(connection.connector.key, connection.connector.version) || registry.get('simulated-erp');
+    const adapter = registry.get(connection.connector.key, connection.connector.version);
 
     if (!adapter || !adapter.inbound) {
       await prisma.integrationSyncRun.update({
