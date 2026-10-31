@@ -264,6 +264,19 @@ export const api = {
     return res.json();
   },
 
+  async startSupervisorMission(payload: {
+    prompt: string;
+    correlationId?: string;
+    slots?: { accountId?: string; newStage?: string; requestedSystem?: string };
+  }) {
+    const res = await fetch(`${API_BASE}/supervisor/missions`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify(payload)
+    });
+    return res.json();
+  },
+
   async getIntegrationProjects() {
     const res = await fetch(`${API_BASE}/integrations/projects`, {
       headers: this.getHeaders()
@@ -346,6 +359,19 @@ export const api = {
       method: 'POST',
       headers: this.getHeaders(),
       body: JSON.stringify({ paymentStatus })
+    });
+    return res.json();
+  },
+
+  async decideSupervisorMission(missionId: string, approvalId: string, decision: 'aprovada' | 'rejeitada') {
+    const res = await fetch(`${API_BASE}/supervisor/missions/${missionId}/approve`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify({ approvalId, decision })
+    });
+    return res.json();
+  }
+};
     });
     return res.json();
   }

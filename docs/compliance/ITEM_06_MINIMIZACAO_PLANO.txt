@@ -1,0 +1,111 @@
+================================================================================
+ITEM 06/17 - MINIMIZAÇÃO, RETENÇÃO E DESCARTE DE DADOS
+Fase B - Planejamento
+Data: 31/10/2026
+================================================================================
+
+DIAGNÓSTICO ATUAL VS. DESEJADO
+------------------------------
+
+ATUAL:
+- Schema coleta dados padrão CRM sem política de retenção
+- AuditLog e SupervisorExecution podem conter PII sem sanitização
+- Sem data map formal
+- Sem mecanismo de expurgo automático
+- Sem legal hold
+
+DESEJADO:
+- Data map documentado por entidade e finalidade
+- Política de retenção por categoria de dados
+- Sanitização de PII em AuditLog.diff e SupervisorExecution.userPrompt
+- Mecanismo de expurgo/anonimização reversível
+- Legal hold para retenção além do padrão
+
+CLASSIFICAÇÃO DE PRIORIDADE
+----------------------------
+- Prioridade: P1 (Alto)
+- Impacto por tenant: Todos (multi-tenant)
+- Impacto UX: Baixo (backend)
+- Complexidade: MÉDIA
+
+PLANO INCREMENTAL
+-----------------
+
+Passo 1: Data Map (BACKEND)
+- Criar docs/compliance/DATA_MAP.md com mapeamento de:
+  * Entidade → Campos pessoais → Finalidade → Base legal → Retenção
+  * Fluxos de dados (input → processamento → output)
+  * Suboperadores (quando aplicável)
+
+Passo 2: Política de Retenção (BACKEND)
+- Criar docs/compliance/POLITICA_RETENCAO.md com:
+  * Tabela de retenção por categoria (pessoal, empresarial, logs)
+  * Prazos definidos (ex: User=5 anos, Lead=2 anos, AuditLog=7 anos)
+  * Eventos de expiração
+  * Legal hold
+
+Passo 3: Sanitização de PII em AuditLog (BACKEND)
+- Criar middleware sanitizador em backend/src/lib/audit-sanitizer.ts
+- Aplicar antes de salvar AuditLog.diff
+- Mascara dados sensíveis: email, CPF/CNPJ, telefone, endereço
+- Logs estruturados sem PII desnecessária
+
+Passo 4: Sanitização de PII em SupervisorExecution (BACKEND)
+- Criar função de máscara em backend/src/modules/supervisor/execution-sanitizer.ts
+- Aplicar em userPrompt antes de salvar
+- Redação de PII com asteriscos/pattern
+- Logs sem tokens ou credenciais
+
+Passo 5: Função de Expurgo/Anonimização (BACKEND)
+- Criar backend/src/lib/data-retention.ts com:
+  * Função expurgarDadosExpirados(organizationId)
+  * Função anonimizarUsuario(userId)
+  * Função anonimizarLead(leadId)
+  * Tratamento de filas, caches, backups (documentação)
+
+Passo 6: Prisma Migration (BACKEND)
+- Adicionar campos de retenção se necessário:
+  * Organization.dataRetentionConfig (Json)
+  * User.anonymizedAt (DateTime?)
+  * Lead.anonymizedAt (DateTime?)
+- Migration reversível
+
+Passo 7: Testes (BACKEND)
+- Teste unitário de sanitizador de AuditLog
+- Teste unitário de sanitizador de SupervisorExecution
+- Teste de expurgo sem afetar outros tenants
+- Teste de anonimização preservando estrutura
+
+CRITÉRIOS DE ACEITE
+------------------
+- [ ] Data map documentado em docs/compliance/DATA_MAP.md
+- [ ] Política de retenção documentada em docs/compliance/POLITICA_RETENCAO.md
+- [ ] AuditLog.diff sanitizado antes de salvar
+- [ ] SupervisorExecution.userPrompt mascarado antes de salvar
+- [ ] Funções de expurgo/anonimização implementadas
+- [ ] Testes passando
+- [ ] Não destruir dados necessários à prova contratual ou obrigação legal
+
+PLANO DE ROLLBACK
+-----------------
+- Migration Prisma reversível (prisma migrate resolve)
+- Reverter middleware sanitizador (remover do pipeline)
+- Manter dados originais até confirmação jurídica
+- Backup local antes de expurgo
+
+DECISÕES LEGAIS PENDENTES DE VALIDAÇÃO HUMANA
+-----------------------------------------------
+- Prazos de retenção específicos por categoria (jurídico)
+- Critérios de legal hold (jurídico)
+- Momento de aplicar expurgo em produção (operacional + jurídico)
+- Necessidade de notificação de anonimização (jurídico)
+
+RISCOS DO PLANO
+---------------
+- Risco BAIXO: Sanitização pode remover dados necessários para debugging
+- Risco MÉDIO: Expurgo automático pode violar obrigação legal se mal configurado
+- Risco BAIXO: Anonimização pode quebrar integridade referencial
+
+================================================================================
+FIM DA FASE B - PLANEJAMENTO
+================================================================================

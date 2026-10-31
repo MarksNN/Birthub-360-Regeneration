@@ -1,0 +1,165 @@
+================================================================================
+BIRTHUB 360° REGENERATION - DIAGNÓSTICO BASELINE
+Data: 31/10/2026
+Execução: Local (sem push/deploy)
+================================================================================
+
+ARQUITETURA CONFIRMADA
+----------------------
+- Monorepo com backend Node.js/TypeScript/Express/Prisma/PostgreSQL 16
+- Frontend React 18/Vite/TypeScript/Tailwind CSS
+- Multi-tenant via organizationId
+- Supervisor + catálogo de 394 agentes
+- Docker local (PostgreSQL porta 5433)
+
+ESTRUTURA DE DADOS (Prisma Schema)
+----------------------------------
+Tabelas principais:
+- Organization (multi-tenant root)
+- User (RBAC: ADMIN, MANAGER, CLOSER, SDR, BDR, VIEWER)
+- Company, Contact, Lead, Deal, Activity (CRM)
+- AgentRegistration, SupervisorExecution (Supervisor)
+- IntegrationProject, IntegrationConnection, etc. (Fase 03)
+- AuditLog (trilha de auditoria)
+
+Isolamento:
+- Todas as tabelas têm organizationId
+- Índices por organizationId
+- Cascade delete configurado
+
+ESTADO ATUAL DOS 17 ITENS DE COMPLIANCE
+-----------------------------------------
+
+01. POLÍTICA DE PRIVACIDADE
+- Status: NÃO IMPLEMENTADO
+- Achados: Não há arquivo de política, nem rota /privacidade
+- Risco: ALTO
+
+02. TERMOS DE SERVIÇO
+- Status: NÃO IMPLEMENTADO
+- Achados: Não há termos de serviço
+- Risco: ALTO
+
+03. AVISO DE COOKIES
+- Status: NÃO IMPLEMENTADO
+- Achados: Não há banner de cookies, sem gerenciamento de consentimento
+- localStorage usado para token de autenticação (essencial)
+- Risco: ALTO
+
+04. POLÍTICA DE REEMBOLSO
+- Status: NÃO APLICÁVEL (ainda)
+- Achados: Não há checkout/cobrança implementado
+- Ação: Criar minuta para uso futuro
+- Risco: BAIXO
+
+05. FORMULÁRIOS LGPD
+- Status: PARCIAL
+- Achados: Formulários de login, CRM existem
+- Falta: Transparência de finalidade, base legal, opt-ins separados
+- Risco: MÉDIO
+
+06. MINIMIZAÇÃO DE DADOS
+- Status: PARCIAL
+- Achados: Schema coleta dados padrão CRM
+- Falta: Data map, política de retenção, expurgo
+- Risco: MÉDIO
+
+07. SCRIPTS DE TRACKING
+- Status: COMPROVADO NÃO IMPLEMENTADO
+- Achados: Nenhum script de analytics de terceiros encontrado
+- Apenas localStorage para autenticação (essencial)
+- Risco: BAIXO
+
+08. ACESSIBILIDADE (WCAG 2.2 AA)
+- Status: NÃO AUDITADO
+- Achados: Design System Neon 360° com cores #00D4FF, #FF2D9B, #FFC107, #8B7DFF
+- Falta: Auditoria de contraste, semântica, navegação teclado
+- Risco: MÉDIO
+
+09. ALT EM IMAGENS
+- Status: NÃO AUDITADO
+- Achados: Imagens/ícones no frontend
+- Falta: Inventário de alt text, verificação de acessibilidade
+- Risco: MÉDIO
+
+10. CONTRASTE CORRIGIDO
+- Status: NÃO AUDITADO
+- Achados: Identidade Neon 360° (cores vibrantes)
+- Falta: Medição de contraste WCAG 2.2 AA
+- Risco: MÉDIO
+
+11. NAVEGAÇÃO TECLADO
+- Status: NÃO AUDITADO
+- Achados: SPA React com navegação client-side
+- Falta: Teste keyboard-only, focus management
+- Risco: MÉDIO
+
+12. AVALIAÇÕES AUTÊNTICAS
+- Status: NÃO APLICÁVEL
+- Achados: Não há seção de avaliações/depoimentos no frontend
+- Risco: BAIXO
+
+13. PROMESSAS COMERCIAIS
+- Status: NÃO AUDITADO
+- Achados: Copywriting no frontend não auditado
+- Falta: Revisão de promessas absolutas ("garantido", "100%", etc.)
+- Risco: MÉDIO
+
+14. DIREITOS AUTORAIS IMAGENS
+- Status: NÃO AUDITADO
+- Achados: Assets no frontend (ícones, imagens)
+- Falta: Inventário de licenças, procedência documentada
+- Risco: MÉDIO
+
+15. DADOS DA EMPRESA
+- Status: NÃO IMPLEMENTADO
+- Achados: CNPJ, endereço, contato não configurados
+- Falta: Metadados empresariais verificados
+- Risco: ALTO
+
+16. GOVERNANÇA LGPD
+- Status: PARCIAL
+- Achados: Isolamento multi-tenant existente, AuditLog
+- Falta: ROPA, direitos de titulares, encarregado
+- Risco: ALTO
+
+17. SEGURANÇA INCIDENTES
+- Status: PARCIAL
+- Achados: Autenticação JWT, hash de senhas (bcryptjs)
+- Falta: Playbook de incidentes, resposta a vazamentos
+- Risco: ALTO
+
+RISCOS TÉCNICOS ADICIONAIS
+---------------------------
+- Schema Prisma tem conflito de merge (<<<<<< HEAD em linha 353)
+- Faltam testes de acessibilidade automatizados
+- Faltam testes de segurança (IDOR/BOLA, cross-tenant)
+- Logs podem conter PII não minimizada
+
+DEPENDÊNCIAS ENTRE ITENS
+-------------------------
+- 15 (Dados da empresa) → 01 (Política de privacidade), 02 (Termos)
+- 03 (Cookies) → 07 (Scripts de tracking)
+- 06 (Minimização) → 16 (Governança LGPD)
+- 08-11 (Acessibilidade) → interdependentes
+- 16 (Governança) → 17 (Segurança incidentes)
+
+MATRIZ DE PRIORIDADES
+----------------------
+P0 (Crítico): 01, 02, 03, 15, 16, 17
+P1 (Alto): 05, 06, 13
+P2 (Médio): 08, 09, 10, 11, 14
+P3 (Baixo): 04, 07, 12
+
+PROXIMOS PASSOS (ONDA 1)
+--------------------------
+1. Item 06: Minimização de dados (base para governança)
+2. Item 16: Governança LGPD (ROPA, direitos)
+3. Item 17: Segurança incidentes (playbook)
+4. Item 07: Scripts de tracking (inventário)
+5. Item 03: Aviso de cookies (consentimento)
+6. Item 05: Formulários LGPD (transparência)
+
+================================================================================
+INÍCIO DA EXECUÇÃO POR ONDAS
+================================================================================

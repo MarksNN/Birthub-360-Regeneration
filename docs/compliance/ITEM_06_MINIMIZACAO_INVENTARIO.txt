@@ -1,0 +1,112 @@
+================================================================================
+ITEM 06/17 - MINIMIZAÇÃO, RETENÇÃO E DESCARTE DE DADOS
+Fase A - Inventário
+Data: 31/10/2026
+================================================================================
+
+MAPEAMENTO DE ENTIDADES E DADOS PESSOAIS (Prisma Schema)
+----------------------------------------------------------
+
+Tabela: User
+- Dados pessoais: email, name
+- Sensibilidade: ALTA (email identifica)
+- Finalidade: Autenticação, RBAC, auditoria
+- Base legal: Execução de contrato
+- Retenção: Enquanto usuário ativo + obrigação legal (pode ser anonimizado após período)
+
+Tabela: Company
+- Dados pessoais: name, tradeName, cnpj, phone
+- Sensibilidade: MÉDIA (dados empresariais)
+- Finalidade: CRM, gestão de clientes
+- Base legal: Execução de contrato, legítimo interesse
+- Retenção: Enquanto relação comercial ativa
+
+Tabela: Contact
+- Dados pessoais: name, email, phone, roleTitle
+- Sensibilidade: ALTA (email, telefone de pessoa física)
+- Finalidade: CRM, comunicação
+- Base legal: Execução de contrato, consentimento (quando marketing)
+- Retenção: Enquanto necessário para CRM
+
+Tabela: Lead
+- Dados pessoais: title (pode conter nome), notes (pode conter PII)
+- Sensibilidade: MÉDIA
+- Finalidade: Prospecção comercial
+- Base legal: Legítimo interesse, consentimento
+- Retenção: Período comercial definido (ex: 2 anos sem conversão)
+
+Tabela: Activity
+- Dados pessoais: description (pode conter PII)
+- Sensibilidade: BAIXA (desde que minimizada)
+- Finalidade: Gestão de tarefas
+- Base legal: Execução de contrato
+- Retenção: Curto prazo (ex: 1 ano)
+
+Tabela: AuditLog
+- Dados pessoais: userId, diff (pode conter PII)
+- Sensibilidade: ALTA (se diff não sanitizado)
+- Finalidade: Auditoria, compliance
+- Base legal: Obrigação legal, legítimo interesse
+- Retenção: Longo prazo (ex: 5-7 anos)
+
+Tabela: SupervisorExecution
+- Dados pessoais: userPrompt (pode conter PII), resultSummary
+- Sensibilidade: ALTA (prompts podem conter dados sensíveis)
+- Finalidade: Orquestração de IA
+- Base legal: Execução de contrato
+- Retenção: Curto prazo (ex: 30 dias) ou anonimização
+
+Tabela: IntegrationConnection
+- Dados pessoais: config (pode conter credenciais), credentialRef
+- Sensibilidade: CRÍTICA (credenciais)
+- Finalidade: Integrações
+- Base legal: Execução de contrato
+- Retenção: Enquanto ativa + backup
+
+Tabela: WebhookInboxEvent / IntegrationOutboxEvent
+- Dados pessoais: payload (pode conter PII)
+- Sensibilidade: ALTA
+- Finalidade: Sincronização
+- Base legal: Execução de contrato
+- Retenção: Curto prazo (ex: 7-30 dias)
+
+CAMINHOS DE ARQUIVO IMPACTADOS
+-------------------------------
+Backend:
+- backend/prisma/schema.prisma (linhas 74-352)
+- backend/src/routes/auth.routes.ts
+- backend/src/routes/crm.routes.ts
+- backend/src/routes/dashboard.routes.ts
+- backend/src/modules/supervisor/
+- backend/src/modules/integrations/
+
+Frontend:
+- frontend/src/services/api.ts (localStorage token)
+- frontend/src/components/LoginScreen.tsx
+- frontend/src/components/*View.tsx (todos os componentes CRM)
+
+LACUNAS IDENTIFICADAS
+--------------------
+1. NÃO há política de retenção documentada
+2. NÃO há data map formal de operações de tratamento
+3. AuditLog.diff pode conter PII sem sanitização
+4. SupervisorExecution.userPrompt pode conter dados sensíveis sem máscara
+5. NÃO há mecanismo de expurgo/anonimização automático
+6. NÃO há legal hold implementado
+7. Logs podem conter PII (verificar código)
+
+RISCOS
+------
+- Risco ALTO: PII em AuditLog e SupervisorExecution não minimizados
+- Risco MÉDIO: Ausência de política de retenção documentada
+- Risco MÉDIO: Sem expurgo automático de dados expirados
+- Risco BAIXO: Lead retention não definido
+
+DEPENDÊNCIAS
+------------
+- Depende de: Item 16 (Governança LGPD) para ROPA
+- Dependente por: Item 16 (Governança LGPD)
+
+================================================================================
+FIM DA FASE A - INVENTÁRIO
+================================================================================

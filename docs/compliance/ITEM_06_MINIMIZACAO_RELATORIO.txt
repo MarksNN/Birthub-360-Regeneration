@@ -1,0 +1,149 @@
+================================================================================
+ITEM 06/17 - MINIMIZAÇÃO, RETENÇÃO E DESCARTE DE DADOS
+Fase E - Relatório de Evidências
+Data: 31/10/2026
+================================================================================
+
+ARQUIVOS CRIADOS
+----------------
+1. docs/compliance/DATA_MAP.md (11.4 KB)
+   - Data map documentado por entidade e finalidade
+   - Mapeamento de bases legais e prazos de retenção
+   - Identificação de suboperadores e transferências internacionais
+
+2. docs/compliance/POLITICA_RETENCAO.md (7.8 KB)
+   - Política de retenção por categoria de dados
+   - Tabela de prazos de retenção
+   - Definição de legal hold
+   - Processo de expurgo e anonimização
+
+3. backend/src/lib/audit-sanitizer.ts (4.1 KB)
+   - Função sanitizeAuditDiff() para sanitização de AuditLog.diff
+   - Função sanitizeLogMessage() para logs estruturados
+   - Padrões de regex para email, CPF, CNPJ, telefone, tokens, credenciais
+
+4. backend/src/modules/supervisor/execution-sanitizer.ts (5.4 KB)
+   - Função sanitizePrompt() para mascaramento de prompts do Supervisor
+   - Função sanitizeResultSummary() para sanitização de respostas
+   - Configuração personalizável por tenant
+
+5. backend/src/lib/data-retention.ts (7.6 KB)
+   - Funções de anonimização (anonymizeUser, anonymizeLead, anonymizeContact)
+   - Funções de expurgo (purgeExpiredLeads, purgeExpiredActivities, etc.)
+   - Função de exportação (exportUserData)
+   - Função de solicitação de exclusão (requestAccountDeletion)
+
+6. backend/tests/audit-sanitizer.test.ts (4.6 KB)
+   - 15 testes unitários para audit-sanitizer
+   - Cobertura: email, CPF, CNPJ, telefone, token, password, arrays, JSON
+
+7. backend/tests/execution-sanitizer.test.ts (5.1 KB)
+   - 16 testes unitários para execution-sanitizer
+   - Cobertura: JWT, API key, secret, password, credit card, config
+
+TESTES EXECUTADOS
+----------------
+Comando: cd backend && npm test -- audit-sanitizer.test.ts
+Resultado: 15 testes passaram (14ms)
+Comando: cd backend && npm test -- execution-sanitizer.test.ts
+Resultado: 16 testes passaram (8ms)
+
+EVIDÊNCIAS DE TESTES
+--------------------
+[✓] audit-sanitizer > sanitizeAuditDiff > deve mascarar email no diff
+[✓] audit-sanitizer > sanitizeAuditDiff > deve mascarar CPF no diff
+[✓] audit-sanitizer > sanitizeAuditDiff > deve mascarar CNPJ no diff
+[✓] audit-sanitizer > sanitizeAuditDiff > deve mascarar telefone no diff
+[✓] audit-sanitizer > sanitizeAuditDiff > deve mascarar token longo no diff
+[✓] audit-sanitizer > sanitizeAuditDiff > deve mascarar password no diff
+[✓] audit-sanitizer > sanitizeAuditDiff > deve preservar campos técnicos
+[✓] audit-sanitizer > sanitizeAuditDiff > deve sanitizar array de objetos
+[✓] audit-sanitizer > sanitizeAuditDiff > deve sanitizar diff como string JSON
+[✓] audit-sanitizer > sanitizeAuditDiff > deve sanitizar diff como string simples
+[✓] audit-sanitizer > sanitizeAuditDiff > deve retornar null se diff for null
+[✓] audit-sanitizer > sanitizeAuditDiff > deve retornar undefined se diff for undefined
+[✓] audit-sanitizer > sanitizeLogMessage > deve mascarar email em log message
+[✓] audit-sanitizer > sanitizeLogMessage > deve mascarar CPF em log message
+[✓] audit-sanitizer > sanitizeLogMessage > deve retornar null se message for null
+
+[✓] execution-sanitizer > sanitizePrompt > deve mascarar JWT token
+[✓] execution-sanitizer > sanitizePrompt > deve mascarar secret
+[✓] execution-sanitizer > sanitizePrompt > deve mascarar password
+[✓] execution-sanitizer > sanitizePrompt > deve mascarar credit card
+[✓] execution-sanitizer > sanitizePrompt > NÃO deve mascarar email por padrão
+[✓] execution-sanitizer > sanitizePrompt > NÃO deve mascarar telefone por padrão
+[✓] execution-sanitizer > sanitizePrompt > deve retornar null se prompt for null
+[✓] execution-sanitizer > sanitizePrompt > deve retornar undefined se prompt for undefined
+[✓] execution-sanitizer > sanitizeResultSummary > deve mascarar token em result summary
+[✓] execution-sanitizer > sanitizeResultSummary > deve mascarar password em result summary
+[✓] execution-sanitizer > sanitizePromptWithConfig > deve mascarar email quando configurado
+[✓] execution-sanitizer > sanitizePromptWithConfig > deve mascarar telefone quando configurado
+[✓] execution-sanitizer > sanitizePromptWithConfig > deve mascarar CPF quando configurado
+[✓] execution-sanitizer > sanitizePromptWithConfig > deve mascarar CNPJ quando configurado
+[✓] execution-sanitizer > sanitizePromptWithConfig > deve sempre mascarar credenciais independentemente da config
+[✓] execution-sanitizer > sanitizePromptWithConfig > deve usar config padrão se não fornecida
+
+ARQUIVOS MODIFICADOS
+-------------------
+Nenhum arquivo existente foi modificado. Todos os arquivos são novos.
+
+FALHAS REMANESCENTES
+-------------------
+1. Legal hold não implementado tecnicamente (requer adição de campo no schema)
+2. Job de expurgo automático não implementado (requer agendador de tarefas)
+3. Canais de direitos do titular não implementados (Item 16)
+4. Integração dos sanitizadores com rotas existentes não realizada (apenas módulos criados)
+
+RISCOS
+-----
+- Risco BAIXO: Sanitizadores criados mas não integrados nas rotas
+- Risco MÉDIO: Legal hold não implementado
+- Risco BAIXO: Expurgo automático não implementado
+
+VALIDAÇÕES JURÍDICAS PENDENTES
+------------------------------
+- Prazos de retenção específicos por categoria (jurídico)
+- Critérios de legal hold (jurídico)
+- Momento de aplicar expurgo em produção (operacional + jurídico)
+- Necessidade de notificação de anonimização (jurídico)
+
+TABELA REQUISITO → CÓDIGO → TESTE → EVIDÊNCIA → STATUS
+---------------------------------------------------------
+| Requisito | Código | Teste | Evidência | Status |
+|-----------|--------|-------|-----------|--------|
+| Data map documentado | DATA_MAP.md | N/A | Arquivo criado | APROVADO |
+| Política de retenção | POLITICA_RETENCAO.md | N/A | Arquivo criado | APROVADO |
+| Sanitização AuditLog | audit-sanitizer.ts | audit-sanitizer.test.ts | 15/15 passaram | APROVADO |
+| Sanitização Supervisor | execution-sanitizer.ts | execution-sanitizer.test.ts | 16/16 passaram | APROVADO |
+| Funções de expurgo | data-retention.ts | N/A | Arquivo criado | PARCIAL |
+| Legal hold | N/A | N/A | Não implementado | BLOQUEADO |
+| Job automático | N/A | N/A | Não implementado | BLOQUEADO |
+
+VEREDITO FINAL
+--------------
+STATUS: PARCIAL
+
+JUSTIFICATIVA:
+- Data map e política de retenção documentados
+- Sanitizadores implementados e testados
+- Funções de expurgo/anonimização criadas
+- Legal hold e job automático não implementados (requer schema e infra)
+- Integração com rotas existentes não realizada (apenas módulos criados)
+
+DEPENDÊNCIAS PARA COMPLETAR:
+- Item 16 (Governança LGPD) para canais de direitos do titular
+- Adição de campos no schema Prisma (legalHold, anonymizedAt)
+- Implementação de agendador de tarefas para expurgo automático
+- Integração dos sanitizadores nas rotas existentes
+
+PRÓXIMO HANDOFF AO SUPERVISOR
+------------------------------
+Continuar com Item 16 (Governança LGPD), que depende deste Item 06.
+Retornar a este item após implementação de:
+1. Schema Prisma atualizado com campos de retenção
+2. Integração dos sanitizadores nas rotas
+3. Implementação de job de expurgo automático
+
+================================================================================
+FIM DA FASE E - RELATÓRIO DE EVIDÊNCIAS
+================================================================================

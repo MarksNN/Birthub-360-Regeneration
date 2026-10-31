@@ -1,0 +1,89 @@
+================================================================================
+ITEM 16/17 - PROGRAMA DE GOVERNANÇA E COMPROVAÇÃO DE LGPD
+Fase A - Inventário
+Data: 31/10/2026
+================================================================================
+
+MAPEAMENTO DE CONTROLES EXISTENTES
+----------------------------------
+
+Isolamento Multi-Tenant:
+- Todas as tabelas têm organizationId
+- Índices por organizationId
+- Cascade delete configurado
+- STATUS: IMPLEMENTADO
+
+RBAC (Role-Based Access Control):
+- UserRole: ADMIN, MANAGER, CLOSER, SDR, BDR, VIEWER
+- PlataformRole: PLATFORM_ADMIN, PLATFORM_COMMERCIAL, PLATFORM_ENGINEERING
+- STATUS: IMPLEMENTADO
+
+AuditLog (Trilha de Auditoria):
+- Tabela AuditLog existente
+- Registra entityType, entityId, action, diff, userId
+- STATUS: IMPLEMENTADO (sem sanitização de PII ainda)
+
+Canais de Direitos dos Titulares:
+- NÃO IMPLEMENTADO
+- Sem interface para solicitação de acesso, correção, exclusão
+- STATUS: AUSENTE
+
+ROPA (Registro de Operações de Tratamento):
+- Data map criado no Item 06 (DATA_MAP.md)
+- Não está estruturado como tabela/inventário executável
+- STATUS: PARCIAL
+
+Encarregado/DPO:
+- Contato não configurado
+- Sem campo no schema para identificação do encarregado
+- STATUS: AUSENTE
+
+Suboperadores e Integrações:
+- IntegrationConnection, IntegrationProvider existentes
+- Transferências internacionais não documentadas
+- STATUS: PARCIAL
+
+Decisões Automatizadas:
+- SupervisorExecution para orquestração de IA
+- Sem canal de revisão humana
+- STATUS: PARCIAL
+
+MATRIZ CONTROLADOR/OPERADOR
+------------------------------
+Birthub 360° como:
+- Controlador: Dados próprios (usuários, cobrança, plataforma)
+- Operador: Dados de clientes (CRM, integrações)
+
+STATUS: DOCUMENTADO NO DATA MAP, NÃO IMPLEMENTADO TECNICAMENTE
+
+RISCOS IDENTIFICADOS
+-------------------
+- Risco ALTO: Canais de direitos dos titulares ausentes
+- Risco ALTO: ROPA não estruturado como inventário executável
+- Risco MÉDIO: Encarregado não identificado
+- Risco MÉDIO: Transferências internacionais não documentadas
+- Risco MÉDIO: AuditLog sem sanitização de PII (Item 06 resolve parcialmente)
+
+LACUNAS
+-------
+1. NÃO há interface para solicitação de direitos dos titulares
+2. NÃO há fila de processamento de solicitações
+3. NÃO há SLA parametrizável
+4. NÃO há registro de decisão
+5. NÃO há validação de cross-tenant (IDOR/BOLA)
+6. NÃO há dashboard interno de controles
+7. NÃO há identificação do encarregado
+
+CAMINHOS DE ARQUIVO IMPACTADOS
+-------------------------------
+Backend:
+- backend/prisma/schema.prisma (adicionar tabelas de governança)
+- backend/src/routes/ (adicionar rotas de direitos do titular)
+- backend/src/modules/ (criar módulo de governança)
+
+Frontend:
+- frontend/src/components/ (criar componentes de solicitação de direitos)
+
+================================================================================
+FIM DA FASE A - INVENTÁRIO
+================================================================================

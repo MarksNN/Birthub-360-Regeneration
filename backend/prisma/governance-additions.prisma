@@ -1,0 +1,153 @@
+// =====================================================================================
+// FASE COMPLIANCE - ITEM 16: GOVERNANÇA LGPD
+// Adições ao schema Prisma para governança de dados
+// =====================================================================================
+
+// Tipos de solicitação de direitos do titular
+enum DataSubjectRequestType {
+  ACCESS
+  CORRECTION
+  DELETION
+  PORTABILITY
+  OPOSITION
+  CONFIRMATION
+}
+
+// Status da solicitação
+enum DataSubjectRequestStatus {
+  PENDING
+  IN_PROGRESS
+  APPROVED
+  REJECTED
+  COMPLETED
+  CANCELLED
+}
+
+// Origem da solicitação
+enum DataSubjectRequestOrigin {
+  PORTAL
+  EMAIL
+  API
+  LEGAL
+}
+
+// Modelo de configuração de governança por organização
+model OrganizationGovernanceConfig {
+  id                String   @id @default(uuid())
+  organizationId    String   @unique
+  dpoName           String?
+  dpoEmail          String?
+  dpoPhone          String?
+  retentionPolicy   Json?    // Política de retenção customizada
+  legalHoldEnabled  Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  organization      Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@map("organization_governance_configs")
+}
+
+// Modelo de solicitação de direitos do titular
+model DataSubjectRequest {
+  id                String                   @id @default(uuid())
+  organizationId    String
+  requestType       DataSubjectRequestType
+  status            DataSubjectRequestStatus @default(PENDING)
+  origin            DataSubjectRequestOrigin @default(PORTAL)
+  subjectIdentifier String                   // Email, CPF ou outro identificador
+  subjectName       String?
+  description       String?                  // Descrição da solicitação
+  requestedData     Json?                    // Dados solicitados (para acesso/portabilidade)
+  decisionReason    String?                  // Motivo da decisão (aprovação/rejeição)
+  decidedById       String?
+  decidedAt         DateTime?
+  completedAt       DateTime?
+  evidenceData      Json?                    // Evidências da execução
+  metadata          Json?                    // Metadados adicionais
+  createdAt         DateTime                 @default(now())
+  updatedAt         DateTime                 @updatedAt
+
+  organization      Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  history           DataSubjectRequestHistory[]
+
+  @@index([organizationId, status])
+  @@index([organizationId, requestType])
+  @@map("data_subject_requests")
+}
+
+// Histórico de processamento da solicitação
+model DataSubjectRequestHistory {
+  id                String                   @id @default(uuid())
+  requestId         String
+  organizationId    String
+  fromStatus        DataSubjectRequestStatus?
+  toStatus          DataSubjectRequestStatus
+  actorType         String                   // SYSTEM, USER, DPO, AUTOMATED
+  actorId           String?
+  notes             String?
+  metadata          Json?
+  createdAt         DateTime                 @default(now())
+
+  request           DataSubjectRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, requestId])
+  @@map("data_subject_request_histories")
+}
+
+// Registro de operações de tratamento (ROPA) - versão executável
+model DataProcessingOperation {
+  id                String   @id @default(uuid())
+  organizationId    String
+  operationName     String   // Nome da operação
+  dataCategories    Json     // Categorias de dados pessoais
+  purpose           String   // Finalidade
+  legalBasis        String   // Base legal
+  dataSubjects      Json     // Titulares dos dados
+  recipients        Json?    // Destinatários
+  retentionPeriod   String?  // Período de retenção
+  securityMeasures Json?    // Medidas de segurança
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([organizationId, isActive])
+  @@map("data_processing_operations")
+}
+
+// Registro de suboperadores
+model DataSubprocessor {
+  id                String   @id @default(uuid())
+  organizationId    String
+  name              String
+  category          String   // Categoria (IA, Integração, Infraestrutura, etc.)
+  country           String?  // País de operação
+  dataCategories    Json     // Categorias de dados acessadas
+  legalBasis        String   // Base legal
+  contractReference String? // Referência ao contrato/DPA
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([organizationId, isActive])
+  @@map("data_subprocessors")
+}
+
+// Decisões automatizadas (IA)
+model AutomatedDecision {
+  id                String   @id @default(uuid())
+  organizationId    String
+  decisionType      String   // Tipo de decisão (scoring, aprovação, etc.)
+  algorithm         String   // Algoritmo/modelo usado
+  inputFields       Json     // Campos de entrada
+  outputFields      Json     // Campos de saída
+  impactLevel       String   // Nível de impacto (BAIXO, MÉDIO, ALTO)
+  humanReviewRequired Boolean @default(false)
+  reviewChannel     String?  // Canal de revisão humana
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([organizationId, isActive])
+  @@map("automated_decisions")
+}

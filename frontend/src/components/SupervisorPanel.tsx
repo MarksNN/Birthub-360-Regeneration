@@ -18,7 +18,9 @@ export const SupervisorPanel: React.FC<SupervisorPanelProps> = ({
 }) => {
   const [prompt, setPrompt] = useState('');
   const [loading, setLoading] = useState(false);
+  const [missionLoading, setMissionLoading] = useState(false);
   const [executionResult, setExecutionResult] = useState<any>(null);
+  const [missionResult, setMissionResult] = useState<any>(null);
 
   const resolveTargetModule = (): SupervisorContextModule => {
     if (supervisorContext) return supervisorContext;
@@ -77,6 +79,40 @@ export const SupervisorPanel: React.FC<SupervisorPanelProps> = ({
     }
   };
 
+  const handleMission = async () => {
+    if (!prompt.trim()) return;
+    setMissionLoading(true);
+    setMissionResult(null);
+    try {
+      const res = await api.startSupervisorMission({ prompt });
+      if (res.success) {
+        setMissionResult(res.data);
+      } else {
+        setMissionResult({ error: res.error || 'Falha ao abrir a missão' });
+      }
+    } catch (err: any) {
+      setMissionResult({ error: err.message || 'Falha de comunicação' });
+    } finally {
+      setMissionLoading(false);
+    }
+  };
+
+  const handleDecision = async (decision: 'aprovada' | 'rejeitada') => {
+    const mission = missionResult?.mission;
+    const approval = mission?.approvals?.find((item: { status: string }) => item.status === 'pendente');
+    if (!mission || !approval) return;
+    setMissionLoading(true);
+    try {
+      const res = await api.decideSupervisorMission(mission.id, approval.id, decision);
+      if (res.success) setMissionResult(res.data);
+      else setMissionResult({ error: res.error || 'Decisão recusada' });
+    } catch (err: any) {
+      setMissionResult({ error: err.message || 'Falha de comunicação' });
+    } finally {
+      setMissionLoading(false);
+    }
+  };
+
   return (
     <div data-testid="supervisor-panel" className="card-neon p-5 mb-6 border border-neon-iris/30 bg-surface">
       {/* Header do Supervisor */}
@@ -130,6 +166,69 @@ export const SupervisorPanel: React.FC<SupervisorPanelProps> = ({
           )}
         </button>
       </form>
+
+      <div className="mt-2 flex flex-wrap items-center gap-2">
+        <button
+          type="button"
+          data-testid="supervisor-mission-btn"
+          disabled={missionLoading}
+          onClick={handleMission}
+          className="px-3 py-1.5 text-[11px] font-mono rounded-control border border-neon-iris/40 text-neon-iris disabled:opacity-50"
+        >
+          {missionLoading ? 'Abrindo missão...' : 'Abrir missão governada'}
+        </button>
+        <span className="text-[10px] font-mono text-muted">
+          A missão não executa escrita sem aprovação de ADMIN ou MANAGER.
+        </span>
+      </div>
+
+      {missionResult && (
+        <div
+          data-testid="supervisor-mission-result"
+          className="mt-3 p-3 rounded-card border border-neon-iris/30 bg-surface2/70 space-y-2"
+        >
+          {missionResult.error ? (
+            <p className="text-xs text-neon-danger">{missionResult.error}</p>
+          ) : (
+            <>
+              <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono">
+                <span className="text-muted">Missão</span>
+                <span className="text-neon-iris">{missionResult.mission?.id}</span>
+                <span className="px-2 py-0.5 rounded-pill border border-border">{missionResult.mission?.status}</span>
+              </div>
+              <p className="text-xs text-ink">{missionResult.mission?.objective}</p>
+              {missionResult.mission?.finalResult?.limitations?.length > 0 && (
+                <p className="text-[11px] text-neon-gold">
+                  {missionResult.mission.finalResult.limitations.join(' ')}
+                </p>
+              )}
+              {missionResult.crmCommit?.conflicts?.length > 0 && (
+                <p className="text-[11px] text-neon-danger">
+                  CRM não gravou: {missionResult.crmCommit.conflicts.join(', ')}
+                </p>
+              )}
+              {missionResult.mission?.status === 'AGUARDANDO_APROVACAO' && (
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleDecision('aprovada')}
+                    className="px-2 py-1 text-[11px] rounded-control bg-neon-success/15 text-neon-success"
+                  >
+                    Aprovar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDecision('rejeitada')}
+                    className="px-2 py-1 text-[11px] rounded-control bg-neon-danger/15 text-neon-danger"
+                  >
+                    Rejeitar
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      )}
 
       {/* Resultado da Orquestração */}
       {executionResult && (

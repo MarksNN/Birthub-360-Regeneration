@@ -1,0 +1,114 @@
+================================================================================
+ITEM 16/17 - PROGRAMA DE GOVERNANÇA E COMPROVAÇÃO DE LGPD
+Fase B - Planejamento
+Data: 31/10/2026
+================================================================================
+
+DIAGNÓSTICO ATUAL VS. DESEJADO
+------------------------------
+
+ATUAL:
+- Isolamento multi-tenant implementado
+- RBAC implementado
+- AuditLog existente (sem sanitização)
+- Data map documentado (Item 06)
+- Canais de direitos do titular AUSENTES
+- ROPA não estruturado
+- Encarregado não identificado
+- Sem dashboard de controles
+
+DESEJADO:
+- Canais de direitos do titulares operacionais
+- ROPA estruturado como inventário executável
+- Encarregado identificado e contato configurável
+- Dashboard interno de controles
+- Validação de cross-tenant (IDOR/BOLA)
+- Registro de decisões automatizadas
+
+CLASSIFICAÇÃO DE PRIORIDADE
+----------------------------
+- Prioridade: P0 (Crítico)
+- Impacto por tenant: Todos (multi-tenant)
+- Impacto UX: Alto (nova interface)
+- Complexidade: ALTA
+
+PLANO INCREMENTAL
+-----------------
+
+Passo 1: Schema Prisma - Governança (BACKEND)
+- Adicionar tabelas:
+  * DataSubjectRequest (solicitações de direitos)
+  * DataSubjectRequestHistory (histórico de processamento)
+  * OrganizationGovernanceConfig (configuração por tenant)
+  * DPOContact (contato do encarregado)
+- Migration reversível
+
+Passo 2: Módulo de Direitos do Titular (BACKEND)
+- Criar backend/src/modules/governança/
+- Implementar endpoints:
+  * POST /governance/requests (criar solicitação)
+  * GET /governance/requests (listar solicitações)
+  * GET /governance/requests/:id (detalhes)
+  * PATCH /governance/requests/:id (atualizar status)
+- Funções:
+  * processAccessRequest()
+  * processCorrectionRequest()
+  * processDeletionRequest()
+  * processPortabilityRequest()
+
+Passo 3: Validação Cross-Tenant (BACKEND)
+- Middleware para verificar organizationId em todas as rotas
+- Testes de IDOR/BOLA
+- Validação de que usuário não pode acessar dados de outro tenant
+
+Passo 4: Dashboard Interno de Controles (BACKEND + FRONTEND)
+- Endpoint GET /governance/dashboard
+- Componente React para visualização
+- Status: COMPROVADO/PARCIAL/AUSENTE/NÃO_TESTADO
+- Links para evidências
+
+Passo 5: Configuração de Encarregado (BACKEND + FRONTEND)
+- Campo configurável por organization
+- Interface para definir DPO
+- Exibição pública do contato quando configurado
+
+Passo 6: Testes (BACKEND)
+- Testes de solicitação de direitos
+- Testes de cross-tenant negativos
+- Testes de validação de IDOR/BOLA
+- Testes de dashboard
+
+CRITÉRIOS DE ACEITE
+------------------
+- [ ] Schema Prisma atualizado com tabelas de governança
+- [ ] Endpoints de direitos do titulares implementados
+- [ ] Validação cross-tenant funcionando
+- [ ] Dashboard interno de controles operacional
+- [ ] Configuração de encarregado funcionando
+- [ ] Testes passando
+- [ ] Sem selo de "LGPD 100%" para site público
+
+PLANO DE ROLLBACK
+-----------------
+- Migration Prisma reversível
+- Remover rotas de governança
+- Remover módulo de governança
+- Manter dados existentes
+
+DECISÕES LEGAIS PENDENTES DE VALIDAÇÃO HUMANA
+-----------------------------------------------
+- Identificação do encarregado (jurídico)
+- SLA para resposta a solicitações (jurídico)
+- Critérios para recusa de solicitação (jurídico)
+- Formato de resposta ao titular (jurídico)
+- Necessidade de notificação à ANPD (jurídico)
+
+RISCOS DO PLANO
+---------------
+- Risco ALTO: Implementação complexa pode introduzir bugs
+- Risco MÉDIO: Cross-tenant validation pode impactar performance
+- Risco BAIXO: Dashboard interno pode expor dados sensíveis indevidamente
+
+================================================================================
+FIM DA FASE B - PLANEJAMENTO
+================================================================================
