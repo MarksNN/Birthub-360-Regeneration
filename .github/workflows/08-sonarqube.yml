@@ -1,0 +1,39 @@
+name: "Birthub Regen / 08 - SonarQube"
+on:
+  workflow_dispatch:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  sonarqube:
+    name: "SonarQube / Configuração validada"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_ORGANIZATION: ${{ vars.SONAR_ORGANIZATION }}
+      SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
+      SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validar variáveis sem revelar tokens
+        shell: bash
+        run: |
+          test -n "$SONAR_TOKEN" || { echo "::error::Configurar SONAR_TOKEN (secret)"; exit 1; }
+          test -n "$SONAR_PROJECT_KEY" || { echo "::error::Configurar SONAR_PROJECT_KEY (variable)"; exit 1; }
+          if [ -z "$SONAR_HOST_URL" ] && [ -z "$SONAR_ORGANIZATION" ]; then
+            echo "::error::SONAR_ORGANIZATION obrigatório para SonarQube Cloud"; exit 1
+          fi
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v8.3.0
+        with:
+          args: >-
+            -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY }}
+            -Dsonar.sources=backend/src,frontend/src
+            -Dsonar.tests=backend/tests
+            -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
