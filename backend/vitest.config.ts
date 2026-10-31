@@ -4,7 +4,11 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
-    exclude: ['**/node_modules/**', '**/dist/**', '**/tests/e2e/**'],
-    testTimeout: 50000
+    coverage: {
+      provider: 'v8',
+      reporter: ['lcov', 'text', 'json', 'html'],
+      include: ['src/**/*.ts'],
+      exclude: ['src/server.ts', 'src/**/*.test.ts']
+    }
   }
 });
