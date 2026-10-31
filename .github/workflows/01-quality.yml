@@ -1,0 +1,29 @@
+name: "Birthub Regen / 01 - Qualidade e Build"
+on:
+  workflow_dispatch:
+  workflow_call:
+permissions:
+  contents: read
+concurrency:
+  group: regen-quality-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  quality:
+    name: "Qualidade / TypeScript / Build"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-regeneration
+      - name: Lint backend
+        run: npm --prefix backend run lint
+      - name: Lint frontend
+        run: npm --prefix frontend run lint
+      - name: Typecheck backend
+        run: npm --prefix backend run typecheck
+      - name: Typecheck frontend
+        run: npm --prefix frontend run typecheck
+      - name: Build backend
+        run: npm --prefix backend run build
+      - name: Build frontend
+        run: npm --prefix frontend run build
