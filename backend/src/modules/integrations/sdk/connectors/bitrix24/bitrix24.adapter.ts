@@ -1,4 +1,4 @@
-import { ConnectorAdapter, ProviderManifest, AuthenticationAdapter, EntityMapper, ConnectorContext } from '../../contracts';
+import { ConnectorAdapter, ProviderManifest, AuthenticationAdapter, EntityMapper, ConnectorContext, ConnectorTestSuite, InboundSyncAdapter, OutboundSyncAdapter, RemoteRecord } from '../../contracts';
 
 export const BITRIX24_MANIFEST: ProviderManifest = {
   id: 'bitrix24',
@@ -17,7 +17,7 @@ export const BITRIX24_MANIFEST: ProviderManifest = {
   limits: { requestsPerSecond: 2, dailyQuota: null, notes: '2 req/s limit' },
   events: ['ONCRMCOMPANYADD', 'ONCRMCOMPANYUPDATE'],
   technicalRequirements: ['HTTPS'],
-  homologationStatus: 'AVAILABLE'
+  homologationStatus: 'MOCK_VERIFIED'
 };
 
 export class Bitrix24AuthAdapter implements AuthenticationAdapter {
@@ -42,9 +42,37 @@ export class Bitrix24EntityMapper implements EntityMapper {
   }
 }
 
+export class Bitrix24TestSuite implements ConnectorTestSuite {
+  cases = [
+    {
+      name: 'Authentication validation',
+      run: async (adapter: ConnectorAdapter, ctx: ConnectorContext) => {
+        const result = await adapter.auth.validateConfiguration(ctx);
+        if (!result.valid) throw new Error('Auth fail');
+      }
+    }
+  ];
+}
+
+export class Bitrix24InboundAdapter implements InboundSyncAdapter {
+  async list(ctx: ConnectorContext, entity: string, cursor?: string): Promise<{ records: RemoteRecord[]; nextCursor?: string }> {
+    // Simular real comportamento HTTP pagination etc
+    return { records: [] };
+  }
+}
+
+export class Bitrix24OutboundAdapter implements OutboundSyncAdapter {
+  async push(ctx: ConnectorContext, entity: string, data: Record<string, unknown>, options: { externalId?: string; idempotencyKey: string }) {
+    return { externalId: options.externalId || 'mock-bitrix-id' };
+  }
+}
+
 export class Bitrix24Adapter implements ConnectorAdapter {
   readonly manifest = BITRIX24_MANIFEST;
   readonly auth = new Bitrix24AuthAdapter();
   readonly mapper = new Bitrix24EntityMapper();
   readonly health = { async check() { return { healthy: true, details: 'Bitrix24 mock health' }; } };
+  readonly testSuite = new Bitrix24TestSuite();
+  readonly inbound = new Bitrix24InboundAdapter();
+  readonly outbound = new Bitrix24OutboundAdapter();
 }

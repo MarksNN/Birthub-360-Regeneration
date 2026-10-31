@@ -293,6 +293,8 @@ async function main() {
   // 8. Importação Idempotente do Catálogo Oficial dos 394 Agentes
   const syncResult = await syncAgentsCatalogIdempotent(prisma);
   console.log('--- Catálogo 394 Agentes Sincronizado ---', syncResult);
+<<<<<<< HEAD
+=======
 
   // 9. Fase 03 — Atualizar Administrador com Poder de Contratação e Papel de Plataforma
   await prisma.user.update({
@@ -467,6 +469,7 @@ async function main() {
       });
     }
   }
+>>>>>>> feat/fase-03-integration-factory
   console.log('--- Seed Concluído com Sucesso ---');
 }
 

@@ -80,6 +80,15 @@ export class IntegrationSyncEngineService {
       }
     });
 
+    if (signatureValid) {
+      try {
+        const { addJobToQueue } = await import('../queue/bullmq.setup');
+        await addJobToQueue('inbox', 'processInbox', { eventId: event.id });
+      } catch (e) {
+        console.error('[SyncEngine] Failed to enqueue inbox event to BullMQ, falling back to polling.', e);
+      }
+    }
+
     return {
       received: true,
       duplicate: false,
@@ -142,7 +151,7 @@ export class IntegrationSyncEngineService {
                 connectionId: ev.connectionId,
                 entity: change.entity, externalId: change.externalId,
                 strategy: 'MANUAL', status: 'OPEN',
-                remoteSnapshot: { action: 'delete', data: change.data || {} }
+                remoteSnapshot: { action: 'delete', data: (change.data || {}) as any }
               }
             });
             continue;
@@ -272,7 +281,7 @@ export class IntegrationSyncEngineService {
       payload: data.payload
     });
 
-    return tx.integrationOutboxEvent.upsert({
+    const event = await tx.integrationOutboxEvent.upsert({
       where: { idempotencyKey },
       update: {},
       create: {
@@ -287,6 +296,15 @@ export class IntegrationSyncEngineService {
         status: EventProcessingStatus.PENDING
       }
     });
+
+    try {
+      const { addJobToQueue } = await import('../queue/bullmq.setup');
+      await addJobToQueue('outbox', 'processOutbox', { eventId: event.id });
+    } catch (e) {
+      console.error('[SyncEngine] Failed to enqueue outbox event to BullMQ, falling back to polling.', e);
+    }
+
+    return event;
   }
 
   /**
@@ -391,7 +409,7 @@ export class IntegrationSyncEngineService {
                 data: {
                   organizationId, connectionId, entity: 'company', externalId: item.externalId,
                   localId: previous.id, localSnapshot: { name: previous.name, cnpj },
-                  remoteSnapshot: item.data, strategy: 'MANUAL', status: 'OPEN'
+                  remoteSnapshot: item.data as any, strategy: 'MANUAL', status: 'OPEN'
                 }
               });
             }

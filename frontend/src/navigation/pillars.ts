@@ -262,6 +262,7 @@ export const EIGHT_PILLARS: PillarDefinition[] = [
         supervisorContext: 'AUTOMATIONS',
         minRole: 'ADMIN',
         isImplemented: true,
+        plannedPhase: 'Fase 03',
         description: 'Regras automatizadas de distribuição de leads, alertas de estagnação e webhooks.'
       }
     ]

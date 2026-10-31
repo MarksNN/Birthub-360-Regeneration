@@ -1,4 +1,4 @@
-import { ConnectorAdapter, ProviderManifest, AuthenticationAdapter, EntityMapper, ConnectorContext, RemoteRecord } from '../../contracts';
+import { ConnectorAdapter, ProviderManifest, AuthenticationAdapter, EntityMapper, ConnectorContext, RemoteRecord, ConnectorTestSuite } from '../../contracts';
 
 export const CNPJ_MANIFEST: ProviderManifest = {
   id: 'cnpj-api',
@@ -17,7 +17,7 @@ export const CNPJ_MANIFEST: ProviderManifest = {
   limits: { requestsPerSecond: 3, dailyQuota: 300, notes: 'Plano free limite' },
   events: [],
   technicalRequirements: ['HTTPS'],
-  homologationStatus: 'AVAILABLE'
+  homologationStatus: 'MOCK_VERIFIED'
 };
 
 export class CNPJAuthAdapter implements AuthenticationAdapter {
@@ -34,11 +34,25 @@ export class CNPJEntityMapper implements EntityMapper {
   toRemote(entity: string, local: Record<string, unknown>) { return {}; }
 }
 
+export class CNPJTestSuite implements ConnectorTestSuite {
+  cases = [
+    {
+      name: 'Query CNPJ',
+      run: async (adapter: ConnectorAdapter, ctx: ConnectorContext) => {
+        if (!adapter.query) throw new Error('Query not implemented');
+        const res = await adapter.query(ctx, 'cnpj', { cnpj: '123' });
+        if (res.length === 0) throw new Error('Fail');
+      }
+    }
+  ];
+}
+
 export class CNPJAdapter implements ConnectorAdapter {
   readonly manifest = CNPJ_MANIFEST;
   readonly auth = new CNPJAuthAdapter();
   readonly mapper = new CNPJEntityMapper();
   readonly health = { async check() { return { healthy: true, details: 'CNPJ mock health' }; } };
+  readonly testSuite = new CNPJTestSuite();
   async query(ctx: ConnectorContext, entity: string, criteria: Record<string, unknown>): Promise<RemoteRecord[]> {
     if (entity === 'cnpj' && criteria.cnpj) {
       return [{ externalId: criteria.cnpj as string, entity: 'cnpj', data: { cnpj: criteria.cnpj, nome: 'EMPRESA MOCK LTDA' } }];

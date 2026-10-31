@@ -148,24 +148,26 @@ export class IntegrationDevelopmentPipelineService {
       config: { apiKey: 'test-simulated-key' }
     };
 
-    if (adapter.testSuite) {
-      for (const testCase of adapter.testSuite.cases) {
-        const start = Date.now();
-        try {
-          await testCase.run(adapter, ctx);
-          testResults.push({
-            name: testCase.name,
-            ok: true,
-            durationMs: Date.now() - start
-          });
-        } catch (err: any) {
-          testResults.push({
-            name: testCase.name,
-            ok: false,
-            durationMs: Date.now() - start,
-            error: err.message
-          });
-        }
+    if (!adapter.testSuite || adapter.testSuite.cases.length === 0) {
+      throw new Error('Conector sem suíte obrigatória válida não pode ser tecnicamente homologado.');
+    }
+
+    for (const testCase of adapter.testSuite.cases) {
+      const start = Date.now();
+      try {
+        await testCase.run(adapter, ctx);
+        testResults.push({
+          name: testCase.name,
+          ok: true,
+          durationMs: Date.now() - start
+        });
+      } catch (err: any) {
+        testResults.push({
+          name: testCase.name,
+          ok: false,
+          durationMs: Date.now() - start,
+          error: err.message
+        });
       }
     }
 

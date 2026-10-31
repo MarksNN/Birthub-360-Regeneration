@@ -33,7 +33,10 @@ test-results/
 **/test-results/
 playwright-report/
 **/playwright-report/
+<<<<<<< HEAD
+=======
 backend/coverage
 frontend/coverage
 backend/coverage/
 frontend/coverage/
+>>>>>>> feat/fase-03-integration-factory

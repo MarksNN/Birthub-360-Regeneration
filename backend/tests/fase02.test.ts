@@ -70,18 +70,25 @@ describe('Birthub 360 - Fase 02 CRM, Pipeline & RevOps Integration Tests', () =>
   });
 
   it('2. Pipeline Kanban: Transição de Estágio e Histórico com Persistência', async () => {
-    // Buscar um negócio existente
-    const deal = await prisma.deal.findFirst({
-      where: { organizationId: orgId }
+    // Criar uma fixture isolada exclusiva para evitar afetar relatórios financeiros de pipeline na mesma org
+    const deal = await prisma.deal.create({
+      data: {
+        organizationId: orgId,
+        companyId: (await prisma.company.findFirst({ where: { organizationId: orgId } }))!.id,
+        assignedToId: closerId,
+        title: 'Negócio Exclusivo Kanban Test',
+        amount: 50000,
+        stage: DealStage.PROSPECT,
+        probability: 20
+      }
     });
-    expect(deal).toBeDefined();
 
-    const fromStage = deal!.stage;
+    const fromStage = deal.stage;
     const targetStage = DealStage.NEGOCIACAO;
 
     // Atualização de estágio
     const updated = await prisma.deal.update({
-      where: { id: deal!.id },
+      where: { id: deal.id },
       data: {
         stage: targetStage,
         probability: 80
@@ -94,13 +101,19 @@ describe('Birthub 360 - Fase 02 CRM, Pipeline & RevOps Integration Tests', () =>
     const history = await prisma.dealStageHistory.create({
       data: {
         organizationId: orgId,
-        dealId: deal!.id,
+        dealId: deal.id,
         fromStage,
         toStage: targetStage,
         movedById: closerId,
         notes: 'Movido no teste automatizado do pipeline'
       }
     });
+    expect(history.dealId).toBe(deal.id);
+    expect(history.toStage).toBe(targetStage);
+
+    // Limpeza da fixture
+    await prisma.dealStageHistory.delete({ where: { id: history.id } });
+    await prisma.deal.delete({ where: { id: deal.id } });
     expect(history.dealId).toBe(deal!.id);
     expect(history.toStage).toBe(targetStage);
   });
@@ -137,6 +150,13 @@ describe('Birthub 360 - Fase 02 CRM, Pipeline & RevOps Integration Tests', () =>
   });
 
   it('4. Revenue Intelligence: Cálculos de Pipeline, Weighted Forecast e Win Rate', async () => {
+    // Ensure there is at least one won deal for the tests
+    const dealToWin = await prisma.deal.findFirst({ where: { organizationId: orgId, id: 'deal-agrosul-iot' } });
+    if (dealToWin && dealToWin.stage !== DealStage.FECHADO_GANHO) {
+       await prisma.deal.update({ where: { id: dealToWin.id }, data: { stage: DealStage.FECHADO_GANHO, probability: 100 } });
+    }
+
+
     const deals = await prisma.deal.findMany({ where: { organizationId: orgId } });
     expect(deals.length).toBeGreaterThanOrEqual(3);
 
