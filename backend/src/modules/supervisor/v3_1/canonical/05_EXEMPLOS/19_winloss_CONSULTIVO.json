@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "3.1",
+  "agentId": "winloss",
+  "missionId": null,
+  "correlationId": null,
+  "status": "COMPLETED",
+  "mode": "CONSULTIVO",
+  "skillIds": [
+    "comercial.winloss.analisar-vitorias"
+  ],
+  "summary": "Análise consultiva demonstrativa de Analista de Win/Loss e Aprendizado; nenhuma ferramenta acionada.",
+  "artifacts": [
+    {
+      "artifactType": "ANALYSIS",
+      "name": "Classificação e integridade",
+      "state": "DRAFT_NOT_SENT",
+      "payload": {
+        "objective": "Explicar padrões de negócios ganhos e perdidos e retroalimentar playbooks e estratégia.",
+        "source": "USER_INPUT",
+        "result": "Plano hipotético: Cruza motivos de perda, histórico do deal, objeções e evidências; sintetiza hipóteses e valida limitações da amostra.",
+        "notExecuted": true
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "sourceType": "USER_INPUT",
+      "reference": "Cenário fictício do golden set",
+      "claim": "Informação declarada pelo solicitante (sem verificação externa)",
+      "verification": "USER_REPORTED",
+      "observedAt": null
+    }
+  ],
+  "hypotheses": [
+    "Resultados específicos dependem de dados e fontes da organização."
+  ],
+  "missingData": [
+    "Consulta a dados reais e autorização operacional não realizadas."
+  ],
+  "compliance": {
+    "channel": "NONE",
+    "sendEligible": false,
+    "reason": "Exemplo consultivo sem consulta de canal ou execução externa.",
+    "checks": [
+      {
+        "check": "OPT_OUT",
+        "state": "UNKNOWN",
+        "reason": "Não houve consulta à lista de supressão; apenas rascunho.",
+        "evidenceRef": null
+      },
+      {
+        "check": "LEGAL_BASIS",
+        "state": "UNKNOWN",
+        "reason": "Base legal não avaliada para envio.",
+        "evidenceRef": null
+      }
+    ],
+    "signals": {
+      "whatsappOptIn": "UNKNOWN",
+      "optOutSuppression": "UNKNOWN",
+      "touchHistory": "UNKNOWN",
+      "businessHours": "UNKNOWN",
+      "timezone": null
+    }
+  },
+  "approvalPending": {
+    "required": false,
+    "status": "NOT_REQUIRED",
+    "action": null,
+    "approverRole": null,
+    "requestId": null,
+    "reason": ""
+  },
+  "handoffs": [],
+  "execution": {
+    "actionType": "DRAFT_ONLY",
+    "performed": false,
+    "state": "PREPARED",
+    "executionId": null,
+    "idempotencyKey": null,
+    "toolCalls": []
+  },
+  "metrics": {},
+  "nextStep": "Supervisor avalia pendências e decide se oferece próximo passo consultivo.",
+  "resumo_humano": "Preparei um diagnóstico preliminar para receita e revops; usei somente o contexto informado, sem realizar alterações."
+}

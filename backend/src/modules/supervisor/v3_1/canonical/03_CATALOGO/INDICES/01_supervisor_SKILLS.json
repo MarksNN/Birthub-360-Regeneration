@@ -1,0 +1,251 @@
+{
+  "agentId": "supervisor",
+  "agentName": "Supervisor Comercial",
+  "playbooks": [
+    {
+      "id": "P1",
+      "name": "Interpretar demanda",
+      "path": "02_PLAYBOOKS/01_supervisor/P1_SUPERVISOR.md",
+      "skillIds": [
+        "comercial.supervisor.entender-linguagem-natural",
+        "comercial.supervisor.detectar-objetivo-e-contexto"
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "Planejamento e prioridades",
+      "path": "02_PLAYBOOKS/01_supervisor/P2_SUPERVISOR.md",
+      "skillIds": [
+        "comercial.supervisor.decompor-tarefas",
+        "comercial.supervisor.planejar-dependencias",
+        "comercial.supervisor.deduplicar-tarefas",
+        "comercial.supervisor.aplicar-priorizacao-por-urgencia",
+        "comercial.supervisor.estimar-esforco-e-impacto",
+        "comercial.supervisor.simular-alternativas"
+      ]
+    },
+    {
+      "id": "P3",
+      "name": "Discovery e despacho",
+      "path": "02_PLAYBOOKS/01_supervisor/P3_SUPERVISOR.md",
+      "skillIds": [
+        "comercial.supervisor.selecionar-especialistas",
+        "comercial.supervisor.confirmar-autorizacao-por-organizacao",
+        "comercial.supervisor.verificar-capacidade-executavel",
+        "comercial.supervisor.delegar-e-acompanhar",
+        "comercial.supervisor.otimizar-escolha-de-modelos"
+      ]
+    },
+    {
+      "id": "P4",
+      "name": "Consolidação e auditoria",
+      "path": "02_PLAYBOOKS/01_supervisor/P4_SUPERVISOR.md",
+      "skillIds": [
+        "comercial.supervisor.identificar-conflitos-de-resultado",
+        "comercial.supervisor.consolidar-respostas",
+        "comercial.supervisor.explicar-decisoes",
+        "comercial.supervisor.criar-trilha-de-auditoria",
+        "comercial.supervisor.reutilizar-conhecimento-aprovado"
+      ]
+    },
+    {
+      "id": "P5",
+      "name": "Exceções e escalonamento",
+      "path": "02_PLAYBOOKS/01_supervisor/P5_SUPERVISOR.md",
+      "skillIds": [
+        "comercial.supervisor.escalar-excecoes",
+        "comercial.supervisor.solicitar-aprovacao-humana",
+        "comercial.supervisor.replanejar-missao-por-falha",
+        "comercial.supervisor.controlar-orcamento-de-ia",
+        "comercial.supervisor.gerenciar-sla-de-agentes"
+      ]
+    },
+    {
+      "id": "P6",
+      "name": "Aprendizado e interface departamental",
+      "path": "02_PLAYBOOKS/01_supervisor/P6_SUPERVISOR.md",
+      "skillIds": [
+        "comercial.supervisor.incorporar-feedback",
+        "comercial.supervisor.fazer-handoff-entre-departamentos"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "comercial.supervisor.entender-linguagem-natural",
+      "name": "Entender linguagem natural",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1
+    },
+    {
+      "id": "comercial.supervisor.detectar-objetivo-e-contexto",
+      "name": "Detectar objetivo e contexto",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2
+    },
+    {
+      "id": "comercial.supervisor.decompor-tarefas",
+      "name": "Decompor tarefas",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 3
+    },
+    {
+      "id": "comercial.supervisor.selecionar-especialistas",
+      "name": "Selecionar especialistas",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 4
+    },
+    {
+      "id": "comercial.supervisor.confirmar-autorizacao-por-organizacao",
+      "name": "Confirmar autorização por organização",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 5
+    },
+    {
+      "id": "comercial.supervisor.verificar-capacidade-executavel",
+      "name": "Verificar capacidade executável",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 6
+    },
+    {
+      "id": "comercial.supervisor.planejar-dependencias",
+      "name": "Planejar dependências",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 7
+    },
+    {
+      "id": "comercial.supervisor.delegar-e-acompanhar",
+      "name": "Delegar e acompanhar",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 8
+    },
+    {
+      "id": "comercial.supervisor.identificar-conflitos-de-resultado",
+      "name": "Identificar conflitos de resultado",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 9
+    },
+    {
+      "id": "comercial.supervisor.consolidar-respostas",
+      "name": "Consolidar respostas",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 10
+    },
+    {
+      "id": "comercial.supervisor.explicar-decisoes",
+      "name": "Explicar decisões",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 11
+    },
+    {
+      "id": "comercial.supervisor.criar-trilha-de-auditoria",
+      "name": "Criar trilha de auditoria",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 12
+    },
+    {
+      "id": "comercial.supervisor.escalar-excecoes",
+      "name": "Escalar exceções",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 13
+    },
+    {
+      "id": "comercial.supervisor.solicitar-aprovacao-humana",
+      "name": "Solicitar aprovação humana",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 14
+    },
+    {
+      "id": "comercial.supervisor.replanejar-missao-por-falha",
+      "name": "Replanejar missão por falha",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 15
+    },
+    {
+      "id": "comercial.supervisor.controlar-orcamento-de-ia",
+      "name": "Controlar orçamento de IA",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 16
+    },
+    {
+      "id": "comercial.supervisor.deduplicar-tarefas",
+      "name": "Deduplicar tarefas",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 17
+    },
+    {
+      "id": "comercial.supervisor.otimizar-escolha-de-modelos",
+      "name": "Otimizar escolha de modelos",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 18
+    },
+    {
+      "id": "comercial.supervisor.reutilizar-conhecimento-aprovado",
+      "name": "Reutilizar conhecimento aprovado",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 19
+    },
+    {
+      "id": "comercial.supervisor.aplicar-priorizacao-por-urgencia",
+      "name": "Aplicar priorização por urgência",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 20
+    },
+    {
+      "id": "comercial.supervisor.estimar-esforco-e-impacto",
+      "name": "Estimar esforço e impacto",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 21
+    },
+    {
+      "id": "comercial.supervisor.incorporar-feedback",
+      "name": "Incorporar feedback",
+      "playbookId": "P6",
+      "catalogStage": "Expansão",
+      "number": 22
+    },
+    {
+      "id": "comercial.supervisor.simular-alternativas",
+      "name": "Simular alternativas",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 23
+    },
+    {
+      "id": "comercial.supervisor.fazer-handoff-entre-departamentos",
+      "name": "Fazer handoff entre departamentos",
+      "playbookId": "P6",
+      "catalogStage": "Expansão",
+      "number": 24
+    },
+    {
+      "id": "comercial.supervisor.gerenciar-sla-de-agentes",
+      "name": "Gerenciar SLA de agentes",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 25
+    }
+  ],
+  "skillCount": 25
+}

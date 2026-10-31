@@ -1,0 +1,164 @@
+{
+  "package": "BIRTHUB360_COMERCIAL_V3_1_RECONSTRUIDA",
+  "status": "ESPECIFICACAO_NAO_HOMOLOGADA",
+  "source": "Matriz Comercial de 19 especialistas, 463 habilidades",
+  "createdAt": "2026-10-31",
+  "agents": 19,
+  "skills": 463,
+  "playbooks": 99,
+  "byAgent": [
+    {
+      "id": "supervisor",
+      "name": "Supervisor Comercial",
+      "prompt": "01_PROMPTS/01_supervisor_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/01_supervisor_SKILLS.json",
+      "skills": 25,
+      "playbooks": 6
+    },
+    {
+      "id": "gestao",
+      "name": "Diretor de Operação Comercial",
+      "prompt": "01_PROMPTS/02_gestao_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/02_gestao_SKILLS.json",
+      "skills": 25,
+      "playbooks": 5
+    },
+    {
+      "id": "icp",
+      "name": "Arquiteto de ICP e Territórios",
+      "prompt": "01_PROMPTS/03_icp_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/03_icp_SKILLS.json",
+      "skills": 25,
+      "playbooks": 5
+    },
+    {
+      "id": "account_intel",
+      "name": "Detetive de Contas e Decisores",
+      "prompt": "01_PROMPTS/04_account_intel_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/04_account_intel_SKILLS.json",
+      "skills": 24,
+      "playbooks": 5
+    },
+    {
+      "id": "prospeccao",
+      "name": "Caçador de Leads e Enriquecimento",
+      "prompt": "01_PROMPTS/05_prospeccao_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/05_prospeccao_SKILLS.json",
+      "skills": 25,
+      "playbooks": 5
+    },
+    {
+      "id": "intencao",
+      "name": "Analista de Intenção e Lead Scoring",
+      "prompt": "01_PROMPTS/06_intencao_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/06_intencao_SKILLS.json",
+      "skills": 24,
+      "playbooks": 5
+    },
+    {
+      "id": "outbound",
+      "name": "Especialista de Outbound Multicanal",
+      "prompt": "01_PROMPTS/07_outbound_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/07_outbound_SKILLS.json",
+      "skills": 26,
+      "playbooks": 8
+    },
+    {
+      "id": "sdr",
+      "name": "Especialista SDR e Discovery",
+      "prompt": "01_PROMPTS/08_sdr_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/08_sdr_SKILLS.json",
+      "skills": 24,
+      "playbooks": 5
+    },
+    {
+      "id": "solucoes",
+      "name": "Engenheiro de Soluções e Demos",
+      "prompt": "01_PROMPTS/09_solucoes_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/09_solucoes_SKILLS.json",
+      "skills": 24,
+      "playbooks": 5
+    },
+    {
+      "id": "negociacao",
+      "name": "Closer de Negociação e Valor",
+      "prompt": "01_PROMPTS/10_negociacao_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/10_negociacao_SKILLS.json",
+      "skills": 24,
+      "playbooks": 5
+    },
+    {
+      "id": "deal_desk",
+      "name": "Deal Desk de Preços, Propostas e Contratos",
+      "prompt": "01_PROMPTS/11_deal_desk_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/11_deal_desk_SKILLS.json",
+      "skills": 26,
+      "playbooks": 5
+    },
+    {
+      "id": "deal_health",
+      "name": "Analista de Risco e Saúde de Deals",
+      "prompt": "01_PROMPTS/12_deal_health_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/12_deal_health_SKILLS.json",
+      "skills": 23,
+      "playbooks": 5
+    },
+    {
+      "id": "forecast",
+      "name": "Estrategista de Pipeline e Forecast",
+      "prompt": "01_PROMPTS/13_forecast_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/13_forecast_SKILLS.json",
+      "skills": 24,
+      "playbooks": 5
+    },
+    {
+      "id": "growth_analytics",
+      "name": "Cientista de Inteligência de Receita",
+      "prompt": "01_PROMPTS/14_growth_analytics_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/14_growth_analytics_SKILLS.json",
+      "skills": 26,
+      "playbooks": 5
+    },
+    {
+      "id": "coaching",
+      "name": "Coach Comercial, Roleplay e Enablement",
+      "prompt": "01_PROMPTS/15_coaching_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/15_coaching_SKILLS.json",
+      "skills": 25,
+      "playbooks": 5
+    },
+    {
+      "id": "crm",
+      "name": "Guardião do CRM e do Bitrix",
+      "prompt": "01_PROMPTS/16_crm_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/16_crm_SKILLS.json",
+      "skills": 24,
+      "playbooks": 5
+    },
+    {
+      "id": "expansao",
+      "name": "Gerente de Contas e Expansão",
+      "prompt": "01_PROMPTS/17_expansao_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/17_expansao_SKILLS.json",
+      "skills": 23,
+      "playbooks": 5
+    },
+    {
+      "id": "parcerias",
+      "name": "Estrategista de Parcerias e Canais",
+      "prompt": "01_PROMPTS/18_parcerias_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/18_parcerias_SKILLS.json",
+      "skills": 23,
+      "playbooks": 5
+    },
+    {
+      "id": "winloss",
+      "name": "Analista de Win/Loss e Aprendizado",
+      "prompt": "01_PROMPTS/19_winloss_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/19_winloss_SKILLS.json",
+      "skills": 23,
+      "playbooks": 5
+    }
+  ],
+  "filesBeforeMetadata": 185
+}

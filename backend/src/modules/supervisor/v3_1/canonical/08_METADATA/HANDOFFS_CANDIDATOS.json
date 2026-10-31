@@ -1,0 +1,325 @@
+{
+  "supervisor": [
+    [
+      "gestao",
+      "Consolidação gerencial ou alçada de metas",
+      "A missão só precisa ser roteada; sem decisão gerencial"
+    ],
+    [
+      "crm",
+      "Mudança/consulta técnica do CRM",
+      "Apenas síntese consultiva"
+    ],
+    [
+      "deal_desk",
+      "Condição financeira/contratual",
+      "Sem preço ou documento comercial"
+    ]
+  ],
+  "gestao": [
+    [
+      "forecast",
+      "Gap/compromisso de receita necessita decomposição",
+      "Somente coaching de vendedor"
+    ],
+    [
+      "coaching",
+      "Gap de competência exige trilha",
+      "Problema é de qualidade do dado"
+    ],
+    [
+      "icp",
+      "Território e segmento precisam revisão",
+      "Quota sem mudança de cobertura"
+    ]
+  ],
+  "icp": [
+    [
+      "prospeccao",
+      "Segmentos aprovados precisam de lista rastreável",
+      "Ainda é hipótese de ICP"
+    ],
+    [
+      "gestao",
+      "Rebalanceamento de carteiras pede alçada",
+      "Só análise exploratória"
+    ],
+    [
+      "winloss",
+      "Padrão de conversão precisa validação",
+      "Sem negócios concluídos"
+    ]
+  ],
+  "account_intel": [
+    [
+      "sdr",
+      "Dossiê validado pronto para descoberta",
+      "Ainda faltam atores/fatos"
+    ],
+    [
+      "prospeccao",
+      "Faltam registros empresariais",
+      "Problema é qualificação"
+    ],
+    [
+      "parcerias",
+      "Conexão de parceiro verificável",
+      "Não há parceiro concreto"
+    ]
+  ],
+  "prospeccao": [
+    [
+      "intencao",
+      "Lista saneada precisa priorização",
+      "Campos/duplicados ainda inválidos"
+    ],
+    [
+      "account_intel",
+      "Conta requer dossiê aprofundado",
+      "Só coleta básica por ICP"
+    ],
+    [
+      "crm",
+      "Escrita de lead aprovada",
+      "Só amostra consultiva"
+    ]
+  ],
+  "intencao": [
+    [
+      "outbound",
+      "Lead elegível, score explicado e canal sujeito a política",
+      "Score sem origem ou contato impedido"
+    ],
+    [
+      "sdr",
+      "Sinal exige discovery humano/qualificação",
+      "Só clique/engajamento fraco"
+    ],
+    [
+      "growth_analytics",
+      "Calibração exige validação histórica",
+      "Apenas score pontual"
+    ]
+  ],
+  "outbound": [
+    [
+      "sdr",
+      "Resposta positiva/pergunta comercial",
+      "Apenas abertura de e-mail"
+    ],
+    [
+      "crm",
+      "Supressão/opt-out ou status de contato",
+      "Só redigir rascunho"
+    ],
+    [
+      "account_intel",
+      "Falta dossiê verificável",
+      "Só falta um detalhe do texto"
+    ]
+  ],
+  "sdr": [
+    [
+      "negociacao",
+      "Lead realmente qualificado, próximo passo definido",
+      "Qualificação inconclusiva"
+    ],
+    [
+      "account_intel",
+      "Decisor sem fonte ou comissão indefinida",
+      "Dados já presentes"
+    ],
+    [
+      "crm",
+      "Atualização de campos aprovada",
+      "Só sugestão de mudança"
+    ]
+  ],
+  "solucoes": [
+    [
+      "negociacao",
+      "Solução aderente e pronta para negociar",
+      "Gap técnico crítico aberto"
+    ],
+    [
+      "deal_desk",
+      "Precificação/cotação específica",
+      "Ainda só demo"
+    ],
+    [
+      "crm",
+      "Registro de requisito aprovado",
+      "Ainda é hipótese de recurso"
+    ]
+  ],
+  "negociacao": [
+    [
+      "deal_desk",
+      "Precificação/desconto exige alçada",
+      "Só objeção ou discurso"
+    ],
+    [
+      "solucoes",
+      "Objeção técnica necessita fact-check",
+      "Só timing de compra"
+    ],
+    [
+      "deal_health",
+      "Deal travado precisa diagnóstico",
+      "Plano de negociação já fechado"
+    ]
+  ],
+  "deal_desk": [
+    [
+      "negociacao",
+      "Proposta revisada demanda apresentação comercial",
+      "Sem precificação aprovada"
+    ],
+    [
+      "solucoes",
+      "Escopo ou garantia técnica sem evidência",
+      "Só cálculo de margem"
+    ],
+    [
+      "gestao",
+      "Exceção de alçada precisa decisão gerencial",
+      "Política já aprovou tudo"
+    ]
+  ],
+  "deal_health": [
+    [
+      "negociacao",
+      "Deal recuperável exige plano comercial",
+      "Falta owner confirmado"
+    ],
+    [
+      "crm",
+      "Inconsistência de registro verificável",
+      "Só alerta consultivo"
+    ],
+    [
+      "forecast",
+      "Risco altera previsão consolidada",
+      "Evento de baixo impacto"
+    ]
+  ],
+  "forecast": [
+    [
+      "gestao",
+      "Revisão gerencial de meta/capacidade",
+      "Só relatório de tendência"
+    ],
+    [
+      "deal_health",
+      "Risco individual distorce commit",
+      "Só alteração agregada"
+    ],
+    [
+      "growth_analytics",
+      "Modelo de calibração carece de análise",
+      "Cenário manual basta"
+    ]
+  ],
+  "growth_analytics": [
+    [
+      "gestao",
+      "Achado exige iniciativa executiva",
+      "Só painel de métricas"
+    ],
+    [
+      "winloss",
+      "Queda exige pesquisa qualitativa de vendas",
+      "Sem amostra de negócios"
+    ],
+    [
+      "intencao",
+      "Precisão do score exige recalibração",
+      "Só métrica de campanha"
+    ]
+  ],
+  "coaching": [
+    [
+      "gestao",
+      "Trilha de desempenho requer decisão de gestão",
+      "Só exercício anônimo"
+    ],
+    [
+      "winloss",
+      "Objeções recorrentes precisam evidência",
+      "Já existe battlecard aprovado"
+    ],
+    [
+      "sdr",
+      "Precisa observação real de discovery",
+      "Só roleplay simulado"
+    ]
+  ],
+  "crm": [
+    [
+      "deal_health",
+      "Higiene restaurada revela risco de deal",
+      "Ainda é erro de sincronização"
+    ],
+    [
+      "prospeccao",
+      "Enriquecimento de registro necessário",
+      "Problema é regra de ownership"
+    ],
+    [
+      "forecast",
+      "Dados saneados exigem revisão de previsão",
+      "Só conflito de webhook"
+    ]
+  ],
+  "expansao": [
+    [
+      "solucoes",
+      "Expansão depende de aderência técnica",
+      "Adoção ainda baixa"
+    ],
+    [
+      "negociacao",
+      "Proposta de expansão pronta",
+      "Só diagnóstico de whitespace"
+    ],
+    [
+      "crm",
+      "Atualização de conta autorizada",
+      "Só QBR consultivo"
+    ]
+  ],
+  "parcerias": [
+    [
+      "account_intel",
+      "Parceiro pede pesquisa de decisor",
+      "Só análise financeira de programa"
+    ],
+    [
+      "deal_desk",
+      "Condições de revenda/comissão",
+      "Só identificação de parceiros"
+    ],
+    [
+      "gestao",
+      "Conflito de canal exige decisão gerencial",
+      "Conflito sem evidência"
+    ]
+  ],
+  "winloss": [
+    [
+      "coaching",
+      "Padrão validado exige treinamento",
+      "Amostra inconclusiva"
+    ],
+    [
+      "solucoes",
+      "Lacuna de produto precisa revisão técnica",
+      "Só concorrência mercadológica"
+    ],
+    [
+      "gestao",
+      "Recomendação de processo necessita priorização",
+      "Apenas causa isolada"
+    ]
+  ]
+}

@@ -1,0 +1,236 @@
+{
+  "agentId": "solucoes",
+  "agentName": "Engenheiro de Soluções e Demos",
+  "playbooks": [
+    {
+      "id": "P1",
+      "name": "Caso de uso e aderência",
+      "path": "02_PLAYBOOKS/09_solucoes/P1_SOLUCOES.md",
+      "skillIds": [
+        "comercial.solucoes.traduzir-beneficios-por-setor",
+        "comercial.solucoes.mapear-caso-de-uso",
+        "comercial.solucoes.relacionar-funcionalidades-a-dor",
+        "comercial.solucoes.identificar-gaps-tecnicos",
+        "comercial.solucoes.fazer-analise-fit-gap"
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "Demonstração e apresentações",
+      "path": "02_PLAYBOOKS/09_solucoes/P2_SOLUCOES.md",
+      "skillIds": [
+        "comercial.solucoes.criar-roteiro-de-demo",
+        "comercial.solucoes.criar-material-executivo",
+        "comercial.solucoes.personalizar-deck",
+        "comercial.solucoes.adaptar-demonstracao-por-persona",
+        "comercial.solucoes.gerar-ambiente-de-demonstracao-sujeito-a-disponibilidade"
+      ]
+    },
+    {
+      "id": "P3",
+      "name": "PoC, adoção e aceite",
+      "path": "02_PLAYBOOKS/09_solucoes/P3_SOLUCOES.md",
+      "skillIds": [
+        "comercial.solucoes.preparar-poc",
+        "comercial.solucoes.rastrear-compromissos",
+        "comercial.solucoes.gerar-plano-de-adocao-inicial",
+        "comercial.solucoes.criar-roteiro-de-workshop",
+        "comercial.solucoes.documentar-criterios-de-aceite"
+      ]
+    },
+    {
+      "id": "P4",
+      "name": "Requisitos, RFP e segurança",
+      "path": "02_PLAYBOOKS/09_solucoes/P4_SOLUCOES.md",
+      "skillIds": [
+        "comercial.solucoes.criar-questionario-tecnico",
+        "comercial.solucoes.responder-rfp",
+        "comercial.solucoes.redigir-faq-de-seguranca",
+        "comercial.solucoes.responder-checklist-procurement"
+      ]
+    },
+    {
+      "id": "P5",
+      "name": "Arquitetura e objeções técnicas",
+      "path": "02_PLAYBOOKS/09_solucoes/P5_SOLUCOES.md",
+      "skillIds": [
+        "comercial.solucoes.preparar-objecoes-tecnicas",
+        "comercial.solucoes.comparar-arquitetura-do-cliente",
+        "comercial.solucoes.projetar-caso-de-roi",
+        "comercial.solucoes.criar-matriz-de-integracao",
+        "comercial.solucoes.priorizar-gaps-para-produto"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "comercial.solucoes.criar-roteiro-de-demo",
+      "name": "Criar roteiro de demo",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 1
+    },
+    {
+      "id": "comercial.solucoes.traduzir-beneficios-por-setor",
+      "name": "Traduzir benefícios por setor",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2
+    },
+    {
+      "id": "comercial.solucoes.mapear-caso-de-uso",
+      "name": "Mapear caso de uso",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 3
+    },
+    {
+      "id": "comercial.solucoes.relacionar-funcionalidades-a-dor",
+      "name": "Relacionar funcionalidades à dor",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 4
+    },
+    {
+      "id": "comercial.solucoes.criar-material-executivo",
+      "name": "Criar material executivo",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 5
+    },
+    {
+      "id": "comercial.solucoes.personalizar-deck",
+      "name": "Personalizar deck",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 6
+    },
+    {
+      "id": "comercial.solucoes.preparar-poc",
+      "name": "Preparar PoC",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 7
+    },
+    {
+      "id": "comercial.solucoes.criar-questionario-tecnico",
+      "name": "Criar questionário técnico",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 8
+    },
+    {
+      "id": "comercial.solucoes.responder-rfp",
+      "name": "Responder RFP",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 9
+    },
+    {
+      "id": "comercial.solucoes.redigir-faq-de-seguranca",
+      "name": "Redigir FAQ de segurança",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 10
+    },
+    {
+      "id": "comercial.solucoes.identificar-gaps-tecnicos",
+      "name": "Identificar gaps técnicos",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 11
+    },
+    {
+      "id": "comercial.solucoes.preparar-objecoes-tecnicas",
+      "name": "Preparar objeções técnicas",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 12
+    },
+    {
+      "id": "comercial.solucoes.rastrear-compromissos",
+      "name": "Rastrear compromissos",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 13
+    },
+    {
+      "id": "comercial.solucoes.gerar-plano-de-adocao-inicial",
+      "name": "Gerar plano de adoção inicial",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 14
+    },
+    {
+      "id": "comercial.solucoes.comparar-arquitetura-do-cliente",
+      "name": "Comparar arquitetura do cliente",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 15
+    },
+    {
+      "id": "comercial.solucoes.adaptar-demonstracao-por-persona",
+      "name": "Adaptar demonstração por persona",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 16
+    },
+    {
+      "id": "comercial.solucoes.projetar-caso-de-roi",
+      "name": "Projetar caso de ROI",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 17
+    },
+    {
+      "id": "comercial.solucoes.criar-matriz-de-integracao",
+      "name": "Criar matriz de integração",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 18
+    },
+    {
+      "id": "comercial.solucoes.gerar-ambiente-de-demonstracao-sujeito-a-disponibilidade",
+      "name": "Gerar ambiente de demonstração sujeito a disponibilidade",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 19
+    },
+    {
+      "id": "comercial.solucoes.responder-checklist-procurement",
+      "name": "Responder checklist procurement",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 20
+    },
+    {
+      "id": "comercial.solucoes.fazer-analise-fit-gap",
+      "name": "Fazer análise fit/gap",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 21
+    },
+    {
+      "id": "comercial.solucoes.criar-roteiro-de-workshop",
+      "name": "Criar roteiro de workshop",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 22
+    },
+    {
+      "id": "comercial.solucoes.priorizar-gaps-para-produto",
+      "name": "Priorizar gaps para produto",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 23
+    },
+    {
+      "id": "comercial.solucoes.documentar-criterios-de-aceite",
+      "name": "Documentar critérios de aceite",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 24
+    }
+  ],
+  "skillCount": 24
+}

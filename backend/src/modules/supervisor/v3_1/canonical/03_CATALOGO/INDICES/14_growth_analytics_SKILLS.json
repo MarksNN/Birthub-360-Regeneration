@@ -1,0 +1,252 @@
+{
+  "agentId": "growth_analytics",
+  "agentName": "Cientista de Inteligência de Receita",
+  "playbooks": [
+    {
+      "id": "P1",
+      "name": "Funil, conversão e coortes",
+      "path": "02_PLAYBOOKS/14_growth_analytics/P1_GROWTH_ANALYTICS.md",
+      "skillIds": [
+        "comercial.growth_analytics.analisar-funil",
+        "comercial.growth_analytics.detectar-gargalo",
+        "comercial.growth_analytics.avaliar-coortes",
+        "comercial.growth_analytics.identificar-queda-de-conversao",
+        "comercial.growth_analytics.comparar-periodos",
+        "comercial.growth_analytics.normalizar-coortes"
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "Canais e atribuição",
+      "path": "02_PLAYBOOKS/14_growth_analytics/P2_GROWTH_ANALYTICS.md",
+      "skillIds": [
+        "comercial.growth_analytics.medir-atribuicao",
+        "comercial.growth_analytics.medir-eficiencia-de-canal",
+        "comercial.growth_analytics.avaliar-mix-de-campanhas",
+        "comercial.growth_analytics.detectar-queda-de-campanha",
+        "comercial.growth_analytics.mapear-gtm-alignment"
+      ]
+    },
+    {
+      "id": "P3",
+      "name": "Receita, retenção e unit economics",
+      "path": "02_PLAYBOOKS/14_growth_analytics/P3_GROWTH_ANALYTICS.md",
+      "skillIds": [
+        "comercial.growth_analytics.analisar-arr-mrr-com-fonte-validada",
+        "comercial.growth_analytics.diagnosticar-churn-por-grupo",
+        "comercial.growth_analytics.explorar-ltv-por-canal",
+        "comercial.growth_analytics.analisar-expansao-de-acv",
+        "comercial.growth_analytics.medir-stickiness",
+        "comercial.growth_analytics.explicar-net-retention",
+        "comercial.growth_analytics.medir-roi-de-ferramentas"
+      ]
+    },
+    {
+      "id": "P4",
+      "name": "Métricas, anomalias e alertas",
+      "path": "02_PLAYBOOKS/14_growth_analytics/P4_GROWTH_ANALYTICS.md",
+      "skillIds": [
+        "comercial.growth_analytics.criar-kpi",
+        "comercial.growth_analytics.priorizar-testes",
+        "comercial.growth_analytics.detectar-anomalias",
+        "comercial.growth_analytics.recomendar-acao",
+        "comercial.growth_analytics.definir-alertas-de-performance",
+        "comercial.growth_analytics.criar-scorecards"
+      ]
+    },
+    {
+      "id": "P5",
+      "name": "Experimentos e causalidade",
+      "path": "02_PLAYBOOKS/14_growth_analytics/P5_GROWTH_ANALYTICS.md",
+      "skillIds": [
+        "comercial.growth_analytics.calcular-significancia-estatistica",
+        "comercial.growth_analytics.fazer-analise-causal-com-limites-claros"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "comercial.growth_analytics.analisar-funil",
+      "name": "Analisar funil",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1
+    },
+    {
+      "id": "comercial.growth_analytics.detectar-gargalo",
+      "name": "Detectar gargalo",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2
+    },
+    {
+      "id": "comercial.growth_analytics.avaliar-coortes",
+      "name": "Avaliar coortes",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 3
+    },
+    {
+      "id": "comercial.growth_analytics.medir-atribuicao",
+      "name": "Medir atribuição",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 4
+    },
+    {
+      "id": "comercial.growth_analytics.medir-eficiencia-de-canal",
+      "name": "Medir eficiência de canal",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 5
+    },
+    {
+      "id": "comercial.growth_analytics.analisar-arr-mrr-com-fonte-validada",
+      "name": "Analisar ARR/MRR com fonte validada",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 6
+    },
+    {
+      "id": "comercial.growth_analytics.identificar-queda-de-conversao",
+      "name": "Identificar queda de conversão",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 7
+    },
+    {
+      "id": "comercial.growth_analytics.diagnosticar-churn-por-grupo",
+      "name": "Diagnosticar churn por grupo",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 8
+    },
+    {
+      "id": "comercial.growth_analytics.criar-kpi",
+      "name": "Criar KPI",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 9
+    },
+    {
+      "id": "comercial.growth_analytics.comparar-periodos",
+      "name": "Comparar períodos",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 10
+    },
+    {
+      "id": "comercial.growth_analytics.priorizar-testes",
+      "name": "Priorizar testes",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 11
+    },
+    {
+      "id": "comercial.growth_analytics.calcular-significancia-estatistica",
+      "name": "Calcular significância estatística",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 12
+    },
+    {
+      "id": "comercial.growth_analytics.detectar-anomalias",
+      "name": "Detectar anomalias",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 13
+    },
+    {
+      "id": "comercial.growth_analytics.recomendar-acao",
+      "name": "Recomendar ação",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 14
+    },
+    {
+      "id": "comercial.growth_analytics.explorar-ltv-por-canal",
+      "name": "Explorar LTV por canal",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 15
+    },
+    {
+      "id": "comercial.growth_analytics.analisar-expansao-de-acv",
+      "name": "Analisar expansão de ACV",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 16
+    },
+    {
+      "id": "comercial.growth_analytics.medir-stickiness",
+      "name": "Medir stickiness",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 17
+    },
+    {
+      "id": "comercial.growth_analytics.explicar-net-retention",
+      "name": "Explicar net retention",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 18
+    },
+    {
+      "id": "comercial.growth_analytics.avaliar-mix-de-campanhas",
+      "name": "Avaliar mix de campanhas",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 19
+    },
+    {
+      "id": "comercial.growth_analytics.detectar-queda-de-campanha",
+      "name": "Detectar queda de campanha",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 20
+    },
+    {
+      "id": "comercial.growth_analytics.mapear-gtm-alignment",
+      "name": "Mapear GTM alignment",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 21
+    },
+    {
+      "id": "comercial.growth_analytics.medir-roi-de-ferramentas",
+      "name": "Medir ROI de ferramentas",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 22
+    },
+    {
+      "id": "comercial.growth_analytics.definir-alertas-de-performance",
+      "name": "Definir alertas de performance",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 23
+    },
+    {
+      "id": "comercial.growth_analytics.fazer-analise-causal-com-limites-claros",
+      "name": "Fazer análise causal com limites claros",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 24
+    },
+    {
+      "id": "comercial.growth_analytics.criar-scorecards",
+      "name": "Criar scorecards",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 25
+    },
+    {
+      "id": "comercial.growth_analytics.normalizar-coortes",
+      "name": "Normalizar coortes",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 26
+    }
+  ],
+  "skillCount": 26
+}

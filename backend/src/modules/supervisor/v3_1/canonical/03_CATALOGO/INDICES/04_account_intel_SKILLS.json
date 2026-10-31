@@ -1,0 +1,236 @@
+{
+  "agentId": "account_intel",
+  "agentName": "Detetive de Contas e Decisores",
+  "playbooks": [
+    {
+      "id": "P1",
+      "name": "Identidade empresarial e estrutura",
+      "path": "02_PLAYBOOKS/04_account_intel/P1_ACCOUNT_INTEL.md",
+      "skillIds": [
+        "comercial.account_intel.pesquisar-empresa",
+        "comercial.account_intel.validar-firmografia",
+        "comercial.account_intel.identificar-matriz-e-subsidiarias",
+        "comercial.account_intel.ler-relatorios-corporativos"
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "Comitê e mapa de relacionamento",
+      "path": "02_PLAYBOOKS/04_account_intel/P2_ACCOUNT_INTEL.md",
+      "skillIds": [
+        "comercial.account_intel.mapear-organograma-de-compra",
+        "comercial.account_intel.identificar-decisores",
+        "comercial.account_intel.mapear-influenciadores",
+        "comercial.account_intel.mapear-relacionamentos",
+        "comercial.account_intel.criar-plano-de-multithreading",
+        "comercial.account_intel.medir-cobertura-do-comite",
+        "comercial.account_intel.sugerir-matriz-de-interesses"
+      ]
+    },
+    {
+      "id": "P3",
+      "name": "Sinais e inteligência competitiva",
+      "path": "02_PLAYBOOKS/04_account_intel/P3_ACCOUNT_INTEL.md",
+      "skillIds": [
+        "comercial.account_intel.detectar-mudancas-de-lideranca",
+        "comercial.account_intel.verificar-noticias-e-sinais",
+        "comercial.account_intel.levantar-stack-tecnologica",
+        "comercial.account_intel.rastrear-eventos-relevantes",
+        "comercial.account_intel.verificar-gatilhos-de-troca",
+        "comercial.account_intel.analisar-concorrentes-por-conta"
+      ]
+    },
+    {
+      "id": "P4",
+      "name": "Briefing de conta",
+      "path": "02_PLAYBOOKS/04_account_intel/P4_ACCOUNT_INTEL.md",
+      "skillIds": [
+        "comercial.account_intel.gerar-dossie-executivo",
+        "comercial.account_intel.classificar-fatos-e-hipoteses",
+        "comercial.account_intel.recomendar-perguntas-de-discovery",
+        "comercial.account_intel.preparar-briefing-para-vendedor"
+      ]
+    },
+    {
+      "id": "P5",
+      "name": "Proteção e atualização da conta",
+      "path": "02_PLAYBOOKS/04_account_intel/P5_ACCOUNT_INTEL.md",
+      "skillIds": [
+        "comercial.account_intel.descobrir-conexoes-de-parceiros",
+        "comercial.account_intel.reconhecer-riscos-de-contato",
+        "comercial.account_intel.atualizar-conhecimento-de-conta"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "comercial.account_intel.pesquisar-empresa",
+      "name": "Pesquisar empresa",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1
+    },
+    {
+      "id": "comercial.account_intel.validar-firmografia",
+      "name": "Validar firmografia",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2
+    },
+    {
+      "id": "comercial.account_intel.identificar-matriz-e-subsidiarias",
+      "name": "Identificar matriz e subsidiárias",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 3
+    },
+    {
+      "id": "comercial.account_intel.mapear-organograma-de-compra",
+      "name": "Mapear organograma de compra",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 4
+    },
+    {
+      "id": "comercial.account_intel.identificar-decisores",
+      "name": "Identificar decisores",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 5
+    },
+    {
+      "id": "comercial.account_intel.mapear-influenciadores",
+      "name": "Mapear influenciadores",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 6
+    },
+    {
+      "id": "comercial.account_intel.ler-relatorios-corporativos",
+      "name": "Ler relatórios corporativos",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 7
+    },
+    {
+      "id": "comercial.account_intel.detectar-mudancas-de-lideranca",
+      "name": "Detectar mudanças de liderança",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 8
+    },
+    {
+      "id": "comercial.account_intel.verificar-noticias-e-sinais",
+      "name": "Verificar notícias e sinais",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 9
+    },
+    {
+      "id": "comercial.account_intel.levantar-stack-tecnologica",
+      "name": "Levantar stack tecnológica",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 10
+    },
+    {
+      "id": "comercial.account_intel.mapear-relacionamentos",
+      "name": "Mapear relacionamentos",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 11
+    },
+    {
+      "id": "comercial.account_intel.gerar-dossie-executivo",
+      "name": "Gerar dossiê executivo",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 12
+    },
+    {
+      "id": "comercial.account_intel.classificar-fatos-e-hipoteses",
+      "name": "Classificar fatos e hipóteses",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 13
+    },
+    {
+      "id": "comercial.account_intel.recomendar-perguntas-de-discovery",
+      "name": "Recomendar perguntas de discovery",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 14
+    },
+    {
+      "id": "comercial.account_intel.criar-plano-de-multithreading",
+      "name": "Criar plano de multithreading",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 15
+    },
+    {
+      "id": "comercial.account_intel.medir-cobertura-do-comite",
+      "name": "Medir cobertura do comitê",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 16
+    },
+    {
+      "id": "comercial.account_intel.descobrir-conexoes-de-parceiros",
+      "name": "Descobrir conexões de parceiros",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 17
+    },
+    {
+      "id": "comercial.account_intel.rastrear-eventos-relevantes",
+      "name": "Rastrear eventos relevantes",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 18
+    },
+    {
+      "id": "comercial.account_intel.verificar-gatilhos-de-troca",
+      "name": "Verificar gatilhos de troca",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 19
+    },
+    {
+      "id": "comercial.account_intel.preparar-briefing-para-vendedor",
+      "name": "Preparar briefing para vendedor",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 20
+    },
+    {
+      "id": "comercial.account_intel.analisar-concorrentes-por-conta",
+      "name": "Analisar concorrentes por conta",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 21
+    },
+    {
+      "id": "comercial.account_intel.sugerir-matriz-de-interesses",
+      "name": "Sugerir matriz de interesses",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 22
+    },
+    {
+      "id": "comercial.account_intel.reconhecer-riscos-de-contato",
+      "name": "Reconhecer riscos de contato",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 23
+    },
+    {
+      "id": "comercial.account_intel.atualizar-conhecimento-de-conta",
+      "name": "Atualizar conhecimento de conta",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 24
+    }
+  ],
+  "skillCount": 24
+}

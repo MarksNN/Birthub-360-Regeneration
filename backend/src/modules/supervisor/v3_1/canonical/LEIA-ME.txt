@@ -1,0 +1,26 @@
+BIRTHUB 360° — COMERCIAL V3.1 MULTIAGENTES
+
+19 prompts TXT individuais em 01_PROMPTS/
+463 skills em 03_CATALOGO/INDICES/ e 03_CATALOGO/INDICE_GERAL_463.json
+99 playbooks específicos em 02_PLAYBOOKS/, incluindo 8 originais do Outbound V3.1.
+Um único CORE em 00_CORE/, schema JSON compartilhado em 03_CONTRATOS/.
+38 exemplos JSON em 05_EXEMPLOS/; 19 golden sets / 209 casos propostos em 06_TESTES/ (não executados).
+
+COMO USAR:
+1. Leia CORE compartilhado UMA VEZ.
+2. Escolha agente na lista 03_CATALOGO/INDICE_GERAL_463.json.
+3. Carregue seu prompt fixo + índice integral de skills obrigatoriamente.
+4. Descubra os skillIds relevantes e carregue SOMENTE os playbooks associados.
+5. Valide o envelope entre agentes contra o schema global V3.1; o backend deve verificar grants, executores, aprovações e efeitos reais.
+6. Se discovery do playbook falhar, só modo consultivo; se índice/schema ausente, falha fechada do orquestrador.
+
+TESTE REPRODUZÍVEL:
+python 06_TESTES/VALIDAR_ESTRUTURA.py  # exige pacote jsonschema
+python 07_RUNTIME/MONTAR_CONTEXT.py --agent crm --skill-id comercial.crm.inspecionar-fila-bitrix --output contexto.txt
+
+LIMITAÇÕES:
+- Este pacote é proposta operacional, não implementação de grants/ToolBinding/executores.
+- Golden sets são especificações ainda não executadas contra LLM real.
+- Alguns microprocedimentos derivam de descrições V2 e exigem revisão especializada antes de produção, embora os SOPs agrupados sejam próprios do domínio.
+- Meta, base legal e thresholds operacionais devem vir da política da organização e do backend.
+- Não altera repositório, banco, políticas ou integrações.

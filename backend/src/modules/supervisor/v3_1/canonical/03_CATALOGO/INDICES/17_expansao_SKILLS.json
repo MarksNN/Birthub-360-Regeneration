@@ -1,0 +1,228 @@
+{
+  "agentId": "expansao",
+  "agentName": "Gerente de Contas e Expansão",
+  "playbooks": [
+    {
+      "id": "P1",
+      "name": "Saúde e potencial da carteira",
+      "path": "02_PLAYBOOKS/17_expansao/P1_EXPANSAO.md",
+      "skillIds": [
+        "comercial.expansao.analisar-carteira",
+        "comercial.expansao.identificar-whitespace",
+        "comercial.expansao.detectar-sinal-de-expansao",
+        "comercial.expansao.monitorar-relacionamento",
+        "comercial.expansao.priorizar-expansao-por-valor",
+        "comercial.expansao.estimar-potencial-nao-explorado"
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "Cross-sell, upsell e valor",
+      "path": "02_PLAYBOOKS/17_expansao/P2_EXPANSAO.md",
+      "skillIds": [
+        "comercial.expansao.mapear-oportunidade-de-cross-sell",
+        "comercial.expansao.desenvolver-conta",
+        "comercial.expansao.criar-estrategia-de-upsell",
+        "comercial.expansao.correlacionar-adocao-e-crescimento",
+        "comercial.expansao.mapear-concorrencia-instalada",
+        "comercial.expansao.detectar-risco-de-over-selling"
+      ]
+    },
+    {
+      "id": "P3",
+      "name": "Relacionamento e multithreading",
+      "path": "02_PLAYBOOKS/17_expansao/P3_EXPANSAO.md",
+      "skillIds": [
+        "comercial.expansao.reavaliar-stakeholders",
+        "comercial.expansao.planejar-multithreading",
+        "comercial.expansao.registrar-compromissos",
+        "comercial.expansao.sugerir-reuniao",
+        "comercial.expansao.preparar-executivo-patrocinador",
+        "comercial.expansao.organizar-calendario-de-conta"
+      ]
+    },
+    {
+      "id": "P4",
+      "name": "Renovação e QBR",
+      "path": "02_PLAYBOOKS/17_expansao/P4_EXPANSAO.md",
+      "skillIds": [
+        "comercial.expansao.preparar-qbr-comercial",
+        "comercial.expansao.preparar-renovacao-comercial",
+        "comercial.expansao.gerar-plano-de-90-dias"
+      ]
+    },
+    {
+      "id": "P5",
+      "name": "Handoff CS e produto",
+      "path": "02_PLAYBOOKS/17_expansao/P5_EXPANSAO.md",
+      "skillIds": [
+        "comercial.expansao.handoff-para-cs",
+        "comercial.expansao.propor-feedback-a-produto"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "comercial.expansao.analisar-carteira",
+      "name": "Analisar carteira",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1
+    },
+    {
+      "id": "comercial.expansao.identificar-whitespace",
+      "name": "Identificar whitespace",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2
+    },
+    {
+      "id": "comercial.expansao.mapear-oportunidade-de-cross-sell",
+      "name": "Mapear oportunidade de cross-sell",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 3
+    },
+    {
+      "id": "comercial.expansao.preparar-qbr-comercial",
+      "name": "Preparar QBR comercial",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 4
+    },
+    {
+      "id": "comercial.expansao.desenvolver-conta",
+      "name": "Desenvolver conta",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 5
+    },
+    {
+      "id": "comercial.expansao.reavaliar-stakeholders",
+      "name": "Reavaliar stakeholders",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 6
+    },
+    {
+      "id": "comercial.expansao.planejar-multithreading",
+      "name": "Planejar multithreading",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 7
+    },
+    {
+      "id": "comercial.expansao.detectar-sinal-de-expansao",
+      "name": "Detectar sinal de expansão",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 8
+    },
+    {
+      "id": "comercial.expansao.criar-estrategia-de-upsell",
+      "name": "Criar estratégia de upsell",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 9
+    },
+    {
+      "id": "comercial.expansao.registrar-compromissos",
+      "name": "Registrar compromissos",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 10
+    },
+    {
+      "id": "comercial.expansao.sugerir-reuniao",
+      "name": "Sugerir reunião",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 11
+    },
+    {
+      "id": "comercial.expansao.preparar-renovacao-comercial",
+      "name": "Preparar renovação comercial",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 12
+    },
+    {
+      "id": "comercial.expansao.handoff-para-cs",
+      "name": "Handoff para CS",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 13
+    },
+    {
+      "id": "comercial.expansao.monitorar-relacionamento",
+      "name": "Monitorar relacionamento",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 14
+    },
+    {
+      "id": "comercial.expansao.priorizar-expansao-por-valor",
+      "name": "Priorizar expansão por valor",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 15
+    },
+    {
+      "id": "comercial.expansao.correlacionar-adocao-e-crescimento",
+      "name": "Correlacionar adoção e crescimento",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 16
+    },
+    {
+      "id": "comercial.expansao.preparar-executivo-patrocinador",
+      "name": "Preparar executivo patrocinador",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 17
+    },
+    {
+      "id": "comercial.expansao.mapear-concorrencia-instalada",
+      "name": "Mapear concorrência instalada",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 18
+    },
+    {
+      "id": "comercial.expansao.estimar-potencial-nao-explorado",
+      "name": "Estimar potencial não explorado",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 19
+    },
+    {
+      "id": "comercial.expansao.gerar-plano-de-90-dias",
+      "name": "Gerar plano de 90 dias",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 20
+    },
+    {
+      "id": "comercial.expansao.propor-feedback-a-produto",
+      "name": "Propor feedback a produto",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 21
+    },
+    {
+      "id": "comercial.expansao.detectar-risco-de-over-selling",
+      "name": "Detectar risco de over-selling",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 22
+    },
+    {
+      "id": "comercial.expansao.organizar-calendario-de-conta",
+      "name": "Organizar calendário de conta",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 23
+    }
+  ],
+  "skillCount": 23
+}

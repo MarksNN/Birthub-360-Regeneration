@@ -1,0 +1,228 @@
+{
+  "agentId": "deal_health",
+  "agentName": "Analista de Risco e Saúde de Deals",
+  "playbooks": [
+    {
+      "id": "P1",
+      "name": "Estagnação e higiene",
+      "path": "02_PLAYBOOKS/12_deal_health/P1_DEAL_HEALTH.md",
+      "skillIds": [
+        "comercial.deal_health.detectar-deal-parado",
+        "comercial.deal_health.analisar-aging",
+        "comercial.deal_health.identificar-lacuna-de-crm",
+        "comercial.deal_health.comparar-atividade-e-estagio",
+        "comercial.deal_health.medir-cadencia",
+        "comercial.deal_health.detectar-ausencia-de-follow-up",
+        "comercial.deal_health.gerar-checklist-de-higiene"
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "Promessas e comitê",
+      "path": "02_PLAYBOOKS/12_deal_health/P2_DEAL_HEALTH.md",
+      "skillIds": [
+        "comercial.deal_health.identificar-promessa-pendente",
+        "comercial.deal_health.localizar-decisao-sem-dono",
+        "comercial.deal_health.avaliar-riscos-do-comite",
+        "comercial.deal_health.monitorar-multiplas-promessas"
+      ]
+    },
+    {
+      "id": "P3",
+      "name": "Priorização e alertas",
+      "path": "02_PLAYBOOKS/12_deal_health/P3_DEAL_HEALTH.md",
+      "skillIds": [
+        "comercial.deal_health.classificar-urgencia",
+        "comercial.deal_health.priorizar-risco",
+        "comercial.deal_health.gerar-alertas-explicaveis",
+        "comercial.deal_health.detectar-perda-iminente",
+        "comercial.deal_health.alertar-gestor-responsavel"
+      ]
+    },
+    {
+      "id": "P4",
+      "name": "Recuperação e SLAs",
+      "path": "02_PLAYBOOKS/12_deal_health/P4_DEAL_HEALTH.md",
+      "skillIds": [
+        "comercial.deal_health.propor-proximo-passo",
+        "comercial.deal_health.recomendar-plano-de-recuperacao",
+        "comercial.deal_health.modelar-probabilidade-de-resgate",
+        "comercial.deal_health.monitorar-sla"
+      ]
+    },
+    {
+      "id": "P5",
+      "name": "Forecast, concorrência e win/loss",
+      "path": "02_PLAYBOOKS/12_deal_health/P5_DEAL_HEALTH.md",
+      "skillIds": [
+        "comercial.deal_health.comparar-com-padroes-win-loss",
+        "comercial.deal_health.analisar-concorrente-em-risco",
+        "comercial.deal_health.avaliar-confianca-de-forecast-por-deal"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "comercial.deal_health.detectar-deal-parado",
+      "name": "Detectar deal parado",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1
+    },
+    {
+      "id": "comercial.deal_health.analisar-aging",
+      "name": "Analisar aging",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2
+    },
+    {
+      "id": "comercial.deal_health.identificar-promessa-pendente",
+      "name": "Identificar promessa pendente",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 3
+    },
+    {
+      "id": "comercial.deal_health.localizar-decisao-sem-dono",
+      "name": "Localizar decisão sem dono",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 4
+    },
+    {
+      "id": "comercial.deal_health.avaliar-riscos-do-comite",
+      "name": "Avaliar riscos do comitê",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 5
+    },
+    {
+      "id": "comercial.deal_health.classificar-urgencia",
+      "name": "Classificar urgência",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 6
+    },
+    {
+      "id": "comercial.deal_health.identificar-lacuna-de-crm",
+      "name": "Identificar lacuna de CRM",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 7
+    },
+    {
+      "id": "comercial.deal_health.comparar-atividade-e-estagio",
+      "name": "Comparar atividade e estágio",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 8
+    },
+    {
+      "id": "comercial.deal_health.propor-proximo-passo",
+      "name": "Propor próximo passo",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 9
+    },
+    {
+      "id": "comercial.deal_health.medir-cadencia",
+      "name": "Medir cadência",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 10
+    },
+    {
+      "id": "comercial.deal_health.detectar-ausencia-de-follow-up",
+      "name": "Detectar ausência de follow-up",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 11
+    },
+    {
+      "id": "comercial.deal_health.priorizar-risco",
+      "name": "Priorizar risco",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 12
+    },
+    {
+      "id": "comercial.deal_health.gerar-alertas-explicaveis",
+      "name": "Gerar alertas explicáveis",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 13
+    },
+    {
+      "id": "comercial.deal_health.recomendar-plano-de-recuperacao",
+      "name": "Recomendar plano de recuperação",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 14
+    },
+    {
+      "id": "comercial.deal_health.modelar-probabilidade-de-resgate",
+      "name": "Modelar probabilidade de resgate",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 15
+    },
+    {
+      "id": "comercial.deal_health.detectar-perda-iminente",
+      "name": "Detectar perda iminente",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 16
+    },
+    {
+      "id": "comercial.deal_health.comparar-com-padroes-win-loss",
+      "name": "Comparar com padrões win/loss",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 17
+    },
+    {
+      "id": "comercial.deal_health.monitorar-sla",
+      "name": "Monitorar SLA",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 18
+    },
+    {
+      "id": "comercial.deal_health.alertar-gestor-responsavel",
+      "name": "Alertar gestor responsável",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 19
+    },
+    {
+      "id": "comercial.deal_health.gerar-checklist-de-higiene",
+      "name": "Gerar checklist de higiene",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 20
+    },
+    {
+      "id": "comercial.deal_health.analisar-concorrente-em-risco",
+      "name": "Analisar concorrente em risco",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 21
+    },
+    {
+      "id": "comercial.deal_health.avaliar-confianca-de-forecast-por-deal",
+      "name": "Avaliar confiança de forecast por deal",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 22
+    },
+    {
+      "id": "comercial.deal_health.monitorar-multiplas-promessas",
+      "name": "Monitorar múltiplas promessas",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 23
+    }
+  ],
+  "skillCount": 23
+}

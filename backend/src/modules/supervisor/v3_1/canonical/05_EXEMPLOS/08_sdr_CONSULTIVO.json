@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "3.1",
+  "agentId": "sdr",
+  "missionId": null,
+  "correlationId": null,
+  "status": "COMPLETED",
+  "mode": "CONSULTIVO",
+  "skillIds": [
+    "comercial.sdr.qualificar-bant"
+  ],
+  "summary": "Análise consultiva demonstrativa de Especialista SDR e Discovery; nenhuma ferramenta acionada.",
+  "artifacts": [
+    {
+      "artifactType": "ANALYSIS",
+      "name": "Qualificação consultiva",
+      "state": "DRAFT_NOT_SENT",
+      "payload": {
+        "objective": "Qualificar leads, conduzir descoberta e preparar reuniões e passagens para o closer.",
+        "source": "USER_INPUT",
+        "result": "Plano hipotético: Organiza critérios de qualificação, formula perguntas, interpreta respostas e monta um handoff com lacunas e próximos passos.",
+        "notExecuted": true
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "sourceType": "USER_INPUT",
+      "reference": "Cenário fictício do golden set",
+      "claim": "Informação declarada pelo solicitante (sem verificação externa)",
+      "verification": "USER_REPORTED",
+      "observedAt": null
+    }
+  ],
+  "hypotheses": [
+    "Resultados específicos dependem de dados e fontes da organização."
+  ],
+  "missingData": [
+    "Consulta a dados reais e autorização operacional não realizadas."
+  ],
+  "compliance": {
+    "channel": "NONE",
+    "sendEligible": false,
+    "reason": "Exemplo consultivo sem consulta de canal ou execução externa.",
+    "checks": [
+      {
+        "check": "OPT_OUT",
+        "state": "UNKNOWN",
+        "reason": "Não houve consulta à lista de supressão; apenas rascunho.",
+        "evidenceRef": null
+      },
+      {
+        "check": "LEGAL_BASIS",
+        "state": "UNKNOWN",
+        "reason": "Base legal não avaliada para envio.",
+        "evidenceRef": null
+      }
+    ],
+    "signals": {
+      "whatsappOptIn": "UNKNOWN",
+      "optOutSuppression": "UNKNOWN",
+      "touchHistory": "UNKNOWN",
+      "businessHours": "UNKNOWN",
+      "timezone": null
+    }
+  },
+  "approvalPending": {
+    "required": false,
+    "status": "NOT_REQUIRED",
+    "action": null,
+    "approverRole": null,
+    "requestId": null,
+    "reason": ""
+  },
+  "handoffs": [],
+  "execution": {
+    "actionType": "DRAFT_ONLY",
+    "performed": false,
+    "state": "PREPARED",
+    "executionId": null,
+    "idempotencyKey": null,
+    "toolCalls": []
+  },
+  "metrics": {},
+  "nextStep": "Supervisor avalia pendências e decide se oferece próximo passo consultivo.",
+  "resumo_humano": "Preparei um diagnóstico preliminar para aquisição e pré-vendas; usei somente o contexto informado, sem realizar alterações."
+}

@@ -87,7 +87,7 @@ export class IntegrationApprovalService {
 
       // Aditivos não devem reiniciar a contratação principal já aceita.
       if (proposal.kind === 'CHANGE_ORDER') {
-        if (![ProposalVersionStatus.COMMERCIALLY_APPROVED, ProposalVersionStatus.SENT].includes(version.status)) {
+        if (!([ProposalVersionStatus.COMMERCIALLY_APPROVED, ProposalVersionStatus.SENT] as string[]).includes(version.status)) {
           throw new CommercialLockError(['Aditivo não autorizado para aceite.']);
         }
         if (!['IN_DEVELOPMENT','IN_TESTING','AWAITING_ACCEPTANCE','ACCEPTED','AVAILABLE'].includes(project.status)) {

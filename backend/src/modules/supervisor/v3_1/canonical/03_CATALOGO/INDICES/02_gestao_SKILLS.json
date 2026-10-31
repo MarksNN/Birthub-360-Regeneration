@@ -1,0 +1,244 @@
+{
+  "agentId": "gestao",
+  "agentName": "Diretor de Operação Comercial",
+  "playbooks": [
+    {
+      "id": "P1",
+      "name": "Metas, quotas e capacidade",
+      "path": "02_PLAYBOOKS/02_gestao/P1_GESTAO.md",
+      "skillIds": [
+        "comercial.gestao.definir-metas-e-okrs",
+        "comercial.gestao.planejar-capacidade",
+        "comercial.gestao.projetar-ramp-up",
+        "comercial.gestao.simular-territorios",
+        "comercial.gestao.planejar-contratacao",
+        "comercial.gestao.detectar-distorcoes-de-quota"
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "Performance e produtividade",
+      "path": "02_PLAYBOOKS/02_gestao/P2_GESTAO.md",
+      "skillIds": [
+        "comercial.gestao.analisar-atingimento-de-quota",
+        "comercial.gestao.medir-produtividade",
+        "comercial.gestao.detectar-gaps-da-equipe",
+        "comercial.gestao.medir-efetividade-da-gestao",
+        "comercial.gestao.avaliar-performance-de-gestores",
+        "comercial.gestao.comparar-unidades",
+        "comercial.gestao.correlacionar-atividades-e-resultados"
+      ]
+    },
+    {
+      "id": "P3",
+      "name": "Rotina de liderança",
+      "path": "02_PLAYBOOKS/02_gestao/P3_GESTAO.md",
+      "skillIds": [
+        "comercial.gestao.fazer-revisao-semanal",
+        "comercial.gestao.preparar-reunioes-1-1",
+        "comercial.gestao.gerar-resumo-executivo",
+        "comercial.gestao.criar-planos-de-acao",
+        "comercial.gestao.recomendar-coaching",
+        "comercial.gestao.automatizar-relatorios-de-diretoria"
+      ]
+    },
+    {
+      "id": "P4",
+      "name": "Alocação e gargalos",
+      "path": "02_PLAYBOOKS/02_gestao/P4_GESTAO.md",
+      "skillIds": [
+        "comercial.gestao.revisar-alocacao-de-contas",
+        "comercial.gestao.identificar-gargalos",
+        "comercial.gestao.priorizar-iniciativas"
+      ]
+    },
+    {
+      "id": "P5",
+      "name": "Remuneração e incentivos",
+      "path": "02_PLAYBOOKS/02_gestao/P5_GESTAO.md",
+      "skillIds": [
+        "comercial.gestao.sugerir-comissionamento",
+        "comercial.gestao.modelar-incentivos",
+        "comercial.gestao.avaliar-remuneracao-variavel"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "comercial.gestao.definir-metas-e-okrs",
+      "name": "Definir metas e OKRs",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1
+    },
+    {
+      "id": "comercial.gestao.analisar-atingimento-de-quota",
+      "name": "Analisar atingimento de quota",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 2
+    },
+    {
+      "id": "comercial.gestao.fazer-revisao-semanal",
+      "name": "Fazer revisão semanal",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 3
+    },
+    {
+      "id": "comercial.gestao.medir-produtividade",
+      "name": "Medir produtividade",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 4
+    },
+    {
+      "id": "comercial.gestao.detectar-gaps-da-equipe",
+      "name": "Detectar gaps da equipe",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 5
+    },
+    {
+      "id": "comercial.gestao.planejar-capacidade",
+      "name": "Planejar capacidade",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 6
+    },
+    {
+      "id": "comercial.gestao.projetar-ramp-up",
+      "name": "Projetar ramp-up",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 7
+    },
+    {
+      "id": "comercial.gestao.revisar-alocacao-de-contas",
+      "name": "Revisar alocação de contas",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 8
+    },
+    {
+      "id": "comercial.gestao.preparar-reunioes-1-1",
+      "name": "Preparar reuniões 1:1",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 9
+    },
+    {
+      "id": "comercial.gestao.gerar-resumo-executivo",
+      "name": "Gerar resumo executivo",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 10
+    },
+    {
+      "id": "comercial.gestao.criar-planos-de-acao",
+      "name": "Criar planos de ação",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 11
+    },
+    {
+      "id": "comercial.gestao.medir-efetividade-da-gestao",
+      "name": "Medir efetividade da gestão",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 12
+    },
+    {
+      "id": "comercial.gestao.identificar-gargalos",
+      "name": "Identificar gargalos",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 13
+    },
+    {
+      "id": "comercial.gestao.recomendar-coaching",
+      "name": "Recomendar coaching",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 14
+    },
+    {
+      "id": "comercial.gestao.simular-territorios",
+      "name": "Simular territórios",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 15
+    },
+    {
+      "id": "comercial.gestao.sugerir-comissionamento",
+      "name": "Sugerir comissionamento",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 16
+    },
+    {
+      "id": "comercial.gestao.modelar-incentivos",
+      "name": "Modelar incentivos",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 17
+    },
+    {
+      "id": "comercial.gestao.planejar-contratacao",
+      "name": "Planejar contratação",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 18
+    },
+    {
+      "id": "comercial.gestao.avaliar-performance-de-gestores",
+      "name": "Avaliar performance de gestores",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 19
+    },
+    {
+      "id": "comercial.gestao.comparar-unidades",
+      "name": "Comparar unidades",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 20
+    },
+    {
+      "id": "comercial.gestao.priorizar-iniciativas",
+      "name": "Priorizar iniciativas",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 21
+    },
+    {
+      "id": "comercial.gestao.avaliar-remuneracao-variavel",
+      "name": "Avaliar remuneração variável",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 22
+    },
+    {
+      "id": "comercial.gestao.correlacionar-atividades-e-resultados",
+      "name": "Correlacionar atividades e resultados",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 23
+    },
+    {
+      "id": "comercial.gestao.automatizar-relatorios-de-diretoria",
+      "name": "Automatizar relatórios de diretoria",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 24
+    },
+    {
+      "id": "comercial.gestao.detectar-distorcoes-de-quota",
+      "name": "Detectar distorções de quota",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 25
+    }
+  ],
+  "skillCount": 25
+}

@@ -1,0 +1,236 @@
+{
+  "agentId": "sdr",
+  "agentName": "Especialista SDR e Discovery",
+  "playbooks": [
+    {
+      "id": "P1",
+      "name": "Qualificação consultiva",
+      "path": "02_PLAYBOOKS/08_sdr/P1_SDR.md",
+      "skillIds": [
+        "comercial.sdr.qualificar-bant",
+        "comercial.sdr.qualificar-meddicc",
+        "comercial.sdr.mapear-dor",
+        "comercial.sdr.mapear-urgencia",
+        "comercial.sdr.identificar-orcamento-e-autoridade",
+        "comercial.sdr.detectar-desqualificacao"
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "Perguntas e objeções",
+      "path": "02_PLAYBOOKS/08_sdr/P2_SDR.md",
+      "skillIds": [
+        "comercial.sdr.criar-perguntas-abertas",
+        "comercial.sdr.reconhecer-objecoes-iniciais",
+        "comercial.sdr.preparar-roteiro-de-ligacao",
+        "comercial.sdr.detectar-sinais-de-compra"
+      ]
+    },
+    {
+      "id": "P3",
+      "name": "Agenda e reunião",
+      "path": "02_PLAYBOOKS/08_sdr/P3_SDR.md",
+      "skillIds": [
+        "comercial.sdr.sugerir-agenda",
+        "comercial.sdr.preparar-pauta",
+        "comercial.sdr.analisar-call-de-descoberta",
+        "comercial.sdr.gerar-resumo-pos-reuniao",
+        "comercial.sdr.analisar-no-show",
+        "comercial.sdr.agendar-com-consentimento"
+      ]
+    },
+    {
+      "id": "P4",
+      "name": "Handoff e CRM",
+      "path": "02_PLAYBOOKS/08_sdr/P4_SDR.md",
+      "skillIds": [
+        "comercial.sdr.gerar-handoff",
+        "comercial.sdr.atualizar-matriz-de-campos",
+        "comercial.sdr.detectar-lacunas",
+        "comercial.sdr.revalidar-lead",
+        "comercial.sdr.sugerir-stakeholders-adicionais",
+        "comercial.sdr.definir-proximo-passo"
+      ]
+    },
+    {
+      "id": "P5",
+      "name": "Eficácia e aprendizado",
+      "path": "02_PLAYBOOKS/08_sdr/P5_SDR.md",
+      "skillIds": [
+        "comercial.sdr.estimar-esforco-de-venda",
+        "comercial.sdr.aprender-qualificacoes-bem-sucedidas"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "comercial.sdr.qualificar-bant",
+      "name": "Qualificar BANT",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1
+    },
+    {
+      "id": "comercial.sdr.qualificar-meddicc",
+      "name": "Qualificar MEDDICC",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2
+    },
+    {
+      "id": "comercial.sdr.mapear-dor",
+      "name": "Mapear dor",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 3
+    },
+    {
+      "id": "comercial.sdr.mapear-urgencia",
+      "name": "Mapear urgência",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 4
+    },
+    {
+      "id": "comercial.sdr.identificar-orcamento-e-autoridade",
+      "name": "Identificar orçamento e autoridade",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 5
+    },
+    {
+      "id": "comercial.sdr.criar-perguntas-abertas",
+      "name": "Criar perguntas abertas",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 6
+    },
+    {
+      "id": "comercial.sdr.reconhecer-objecoes-iniciais",
+      "name": "Reconhecer objeções iniciais",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 7
+    },
+    {
+      "id": "comercial.sdr.detectar-desqualificacao",
+      "name": "Detectar desqualificação",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 8
+    },
+    {
+      "id": "comercial.sdr.sugerir-agenda",
+      "name": "Sugerir agenda",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 9
+    },
+    {
+      "id": "comercial.sdr.preparar-pauta",
+      "name": "Preparar pauta",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 10
+    },
+    {
+      "id": "comercial.sdr.gerar-handoff",
+      "name": "Gerar handoff",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 11
+    },
+    {
+      "id": "comercial.sdr.atualizar-matriz-de-campos",
+      "name": "Atualizar matriz de campos",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 12
+    },
+    {
+      "id": "comercial.sdr.detectar-lacunas",
+      "name": "Detectar lacunas",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 13
+    },
+    {
+      "id": "comercial.sdr.revalidar-lead",
+      "name": "Revalidar lead",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 14
+    },
+    {
+      "id": "comercial.sdr.preparar-roteiro-de-ligacao",
+      "name": "Preparar roteiro de ligação",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 15
+    },
+    {
+      "id": "comercial.sdr.analisar-call-de-descoberta",
+      "name": "Analisar call de descoberta",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 16
+    },
+    {
+      "id": "comercial.sdr.sugerir-stakeholders-adicionais",
+      "name": "Sugerir stakeholders adicionais",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 17
+    },
+    {
+      "id": "comercial.sdr.gerar-resumo-pos-reuniao",
+      "name": "Gerar resumo pós-reunião",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 18
+    },
+    {
+      "id": "comercial.sdr.detectar-sinais-de-compra",
+      "name": "Detectar sinais de compra",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 19
+    },
+    {
+      "id": "comercial.sdr.definir-proximo-passo",
+      "name": "Definir próximo passo",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 20
+    },
+    {
+      "id": "comercial.sdr.estimar-esforco-de-venda",
+      "name": "Estimar esforço de venda",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 21
+    },
+    {
+      "id": "comercial.sdr.analisar-no-show",
+      "name": "Analisar no-show",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 22
+    },
+    {
+      "id": "comercial.sdr.agendar-com-consentimento",
+      "name": "Agendar com consentimento",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 23
+    },
+    {
+      "id": "comercial.sdr.aprender-qualificacoes-bem-sucedidas",
+      "name": "Aprender qualificações bem-sucedidas",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 24
+    }
+  ],
+  "skillCount": 24
+}

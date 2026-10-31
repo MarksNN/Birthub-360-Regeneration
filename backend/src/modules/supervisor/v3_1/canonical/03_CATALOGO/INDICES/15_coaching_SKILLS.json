@@ -1,0 +1,244 @@
+{
+  "agentId": "coaching",
+  "agentName": "Coach Comercial, Roleplay e Enablement",
+  "playbooks": [
+    {
+      "id": "P1",
+      "name": "Playbooks e onboarding",
+      "path": "02_PLAYBOOKS/15_coaching/P1_COACHING.md",
+      "skillIds": [
+        "comercial.coaching.criar-playbook",
+        "comercial.coaching.revisar-playbook",
+        "comercial.coaching.preparar-onboarding",
+        "comercial.coaching.planejar-ramp-up",
+        "comercial.coaching.personalizar-trilha-por-funcao",
+        "comercial.coaching.atualizar-biblioteca-de-boas-praticas"
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "Simulações e roleplay",
+      "path": "02_PLAYBOOKS/15_coaching/P2_COACHING.md",
+      "skillIds": [
+        "comercial.coaching.fazer-roleplay",
+        "comercial.coaching.simular-objecoes",
+        "comercial.coaching.criar-exercicios-por-vertical",
+        "comercial.coaching.simular-comprador-dificil"
+      ]
+    },
+    {
+      "id": "P3",
+      "name": "Avaliação de chamada e pitch",
+      "path": "02_PLAYBOOKS/15_coaching/P3_COACHING.md",
+      "skillIds": [
+        "comercial.coaching.avaliar-argumentacao",
+        "comercial.coaching.dar-feedback-de-chamada",
+        "comercial.coaching.gerar-roteiro-de-pitch",
+        "comercial.coaching.analisar-ritmo-de-fala"
+      ]
+    },
+    {
+      "id": "P4",
+      "name": "Coaching e microtreino",
+      "path": "02_PLAYBOOKS/15_coaching/P4_COACHING.md",
+      "skillIds": [
+        "comercial.coaching.criar-flashcards",
+        "comercial.coaching.preparar-1-1",
+        "comercial.coaching.definir-meta-de-aprendizado",
+        "comercial.coaching.identificar-lacunas",
+        "comercial.coaching.medir-evolucao",
+        "comercial.coaching.recomendar-microtreino"
+      ]
+    },
+    {
+      "id": "P5",
+      "name": "Gamificação e eficácia",
+      "path": "02_PLAYBOOKS/15_coaching/P5_COACHING.md",
+      "skillIds": [
+        "comercial.coaching.gamificacao-transparente",
+        "comercial.coaching.comparar-desempenho-com-consentimento",
+        "comercial.coaching.revisar-playbook-por-win-loss",
+        "comercial.coaching.criar-ranking-com-politicas-de-privacidade",
+        "comercial.coaching.medir-impacto-no-win-rate"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "comercial.coaching.criar-playbook",
+      "name": "Criar playbook",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1
+    },
+    {
+      "id": "comercial.coaching.revisar-playbook",
+      "name": "Revisar playbook",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2
+    },
+    {
+      "id": "comercial.coaching.preparar-onboarding",
+      "name": "Preparar onboarding",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 3
+    },
+    {
+      "id": "comercial.coaching.planejar-ramp-up",
+      "name": "Planejar ramp-up",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 4
+    },
+    {
+      "id": "comercial.coaching.fazer-roleplay",
+      "name": "Fazer roleplay",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 5
+    },
+    {
+      "id": "comercial.coaching.simular-objecoes",
+      "name": "Simular objeções",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 6
+    },
+    {
+      "id": "comercial.coaching.avaliar-argumentacao",
+      "name": "Avaliar argumentação",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 7
+    },
+    {
+      "id": "comercial.coaching.dar-feedback-de-chamada",
+      "name": "Dar feedback de chamada",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 8
+    },
+    {
+      "id": "comercial.coaching.criar-flashcards",
+      "name": "Criar flashcards",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 9
+    },
+    {
+      "id": "comercial.coaching.preparar-1-1",
+      "name": "Preparar 1:1",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 10
+    },
+    {
+      "id": "comercial.coaching.definir-meta-de-aprendizado",
+      "name": "Definir meta de aprendizado",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 11
+    },
+    {
+      "id": "comercial.coaching.identificar-lacunas",
+      "name": "Identificar lacunas",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 12
+    },
+    {
+      "id": "comercial.coaching.medir-evolucao",
+      "name": "Medir evolução",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 13
+    },
+    {
+      "id": "comercial.coaching.recomendar-microtreino",
+      "name": "Recomendar microtreino",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 14
+    },
+    {
+      "id": "comercial.coaching.gamificacao-transparente",
+      "name": "Gamificação transparente",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 15
+    },
+    {
+      "id": "comercial.coaching.personalizar-trilha-por-funcao",
+      "name": "Personalizar trilha por função",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 16
+    },
+    {
+      "id": "comercial.coaching.comparar-desempenho-com-consentimento",
+      "name": "Comparar desempenho com consentimento",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 17
+    },
+    {
+      "id": "comercial.coaching.criar-exercicios-por-vertical",
+      "name": "Criar exercícios por vertical",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 18
+    },
+    {
+      "id": "comercial.coaching.gerar-roteiro-de-pitch",
+      "name": "Gerar roteiro de pitch",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 19
+    },
+    {
+      "id": "comercial.coaching.simular-comprador-dificil",
+      "name": "Simular comprador difícil",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 20
+    },
+    {
+      "id": "comercial.coaching.analisar-ritmo-de-fala",
+      "name": "Analisar ritmo de fala",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 21
+    },
+    {
+      "id": "comercial.coaching.revisar-playbook-por-win-loss",
+      "name": "Revisar playbook por win/loss",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 22
+    },
+    {
+      "id": "comercial.coaching.criar-ranking-com-politicas-de-privacidade",
+      "name": "Criar ranking com políticas de privacidade",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 23
+    },
+    {
+      "id": "comercial.coaching.medir-impacto-no-win-rate",
+      "name": "Medir impacto no win rate",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 24
+    },
+    {
+      "id": "comercial.coaching.atualizar-biblioteca-de-boas-praticas",
+      "name": "Atualizar biblioteca de boas práticas",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 25
+    }
+  ],
+  "skillCount": 25
+}

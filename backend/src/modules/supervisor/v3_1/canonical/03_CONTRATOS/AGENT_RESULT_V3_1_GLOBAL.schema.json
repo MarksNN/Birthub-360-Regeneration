@@ -1,0 +1,709 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:birthub360:commercial:agent-result:v3.1:multiagent",
+  "title": "Birthub 360 Comercial — AGENT_RESULT universal (19 especialistas) v3.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "agentId",
+    "missionId",
+    "correlationId",
+    "status",
+    "mode",
+    "skillIds",
+    "summary",
+    "resumo_humano",
+    "artifacts",
+    "evidence",
+    "hypotheses",
+    "missingData",
+    "compliance",
+    "approvalPending",
+    "handoffs",
+    "execution",
+    "metrics",
+    "nextStep"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "3.1"
+    },
+    "agentId": {
+      "enum": [
+        "supervisor",
+        "gestao",
+        "icp",
+        "account_intel",
+        "prospeccao",
+        "intencao",
+        "outbound",
+        "sdr",
+        "solucoes",
+        "negociacao",
+        "deal_desk",
+        "deal_health",
+        "forecast",
+        "growth_analytics",
+        "coaching",
+        "crm",
+        "expansao",
+        "parcerias",
+        "winloss"
+      ]
+    },
+    "missionId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "correlationId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "status": {
+      "enum": [
+        "COMPLETED",
+        "PARTIAL",
+        "BLOCKED",
+        "APPROVAL_REQUIRED",
+        "NEEDS_INFO"
+      ]
+    },
+    "mode": {
+      "enum": [
+        "CONSULTIVO",
+        "OPERACIONAL",
+        "BLOQUEADO"
+      ]
+    },
+    "skillIds": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^comercial\\.[a-z_]+\\.[a-z0-9-]+$"
+      }
+    },
+    "summary": {
+      "type": "string"
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "artifactType",
+          "name",
+          "payload",
+          "state"
+        ],
+        "properties": {
+          "artifactType": {
+            "enum": [
+              "CADENCE_DRAFT",
+              "MESSAGE_DRAFT",
+              "CALL_SCRIPT",
+              "VOICEMAIL_DRAFT",
+              "FOLLOWUP_PLAN",
+              "REPLY_TRIAGE",
+              "PERFORMANCE_REVIEW",
+              "HANDOFF_PROPOSAL",
+              "EVENT_OUTREACH_PLAN",
+              "OTHER",
+              "ANALYSIS",
+              "PLAN",
+              "MATRIX",
+              "REPORT",
+              "SCORECARD",
+              "SCENARIO",
+              "QUOTE_DRAFT",
+              "DEMO_DRAFT",
+              "CRM_CHANGESET",
+              "RISK_REGISTER",
+              "QUALIFICATION_BRIEF",
+              "ROUTING_PLAN",
+              "TRAINING_PLAN",
+              "OTHER_DOCUMENT"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "object"
+          },
+          "state": {
+            "enum": [
+              "DRAFT_NOT_SENT",
+              "PREPARED_NOT_EXECUTED",
+              "PERSISTED_VERIFIED",
+              "EXECUTED_VERIFIED"
+            ]
+          }
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "sourceType",
+          "reference",
+          "claim",
+          "verification"
+        ],
+        "properties": {
+          "sourceType": {
+            "enum": [
+              "USER_INPUT",
+              "DOCUMENT",
+              "CRM",
+              "TOOL_EXECUTION",
+              "PROVIDER_EVENT",
+              "POLICY",
+              "OTHER"
+            ]
+          },
+          "reference": {
+            "type": "string"
+          },
+          "claim": {
+            "type": "string"
+          },
+          "verification": {
+            "enum": [
+              "USER_REPORTED",
+              "TOOL_VERIFIED",
+              "POLICY_REFERENCE",
+              "UNVERIFIED"
+            ]
+          },
+          "observedAt": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "hypotheses": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "missingData": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "compliance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checks",
+        "channel",
+        "sendEligible",
+        "reason",
+        "signals"
+      ],
+      "properties": {
+        "channel": {
+          "enum": [
+            "EMAIL",
+            "WHATSAPP",
+            "PHONE",
+            "LINKEDIN",
+            "MULTICHANNEL",
+            "NONE"
+          ]
+        },
+        "sendEligible": {
+          "type": "boolean",
+          "description": "True só quando backend comprovou TODOS os gates críticos. UNKNOWN/FAIL em gate crítico exige false."
+        },
+        "reason": {
+          "type": "string"
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "check",
+              "state",
+              "reason"
+            ],
+            "properties": {
+              "check": {
+                "enum": [
+                  "LEGAL_BASIS",
+                  "PURPOSE",
+                  "OPT_OUT",
+                  "ORIGIN",
+                  "CHANNEL_POLICY",
+                  "WHATSAPP_OPT_IN",
+                  "TEMPLATE",
+                  "WINDOW_24H",
+                  "FREQUENCY",
+                  "BUSINESS_HOURS",
+                  "DUPLICATE",
+                  "OWNER",
+                  "HUMAN_APPROVAL",
+                  "AUTHORIZATION"
+                ]
+              },
+              "state": {
+                "enum": [
+                  "PASS",
+                  "FAIL",
+                  "UNKNOWN",
+                  "NOT_APPLICABLE"
+                ],
+                "description": "UNKNOWN = não foi verificado; FAIL = verificado e reprovado; não tratar UNKNOWN como PASS."
+              },
+              "reason": {
+                "type": "string"
+              },
+              "evidenceRef": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          }
+        },
+        "signals": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "whatsappOptIn",
+            "optOutSuppression",
+            "touchHistory",
+            "businessHours",
+            "timezone"
+          ],
+          "properties": {
+            "whatsappOptIn": {
+              "enum": [
+                "CONFIRMED",
+                "NOT_CONFIRMED",
+                "UNKNOWN",
+                "NOT_APPLICABLE"
+              ],
+              "description": "Consentimento/elegibilidade de contato WhatsApp; UNKNOWN significa ausência de verificação, não autorização."
+            },
+            "optOutSuppression": {
+              "enum": [
+                "CLEAR",
+                "SUPPRESSED",
+                "UNKNOWN"
+              ],
+              "description": "CLEAR somente com verificação real de inexistência de supressão; UNKNOWN bloqueia envio."
+            },
+            "touchHistory": {
+              "enum": [
+                "NO_CONFLICT",
+                "CONFLICT",
+                "UNKNOWN"
+              ],
+              "description": "Histórico verificado sem conflito, duplicidade confirmada ou não verificado."
+            },
+            "businessHours": {
+              "enum": [
+                "WITHIN_WINDOW",
+                "OUTSIDE_WINDOW",
+                "UNKNOWN",
+                "NOT_APPLICABLE"
+              ],
+              "description": "Janela avaliada no fuso do destinatário e organização; UNKNOWN não confirma horário permitido."
+            },
+            "timezone": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Fuso de contato conhecido (IANA) ou null quando desconhecido; null não valida janela de envio."
+            }
+          },
+          "description": "Status consultivos e operacionais; UNKNOWN representa condição ainda não comprovada."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "signals": {
+                "properties": {
+                  "optOutSuppression": {
+                    "enum": [
+                      "UNKNOWN",
+                      "SUPPRESSED"
+                    ]
+                  }
+                },
+                "required": [
+                  "optOutSuppression"
+                ]
+              }
+            },
+            "required": [
+              "signals"
+            ]
+          },
+          "then": {
+            "properties": {
+              "sendEligible": {
+                "const": false
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "signals": {
+                "properties": {
+                  "touchHistory": {
+                    "enum": [
+                      "UNKNOWN",
+                      "CONFLICT"
+                    ]
+                  }
+                },
+                "required": [
+                  "touchHistory"
+                ]
+              }
+            },
+            "required": [
+              "signals"
+            ]
+          },
+          "then": {
+            "properties": {
+              "sendEligible": {
+                "const": false
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "signals": {
+                "properties": {
+                  "businessHours": {
+                    "enum": [
+                      "UNKNOWN",
+                      "OUTSIDE_WINDOW"
+                    ]
+                  }
+                },
+                "required": [
+                  "businessHours"
+                ]
+              }
+            },
+            "required": [
+              "signals"
+            ]
+          },
+          "then": {
+            "properties": {
+              "sendEligible": {
+                "const": false
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "channel": {
+                "enum": [
+                  "WHATSAPP",
+                  "MULTICHANNEL"
+                ]
+              },
+              "signals": {
+                "properties": {
+                  "whatsappOptIn": {
+                    "enum": [
+                      "UNKNOWN",
+                      "NOT_CONFIRMED"
+                    ]
+                  }
+                },
+                "required": [
+                  "whatsappOptIn"
+                ]
+              }
+            },
+            "required": [
+              "channel",
+              "signals"
+            ]
+          },
+          "then": {
+            "properties": {
+              "sendEligible": {
+                "const": false
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "checks": {
+                "contains": {
+                  "type": "object",
+                  "properties": {
+                    "state": {
+                      "enum": [
+                        "FAIL",
+                        "UNKNOWN"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "state"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "checks"
+            ]
+          },
+          "then": {
+            "properties": {
+              "sendEligible": {
+                "const": false
+              }
+            }
+          }
+        }
+      ]
+    },
+    "approvalPending": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required",
+        "status",
+        "action",
+        "approverRole",
+        "requestId",
+        "reason"
+      ],
+      "properties": {
+        "required": {
+          "type": "boolean"
+        },
+        "status": {
+          "enum": [
+            "NOT_REQUIRED",
+            "PENDING",
+            "APPROVED",
+            "REJECTED",
+            "EXPIRED"
+          ]
+        },
+        "action": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "approverRole": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "requestId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    },
+    "handoffs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "to",
+          "reason",
+          "payloadRef",
+          "viaSupervisor"
+        ],
+        "properties": {
+          "to": {
+            "enum": [
+              "supervisor",
+              "gestao",
+              "icp",
+              "account_intel",
+              "prospeccao",
+              "intencao",
+              "outbound",
+              "sdr",
+              "solucoes",
+              "negociacao",
+              "deal_desk",
+              "deal_health",
+              "forecast",
+              "growth_analytics",
+              "coaching",
+              "crm",
+              "expansao",
+              "parcerias",
+              "winloss"
+            ]
+          },
+          "reason": {
+            "type": "string"
+          },
+          "payloadRef": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "viaSupervisor": {
+            "const": true
+          }
+        }
+      }
+    },
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "actionType",
+        "performed",
+        "state",
+        "executionId",
+        "idempotencyKey",
+        "toolCalls"
+      ],
+      "properties": {
+        "actionType": {
+          "enum": [
+            "ASSIGN_OWNER",
+            "CREATE_TASK",
+            "DRAFT_ONLY",
+            "ENQUEUE_SEND",
+            "GENERATE_DOCUMENT",
+            "GENERATE_REPORT",
+            "NONE",
+            "READ_DATA",
+            "SAVE_DRAFT",
+            "SCHEDULE_MEETING",
+            "SCHEDULE_TASK",
+            "SEND_MESSAGE",
+            "SUBMIT_FOR_APPROVAL",
+            "UPDATE_CRM",
+            "UPDATE_RESOURCE",
+            "UPDATE_SUPPRESSION"
+          ]
+        },
+        "performed": {
+          "type": "boolean"
+        },
+        "state": {
+          "enum": [
+            "NONE",
+            "PREPARED",
+            "PERSISTED_VERIFIED",
+            "EXECUTED_VERIFIED",
+            "DENIED",
+            "FAILED"
+          ]
+        },
+        "executionId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "idempotencyKey": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "toolCalls": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "toolCode",
+              "status",
+              "reference"
+            ],
+            "properties": {
+              "toolCode": {
+                "type": "string"
+              },
+              "status": {
+                "enum": [
+                  "SUCCESS",
+                  "FAILURE"
+                ]
+              },
+              "reference": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "nextStep": {
+      "type": "string"
+    },
+    "resumo_humano": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 600,
+      "description": "Síntese curta para exibição pelo Supervisor; nunca substitui o JSON agente→agente."
+    }
+  }
+}

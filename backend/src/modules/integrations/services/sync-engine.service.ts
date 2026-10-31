@@ -142,7 +142,7 @@ export class IntegrationSyncEngineService {
                 connectionId: ev.connectionId,
                 entity: change.entity, externalId: change.externalId,
                 strategy: 'MANUAL', status: 'OPEN',
-                remoteSnapshot: { action: 'delete', data: change.data || {} }
+                remoteSnapshot: { action: 'delete', data: (change.data || {}) as any } as any
               }
             });
             continue;
@@ -391,7 +391,7 @@ export class IntegrationSyncEngineService {
                 data: {
                   organizationId, connectionId, entity: 'company', externalId: item.externalId,
                   localId: previous.id, localSnapshot: { name: previous.name, cnpj },
-                  remoteSnapshot: item.data, strategy: 'MANUAL', status: 'OPEN'
+                  remoteSnapshot: item.data as any, strategy: 'MANUAL', status: 'OPEN'
                 }
               });
             }

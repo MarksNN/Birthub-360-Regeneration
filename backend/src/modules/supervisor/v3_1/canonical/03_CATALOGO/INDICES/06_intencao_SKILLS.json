@@ -1,0 +1,236 @@
+{
+  "agentId": "intencao",
+  "agentName": "Analista de Intenção e Lead Scoring",
+  "playbooks": [
+    {
+      "id": "P1",
+      "name": "Fit e sinais de intenção",
+      "path": "02_PLAYBOOKS/06_intencao/P1_INTENCAO.md",
+      "skillIds": [
+        "comercial.intencao.calcular-icp-fit",
+        "comercial.intencao.identificar-sinais-de-intencao",
+        "comercial.intencao.detectar-gatilhos-de-compra",
+        "comercial.intencao.segmentar-por-temperatura",
+        "comercial.intencao.gerar-hipotese-personalizada"
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "Pontuação e prioridade",
+      "path": "02_PLAYBOOKS/06_intencao/P2_INTENCAO.md",
+      "skillIds": [
+        "comercial.intencao.pontuar-inbound",
+        "comercial.intencao.pontuar-outbound",
+        "comercial.intencao.ordenar-filas",
+        "comercial.intencao.explicar-score",
+        "comercial.intencao.definir-sla-por-score",
+        "comercial.intencao.sugerir-timing",
+        "comercial.intencao.atribuir-pesos-de-sinais",
+        "comercial.intencao.repriorizar-por-urgencia"
+      ]
+    },
+    {
+      "id": "P3",
+      "name": "Calibração e precisão",
+      "path": "02_PLAYBOOKS/06_intencao/P3_INTENCAO.md",
+      "skillIds": [
+        "comercial.intencao.medir-confianca",
+        "comercial.intencao.reavaliar-score",
+        "comercial.intencao.scoring-calibrado-por-segmento",
+        "comercial.intencao.medir-precisao-historica",
+        "comercial.intencao.detectar-drift",
+        "comercial.intencao.prever-propensao-em-cenarios-aprovados"
+      ]
+    },
+    {
+      "id": "P4",
+      "name": "Engajamento e saturação",
+      "path": "02_PLAYBOOKS/06_intencao/P4_INTENCAO.md",
+      "skillIds": [
+        "comercial.intencao.detectar-saturacao",
+        "comercial.intencao.medir-engajamento-multicanal",
+        "comercial.intencao.correlacionar-conteudo-com-conversao"
+      ]
+    },
+    {
+      "id": "P5",
+      "name": "Ética, viés e temporada",
+      "path": "02_PLAYBOOKS/06_intencao/P5_INTENCAO.md",
+      "skillIds": [
+        "comercial.intencao.ajuste-por-sazonalidade",
+        "comercial.intencao.auditar-vies"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "comercial.intencao.calcular-icp-fit",
+      "name": "Calcular ICP fit",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1
+    },
+    {
+      "id": "comercial.intencao.identificar-sinais-de-intencao",
+      "name": "Identificar sinais de intenção",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2
+    },
+    {
+      "id": "comercial.intencao.pontuar-inbound",
+      "name": "Pontuar inbound",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 3
+    },
+    {
+      "id": "comercial.intencao.pontuar-outbound",
+      "name": "Pontuar outbound",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 4
+    },
+    {
+      "id": "comercial.intencao.detectar-gatilhos-de-compra",
+      "name": "Detectar gatilhos de compra",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 5
+    },
+    {
+      "id": "comercial.intencao.ordenar-filas",
+      "name": "Ordenar filas",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 6
+    },
+    {
+      "id": "comercial.intencao.explicar-score",
+      "name": "Explicar score",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 7
+    },
+    {
+      "id": "comercial.intencao.detectar-saturacao",
+      "name": "Detectar saturação",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 8
+    },
+    {
+      "id": "comercial.intencao.segmentar-por-temperatura",
+      "name": "Segmentar por temperatura",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 9
+    },
+    {
+      "id": "comercial.intencao.definir-sla-por-score",
+      "name": "Definir SLA por score",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 10
+    },
+    {
+      "id": "comercial.intencao.sugerir-timing",
+      "name": "Sugerir timing",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 11
+    },
+    {
+      "id": "comercial.intencao.gerar-hipotese-personalizada",
+      "name": "Gerar hipótese personalizada",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 12
+    },
+    {
+      "id": "comercial.intencao.medir-confianca",
+      "name": "Medir confiança",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 13
+    },
+    {
+      "id": "comercial.intencao.reavaliar-score",
+      "name": "Reavaliar score",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 14
+    },
+    {
+      "id": "comercial.intencao.scoring-calibrado-por-segmento",
+      "name": "Scoring calibrado por segmento",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 15
+    },
+    {
+      "id": "comercial.intencao.ajuste-por-sazonalidade",
+      "name": "Ajuste por sazonalidade",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 16
+    },
+    {
+      "id": "comercial.intencao.medir-precisao-historica",
+      "name": "Medir precisão histórica",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 17
+    },
+    {
+      "id": "comercial.intencao.detectar-drift",
+      "name": "Detectar drift",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 18
+    },
+    {
+      "id": "comercial.intencao.atribuir-pesos-de-sinais",
+      "name": "Atribuir pesos de sinais",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 19
+    },
+    {
+      "id": "comercial.intencao.medir-engajamento-multicanal",
+      "name": "Medir engajamento multicanal",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 20
+    },
+    {
+      "id": "comercial.intencao.correlacionar-conteudo-com-conversao",
+      "name": "Correlacionar conteúdo com conversão",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 21
+    },
+    {
+      "id": "comercial.intencao.repriorizar-por-urgencia",
+      "name": "Repriorizar por urgência",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 22
+    },
+    {
+      "id": "comercial.intencao.prever-propensao-em-cenarios-aprovados",
+      "name": "Prever propensão em cenários aprovados",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 23
+    },
+    {
+      "id": "comercial.intencao.auditar-vies",
+      "name": "Auditar viés",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 24
+    }
+  ],
+  "skillCount": 24
+}

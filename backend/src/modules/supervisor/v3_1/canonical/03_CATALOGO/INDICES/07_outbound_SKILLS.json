@@ -1,0 +1,273 @@
+{
+  "agentId": "outbound",
+  "agentName": "Especialista de Outbound Multicanal",
+  "playbooks": [
+    {
+      "id": "P1",
+      "name": "P1",
+      "path": "02_PLAYBOOKS/07_outbound/P1_CADENCIAS.md",
+      "skillIds": [
+        "comercial.outbound.criar-cadencia",
+        "comercial.outbound.definir-intervalo-de-contatos",
+        "comercial.outbound.escolher-canal-por-contexto",
+        "comercial.outbound.recomendar-sequencia-por-vertical",
+        "comercial.outbound.aplicar-horario-comercial"
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "P2",
+      "path": "02_PLAYBOOKS/07_outbound/P2_MENSAGENS.md",
+      "skillIds": [
+        "comercial.outbound.personalizar-primeiro-contato",
+        "comercial.outbound.escrever-cold-e-mail",
+        "comercial.outbound.adaptar-mensagem-para-whatsapp",
+        "comercial.outbound.ajustar-tom",
+        "comercial.outbound.usar-gatilho-de-compra",
+        "comercial.outbound.criar-variacoes-de-icebreaker"
+      ]
+    },
+    {
+      "id": "P3",
+      "name": "P3",
+      "path": "02_PLAYBOOKS/07_outbound/P3_TELEFONIA.md",
+      "skillIds": [
+        "comercial.outbound.criar-script-de-ligacao",
+        "comercial.outbound.gerar-voicemail"
+      ]
+    },
+    {
+      "id": "P4",
+      "name": "P4",
+      "path": "02_PLAYBOOKS/07_outbound/P4_FOLLOWUP.md",
+      "skillIds": [
+        "comercial.outbound.programar-follow-up",
+        "comercial.outbound.reagir-a-nao-resposta",
+        "comercial.outbound.resgatar-leads-frios"
+      ]
+    },
+    {
+      "id": "P5",
+      "name": "P5",
+      "path": "02_PLAYBOOKS/07_outbound/P5_RESPOSTAS.md",
+      "skillIds": [
+        "comercial.outbound.reconhecer-objecao",
+        "comercial.outbound.detectar-descadastro",
+        "comercial.outbound.analisar-respostas-negativas"
+      ]
+    },
+    {
+      "id": "P6",
+      "name": "P6",
+      "path": "02_PLAYBOOKS/07_outbound/P6_ANALYTICS.md",
+      "skillIds": [
+        "comercial.outbound.testar-mensagens-a-b",
+        "comercial.outbound.medir-fadiga",
+        "comercial.outbound.monitorar-entregabilidade",
+        "comercial.outbound.aprender-padroes-aprovados"
+      ]
+    },
+    {
+      "id": "P7",
+      "name": "P7",
+      "path": "02_PLAYBOOKS/07_outbound/P7_HANDOFF.md",
+      "skillIds": [
+        "comercial.outbound.evitar-duplicidade",
+        "comercial.outbound.preparar-transferencia-para-sdr"
+      ]
+    },
+    {
+      "id": "P8",
+      "name": "P8",
+      "path": "02_PLAYBOOKS/07_outbound/P8_EVENTOS.md",
+      "skillIds": [
+        "comercial.outbound.gerar-abordagem-para-webinar"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "comercial.outbound.criar-cadencia",
+      "name": "Criar cadência",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1
+    },
+    {
+      "id": "comercial.outbound.personalizar-primeiro-contato",
+      "name": "Personalizar primeiro contato",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 2
+    },
+    {
+      "id": "comercial.outbound.escrever-cold-e-mail",
+      "name": "Escrever cold e-mail",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 3
+    },
+    {
+      "id": "comercial.outbound.criar-script-de-ligacao",
+      "name": "Criar script de ligação",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 4
+    },
+    {
+      "id": "comercial.outbound.adaptar-mensagem-para-whatsapp",
+      "name": "Adaptar mensagem para WhatsApp",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 5
+    },
+    {
+      "id": "comercial.outbound.programar-follow-up",
+      "name": "Programar follow-up",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 6
+    },
+    {
+      "id": "comercial.outbound.reconhecer-objecao",
+      "name": "Reconhecer objeção",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 7
+    },
+    {
+      "id": "comercial.outbound.gerar-voicemail",
+      "name": "Gerar voicemail",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 8
+    },
+    {
+      "id": "comercial.outbound.ajustar-tom",
+      "name": "Ajustar tom",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 9
+    },
+    {
+      "id": "comercial.outbound.usar-gatilho-de-compra",
+      "name": "Usar gatilho de compra",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 10
+    },
+    {
+      "id": "comercial.outbound.definir-intervalo-de-contatos",
+      "name": "Definir intervalo de contatos",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 11
+    },
+    {
+      "id": "comercial.outbound.evitar-duplicidade",
+      "name": "Evitar duplicidade",
+      "playbookId": "P7",
+      "catalogStage": "Essencial",
+      "number": 12
+    },
+    {
+      "id": "comercial.outbound.reagir-a-nao-resposta",
+      "name": "Reagir a não resposta",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 13
+    },
+    {
+      "id": "comercial.outbound.preparar-transferencia-para-sdr",
+      "name": "Preparar transferência para SDR",
+      "playbookId": "P7",
+      "catalogStage": "Essencial",
+      "number": 14
+    },
+    {
+      "id": "comercial.outbound.testar-mensagens-a-b",
+      "name": "Testar mensagens A/B",
+      "playbookId": "P6",
+      "catalogStage": "Expansão",
+      "number": 15
+    },
+    {
+      "id": "comercial.outbound.escolher-canal-por-contexto",
+      "name": "Escolher canal por contexto",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 16
+    },
+    {
+      "id": "comercial.outbound.medir-fadiga",
+      "name": "Medir fadiga",
+      "playbookId": "P6",
+      "catalogStage": "Expansão",
+      "number": 17
+    },
+    {
+      "id": "comercial.outbound.detectar-descadastro",
+      "name": "Detectar descadastro",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 18
+    },
+    {
+      "id": "comercial.outbound.gerar-abordagem-para-webinar",
+      "name": "Gerar abordagem para webinar",
+      "playbookId": "P8",
+      "catalogStage": "Expansão",
+      "number": 19
+    },
+    {
+      "id": "comercial.outbound.resgatar-leads-frios",
+      "name": "Resgatar leads frios",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 20
+    },
+    {
+      "id": "comercial.outbound.recomendar-sequencia-por-vertical",
+      "name": "Recomendar sequência por vertical",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 21
+    },
+    {
+      "id": "comercial.outbound.monitorar-entregabilidade",
+      "name": "Monitorar entregabilidade",
+      "playbookId": "P6",
+      "catalogStage": "Expansão",
+      "number": 22
+    },
+    {
+      "id": "comercial.outbound.aplicar-horario-comercial",
+      "name": "Aplicar horário comercial",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 23
+    },
+    {
+      "id": "comercial.outbound.criar-variacoes-de-icebreaker",
+      "name": "Criar variações de icebreaker",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 24
+    },
+    {
+      "id": "comercial.outbound.analisar-respostas-negativas",
+      "name": "Analisar respostas negativas",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 25
+    },
+    {
+      "id": "comercial.outbound.aprender-padroes-aprovados",
+      "name": "Aprender padrões aprovados",
+      "playbookId": "P6",
+      "catalogStage": "Expansão",
+      "number": 26
+    }
+  ],
+  "skillCount": 26
+}

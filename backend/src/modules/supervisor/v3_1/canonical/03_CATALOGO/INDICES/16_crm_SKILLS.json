@@ -1,0 +1,236 @@
+{
+  "agentId": "crm",
+  "agentName": "Guardião do CRM e do Bitrix",
+  "playbooks": [
+    {
+      "id": "P1",
+      "name": "Integridade e duplicidades",
+      "path": "02_PLAYBOOKS/16_crm/P1_CRM.md",
+      "skillIds": [
+        "comercial.crm.validar-registros",
+        "comercial.crm.identificar-duplicidades",
+        "comercial.crm.verificar-obrigatoriedade-de-campos",
+        "comercial.crm.detectar-estagio-invalido",
+        "comercial.crm.diagnosticar-falha-webhook",
+        "comercial.crm.gerar-lista-de-inconsistencias",
+        "comercial.crm.produzir-score-de-qualidade-de-crm"
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "Ownership, origem e roteamento",
+      "path": "02_PLAYBOOKS/16_crm/P2_CRM.md",
+      "skillIds": [
+        "comercial.crm.roteamento-de-leads",
+        "comercial.crm.verificar-ownership",
+        "comercial.crm.detectar-atividades-faltantes",
+        "comercial.crm.gerenciar-regra-de-origem",
+        "comercial.crm.validar-consentimento-de-dados"
+      ]
+    },
+    {
+      "id": "P3",
+      "name": "Bitrix webhook e filas",
+      "path": "02_PLAYBOOKS/16_crm/P3_CRM.md",
+      "skillIds": [
+        "comercial.crm.inspecionar-fila-bitrix",
+        "comercial.crm.auditar-alteracoes",
+        "comercial.crm.monitorar-sincronizacao",
+        "comercial.crm.testar-idempotencia",
+        "comercial.crm.inspecionar-conflitos-bidirecionais",
+        "comercial.crm.monitorar-sla-de-integracao"
+      ]
+    },
+    {
+      "id": "P4",
+      "name": "Qualidade e alertas",
+      "path": "02_PLAYBOOKS/16_crm/P4_CRM.md",
+      "skillIds": [
+        "comercial.crm.conciliar-dados",
+        "comercial.crm.propor-correcao",
+        "comercial.crm.automatizar-checagem-diaria",
+        "comercial.crm.detectar-anomalia-em-lote",
+        "comercial.crm.propor-politica-de-higienizacao"
+      ]
+    },
+    {
+      "id": "P5",
+      "name": "Correção aprovada",
+      "path": "02_PLAYBOOKS/16_crm/P5_CRM.md",
+      "skillIds": [
+        "comercial.crm.corrigir-dados-mediante-aprovacao"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "comercial.crm.validar-registros",
+      "name": "Validar registros",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1
+    },
+    {
+      "id": "comercial.crm.identificar-duplicidades",
+      "name": "Identificar duplicidades",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2
+    },
+    {
+      "id": "comercial.crm.verificar-obrigatoriedade-de-campos",
+      "name": "Verificar obrigatoriedade de campos",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 3
+    },
+    {
+      "id": "comercial.crm.detectar-estagio-invalido",
+      "name": "Detectar estágio inválido",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 4
+    },
+    {
+      "id": "comercial.crm.conciliar-dados",
+      "name": "Conciliar dados",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 5
+    },
+    {
+      "id": "comercial.crm.inspecionar-fila-bitrix",
+      "name": "Inspecionar fila Bitrix",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 6
+    },
+    {
+      "id": "comercial.crm.diagnosticar-falha-webhook",
+      "name": "Diagnosticar falha webhook",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 7
+    },
+    {
+      "id": "comercial.crm.auditar-alteracoes",
+      "name": "Auditar alterações",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 8
+    },
+    {
+      "id": "comercial.crm.roteamento-de-leads",
+      "name": "Roteamento de leads",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 9
+    },
+    {
+      "id": "comercial.crm.verificar-ownership",
+      "name": "Verificar ownership",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 10
+    },
+    {
+      "id": "comercial.crm.detectar-atividades-faltantes",
+      "name": "Detectar atividades faltantes",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 11
+    },
+    {
+      "id": "comercial.crm.gerar-lista-de-inconsistencias",
+      "name": "Gerar lista de inconsistências",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 12
+    },
+    {
+      "id": "comercial.crm.monitorar-sincronizacao",
+      "name": "Monitorar sincronização",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 13
+    },
+    {
+      "id": "comercial.crm.propor-correcao",
+      "name": "Propor correção",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 14
+    },
+    {
+      "id": "comercial.crm.automatizar-checagem-diaria",
+      "name": "Automatizar checagem diária",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 15
+    },
+    {
+      "id": "comercial.crm.corrigir-dados-mediante-aprovacao",
+      "name": "Corrigir dados mediante aprovação",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 16
+    },
+    {
+      "id": "comercial.crm.testar-idempotencia",
+      "name": "Testar idempotência",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 17
+    },
+    {
+      "id": "comercial.crm.inspecionar-conflitos-bidirecionais",
+      "name": "Inspecionar conflitos bidirecionais",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 18
+    },
+    {
+      "id": "comercial.crm.detectar-anomalia-em-lote",
+      "name": "Detectar anomalia em lote",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 19
+    },
+    {
+      "id": "comercial.crm.monitorar-sla-de-integracao",
+      "name": "Monitorar SLA de integração",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 20
+    },
+    {
+      "id": "comercial.crm.propor-politica-de-higienizacao",
+      "name": "Propor política de higienização",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 21
+    },
+    {
+      "id": "comercial.crm.gerenciar-regra-de-origem",
+      "name": "Gerenciar regra de origem",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 22
+    },
+    {
+      "id": "comercial.crm.validar-consentimento-de-dados",
+      "name": "Validar consentimento de dados",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 23
+    },
+    {
+      "id": "comercial.crm.produzir-score-de-qualidade-de-crm",
+      "name": "Produzir score de qualidade de CRM",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 24
+    }
+  ],
+  "skillCount": 24
+}

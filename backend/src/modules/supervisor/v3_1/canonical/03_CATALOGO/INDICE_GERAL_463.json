@@ -1,0 +1,3863 @@
+{
+  "schemaVersion": "3.1",
+  "agents": [
+    {
+      "id": "supervisor",
+      "name": "Supervisor Comercial",
+      "prompt": "01_PROMPTS/01_supervisor_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/01_supervisor_SKILLS.json",
+      "skills": 25,
+      "playbooks": 6
+    },
+    {
+      "id": "gestao",
+      "name": "Diretor de Operação Comercial",
+      "prompt": "01_PROMPTS/02_gestao_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/02_gestao_SKILLS.json",
+      "skills": 25,
+      "playbooks": 5
+    },
+    {
+      "id": "icp",
+      "name": "Arquiteto de ICP e Territórios",
+      "prompt": "01_PROMPTS/03_icp_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/03_icp_SKILLS.json",
+      "skills": 25,
+      "playbooks": 5
+    },
+    {
+      "id": "account_intel",
+      "name": "Detetive de Contas e Decisores",
+      "prompt": "01_PROMPTS/04_account_intel_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/04_account_intel_SKILLS.json",
+      "skills": 24,
+      "playbooks": 5
+    },
+    {
+      "id": "prospeccao",
+      "name": "Caçador de Leads e Enriquecimento",
+      "prompt": "01_PROMPTS/05_prospeccao_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/05_prospeccao_SKILLS.json",
+      "skills": 25,
+      "playbooks": 5
+    },
+    {
+      "id": "intencao",
+      "name": "Analista de Intenção e Lead Scoring",
+      "prompt": "01_PROMPTS/06_intencao_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/06_intencao_SKILLS.json",
+      "skills": 24,
+      "playbooks": 5
+    },
+    {
+      "id": "outbound",
+      "name": "Especialista de Outbound Multicanal",
+      "prompt": "01_PROMPTS/07_outbound_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/07_outbound_SKILLS.json",
+      "skills": 26,
+      "playbooks": 8
+    },
+    {
+      "id": "sdr",
+      "name": "Especialista SDR e Discovery",
+      "prompt": "01_PROMPTS/08_sdr_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/08_sdr_SKILLS.json",
+      "skills": 24,
+      "playbooks": 5
+    },
+    {
+      "id": "solucoes",
+      "name": "Engenheiro de Soluções e Demos",
+      "prompt": "01_PROMPTS/09_solucoes_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/09_solucoes_SKILLS.json",
+      "skills": 24,
+      "playbooks": 5
+    },
+    {
+      "id": "negociacao",
+      "name": "Closer de Negociação e Valor",
+      "prompt": "01_PROMPTS/10_negociacao_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/10_negociacao_SKILLS.json",
+      "skills": 24,
+      "playbooks": 5
+    },
+    {
+      "id": "deal_desk",
+      "name": "Deal Desk de Preços, Propostas e Contratos",
+      "prompt": "01_PROMPTS/11_deal_desk_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/11_deal_desk_SKILLS.json",
+      "skills": 26,
+      "playbooks": 5
+    },
+    {
+      "id": "deal_health",
+      "name": "Analista de Risco e Saúde de Deals",
+      "prompt": "01_PROMPTS/12_deal_health_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/12_deal_health_SKILLS.json",
+      "skills": 23,
+      "playbooks": 5
+    },
+    {
+      "id": "forecast",
+      "name": "Estrategista de Pipeline e Forecast",
+      "prompt": "01_PROMPTS/13_forecast_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/13_forecast_SKILLS.json",
+      "skills": 24,
+      "playbooks": 5
+    },
+    {
+      "id": "growth_analytics",
+      "name": "Cientista de Inteligência de Receita",
+      "prompt": "01_PROMPTS/14_growth_analytics_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/14_growth_analytics_SKILLS.json",
+      "skills": 26,
+      "playbooks": 5
+    },
+    {
+      "id": "coaching",
+      "name": "Coach Comercial, Roleplay e Enablement",
+      "prompt": "01_PROMPTS/15_coaching_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/15_coaching_SKILLS.json",
+      "skills": 25,
+      "playbooks": 5
+    },
+    {
+      "id": "crm",
+      "name": "Guardião do CRM e do Bitrix",
+      "prompt": "01_PROMPTS/16_crm_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/16_crm_SKILLS.json",
+      "skills": 24,
+      "playbooks": 5
+    },
+    {
+      "id": "expansao",
+      "name": "Gerente de Contas e Expansão",
+      "prompt": "01_PROMPTS/17_expansao_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/17_expansao_SKILLS.json",
+      "skills": 23,
+      "playbooks": 5
+    },
+    {
+      "id": "parcerias",
+      "name": "Estrategista de Parcerias e Canais",
+      "prompt": "01_PROMPTS/18_parcerias_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/18_parcerias_SKILLS.json",
+      "skills": 23,
+      "playbooks": 5
+    },
+    {
+      "id": "winloss",
+      "name": "Analista de Win/Loss e Aprendizado",
+      "prompt": "01_PROMPTS/19_winloss_SYSTEM.txt",
+      "index": "03_CATALOGO/INDICES/19_winloss_SKILLS.json",
+      "skills": 23,
+      "playbooks": 5
+    }
+  ],
+  "skills": [
+    {
+      "id": "comercial.supervisor.entender-linguagem-natural",
+      "name": "Entender linguagem natural",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1,
+      "agentId": "supervisor"
+    },
+    {
+      "id": "comercial.supervisor.detectar-objetivo-e-contexto",
+      "name": "Detectar objetivo e contexto",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2,
+      "agentId": "supervisor"
+    },
+    {
+      "id": "comercial.supervisor.decompor-tarefas",
+      "name": "Decompor tarefas",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 3,
+      "agentId": "supervisor"
+    },
+    {
+      "id": "comercial.supervisor.selecionar-especialistas",
+      "name": "Selecionar especialistas",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 4,
+      "agentId": "supervisor"
+    },
+    {
+      "id": "comercial.supervisor.confirmar-autorizacao-por-organizacao",
+      "name": "Confirmar autorização por organização",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 5,
+      "agentId": "supervisor"
+    },
+    {
+      "id": "comercial.supervisor.verificar-capacidade-executavel",
+      "name": "Verificar capacidade executável",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 6,
+      "agentId": "supervisor"
+    },
+    {
+      "id": "comercial.supervisor.planejar-dependencias",
+      "name": "Planejar dependências",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 7,
+      "agentId": "supervisor"
+    },
+    {
+      "id": "comercial.supervisor.delegar-e-acompanhar",
+      "name": "Delegar e acompanhar",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 8,
+      "agentId": "supervisor"
+    },
+    {
+      "id": "comercial.supervisor.identificar-conflitos-de-resultado",
+      "name": "Identificar conflitos de resultado",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 9,
+      "agentId": "supervisor"
+    },
+    {
+      "id": "comercial.supervisor.consolidar-respostas",
+      "name": "Consolidar respostas",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 10,
+      "agentId": "supervisor"
+    },
+    {
+      "id": "comercial.supervisor.explicar-decisoes",
+      "name": "Explicar decisões",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 11,
+      "agentId": "supervisor"
+    },
+    {
+      "id": "comercial.supervisor.criar-trilha-de-auditoria",
+      "name": "Criar trilha de auditoria",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 12,
+      "agentId": "supervisor"
+    },
+    {
+      "id": "comercial.supervisor.escalar-excecoes",
+      "name": "Escalar exceções",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 13,
+      "agentId": "supervisor"
+    },
+    {
+      "id": "comercial.supervisor.solicitar-aprovacao-humana",
+      "name": "Solicitar aprovação humana",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 14,
+      "agentId": "supervisor"
+    },
+    {
+      "id": "comercial.supervisor.replanejar-missao-por-falha",
+      "name": "Replanejar missão por falha",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 15,
+      "agentId": "supervisor"
+    },
+    {
+      "id": "comercial.supervisor.controlar-orcamento-de-ia",
+      "name": "Controlar orçamento de IA",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 16,
+      "agentId": "supervisor"
+    },
+    {
+      "id": "comercial.supervisor.deduplicar-tarefas",
+      "name": "Deduplicar tarefas",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 17,
+      "agentId": "supervisor"
+    },
+    {
+      "id": "comercial.supervisor.otimizar-escolha-de-modelos",
+      "name": "Otimizar escolha de modelos",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 18,
+      "agentId": "supervisor"
+    },
+    {
+      "id": "comercial.supervisor.reutilizar-conhecimento-aprovado",
+      "name": "Reutilizar conhecimento aprovado",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 19,
+      "agentId": "supervisor"
+    },
+    {
+      "id": "comercial.supervisor.aplicar-priorizacao-por-urgencia",
+      "name": "Aplicar priorização por urgência",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 20,
+      "agentId": "supervisor"
+    },
+    {
+      "id": "comercial.supervisor.estimar-esforco-e-impacto",
+      "name": "Estimar esforço e impacto",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 21,
+      "agentId": "supervisor"
+    },
+    {
+      "id": "comercial.supervisor.incorporar-feedback",
+      "name": "Incorporar feedback",
+      "playbookId": "P6",
+      "catalogStage": "Expansão",
+      "number": 22,
+      "agentId": "supervisor"
+    },
+    {
+      "id": "comercial.supervisor.simular-alternativas",
+      "name": "Simular alternativas",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 23,
+      "agentId": "supervisor"
+    },
+    {
+      "id": "comercial.supervisor.fazer-handoff-entre-departamentos",
+      "name": "Fazer handoff entre departamentos",
+      "playbookId": "P6",
+      "catalogStage": "Expansão",
+      "number": 24,
+      "agentId": "supervisor"
+    },
+    {
+      "id": "comercial.supervisor.gerenciar-sla-de-agentes",
+      "name": "Gerenciar SLA de agentes",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 25,
+      "agentId": "supervisor"
+    },
+    {
+      "id": "comercial.gestao.definir-metas-e-okrs",
+      "name": "Definir metas e OKRs",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1,
+      "agentId": "gestao"
+    },
+    {
+      "id": "comercial.gestao.analisar-atingimento-de-quota",
+      "name": "Analisar atingimento de quota",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 2,
+      "agentId": "gestao"
+    },
+    {
+      "id": "comercial.gestao.fazer-revisao-semanal",
+      "name": "Fazer revisão semanal",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 3,
+      "agentId": "gestao"
+    },
+    {
+      "id": "comercial.gestao.medir-produtividade",
+      "name": "Medir produtividade",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 4,
+      "agentId": "gestao"
+    },
+    {
+      "id": "comercial.gestao.detectar-gaps-da-equipe",
+      "name": "Detectar gaps da equipe",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 5,
+      "agentId": "gestao"
+    },
+    {
+      "id": "comercial.gestao.planejar-capacidade",
+      "name": "Planejar capacidade",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 6,
+      "agentId": "gestao"
+    },
+    {
+      "id": "comercial.gestao.projetar-ramp-up",
+      "name": "Projetar ramp-up",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 7,
+      "agentId": "gestao"
+    },
+    {
+      "id": "comercial.gestao.revisar-alocacao-de-contas",
+      "name": "Revisar alocação de contas",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 8,
+      "agentId": "gestao"
+    },
+    {
+      "id": "comercial.gestao.preparar-reunioes-1-1",
+      "name": "Preparar reuniões 1:1",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 9,
+      "agentId": "gestao"
+    },
+    {
+      "id": "comercial.gestao.gerar-resumo-executivo",
+      "name": "Gerar resumo executivo",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 10,
+      "agentId": "gestao"
+    },
+    {
+      "id": "comercial.gestao.criar-planos-de-acao",
+      "name": "Criar planos de ação",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 11,
+      "agentId": "gestao"
+    },
+    {
+      "id": "comercial.gestao.medir-efetividade-da-gestao",
+      "name": "Medir efetividade da gestão",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 12,
+      "agentId": "gestao"
+    },
+    {
+      "id": "comercial.gestao.identificar-gargalos",
+      "name": "Identificar gargalos",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 13,
+      "agentId": "gestao"
+    },
+    {
+      "id": "comercial.gestao.recomendar-coaching",
+      "name": "Recomendar coaching",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 14,
+      "agentId": "gestao"
+    },
+    {
+      "id": "comercial.gestao.simular-territorios",
+      "name": "Simular territórios",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 15,
+      "agentId": "gestao"
+    },
+    {
+      "id": "comercial.gestao.sugerir-comissionamento",
+      "name": "Sugerir comissionamento",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 16,
+      "agentId": "gestao"
+    },
+    {
+      "id": "comercial.gestao.modelar-incentivos",
+      "name": "Modelar incentivos",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 17,
+      "agentId": "gestao"
+    },
+    {
+      "id": "comercial.gestao.planejar-contratacao",
+      "name": "Planejar contratação",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 18,
+      "agentId": "gestao"
+    },
+    {
+      "id": "comercial.gestao.avaliar-performance-de-gestores",
+      "name": "Avaliar performance de gestores",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 19,
+      "agentId": "gestao"
+    },
+    {
+      "id": "comercial.gestao.comparar-unidades",
+      "name": "Comparar unidades",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 20,
+      "agentId": "gestao"
+    },
+    {
+      "id": "comercial.gestao.priorizar-iniciativas",
+      "name": "Priorizar iniciativas",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 21,
+      "agentId": "gestao"
+    },
+    {
+      "id": "comercial.gestao.avaliar-remuneracao-variavel",
+      "name": "Avaliar remuneração variável",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 22,
+      "agentId": "gestao"
+    },
+    {
+      "id": "comercial.gestao.correlacionar-atividades-e-resultados",
+      "name": "Correlacionar atividades e resultados",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 23,
+      "agentId": "gestao"
+    },
+    {
+      "id": "comercial.gestao.automatizar-relatorios-de-diretoria",
+      "name": "Automatizar relatórios de diretoria",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 24,
+      "agentId": "gestao"
+    },
+    {
+      "id": "comercial.gestao.detectar-distorcoes-de-quota",
+      "name": "Detectar distorções de quota",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 25,
+      "agentId": "gestao"
+    },
+    {
+      "id": "comercial.icp.construir-icp",
+      "name": "Construir ICP",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1,
+      "agentId": "icp"
+    },
+    {
+      "id": "comercial.icp.refinar-icp",
+      "name": "Refinar ICP",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2,
+      "agentId": "icp"
+    },
+    {
+      "id": "comercial.icp.criar-anti-icp",
+      "name": "Criar anti-ICP",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 3,
+      "agentId": "icp"
+    },
+    {
+      "id": "comercial.icp.identificar-verticais",
+      "name": "Identificar verticais",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 4,
+      "agentId": "icp"
+    },
+    {
+      "id": "comercial.icp.mapear-tam-sam-som",
+      "name": "Mapear TAM/SAM/SOM",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 5,
+      "agentId": "icp"
+    },
+    {
+      "id": "comercial.icp.priorizar-nichos",
+      "name": "Priorizar nichos",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 6,
+      "agentId": "icp"
+    },
+    {
+      "id": "comercial.icp.medir-whitespace",
+      "name": "Medir whitespace",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 7,
+      "agentId": "icp"
+    },
+    {
+      "id": "comercial.icp.definir-tier-de-contas",
+      "name": "Definir tier de contas",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 8,
+      "agentId": "icp"
+    },
+    {
+      "id": "comercial.icp.distribuir-territorios",
+      "name": "Distribuir territórios",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 9,
+      "agentId": "icp"
+    },
+    {
+      "id": "comercial.icp.detectar-sobreposicao",
+      "name": "Detectar sobreposição",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 10,
+      "agentId": "icp"
+    },
+    {
+      "id": "comercial.icp.recomendar-regioes",
+      "name": "Recomendar regiões",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 11,
+      "agentId": "icp"
+    },
+    {
+      "id": "comercial.icp.estimar-potencial",
+      "name": "Estimar potencial",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 12,
+      "agentId": "icp"
+    },
+    {
+      "id": "comercial.icp.criar-criterios-de-inclusao",
+      "name": "Criar critérios de inclusão",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 13,
+      "agentId": "icp"
+    },
+    {
+      "id": "comercial.icp.documentar-hipoteses",
+      "name": "Documentar hipóteses",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 14,
+      "agentId": "icp"
+    },
+    {
+      "id": "comercial.icp.modelar-expansao-geografica",
+      "name": "Modelar expansão geográfica",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 15,
+      "agentId": "icp"
+    },
+    {
+      "id": "comercial.icp.estimar-densidade-de-contas",
+      "name": "Estimar densidade de contas",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 16,
+      "agentId": "icp"
+    },
+    {
+      "id": "comercial.icp.analisar-saturacao",
+      "name": "Analisar saturação",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 17,
+      "agentId": "icp"
+    },
+    {
+      "id": "comercial.icp.balancear-carteiras",
+      "name": "Balancear carteiras",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 18,
+      "agentId": "icp"
+    },
+    {
+      "id": "comercial.icp.simular-potencial-de-quotas",
+      "name": "Simular potencial de quotas",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 19,
+      "agentId": "icp"
+    },
+    {
+      "id": "comercial.icp.definir-clusters-de-icp",
+      "name": "Definir clusters de ICP",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 20,
+      "agentId": "icp"
+    },
+    {
+      "id": "comercial.icp.diferenciar-icp-por-produto",
+      "name": "Diferenciar ICP por produto",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 21,
+      "agentId": "icp"
+    },
+    {
+      "id": "comercial.icp.medir-sazonalidade",
+      "name": "Medir sazonalidade",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 22,
+      "agentId": "icp"
+    },
+    {
+      "id": "comercial.icp.incorporar-win-loss",
+      "name": "Incorporar win/loss",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 23,
+      "agentId": "icp"
+    },
+    {
+      "id": "comercial.icp.detectar-mercado-emergente",
+      "name": "Detectar mercado emergente",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 24,
+      "agentId": "icp"
+    },
+    {
+      "id": "comercial.icp.testar-mudancas-de-segmentacao",
+      "name": "Testar mudanças de segmentação",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 25,
+      "agentId": "icp"
+    },
+    {
+      "id": "comercial.account_intel.pesquisar-empresa",
+      "name": "Pesquisar empresa",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1,
+      "agentId": "account_intel"
+    },
+    {
+      "id": "comercial.account_intel.validar-firmografia",
+      "name": "Validar firmografia",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2,
+      "agentId": "account_intel"
+    },
+    {
+      "id": "comercial.account_intel.identificar-matriz-e-subsidiarias",
+      "name": "Identificar matriz e subsidiárias",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 3,
+      "agentId": "account_intel"
+    },
+    {
+      "id": "comercial.account_intel.mapear-organograma-de-compra",
+      "name": "Mapear organograma de compra",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 4,
+      "agentId": "account_intel"
+    },
+    {
+      "id": "comercial.account_intel.identificar-decisores",
+      "name": "Identificar decisores",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 5,
+      "agentId": "account_intel"
+    },
+    {
+      "id": "comercial.account_intel.mapear-influenciadores",
+      "name": "Mapear influenciadores",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 6,
+      "agentId": "account_intel"
+    },
+    {
+      "id": "comercial.account_intel.ler-relatorios-corporativos",
+      "name": "Ler relatórios corporativos",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 7,
+      "agentId": "account_intel"
+    },
+    {
+      "id": "comercial.account_intel.detectar-mudancas-de-lideranca",
+      "name": "Detectar mudanças de liderança",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 8,
+      "agentId": "account_intel"
+    },
+    {
+      "id": "comercial.account_intel.verificar-noticias-e-sinais",
+      "name": "Verificar notícias e sinais",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 9,
+      "agentId": "account_intel"
+    },
+    {
+      "id": "comercial.account_intel.levantar-stack-tecnologica",
+      "name": "Levantar stack tecnológica",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 10,
+      "agentId": "account_intel"
+    },
+    {
+      "id": "comercial.account_intel.mapear-relacionamentos",
+      "name": "Mapear relacionamentos",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 11,
+      "agentId": "account_intel"
+    },
+    {
+      "id": "comercial.account_intel.gerar-dossie-executivo",
+      "name": "Gerar dossiê executivo",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 12,
+      "agentId": "account_intel"
+    },
+    {
+      "id": "comercial.account_intel.classificar-fatos-e-hipoteses",
+      "name": "Classificar fatos e hipóteses",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 13,
+      "agentId": "account_intel"
+    },
+    {
+      "id": "comercial.account_intel.recomendar-perguntas-de-discovery",
+      "name": "Recomendar perguntas de discovery",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 14,
+      "agentId": "account_intel"
+    },
+    {
+      "id": "comercial.account_intel.criar-plano-de-multithreading",
+      "name": "Criar plano de multithreading",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 15,
+      "agentId": "account_intel"
+    },
+    {
+      "id": "comercial.account_intel.medir-cobertura-do-comite",
+      "name": "Medir cobertura do comitê",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 16,
+      "agentId": "account_intel"
+    },
+    {
+      "id": "comercial.account_intel.descobrir-conexoes-de-parceiros",
+      "name": "Descobrir conexões de parceiros",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 17,
+      "agentId": "account_intel"
+    },
+    {
+      "id": "comercial.account_intel.rastrear-eventos-relevantes",
+      "name": "Rastrear eventos relevantes",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 18,
+      "agentId": "account_intel"
+    },
+    {
+      "id": "comercial.account_intel.verificar-gatilhos-de-troca",
+      "name": "Verificar gatilhos de troca",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 19,
+      "agentId": "account_intel"
+    },
+    {
+      "id": "comercial.account_intel.preparar-briefing-para-vendedor",
+      "name": "Preparar briefing para vendedor",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 20,
+      "agentId": "account_intel"
+    },
+    {
+      "id": "comercial.account_intel.analisar-concorrentes-por-conta",
+      "name": "Analisar concorrentes por conta",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 21,
+      "agentId": "account_intel"
+    },
+    {
+      "id": "comercial.account_intel.sugerir-matriz-de-interesses",
+      "name": "Sugerir matriz de interesses",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 22,
+      "agentId": "account_intel"
+    },
+    {
+      "id": "comercial.account_intel.reconhecer-riscos-de-contato",
+      "name": "Reconhecer riscos de contato",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 23,
+      "agentId": "account_intel"
+    },
+    {
+      "id": "comercial.account_intel.atualizar-conhecimento-de-conta",
+      "name": "Atualizar conhecimento de conta",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 24,
+      "agentId": "account_intel"
+    },
+    {
+      "id": "comercial.prospeccao.encontrar-empresas-por-icp",
+      "name": "Encontrar empresas por ICP",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1,
+      "agentId": "prospeccao"
+    },
+    {
+      "id": "comercial.prospeccao.buscar-sinais-publicos",
+      "name": "Buscar sinais públicos",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2,
+      "agentId": "prospeccao"
+    },
+    {
+      "id": "comercial.prospeccao.validar-cnpj",
+      "name": "Validar CNPJ",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 3,
+      "agentId": "prospeccao"
+    },
+    {
+      "id": "comercial.prospeccao.enriquecer-empresa",
+      "name": "Enriquecer empresa",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 4,
+      "agentId": "prospeccao"
+    },
+    {
+      "id": "comercial.prospeccao.enriquecer-lead",
+      "name": "Enriquecer lead",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 5,
+      "agentId": "prospeccao"
+    },
+    {
+      "id": "comercial.prospeccao.verificar-duplicidade",
+      "name": "Verificar duplicidade",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 6,
+      "agentId": "prospeccao"
+    },
+    {
+      "id": "comercial.prospeccao.normalizar-nome-e-dominio",
+      "name": "Normalizar nome e domínio",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 7,
+      "agentId": "prospeccao"
+    },
+    {
+      "id": "comercial.prospeccao.classificar-fonte-de-dados",
+      "name": "Classificar fonte de dados",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 8,
+      "agentId": "prospeccao"
+    },
+    {
+      "id": "comercial.prospeccao.medir-completude",
+      "name": "Medir completude",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 9,
+      "agentId": "prospeccao"
+    },
+    {
+      "id": "comercial.prospeccao.detectar-dados-obsoletos",
+      "name": "Detectar dados obsoletos",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 10,
+      "agentId": "prospeccao"
+    },
+    {
+      "id": "comercial.prospeccao.priorizar-atualizacao",
+      "name": "Priorizar atualização",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 11,
+      "agentId": "prospeccao"
+    },
+    {
+      "id": "comercial.prospeccao.registrar-proveniencia",
+      "name": "Registrar proveniência",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 12,
+      "agentId": "prospeccao"
+    },
+    {
+      "id": "comercial.prospeccao.criar-fila-de-revisao",
+      "name": "Criar fila de revisão",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 13,
+      "agentId": "prospeccao"
+    },
+    {
+      "id": "comercial.prospeccao.sugerir-contato-relevante",
+      "name": "Sugerir contato relevante",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 14,
+      "agentId": "prospeccao"
+    },
+    {
+      "id": "comercial.prospeccao.enriquecimento-em-cascata",
+      "name": "Enriquecimento em cascata",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 15,
+      "agentId": "prospeccao"
+    },
+    {
+      "id": "comercial.prospeccao.validacao-de-e-mail-corporativo-quando-autorizada",
+      "name": "Validação de e-mail corporativo quando autorizada",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 16,
+      "agentId": "prospeccao"
+    },
+    {
+      "id": "comercial.prospeccao.deteccao-de-cargos",
+      "name": "Detecção de cargos",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 17,
+      "agentId": "prospeccao"
+    },
+    {
+      "id": "comercial.prospeccao.conciliar-fontes-conflitantes",
+      "name": "Conciliar fontes conflitantes",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 18,
+      "agentId": "prospeccao"
+    },
+    {
+      "id": "comercial.prospeccao.atualizacao-incremental",
+      "name": "Atualização incremental",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 19,
+      "agentId": "prospeccao"
+    },
+    {
+      "id": "comercial.prospeccao.monitorar-qualidade-de-fornecedor",
+      "name": "Monitorar qualidade de fornecedor",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 20,
+      "agentId": "prospeccao"
+    },
+    {
+      "id": "comercial.prospeccao.limitar-custo-de-api",
+      "name": "Limitar custo de API",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 21,
+      "agentId": "prospeccao"
+    },
+    {
+      "id": "comercial.prospeccao.geolocalizacao-empresarial",
+      "name": "Geolocalização empresarial",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 22,
+      "agentId": "prospeccao"
+    },
+    {
+      "id": "comercial.prospeccao.pontuar-confianca-de-dado",
+      "name": "Pontuar confiança de dado",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 23,
+      "agentId": "prospeccao"
+    },
+    {
+      "id": "comercial.prospeccao.configurar-regras-de-descarte",
+      "name": "Configurar regras de descarte",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 24,
+      "agentId": "prospeccao"
+    },
+    {
+      "id": "comercial.prospeccao.cobrir-eventos-de-mercado",
+      "name": "Cobrir eventos de mercado",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 25,
+      "agentId": "prospeccao"
+    },
+    {
+      "id": "comercial.intencao.calcular-icp-fit",
+      "name": "Calcular ICP fit",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1,
+      "agentId": "intencao"
+    },
+    {
+      "id": "comercial.intencao.identificar-sinais-de-intencao",
+      "name": "Identificar sinais de intenção",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2,
+      "agentId": "intencao"
+    },
+    {
+      "id": "comercial.intencao.pontuar-inbound",
+      "name": "Pontuar inbound",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 3,
+      "agentId": "intencao"
+    },
+    {
+      "id": "comercial.intencao.pontuar-outbound",
+      "name": "Pontuar outbound",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 4,
+      "agentId": "intencao"
+    },
+    {
+      "id": "comercial.intencao.detectar-gatilhos-de-compra",
+      "name": "Detectar gatilhos de compra",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 5,
+      "agentId": "intencao"
+    },
+    {
+      "id": "comercial.intencao.ordenar-filas",
+      "name": "Ordenar filas",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 6,
+      "agentId": "intencao"
+    },
+    {
+      "id": "comercial.intencao.explicar-score",
+      "name": "Explicar score",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 7,
+      "agentId": "intencao"
+    },
+    {
+      "id": "comercial.intencao.detectar-saturacao",
+      "name": "Detectar saturação",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 8,
+      "agentId": "intencao"
+    },
+    {
+      "id": "comercial.intencao.segmentar-por-temperatura",
+      "name": "Segmentar por temperatura",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 9,
+      "agentId": "intencao"
+    },
+    {
+      "id": "comercial.intencao.definir-sla-por-score",
+      "name": "Definir SLA por score",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 10,
+      "agentId": "intencao"
+    },
+    {
+      "id": "comercial.intencao.sugerir-timing",
+      "name": "Sugerir timing",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 11,
+      "agentId": "intencao"
+    },
+    {
+      "id": "comercial.intencao.gerar-hipotese-personalizada",
+      "name": "Gerar hipótese personalizada",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 12,
+      "agentId": "intencao"
+    },
+    {
+      "id": "comercial.intencao.medir-confianca",
+      "name": "Medir confiança",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 13,
+      "agentId": "intencao"
+    },
+    {
+      "id": "comercial.intencao.reavaliar-score",
+      "name": "Reavaliar score",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 14,
+      "agentId": "intencao"
+    },
+    {
+      "id": "comercial.intencao.scoring-calibrado-por-segmento",
+      "name": "Scoring calibrado por segmento",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 15,
+      "agentId": "intencao"
+    },
+    {
+      "id": "comercial.intencao.ajuste-por-sazonalidade",
+      "name": "Ajuste por sazonalidade",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 16,
+      "agentId": "intencao"
+    },
+    {
+      "id": "comercial.intencao.medir-precisao-historica",
+      "name": "Medir precisão histórica",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 17,
+      "agentId": "intencao"
+    },
+    {
+      "id": "comercial.intencao.detectar-drift",
+      "name": "Detectar drift",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 18,
+      "agentId": "intencao"
+    },
+    {
+      "id": "comercial.intencao.atribuir-pesos-de-sinais",
+      "name": "Atribuir pesos de sinais",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 19,
+      "agentId": "intencao"
+    },
+    {
+      "id": "comercial.intencao.medir-engajamento-multicanal",
+      "name": "Medir engajamento multicanal",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 20,
+      "agentId": "intencao"
+    },
+    {
+      "id": "comercial.intencao.correlacionar-conteudo-com-conversao",
+      "name": "Correlacionar conteúdo com conversão",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 21,
+      "agentId": "intencao"
+    },
+    {
+      "id": "comercial.intencao.repriorizar-por-urgencia",
+      "name": "Repriorizar por urgência",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 22,
+      "agentId": "intencao"
+    },
+    {
+      "id": "comercial.intencao.prever-propensao-em-cenarios-aprovados",
+      "name": "Prever propensão em cenários aprovados",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 23,
+      "agentId": "intencao"
+    },
+    {
+      "id": "comercial.intencao.auditar-vies",
+      "name": "Auditar viés",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 24,
+      "agentId": "intencao"
+    },
+    {
+      "id": "comercial.outbound.criar-cadencia",
+      "name": "Criar cadência",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.outbound.personalizar-primeiro-contato",
+      "name": "Personalizar primeiro contato",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 2,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.outbound.escrever-cold-e-mail",
+      "name": "Escrever cold e-mail",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 3,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.outbound.criar-script-de-ligacao",
+      "name": "Criar script de ligação",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 4,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.outbound.adaptar-mensagem-para-whatsapp",
+      "name": "Adaptar mensagem para WhatsApp",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 5,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.outbound.programar-follow-up",
+      "name": "Programar follow-up",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 6,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.outbound.reconhecer-objecao",
+      "name": "Reconhecer objeção",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 7,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.outbound.gerar-voicemail",
+      "name": "Gerar voicemail",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 8,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.outbound.ajustar-tom",
+      "name": "Ajustar tom",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 9,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.outbound.usar-gatilho-de-compra",
+      "name": "Usar gatilho de compra",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 10,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.outbound.definir-intervalo-de-contatos",
+      "name": "Definir intervalo de contatos",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 11,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.outbound.evitar-duplicidade",
+      "name": "Evitar duplicidade",
+      "playbookId": "P7",
+      "catalogStage": "Essencial",
+      "number": 12,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.outbound.reagir-a-nao-resposta",
+      "name": "Reagir a não resposta",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 13,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.outbound.preparar-transferencia-para-sdr",
+      "name": "Preparar transferência para SDR",
+      "playbookId": "P7",
+      "catalogStage": "Essencial",
+      "number": 14,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.outbound.testar-mensagens-a-b",
+      "name": "Testar mensagens A/B",
+      "playbookId": "P6",
+      "catalogStage": "Expansão",
+      "number": 15,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.outbound.escolher-canal-por-contexto",
+      "name": "Escolher canal por contexto",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 16,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.outbound.medir-fadiga",
+      "name": "Medir fadiga",
+      "playbookId": "P6",
+      "catalogStage": "Expansão",
+      "number": 17,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.outbound.detectar-descadastro",
+      "name": "Detectar descadastro",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 18,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.outbound.gerar-abordagem-para-webinar",
+      "name": "Gerar abordagem para webinar",
+      "playbookId": "P8",
+      "catalogStage": "Expansão",
+      "number": 19,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.outbound.resgatar-leads-frios",
+      "name": "Resgatar leads frios",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 20,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.outbound.recomendar-sequencia-por-vertical",
+      "name": "Recomendar sequência por vertical",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 21,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.outbound.monitorar-entregabilidade",
+      "name": "Monitorar entregabilidade",
+      "playbookId": "P6",
+      "catalogStage": "Expansão",
+      "number": 22,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.outbound.aplicar-horario-comercial",
+      "name": "Aplicar horário comercial",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 23,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.outbound.criar-variacoes-de-icebreaker",
+      "name": "Criar variações de icebreaker",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 24,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.outbound.analisar-respostas-negativas",
+      "name": "Analisar respostas negativas",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 25,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.outbound.aprender-padroes-aprovados",
+      "name": "Aprender padrões aprovados",
+      "playbookId": "P6",
+      "catalogStage": "Expansão",
+      "number": 26,
+      "agentId": "outbound"
+    },
+    {
+      "id": "comercial.sdr.qualificar-bant",
+      "name": "Qualificar BANT",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1,
+      "agentId": "sdr"
+    },
+    {
+      "id": "comercial.sdr.qualificar-meddicc",
+      "name": "Qualificar MEDDICC",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2,
+      "agentId": "sdr"
+    },
+    {
+      "id": "comercial.sdr.mapear-dor",
+      "name": "Mapear dor",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 3,
+      "agentId": "sdr"
+    },
+    {
+      "id": "comercial.sdr.mapear-urgencia",
+      "name": "Mapear urgência",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 4,
+      "agentId": "sdr"
+    },
+    {
+      "id": "comercial.sdr.identificar-orcamento-e-autoridade",
+      "name": "Identificar orçamento e autoridade",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 5,
+      "agentId": "sdr"
+    },
+    {
+      "id": "comercial.sdr.criar-perguntas-abertas",
+      "name": "Criar perguntas abertas",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 6,
+      "agentId": "sdr"
+    },
+    {
+      "id": "comercial.sdr.reconhecer-objecoes-iniciais",
+      "name": "Reconhecer objeções iniciais",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 7,
+      "agentId": "sdr"
+    },
+    {
+      "id": "comercial.sdr.detectar-desqualificacao",
+      "name": "Detectar desqualificação",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 8,
+      "agentId": "sdr"
+    },
+    {
+      "id": "comercial.sdr.sugerir-agenda",
+      "name": "Sugerir agenda",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 9,
+      "agentId": "sdr"
+    },
+    {
+      "id": "comercial.sdr.preparar-pauta",
+      "name": "Preparar pauta",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 10,
+      "agentId": "sdr"
+    },
+    {
+      "id": "comercial.sdr.gerar-handoff",
+      "name": "Gerar handoff",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 11,
+      "agentId": "sdr"
+    },
+    {
+      "id": "comercial.sdr.atualizar-matriz-de-campos",
+      "name": "Atualizar matriz de campos",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 12,
+      "agentId": "sdr"
+    },
+    {
+      "id": "comercial.sdr.detectar-lacunas",
+      "name": "Detectar lacunas",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 13,
+      "agentId": "sdr"
+    },
+    {
+      "id": "comercial.sdr.revalidar-lead",
+      "name": "Revalidar lead",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 14,
+      "agentId": "sdr"
+    },
+    {
+      "id": "comercial.sdr.preparar-roteiro-de-ligacao",
+      "name": "Preparar roteiro de ligação",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 15,
+      "agentId": "sdr"
+    },
+    {
+      "id": "comercial.sdr.analisar-call-de-descoberta",
+      "name": "Analisar call de descoberta",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 16,
+      "agentId": "sdr"
+    },
+    {
+      "id": "comercial.sdr.sugerir-stakeholders-adicionais",
+      "name": "Sugerir stakeholders adicionais",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 17,
+      "agentId": "sdr"
+    },
+    {
+      "id": "comercial.sdr.gerar-resumo-pos-reuniao",
+      "name": "Gerar resumo pós-reunião",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 18,
+      "agentId": "sdr"
+    },
+    {
+      "id": "comercial.sdr.detectar-sinais-de-compra",
+      "name": "Detectar sinais de compra",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 19,
+      "agentId": "sdr"
+    },
+    {
+      "id": "comercial.sdr.definir-proximo-passo",
+      "name": "Definir próximo passo",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 20,
+      "agentId": "sdr"
+    },
+    {
+      "id": "comercial.sdr.estimar-esforco-de-venda",
+      "name": "Estimar esforço de venda",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 21,
+      "agentId": "sdr"
+    },
+    {
+      "id": "comercial.sdr.analisar-no-show",
+      "name": "Analisar no-show",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 22,
+      "agentId": "sdr"
+    },
+    {
+      "id": "comercial.sdr.agendar-com-consentimento",
+      "name": "Agendar com consentimento",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 23,
+      "agentId": "sdr"
+    },
+    {
+      "id": "comercial.sdr.aprender-qualificacoes-bem-sucedidas",
+      "name": "Aprender qualificações bem-sucedidas",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 24,
+      "agentId": "sdr"
+    },
+    {
+      "id": "comercial.solucoes.criar-roteiro-de-demo",
+      "name": "Criar roteiro de demo",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 1,
+      "agentId": "solucoes"
+    },
+    {
+      "id": "comercial.solucoes.traduzir-beneficios-por-setor",
+      "name": "Traduzir benefícios por setor",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2,
+      "agentId": "solucoes"
+    },
+    {
+      "id": "comercial.solucoes.mapear-caso-de-uso",
+      "name": "Mapear caso de uso",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 3,
+      "agentId": "solucoes"
+    },
+    {
+      "id": "comercial.solucoes.relacionar-funcionalidades-a-dor",
+      "name": "Relacionar funcionalidades à dor",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 4,
+      "agentId": "solucoes"
+    },
+    {
+      "id": "comercial.solucoes.criar-material-executivo",
+      "name": "Criar material executivo",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 5,
+      "agentId": "solucoes"
+    },
+    {
+      "id": "comercial.solucoes.personalizar-deck",
+      "name": "Personalizar deck",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 6,
+      "agentId": "solucoes"
+    },
+    {
+      "id": "comercial.solucoes.preparar-poc",
+      "name": "Preparar PoC",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 7,
+      "agentId": "solucoes"
+    },
+    {
+      "id": "comercial.solucoes.criar-questionario-tecnico",
+      "name": "Criar questionário técnico",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 8,
+      "agentId": "solucoes"
+    },
+    {
+      "id": "comercial.solucoes.responder-rfp",
+      "name": "Responder RFP",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 9,
+      "agentId": "solucoes"
+    },
+    {
+      "id": "comercial.solucoes.redigir-faq-de-seguranca",
+      "name": "Redigir FAQ de segurança",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 10,
+      "agentId": "solucoes"
+    },
+    {
+      "id": "comercial.solucoes.identificar-gaps-tecnicos",
+      "name": "Identificar gaps técnicos",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 11,
+      "agentId": "solucoes"
+    },
+    {
+      "id": "comercial.solucoes.preparar-objecoes-tecnicas",
+      "name": "Preparar objeções técnicas",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 12,
+      "agentId": "solucoes"
+    },
+    {
+      "id": "comercial.solucoes.rastrear-compromissos",
+      "name": "Rastrear compromissos",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 13,
+      "agentId": "solucoes"
+    },
+    {
+      "id": "comercial.solucoes.gerar-plano-de-adocao-inicial",
+      "name": "Gerar plano de adoção inicial",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 14,
+      "agentId": "solucoes"
+    },
+    {
+      "id": "comercial.solucoes.comparar-arquitetura-do-cliente",
+      "name": "Comparar arquitetura do cliente",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 15,
+      "agentId": "solucoes"
+    },
+    {
+      "id": "comercial.solucoes.adaptar-demonstracao-por-persona",
+      "name": "Adaptar demonstração por persona",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 16,
+      "agentId": "solucoes"
+    },
+    {
+      "id": "comercial.solucoes.projetar-caso-de-roi",
+      "name": "Projetar caso de ROI",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 17,
+      "agentId": "solucoes"
+    },
+    {
+      "id": "comercial.solucoes.criar-matriz-de-integracao",
+      "name": "Criar matriz de integração",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 18,
+      "agentId": "solucoes"
+    },
+    {
+      "id": "comercial.solucoes.gerar-ambiente-de-demonstracao-sujeito-a-disponibilidade",
+      "name": "Gerar ambiente de demonstração sujeito a disponibilidade",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 19,
+      "agentId": "solucoes"
+    },
+    {
+      "id": "comercial.solucoes.responder-checklist-procurement",
+      "name": "Responder checklist procurement",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 20,
+      "agentId": "solucoes"
+    },
+    {
+      "id": "comercial.solucoes.fazer-analise-fit-gap",
+      "name": "Fazer análise fit/gap",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 21,
+      "agentId": "solucoes"
+    },
+    {
+      "id": "comercial.solucoes.criar-roteiro-de-workshop",
+      "name": "Criar roteiro de workshop",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 22,
+      "agentId": "solucoes"
+    },
+    {
+      "id": "comercial.solucoes.priorizar-gaps-para-produto",
+      "name": "Priorizar gaps para produto",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 23,
+      "agentId": "solucoes"
+    },
+    {
+      "id": "comercial.solucoes.documentar-criterios-de-aceite",
+      "name": "Documentar critérios de aceite",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 24,
+      "agentId": "solucoes"
+    },
+    {
+      "id": "comercial.negociacao.analisar-oportunidade",
+      "name": "Analisar oportunidade",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1,
+      "agentId": "negociacao"
+    },
+    {
+      "id": "comercial.negociacao.criar-estrategia-de-negociacao",
+      "name": "Criar estratégia de negociação",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2,
+      "agentId": "negociacao"
+    },
+    {
+      "id": "comercial.negociacao.mapear-objecoes",
+      "name": "Mapear objeções",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 3,
+      "agentId": "negociacao"
+    },
+    {
+      "id": "comercial.negociacao.gerar-argumentos-de-valor",
+      "name": "Gerar argumentos de valor",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 4,
+      "agentId": "negociacao"
+    },
+    {
+      "id": "comercial.negociacao.preparar-reuniao-de-fechamento",
+      "name": "Preparar reunião de fechamento",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 5,
+      "agentId": "negociacao"
+    },
+    {
+      "id": "comercial.negociacao.comparar-concorrentes",
+      "name": "Comparar concorrentes",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 6,
+      "agentId": "negociacao"
+    },
+    {
+      "id": "comercial.negociacao.identificar-comite-decisor",
+      "name": "Identificar comitê decisor",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 7,
+      "agentId": "negociacao"
+    },
+    {
+      "id": "comercial.negociacao.construir-plano-mutuo",
+      "name": "Construir plano mútuo",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 8,
+      "agentId": "negociacao"
+    },
+    {
+      "id": "comercial.negociacao.gerir-concessoes-propostas",
+      "name": "Gerir concessões propostas",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 9,
+      "agentId": "negociacao"
+    },
+    {
+      "id": "comercial.negociacao.validar-proximos-passos",
+      "name": "Validar próximos passos",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 10,
+      "agentId": "negociacao"
+    },
+    {
+      "id": "comercial.negociacao.sugerir-proposta-comercial",
+      "name": "Sugerir proposta comercial",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 11,
+      "agentId": "negociacao"
+    },
+    {
+      "id": "comercial.negociacao.detectar-impasses",
+      "name": "Detectar impasses",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 12,
+      "agentId": "negociacao"
+    },
+    {
+      "id": "comercial.negociacao.criar-resumo-para-decisores",
+      "name": "Criar resumo para decisores",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 13,
+      "agentId": "negociacao"
+    },
+    {
+      "id": "comercial.negociacao.priorizar-oportunidades",
+      "name": "Priorizar oportunidades",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 14,
+      "agentId": "negociacao"
+    },
+    {
+      "id": "comercial.negociacao.simular-objecoes",
+      "name": "Simular objeções",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 15,
+      "agentId": "negociacao"
+    },
+    {
+      "id": "comercial.negociacao.analisar-postura-do-comprador",
+      "name": "Analisar postura do comprador",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 16,
+      "agentId": "negociacao"
+    },
+    {
+      "id": "comercial.negociacao.gerar-contra-argumentos-baseados-em-fatos",
+      "name": "Gerar contra-argumentos baseados em fatos",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 17,
+      "agentId": "negociacao"
+    },
+    {
+      "id": "comercial.negociacao.preparar-procurement",
+      "name": "Preparar procurement",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 18,
+      "agentId": "negociacao"
+    },
+    {
+      "id": "comercial.negociacao.mapear-poder-de-decisao",
+      "name": "Mapear poder de decisão",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 19,
+      "agentId": "negociacao"
+    },
+    {
+      "id": "comercial.negociacao.reforcar-diferenciais",
+      "name": "Reforçar diferenciais",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 20,
+      "agentId": "negociacao"
+    },
+    {
+      "id": "comercial.negociacao.estimar-cenario-de-fechamento",
+      "name": "Estimar cenário de fechamento",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 21,
+      "agentId": "negociacao"
+    },
+    {
+      "id": "comercial.negociacao.identificar-custo-da-inacao",
+      "name": "Identificar custo da inação",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 22,
+      "agentId": "negociacao"
+    },
+    {
+      "id": "comercial.negociacao.elaborar-estrategia-multi-ano",
+      "name": "Elaborar estratégia multi-ano",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 23,
+      "agentId": "negociacao"
+    },
+    {
+      "id": "comercial.negociacao.criar-roteiro-de-reengajamento",
+      "name": "Criar roteiro de reengajamento",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 24,
+      "agentId": "negociacao"
+    },
+    {
+      "id": "comercial.deal_desk.calcular-desconto",
+      "name": "Calcular desconto",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_desk.simular-preco",
+      "name": "Simular preço",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_desk.medir-margem",
+      "name": "Medir margem",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 3,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_desk.aplicar-piso-de-preco",
+      "name": "Aplicar piso de preço",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 4,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_desk.gerar-cotacao-preliminar",
+      "name": "Gerar cotação preliminar",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 5,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_desk.montar-proposta-comercial",
+      "name": "Montar proposta comercial",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 6,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_desk.calcular-roi",
+      "name": "Calcular ROI",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 7,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_desk.simular-contrato-plurianual",
+      "name": "Simular contrato plurianual",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 8,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_desk.explicar-trade-offs",
+      "name": "Explicar trade-offs",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 9,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_desk.detectar-discount-leakage",
+      "name": "Detectar discount leakage",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 10,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_desk.verificar-termos-comerciais",
+      "name": "Verificar termos comerciais",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 11,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_desk.gerar-checklist-contratual",
+      "name": "Gerar checklist contratual",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 12,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_desk.encaminhar-aprovacao",
+      "name": "Encaminhar aprovação",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 13,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_desk.registrar-justificativas",
+      "name": "Registrar justificativas",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 14,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_desk.modelar-waterfall-de-descontos",
+      "name": "Modelar waterfall de descontos",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 15,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_desk.analisar-elasticidade",
+      "name": "Analisar elasticidade",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 16,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_desk.simular-cenarios-financeiros",
+      "name": "Simular cenários financeiros",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 17,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_desk.estimar-impacto-em-arr",
+      "name": "Estimar impacto em ARR",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 18,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_desk.criar-tabela-por-segmento",
+      "name": "Criar tabela por segmento",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 19,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_desk.comparar-propostas",
+      "name": "Comparar propostas",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 20,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_desk.validar-excecao-de-prazo",
+      "name": "Validar exceção de prazo",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 21,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_desk.gerar-documentacao-de-compra",
+      "name": "Gerar documentação de compra",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 22,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_desk.preparar-minuta-sujeita-a-juridico",
+      "name": "Preparar minuta sujeita a jurídico",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 23,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_desk.auditar-historico-de-condicoes",
+      "name": "Auditar histórico de condições",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 24,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_desk.sugerir-packaging",
+      "name": "Sugerir packaging",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 25,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_desk.documentar-alcadas",
+      "name": "Documentar alçadas",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 26,
+      "agentId": "deal_desk"
+    },
+    {
+      "id": "comercial.deal_health.detectar-deal-parado",
+      "name": "Detectar deal parado",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1,
+      "agentId": "deal_health"
+    },
+    {
+      "id": "comercial.deal_health.analisar-aging",
+      "name": "Analisar aging",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2,
+      "agentId": "deal_health"
+    },
+    {
+      "id": "comercial.deal_health.identificar-promessa-pendente",
+      "name": "Identificar promessa pendente",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 3,
+      "agentId": "deal_health"
+    },
+    {
+      "id": "comercial.deal_health.localizar-decisao-sem-dono",
+      "name": "Localizar decisão sem dono",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 4,
+      "agentId": "deal_health"
+    },
+    {
+      "id": "comercial.deal_health.avaliar-riscos-do-comite",
+      "name": "Avaliar riscos do comitê",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 5,
+      "agentId": "deal_health"
+    },
+    {
+      "id": "comercial.deal_health.classificar-urgencia",
+      "name": "Classificar urgência",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 6,
+      "agentId": "deal_health"
+    },
+    {
+      "id": "comercial.deal_health.identificar-lacuna-de-crm",
+      "name": "Identificar lacuna de CRM",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 7,
+      "agentId": "deal_health"
+    },
+    {
+      "id": "comercial.deal_health.comparar-atividade-e-estagio",
+      "name": "Comparar atividade e estágio",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 8,
+      "agentId": "deal_health"
+    },
+    {
+      "id": "comercial.deal_health.propor-proximo-passo",
+      "name": "Propor próximo passo",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 9,
+      "agentId": "deal_health"
+    },
+    {
+      "id": "comercial.deal_health.medir-cadencia",
+      "name": "Medir cadência",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 10,
+      "agentId": "deal_health"
+    },
+    {
+      "id": "comercial.deal_health.detectar-ausencia-de-follow-up",
+      "name": "Detectar ausência de follow-up",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 11,
+      "agentId": "deal_health"
+    },
+    {
+      "id": "comercial.deal_health.priorizar-risco",
+      "name": "Priorizar risco",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 12,
+      "agentId": "deal_health"
+    },
+    {
+      "id": "comercial.deal_health.gerar-alertas-explicaveis",
+      "name": "Gerar alertas explicáveis",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 13,
+      "agentId": "deal_health"
+    },
+    {
+      "id": "comercial.deal_health.recomendar-plano-de-recuperacao",
+      "name": "Recomendar plano de recuperação",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 14,
+      "agentId": "deal_health"
+    },
+    {
+      "id": "comercial.deal_health.modelar-probabilidade-de-resgate",
+      "name": "Modelar probabilidade de resgate",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 15,
+      "agentId": "deal_health"
+    },
+    {
+      "id": "comercial.deal_health.detectar-perda-iminente",
+      "name": "Detectar perda iminente",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 16,
+      "agentId": "deal_health"
+    },
+    {
+      "id": "comercial.deal_health.comparar-com-padroes-win-loss",
+      "name": "Comparar com padrões win/loss",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 17,
+      "agentId": "deal_health"
+    },
+    {
+      "id": "comercial.deal_health.monitorar-sla",
+      "name": "Monitorar SLA",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 18,
+      "agentId": "deal_health"
+    },
+    {
+      "id": "comercial.deal_health.alertar-gestor-responsavel",
+      "name": "Alertar gestor responsável",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 19,
+      "agentId": "deal_health"
+    },
+    {
+      "id": "comercial.deal_health.gerar-checklist-de-higiene",
+      "name": "Gerar checklist de higiene",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 20,
+      "agentId": "deal_health"
+    },
+    {
+      "id": "comercial.deal_health.analisar-concorrente-em-risco",
+      "name": "Analisar concorrente em risco",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 21,
+      "agentId": "deal_health"
+    },
+    {
+      "id": "comercial.deal_health.avaliar-confianca-de-forecast-por-deal",
+      "name": "Avaliar confiança de forecast por deal",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 22,
+      "agentId": "deal_health"
+    },
+    {
+      "id": "comercial.deal_health.monitorar-multiplas-promessas",
+      "name": "Monitorar múltiplas promessas",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 23,
+      "agentId": "deal_health"
+    },
+    {
+      "id": "comercial.forecast.ler-pipeline",
+      "name": "Ler pipeline",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1,
+      "agentId": "forecast"
+    },
+    {
+      "id": "comercial.forecast.analisar-cobertura",
+      "name": "Analisar cobertura",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2,
+      "agentId": "forecast"
+    },
+    {
+      "id": "comercial.forecast.explicar-forecast",
+      "name": "Explicar forecast",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 3,
+      "agentId": "forecast"
+    },
+    {
+      "id": "comercial.forecast.separar-commit-e-best-case",
+      "name": "Separar commit e best case",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 4,
+      "agentId": "forecast"
+    },
+    {
+      "id": "comercial.forecast.calcular-gap-da-meta",
+      "name": "Calcular gap da meta",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 5,
+      "agentId": "forecast"
+    },
+    {
+      "id": "comercial.forecast.avaliar-velocidade",
+      "name": "Avaliar velocidade",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 6,
+      "agentId": "forecast"
+    },
+    {
+      "id": "comercial.forecast.prever-conversao-a-partir-de-motor-real",
+      "name": "Prever conversão a partir de motor real",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 7,
+      "agentId": "forecast"
+    },
+    {
+      "id": "comercial.forecast.identificar-pipeline-inflado",
+      "name": "Identificar pipeline inflado",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 8,
+      "agentId": "forecast"
+    },
+    {
+      "id": "comercial.forecast.auditar-premissas",
+      "name": "Auditar premissas",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 9,
+      "agentId": "forecast"
+    },
+    {
+      "id": "comercial.forecast.acompanhar-tendencia",
+      "name": "Acompanhar tendência",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 10,
+      "agentId": "forecast"
+    },
+    {
+      "id": "comercial.forecast.simular-cenarios",
+      "name": "Simular cenários",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 11,
+      "agentId": "forecast"
+    },
+    {
+      "id": "comercial.forecast.explicar-variacoes",
+      "name": "Explicar variações",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 12,
+      "agentId": "forecast"
+    },
+    {
+      "id": "comercial.forecast.calcular-aging",
+      "name": "Calcular aging",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 13,
+      "agentId": "forecast"
+    },
+    {
+      "id": "comercial.forecast.emitir-resumo-executivo",
+      "name": "Emitir resumo executivo",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 14,
+      "agentId": "forecast"
+    },
+    {
+      "id": "comercial.forecast.comparar-forecasts-por-segmento",
+      "name": "Comparar forecasts por segmento",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 15,
+      "agentId": "forecast"
+    },
+    {
+      "id": "comercial.forecast.detectar-vies-otimista",
+      "name": "Detectar viés otimista",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 16,
+      "agentId": "forecast"
+    },
+    {
+      "id": "comercial.forecast.calcular-acuracia-historica",
+      "name": "Calcular acurácia histórica",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 17,
+      "agentId": "forecast"
+    },
+    {
+      "id": "comercial.forecast.criar-ponte-mensal",
+      "name": "Criar ponte mensal",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 18,
+      "agentId": "forecast"
+    },
+    {
+      "id": "comercial.forecast.analisar-riscos-por-deal",
+      "name": "Analisar riscos por deal",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 19,
+      "agentId": "forecast"
+    },
+    {
+      "id": "comercial.forecast.calibrar-probabilidade-baseada-em-evidencia",
+      "name": "Calibrar probabilidade baseada em evidência",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 20,
+      "agentId": "forecast"
+    },
+    {
+      "id": "comercial.forecast.simular-meta-por-territorio",
+      "name": "Simular meta por território",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 21,
+      "agentId": "forecast"
+    },
+    {
+      "id": "comercial.forecast.visualizar-impacto-de-churn-na-receita",
+      "name": "Visualizar impacto de churn na receita",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 22,
+      "agentId": "forecast"
+    },
+    {
+      "id": "comercial.forecast.analisar-sazonalidade",
+      "name": "Analisar sazonalidade",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 23,
+      "agentId": "forecast"
+    },
+    {
+      "id": "comercial.forecast.fazer-revisao-semanal-de-forecast",
+      "name": "Fazer revisão semanal de forecast",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 24,
+      "agentId": "forecast"
+    },
+    {
+      "id": "comercial.growth_analytics.analisar-funil",
+      "name": "Analisar funil",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.growth_analytics.detectar-gargalo",
+      "name": "Detectar gargalo",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.growth_analytics.avaliar-coortes",
+      "name": "Avaliar coortes",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 3,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.growth_analytics.medir-atribuicao",
+      "name": "Medir atribuição",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 4,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.growth_analytics.medir-eficiencia-de-canal",
+      "name": "Medir eficiência de canal",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 5,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.growth_analytics.analisar-arr-mrr-com-fonte-validada",
+      "name": "Analisar ARR/MRR com fonte validada",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 6,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.growth_analytics.identificar-queda-de-conversao",
+      "name": "Identificar queda de conversão",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 7,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.growth_analytics.diagnosticar-churn-por-grupo",
+      "name": "Diagnosticar churn por grupo",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 8,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.growth_analytics.criar-kpi",
+      "name": "Criar KPI",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 9,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.growth_analytics.comparar-periodos",
+      "name": "Comparar períodos",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 10,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.growth_analytics.priorizar-testes",
+      "name": "Priorizar testes",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 11,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.growth_analytics.calcular-significancia-estatistica",
+      "name": "Calcular significância estatística",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 12,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.growth_analytics.detectar-anomalias",
+      "name": "Detectar anomalias",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 13,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.growth_analytics.recomendar-acao",
+      "name": "Recomendar ação",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 14,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.growth_analytics.explorar-ltv-por-canal",
+      "name": "Explorar LTV por canal",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 15,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.growth_analytics.analisar-expansao-de-acv",
+      "name": "Analisar expansão de ACV",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 16,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.growth_analytics.medir-stickiness",
+      "name": "Medir stickiness",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 17,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.growth_analytics.explicar-net-retention",
+      "name": "Explicar net retention",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 18,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.growth_analytics.avaliar-mix-de-campanhas",
+      "name": "Avaliar mix de campanhas",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 19,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.growth_analytics.detectar-queda-de-campanha",
+      "name": "Detectar queda de campanha",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 20,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.growth_analytics.mapear-gtm-alignment",
+      "name": "Mapear GTM alignment",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 21,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.growth_analytics.medir-roi-de-ferramentas",
+      "name": "Medir ROI de ferramentas",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 22,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.growth_analytics.definir-alertas-de-performance",
+      "name": "Definir alertas de performance",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 23,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.growth_analytics.fazer-analise-causal-com-limites-claros",
+      "name": "Fazer análise causal com limites claros",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 24,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.growth_analytics.criar-scorecards",
+      "name": "Criar scorecards",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 25,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.growth_analytics.normalizar-coortes",
+      "name": "Normalizar coortes",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 26,
+      "agentId": "growth_analytics"
+    },
+    {
+      "id": "comercial.coaching.criar-playbook",
+      "name": "Criar playbook",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1,
+      "agentId": "coaching"
+    },
+    {
+      "id": "comercial.coaching.revisar-playbook",
+      "name": "Revisar playbook",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2,
+      "agentId": "coaching"
+    },
+    {
+      "id": "comercial.coaching.preparar-onboarding",
+      "name": "Preparar onboarding",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 3,
+      "agentId": "coaching"
+    },
+    {
+      "id": "comercial.coaching.planejar-ramp-up",
+      "name": "Planejar ramp-up",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 4,
+      "agentId": "coaching"
+    },
+    {
+      "id": "comercial.coaching.fazer-roleplay",
+      "name": "Fazer roleplay",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 5,
+      "agentId": "coaching"
+    },
+    {
+      "id": "comercial.coaching.simular-objecoes",
+      "name": "Simular objeções",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 6,
+      "agentId": "coaching"
+    },
+    {
+      "id": "comercial.coaching.avaliar-argumentacao",
+      "name": "Avaliar argumentação",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 7,
+      "agentId": "coaching"
+    },
+    {
+      "id": "comercial.coaching.dar-feedback-de-chamada",
+      "name": "Dar feedback de chamada",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 8,
+      "agentId": "coaching"
+    },
+    {
+      "id": "comercial.coaching.criar-flashcards",
+      "name": "Criar flashcards",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 9,
+      "agentId": "coaching"
+    },
+    {
+      "id": "comercial.coaching.preparar-1-1",
+      "name": "Preparar 1:1",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 10,
+      "agentId": "coaching"
+    },
+    {
+      "id": "comercial.coaching.definir-meta-de-aprendizado",
+      "name": "Definir meta de aprendizado",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 11,
+      "agentId": "coaching"
+    },
+    {
+      "id": "comercial.coaching.identificar-lacunas",
+      "name": "Identificar lacunas",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 12,
+      "agentId": "coaching"
+    },
+    {
+      "id": "comercial.coaching.medir-evolucao",
+      "name": "Medir evolução",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 13,
+      "agentId": "coaching"
+    },
+    {
+      "id": "comercial.coaching.recomendar-microtreino",
+      "name": "Recomendar microtreino",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 14,
+      "agentId": "coaching"
+    },
+    {
+      "id": "comercial.coaching.gamificacao-transparente",
+      "name": "Gamificação transparente",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 15,
+      "agentId": "coaching"
+    },
+    {
+      "id": "comercial.coaching.personalizar-trilha-por-funcao",
+      "name": "Personalizar trilha por função",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 16,
+      "agentId": "coaching"
+    },
+    {
+      "id": "comercial.coaching.comparar-desempenho-com-consentimento",
+      "name": "Comparar desempenho com consentimento",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 17,
+      "agentId": "coaching"
+    },
+    {
+      "id": "comercial.coaching.criar-exercicios-por-vertical",
+      "name": "Criar exercícios por vertical",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 18,
+      "agentId": "coaching"
+    },
+    {
+      "id": "comercial.coaching.gerar-roteiro-de-pitch",
+      "name": "Gerar roteiro de pitch",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 19,
+      "agentId": "coaching"
+    },
+    {
+      "id": "comercial.coaching.simular-comprador-dificil",
+      "name": "Simular comprador difícil",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 20,
+      "agentId": "coaching"
+    },
+    {
+      "id": "comercial.coaching.analisar-ritmo-de-fala",
+      "name": "Analisar ritmo de fala",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 21,
+      "agentId": "coaching"
+    },
+    {
+      "id": "comercial.coaching.revisar-playbook-por-win-loss",
+      "name": "Revisar playbook por win/loss",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 22,
+      "agentId": "coaching"
+    },
+    {
+      "id": "comercial.coaching.criar-ranking-com-politicas-de-privacidade",
+      "name": "Criar ranking com políticas de privacidade",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 23,
+      "agentId": "coaching"
+    },
+    {
+      "id": "comercial.coaching.medir-impacto-no-win-rate",
+      "name": "Medir impacto no win rate",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 24,
+      "agentId": "coaching"
+    },
+    {
+      "id": "comercial.coaching.atualizar-biblioteca-de-boas-praticas",
+      "name": "Atualizar biblioteca de boas práticas",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 25,
+      "agentId": "coaching"
+    },
+    {
+      "id": "comercial.crm.validar-registros",
+      "name": "Validar registros",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1,
+      "agentId": "crm"
+    },
+    {
+      "id": "comercial.crm.identificar-duplicidades",
+      "name": "Identificar duplicidades",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2,
+      "agentId": "crm"
+    },
+    {
+      "id": "comercial.crm.verificar-obrigatoriedade-de-campos",
+      "name": "Verificar obrigatoriedade de campos",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 3,
+      "agentId": "crm"
+    },
+    {
+      "id": "comercial.crm.detectar-estagio-invalido",
+      "name": "Detectar estágio inválido",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 4,
+      "agentId": "crm"
+    },
+    {
+      "id": "comercial.crm.conciliar-dados",
+      "name": "Conciliar dados",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 5,
+      "agentId": "crm"
+    },
+    {
+      "id": "comercial.crm.inspecionar-fila-bitrix",
+      "name": "Inspecionar fila Bitrix",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 6,
+      "agentId": "crm"
+    },
+    {
+      "id": "comercial.crm.diagnosticar-falha-webhook",
+      "name": "Diagnosticar falha webhook",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 7,
+      "agentId": "crm"
+    },
+    {
+      "id": "comercial.crm.auditar-alteracoes",
+      "name": "Auditar alterações",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 8,
+      "agentId": "crm"
+    },
+    {
+      "id": "comercial.crm.roteamento-de-leads",
+      "name": "Roteamento de leads",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 9,
+      "agentId": "crm"
+    },
+    {
+      "id": "comercial.crm.verificar-ownership",
+      "name": "Verificar ownership",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 10,
+      "agentId": "crm"
+    },
+    {
+      "id": "comercial.crm.detectar-atividades-faltantes",
+      "name": "Detectar atividades faltantes",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 11,
+      "agentId": "crm"
+    },
+    {
+      "id": "comercial.crm.gerar-lista-de-inconsistencias",
+      "name": "Gerar lista de inconsistências",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 12,
+      "agentId": "crm"
+    },
+    {
+      "id": "comercial.crm.monitorar-sincronizacao",
+      "name": "Monitorar sincronização",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 13,
+      "agentId": "crm"
+    },
+    {
+      "id": "comercial.crm.propor-correcao",
+      "name": "Propor correção",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 14,
+      "agentId": "crm"
+    },
+    {
+      "id": "comercial.crm.automatizar-checagem-diaria",
+      "name": "Automatizar checagem diária",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 15,
+      "agentId": "crm"
+    },
+    {
+      "id": "comercial.crm.corrigir-dados-mediante-aprovacao",
+      "name": "Corrigir dados mediante aprovação",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 16,
+      "agentId": "crm"
+    },
+    {
+      "id": "comercial.crm.testar-idempotencia",
+      "name": "Testar idempotência",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 17,
+      "agentId": "crm"
+    },
+    {
+      "id": "comercial.crm.inspecionar-conflitos-bidirecionais",
+      "name": "Inspecionar conflitos bidirecionais",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 18,
+      "agentId": "crm"
+    },
+    {
+      "id": "comercial.crm.detectar-anomalia-em-lote",
+      "name": "Detectar anomalia em lote",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 19,
+      "agentId": "crm"
+    },
+    {
+      "id": "comercial.crm.monitorar-sla-de-integracao",
+      "name": "Monitorar SLA de integração",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 20,
+      "agentId": "crm"
+    },
+    {
+      "id": "comercial.crm.propor-politica-de-higienizacao",
+      "name": "Propor política de higienização",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 21,
+      "agentId": "crm"
+    },
+    {
+      "id": "comercial.crm.gerenciar-regra-de-origem",
+      "name": "Gerenciar regra de origem",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 22,
+      "agentId": "crm"
+    },
+    {
+      "id": "comercial.crm.validar-consentimento-de-dados",
+      "name": "Validar consentimento de dados",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 23,
+      "agentId": "crm"
+    },
+    {
+      "id": "comercial.crm.produzir-score-de-qualidade-de-crm",
+      "name": "Produzir score de qualidade de CRM",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 24,
+      "agentId": "crm"
+    },
+    {
+      "id": "comercial.expansao.analisar-carteira",
+      "name": "Analisar carteira",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1,
+      "agentId": "expansao"
+    },
+    {
+      "id": "comercial.expansao.identificar-whitespace",
+      "name": "Identificar whitespace",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2,
+      "agentId": "expansao"
+    },
+    {
+      "id": "comercial.expansao.mapear-oportunidade-de-cross-sell",
+      "name": "Mapear oportunidade de cross-sell",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 3,
+      "agentId": "expansao"
+    },
+    {
+      "id": "comercial.expansao.preparar-qbr-comercial",
+      "name": "Preparar QBR comercial",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 4,
+      "agentId": "expansao"
+    },
+    {
+      "id": "comercial.expansao.desenvolver-conta",
+      "name": "Desenvolver conta",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 5,
+      "agentId": "expansao"
+    },
+    {
+      "id": "comercial.expansao.reavaliar-stakeholders",
+      "name": "Reavaliar stakeholders",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 6,
+      "agentId": "expansao"
+    },
+    {
+      "id": "comercial.expansao.planejar-multithreading",
+      "name": "Planejar multithreading",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 7,
+      "agentId": "expansao"
+    },
+    {
+      "id": "comercial.expansao.detectar-sinal-de-expansao",
+      "name": "Detectar sinal de expansão",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 8,
+      "agentId": "expansao"
+    },
+    {
+      "id": "comercial.expansao.criar-estrategia-de-upsell",
+      "name": "Criar estratégia de upsell",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 9,
+      "agentId": "expansao"
+    },
+    {
+      "id": "comercial.expansao.registrar-compromissos",
+      "name": "Registrar compromissos",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 10,
+      "agentId": "expansao"
+    },
+    {
+      "id": "comercial.expansao.sugerir-reuniao",
+      "name": "Sugerir reunião",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 11,
+      "agentId": "expansao"
+    },
+    {
+      "id": "comercial.expansao.preparar-renovacao-comercial",
+      "name": "Preparar renovação comercial",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 12,
+      "agentId": "expansao"
+    },
+    {
+      "id": "comercial.expansao.handoff-para-cs",
+      "name": "Handoff para CS",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 13,
+      "agentId": "expansao"
+    },
+    {
+      "id": "comercial.expansao.monitorar-relacionamento",
+      "name": "Monitorar relacionamento",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 14,
+      "agentId": "expansao"
+    },
+    {
+      "id": "comercial.expansao.priorizar-expansao-por-valor",
+      "name": "Priorizar expansão por valor",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 15,
+      "agentId": "expansao"
+    },
+    {
+      "id": "comercial.expansao.correlacionar-adocao-e-crescimento",
+      "name": "Correlacionar adoção e crescimento",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 16,
+      "agentId": "expansao"
+    },
+    {
+      "id": "comercial.expansao.preparar-executivo-patrocinador",
+      "name": "Preparar executivo patrocinador",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 17,
+      "agentId": "expansao"
+    },
+    {
+      "id": "comercial.expansao.mapear-concorrencia-instalada",
+      "name": "Mapear concorrência instalada",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 18,
+      "agentId": "expansao"
+    },
+    {
+      "id": "comercial.expansao.estimar-potencial-nao-explorado",
+      "name": "Estimar potencial não explorado",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 19,
+      "agentId": "expansao"
+    },
+    {
+      "id": "comercial.expansao.gerar-plano-de-90-dias",
+      "name": "Gerar plano de 90 dias",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 20,
+      "agentId": "expansao"
+    },
+    {
+      "id": "comercial.expansao.propor-feedback-a-produto",
+      "name": "Propor feedback a produto",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 21,
+      "agentId": "expansao"
+    },
+    {
+      "id": "comercial.expansao.detectar-risco-de-over-selling",
+      "name": "Detectar risco de over-selling",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 22,
+      "agentId": "expansao"
+    },
+    {
+      "id": "comercial.expansao.organizar-calendario-de-conta",
+      "name": "Organizar calendário de conta",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 23,
+      "agentId": "expansao"
+    },
+    {
+      "id": "comercial.parcerias.identificar-parceiros",
+      "name": "Identificar parceiros",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1,
+      "agentId": "parcerias"
+    },
+    {
+      "id": "comercial.parcerias.mapear-ecossistema",
+      "name": "Mapear ecossistema",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2,
+      "agentId": "parcerias"
+    },
+    {
+      "id": "comercial.parcerias.avaliar-fit-estrategico",
+      "name": "Avaliar fit estratégico",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 3,
+      "agentId": "parcerias"
+    },
+    {
+      "id": "comercial.parcerias.classificar-potencial-de-canal",
+      "name": "Classificar potencial de canal",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 4,
+      "agentId": "parcerias"
+    },
+    {
+      "id": "comercial.parcerias.pesquisar-alianca",
+      "name": "Pesquisar aliança",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 5,
+      "agentId": "parcerias"
+    },
+    {
+      "id": "comercial.parcerias.criar-proposta-de-valor-conjunto",
+      "name": "Criar proposta de valor conjunto",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 6,
+      "agentId": "parcerias"
+    },
+    {
+      "id": "comercial.parcerias.identificar-territorios-complementares",
+      "name": "Identificar territórios complementares",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 7,
+      "agentId": "parcerias"
+    },
+    {
+      "id": "comercial.parcerias.priorizar-parceiros",
+      "name": "Priorizar parceiros",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 8,
+      "agentId": "parcerias"
+    },
+    {
+      "id": "comercial.parcerias.sugerir-co-marketing",
+      "name": "Sugerir co-marketing",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 9,
+      "agentId": "parcerias"
+    },
+    {
+      "id": "comercial.parcerias.criar-roteiro-de-abordagem",
+      "name": "Criar roteiro de abordagem",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 10,
+      "agentId": "parcerias"
+    },
+    {
+      "id": "comercial.parcerias.gerar-plano-de-ativacao",
+      "name": "Gerar plano de ativação",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 11,
+      "agentId": "parcerias"
+    },
+    {
+      "id": "comercial.parcerias.mensurar-indicacoes",
+      "name": "Mensurar indicações",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 12,
+      "agentId": "parcerias"
+    },
+    {
+      "id": "comercial.parcerias.registrar-handoff",
+      "name": "Registrar handoff",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 13,
+      "agentId": "parcerias"
+    },
+    {
+      "id": "comercial.parcerias.analisar-risco-de-concentracao",
+      "name": "Analisar risco de concentração",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 14,
+      "agentId": "parcerias"
+    },
+    {
+      "id": "comercial.parcerias.modelar-canal-de-revenda",
+      "name": "Modelar canal de revenda",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 15,
+      "agentId": "parcerias"
+    },
+    {
+      "id": "comercial.parcerias.mapear-integradores",
+      "name": "Mapear integradores",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 16,
+      "agentId": "parcerias"
+    },
+    {
+      "id": "comercial.parcerias.criar-programa-de-indicacao",
+      "name": "Criar programa de indicação",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 17,
+      "agentId": "parcerias"
+    },
+    {
+      "id": "comercial.parcerias.definir-criterios-de-parceiro",
+      "name": "Definir critérios de parceiro",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 18,
+      "agentId": "parcerias"
+    },
+    {
+      "id": "comercial.parcerias.planejar-eventos-conjuntos",
+      "name": "Planejar eventos conjuntos",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 19,
+      "agentId": "parcerias"
+    },
+    {
+      "id": "comercial.parcerias.calcular-receita-assistida",
+      "name": "Calcular receita assistida",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 20,
+      "agentId": "parcerias"
+    },
+    {
+      "id": "comercial.parcerias.gerar-matriz-de-conflito-comercial",
+      "name": "Gerar matriz de conflito comercial",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 21,
+      "agentId": "parcerias"
+    },
+    {
+      "id": "comercial.parcerias.monitorar-saude-de-parcerias",
+      "name": "Monitorar saúde de parcerias",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 22,
+      "agentId": "parcerias"
+    },
+    {
+      "id": "comercial.parcerias.projetar-expansao-regional",
+      "name": "Projetar expansão regional",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 23,
+      "agentId": "parcerias"
+    },
+    {
+      "id": "comercial.winloss.analisar-vitorias",
+      "name": "Analisar vitórias",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1,
+      "agentId": "winloss"
+    },
+    {
+      "id": "comercial.winloss.analisar-perdas",
+      "name": "Analisar perdas",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2,
+      "agentId": "winloss"
+    },
+    {
+      "id": "comercial.winloss.categorizar-motivos",
+      "name": "Categorizar motivos",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 3,
+      "agentId": "winloss"
+    },
+    {
+      "id": "comercial.winloss.detectar-padrao-por-segmento",
+      "name": "Detectar padrão por segmento",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 4,
+      "agentId": "winloss"
+    },
+    {
+      "id": "comercial.winloss.comparar-concorrentes",
+      "name": "Comparar concorrentes",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 5,
+      "agentId": "winloss"
+    },
+    {
+      "id": "comercial.winloss.examinar-ciclo-de-venda",
+      "name": "Examinar ciclo de venda",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 6,
+      "agentId": "winloss"
+    },
+    {
+      "id": "comercial.winloss.identificar-objecoes-recorrentes",
+      "name": "Identificar objeções recorrentes",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 7,
+      "agentId": "winloss"
+    },
+    {
+      "id": "comercial.winloss.comparar-valor-percebido",
+      "name": "Comparar valor percebido",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 8,
+      "agentId": "winloss"
+    },
+    {
+      "id": "comercial.winloss.revisar-dados-faltantes",
+      "name": "Revisar dados faltantes",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 9,
+      "agentId": "winloss"
+    },
+    {
+      "id": "comercial.winloss.criar-hipoteses",
+      "name": "Criar hipóteses",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 10,
+      "agentId": "winloss"
+    },
+    {
+      "id": "comercial.winloss.priorizar-recomendacoes",
+      "name": "Priorizar recomendações",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 11,
+      "agentId": "winloss"
+    },
+    {
+      "id": "comercial.winloss.propor-ajustes-de-playbook",
+      "name": "Propor ajustes de playbook",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 12,
+      "agentId": "winloss"
+    },
+    {
+      "id": "comercial.winloss.informar-lideranca",
+      "name": "Informar liderança",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 13,
+      "agentId": "winloss"
+    },
+    {
+      "id": "comercial.winloss.medir-impacto",
+      "name": "Medir impacto",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 14,
+      "agentId": "winloss"
+    },
+    {
+      "id": "comercial.winloss.agrupar-razoes-de-churn-comercial",
+      "name": "Agrupar razões de churn comercial",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 15,
+      "agentId": "winloss"
+    },
+    {
+      "id": "comercial.winloss.analisar-mudancas-por-trimestre",
+      "name": "Analisar mudanças por trimestre",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 16,
+      "agentId": "winloss"
+    },
+    {
+      "id": "comercial.winloss.testar-hipotese-com-dados",
+      "name": "Testar hipótese com dados",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 17,
+      "agentId": "winloss"
+    },
+    {
+      "id": "comercial.winloss.avaliar-influencia-de-descontos",
+      "name": "Avaliar influência de descontos",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 18,
+      "agentId": "winloss"
+    },
+    {
+      "id": "comercial.winloss.identificar-best-practices",
+      "name": "Identificar best practices",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 19,
+      "agentId": "winloss"
+    },
+    {
+      "id": "comercial.winloss.estimar-impacto-de-iniciativas",
+      "name": "Estimar impacto de iniciativas",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 20,
+      "agentId": "winloss"
+    },
+    {
+      "id": "comercial.winloss.conectar-objecoes-ao-produto",
+      "name": "Conectar objeções ao produto",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 21,
+      "agentId": "winloss"
+    },
+    {
+      "id": "comercial.winloss.criar-banco-de-aprendizados",
+      "name": "Criar banco de aprendizados",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 22,
+      "agentId": "winloss"
+    },
+    {
+      "id": "comercial.winloss.comparar-contas-similares",
+      "name": "Comparar contas similares",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 23,
+      "agentId": "winloss"
+    }
+  ]
+}

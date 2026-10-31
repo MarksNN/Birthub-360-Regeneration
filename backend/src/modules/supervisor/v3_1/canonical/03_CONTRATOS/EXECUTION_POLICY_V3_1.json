@@ -1,0 +1,70 @@
+{
+  "policyVersion": "3.1.0-proposta",
+  "enforcement": "BACKEND_MUST_ENFORCE_NOT_MODEL",
+  "limits": {
+    "maxSupervisorStepsPerMission": 8,
+    "maxHandoffDepth": 3,
+    "maxHandoffsPerMission": 6,
+    "maxParallelTasks": 3,
+    "missionTimeoutSeconds": 120,
+    "stepTimeoutSeconds": 45,
+    "maxRetriesPerIdempotentAction": 1,
+    "tokenBudgetPerMission": 12000,
+    "maxHandoffsPerSpecialist": 2
+  },
+  "operationalActions": [
+    "SAVE_DRAFT",
+    "SCHEDULE_TASK",
+    "ENQUEUE_SEND",
+    "SEND_MESSAGE",
+    "UPDATE_SUPPRESSION",
+    "UPDATE_CRM"
+  ],
+  "requirements": {
+    "SEND_MESSAGE": [
+      "identity_verified",
+      "tenant_verified",
+      "capability_grant",
+      "tool_binding_verified",
+      "executor_operational",
+      "channel_policy_pass",
+      "opt_out_pass",
+      "legal_basis_review_pass",
+      "frequency_pass",
+      "approval_pass",
+      "idempotency_key"
+    ],
+    "ENQUEUE_SEND": [
+      "all_SEND_MESSAGE_checks_or_a_stricter_preflight_and_approval_before_actual_send"
+    ],
+    "SAVE_DRAFT": [
+      "identity_verified",
+      "tenant_verified",
+      "write_grant_if_persisted"
+    ],
+    "UPDATE_RESOURCE": [
+      "session_auth",
+      "tenant_scope",
+      "capability_grant",
+      "verified_binding",
+      "real_executor",
+      "diff_and_preconditions",
+      "role_approval_if_required",
+      "idempotency_key"
+    ],
+    "SUBMIT_FOR_APPROVAL": [
+      "session_auth",
+      "tenant_scope",
+      "proposal_payload",
+      "eligible_approver"
+    ]
+  },
+  "loopKey": [
+    "missionId",
+    "agentId",
+    "skillId",
+    "resourceId"
+  ],
+  "optOutRule": "stop further outreach immediately and request suppression; do not report persisted suppression without verified tool result",
+  "description": "Política proposta; backend deve impor limites reais. Nenhum grant é modificado por este pacote."
+}

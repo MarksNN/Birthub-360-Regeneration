@@ -1,0 +1,244 @@
+{
+  "agentId": "prospeccao",
+  "agentName": "Caçador de Leads e Enriquecimento",
+  "playbooks": [
+    {
+      "id": "P1",
+      "name": "Descoberta de contas",
+      "path": "02_PLAYBOOKS/05_prospeccao/P1_PROSPECCAO.md",
+      "skillIds": [
+        "comercial.prospeccao.encontrar-empresas-por-icp",
+        "comercial.prospeccao.buscar-sinais-publicos",
+        "comercial.prospeccao.sugerir-contato-relevante",
+        "comercial.prospeccao.geolocalizacao-empresarial",
+        "comercial.prospeccao.cobrir-eventos-de-mercado"
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "Validação e normalização",
+      "path": "02_PLAYBOOKS/05_prospeccao/P2_PROSPECCAO.md",
+      "skillIds": [
+        "comercial.prospeccao.validar-cnpj",
+        "comercial.prospeccao.verificar-duplicidade",
+        "comercial.prospeccao.normalizar-nome-e-dominio",
+        "comercial.prospeccao.classificar-fonte-de-dados",
+        "comercial.prospeccao.pontuar-confianca-de-dado"
+      ]
+    },
+    {
+      "id": "P3",
+      "name": "Enriquecimento cascata",
+      "path": "02_PLAYBOOKS/05_prospeccao/P3_PROSPECCAO.md",
+      "skillIds": [
+        "comercial.prospeccao.enriquecer-empresa",
+        "comercial.prospeccao.enriquecer-lead",
+        "comercial.prospeccao.enriquecimento-em-cascata",
+        "comercial.prospeccao.validacao-de-e-mail-corporativo-quando-autorizada",
+        "comercial.prospeccao.deteccao-de-cargos",
+        "comercial.prospeccao.conciliar-fontes-conflitantes"
+      ]
+    },
+    {
+      "id": "P4",
+      "name": "Qualidade e atualização incremental",
+      "path": "02_PLAYBOOKS/05_prospeccao/P4_PROSPECCAO.md",
+      "skillIds": [
+        "comercial.prospeccao.medir-completude",
+        "comercial.prospeccao.detectar-dados-obsoletos",
+        "comercial.prospeccao.priorizar-atualizacao",
+        "comercial.prospeccao.registrar-proveniencia",
+        "comercial.prospeccao.atualizacao-incremental",
+        "comercial.prospeccao.monitorar-qualidade-de-fornecedor"
+      ]
+    },
+    {
+      "id": "P5",
+      "name": "Controle e descarte",
+      "path": "02_PLAYBOOKS/05_prospeccao/P5_PROSPECCAO.md",
+      "skillIds": [
+        "comercial.prospeccao.criar-fila-de-revisao",
+        "comercial.prospeccao.limitar-custo-de-api",
+        "comercial.prospeccao.configurar-regras-de-descarte"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "comercial.prospeccao.encontrar-empresas-por-icp",
+      "name": "Encontrar empresas por ICP",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1
+    },
+    {
+      "id": "comercial.prospeccao.buscar-sinais-publicos",
+      "name": "Buscar sinais públicos",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2
+    },
+    {
+      "id": "comercial.prospeccao.validar-cnpj",
+      "name": "Validar CNPJ",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 3
+    },
+    {
+      "id": "comercial.prospeccao.enriquecer-empresa",
+      "name": "Enriquecer empresa",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 4
+    },
+    {
+      "id": "comercial.prospeccao.enriquecer-lead",
+      "name": "Enriquecer lead",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 5
+    },
+    {
+      "id": "comercial.prospeccao.verificar-duplicidade",
+      "name": "Verificar duplicidade",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 6
+    },
+    {
+      "id": "comercial.prospeccao.normalizar-nome-e-dominio",
+      "name": "Normalizar nome e domínio",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 7
+    },
+    {
+      "id": "comercial.prospeccao.classificar-fonte-de-dados",
+      "name": "Classificar fonte de dados",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 8
+    },
+    {
+      "id": "comercial.prospeccao.medir-completude",
+      "name": "Medir completude",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 9
+    },
+    {
+      "id": "comercial.prospeccao.detectar-dados-obsoletos",
+      "name": "Detectar dados obsoletos",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 10
+    },
+    {
+      "id": "comercial.prospeccao.priorizar-atualizacao",
+      "name": "Priorizar atualização",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 11
+    },
+    {
+      "id": "comercial.prospeccao.registrar-proveniencia",
+      "name": "Registrar proveniência",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 12
+    },
+    {
+      "id": "comercial.prospeccao.criar-fila-de-revisao",
+      "name": "Criar fila de revisão",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 13
+    },
+    {
+      "id": "comercial.prospeccao.sugerir-contato-relevante",
+      "name": "Sugerir contato relevante",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 14
+    },
+    {
+      "id": "comercial.prospeccao.enriquecimento-em-cascata",
+      "name": "Enriquecimento em cascata",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 15
+    },
+    {
+      "id": "comercial.prospeccao.validacao-de-e-mail-corporativo-quando-autorizada",
+      "name": "Validação de e-mail corporativo quando autorizada",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 16
+    },
+    {
+      "id": "comercial.prospeccao.deteccao-de-cargos",
+      "name": "Detecção de cargos",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 17
+    },
+    {
+      "id": "comercial.prospeccao.conciliar-fontes-conflitantes",
+      "name": "Conciliar fontes conflitantes",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 18
+    },
+    {
+      "id": "comercial.prospeccao.atualizacao-incremental",
+      "name": "Atualização incremental",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 19
+    },
+    {
+      "id": "comercial.prospeccao.monitorar-qualidade-de-fornecedor",
+      "name": "Monitorar qualidade de fornecedor",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 20
+    },
+    {
+      "id": "comercial.prospeccao.limitar-custo-de-api",
+      "name": "Limitar custo de API",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 21
+    },
+    {
+      "id": "comercial.prospeccao.geolocalizacao-empresarial",
+      "name": "Geolocalização empresarial",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 22
+    },
+    {
+      "id": "comercial.prospeccao.pontuar-confianca-de-dado",
+      "name": "Pontuar confiança de dado",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 23
+    },
+    {
+      "id": "comercial.prospeccao.configurar-regras-de-descarte",
+      "name": "Configurar regras de descarte",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 24
+    },
+    {
+      "id": "comercial.prospeccao.cobrir-eventos-de-mercado",
+      "name": "Cobrir eventos de mercado",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 25
+    }
+  ],
+  "skillCount": 25
+}

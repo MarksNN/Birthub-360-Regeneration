@@ -1,0 +1,252 @@
+{
+  "agentId": "deal_desk",
+  "agentName": "Deal Desk de Preços, Propostas e Contratos",
+  "playbooks": [
+    {
+      "id": "P1",
+      "name": "Pricing, piso e margem",
+      "path": "02_PLAYBOOKS/11_deal_desk/P1_DEAL_DESK.md",
+      "skillIds": [
+        "comercial.deal_desk.calcular-desconto",
+        "comercial.deal_desk.simular-preco",
+        "comercial.deal_desk.medir-margem",
+        "comercial.deal_desk.aplicar-piso-de-preco",
+        "comercial.deal_desk.modelar-waterfall-de-descontos",
+        "comercial.deal_desk.analisar-elasticidade",
+        "comercial.deal_desk.criar-tabela-por-segmento",
+        "comercial.deal_desk.sugerir-packaging"
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "Cotação e proposta",
+      "path": "02_PLAYBOOKS/11_deal_desk/P2_DEAL_DESK.md",
+      "skillIds": [
+        "comercial.deal_desk.gerar-cotacao-preliminar",
+        "comercial.deal_desk.montar-proposta-comercial",
+        "comercial.deal_desk.explicar-trade-offs",
+        "comercial.deal_desk.comparar-propostas",
+        "comercial.deal_desk.gerar-documentacao-de-compra"
+      ]
+    },
+    {
+      "id": "P3",
+      "name": "ROI, ARR e plurianual",
+      "path": "02_PLAYBOOKS/11_deal_desk/P3_DEAL_DESK.md",
+      "skillIds": [
+        "comercial.deal_desk.calcular-roi",
+        "comercial.deal_desk.simular-contrato-plurianual",
+        "comercial.deal_desk.simular-cenarios-financeiros",
+        "comercial.deal_desk.estimar-impacto-em-arr"
+      ]
+    },
+    {
+      "id": "P4",
+      "name": "Contrato e validação jurídica",
+      "path": "02_PLAYBOOKS/11_deal_desk/P4_DEAL_DESK.md",
+      "skillIds": [
+        "comercial.deal_desk.verificar-termos-comerciais",
+        "comercial.deal_desk.gerar-checklist-contratual",
+        "comercial.deal_desk.validar-excecao-de-prazo",
+        "comercial.deal_desk.preparar-minuta-sujeita-a-juridico"
+      ]
+    },
+    {
+      "id": "P5",
+      "name": "Alçadas e auditoria",
+      "path": "02_PLAYBOOKS/11_deal_desk/P5_DEAL_DESK.md",
+      "skillIds": [
+        "comercial.deal_desk.detectar-discount-leakage",
+        "comercial.deal_desk.encaminhar-aprovacao",
+        "comercial.deal_desk.registrar-justificativas",
+        "comercial.deal_desk.auditar-historico-de-condicoes",
+        "comercial.deal_desk.documentar-alcadas"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "comercial.deal_desk.calcular-desconto",
+      "name": "Calcular desconto",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1
+    },
+    {
+      "id": "comercial.deal_desk.simular-preco",
+      "name": "Simular preço",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2
+    },
+    {
+      "id": "comercial.deal_desk.medir-margem",
+      "name": "Medir margem",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 3
+    },
+    {
+      "id": "comercial.deal_desk.aplicar-piso-de-preco",
+      "name": "Aplicar piso de preço",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 4
+    },
+    {
+      "id": "comercial.deal_desk.gerar-cotacao-preliminar",
+      "name": "Gerar cotação preliminar",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 5
+    },
+    {
+      "id": "comercial.deal_desk.montar-proposta-comercial",
+      "name": "Montar proposta comercial",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 6
+    },
+    {
+      "id": "comercial.deal_desk.calcular-roi",
+      "name": "Calcular ROI",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 7
+    },
+    {
+      "id": "comercial.deal_desk.simular-contrato-plurianual",
+      "name": "Simular contrato plurianual",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 8
+    },
+    {
+      "id": "comercial.deal_desk.explicar-trade-offs",
+      "name": "Explicar trade-offs",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 9
+    },
+    {
+      "id": "comercial.deal_desk.detectar-discount-leakage",
+      "name": "Detectar discount leakage",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 10
+    },
+    {
+      "id": "comercial.deal_desk.verificar-termos-comerciais",
+      "name": "Verificar termos comerciais",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 11
+    },
+    {
+      "id": "comercial.deal_desk.gerar-checklist-contratual",
+      "name": "Gerar checklist contratual",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 12
+    },
+    {
+      "id": "comercial.deal_desk.encaminhar-aprovacao",
+      "name": "Encaminhar aprovação",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 13
+    },
+    {
+      "id": "comercial.deal_desk.registrar-justificativas",
+      "name": "Registrar justificativas",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 14
+    },
+    {
+      "id": "comercial.deal_desk.modelar-waterfall-de-descontos",
+      "name": "Modelar waterfall de descontos",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 15
+    },
+    {
+      "id": "comercial.deal_desk.analisar-elasticidade",
+      "name": "Analisar elasticidade",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 16
+    },
+    {
+      "id": "comercial.deal_desk.simular-cenarios-financeiros",
+      "name": "Simular cenários financeiros",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 17
+    },
+    {
+      "id": "comercial.deal_desk.estimar-impacto-em-arr",
+      "name": "Estimar impacto em ARR",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 18
+    },
+    {
+      "id": "comercial.deal_desk.criar-tabela-por-segmento",
+      "name": "Criar tabela por segmento",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 19
+    },
+    {
+      "id": "comercial.deal_desk.comparar-propostas",
+      "name": "Comparar propostas",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 20
+    },
+    {
+      "id": "comercial.deal_desk.validar-excecao-de-prazo",
+      "name": "Validar exceção de prazo",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 21
+    },
+    {
+      "id": "comercial.deal_desk.gerar-documentacao-de-compra",
+      "name": "Gerar documentação de compra",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 22
+    },
+    {
+      "id": "comercial.deal_desk.preparar-minuta-sujeita-a-juridico",
+      "name": "Preparar minuta sujeita a jurídico",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 23
+    },
+    {
+      "id": "comercial.deal_desk.auditar-historico-de-condicoes",
+      "name": "Auditar histórico de condições",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 24
+    },
+    {
+      "id": "comercial.deal_desk.sugerir-packaging",
+      "name": "Sugerir packaging",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 25
+    },
+    {
+      "id": "comercial.deal_desk.documentar-alcadas",
+      "name": "Documentar alçadas",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 26
+    }
+  ],
+  "skillCount": 26
+}

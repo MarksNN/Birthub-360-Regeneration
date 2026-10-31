@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "3.1",
+  "agentId": "gestao",
+  "missionId": null,
+  "correlationId": null,
+  "status": "COMPLETED",
+  "mode": "CONSULTIVO",
+  "skillIds": [
+    "comercial.gestao.definir-metas-e-okrs"
+  ],
+  "summary": "Análise consultiva demonstrativa de Diretor de Operação Comercial; nenhuma ferramenta acionada.",
+  "artifacts": [
+    {
+      "artifactType": "ANALYSIS",
+      "name": "Metas, quotas e capacidade",
+      "state": "DRAFT_NOT_SENT",
+      "payload": {
+        "objective": "Conduzir planejamento, desempenho e rituais de gestão da equipe comercial.",
+        "source": "USER_INPUT",
+        "result": "Plano hipotético: Compara metas, carteira, atividade, capacidade e indicadores reais; identifica desvios e recomenda ações de liderança com responsáveis.",
+        "notExecuted": true
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "sourceType": "USER_INPUT",
+      "reference": "Cenário fictício do golden set",
+      "claim": "Informação declarada pelo solicitante (sem verificação externa)",
+      "verification": "USER_REPORTED",
+      "observedAt": null
+    }
+  ],
+  "hypotheses": [
+    "Resultados específicos dependem de dados e fontes da organização."
+  ],
+  "missingData": [
+    "Consulta a dados reais e autorização operacional não realizadas."
+  ],
+  "compliance": {
+    "channel": "NONE",
+    "sendEligible": false,
+    "reason": "Exemplo consultivo sem consulta de canal ou execução externa.",
+    "checks": [
+      {
+        "check": "OPT_OUT",
+        "state": "UNKNOWN",
+        "reason": "Não houve consulta à lista de supressão; apenas rascunho.",
+        "evidenceRef": null
+      },
+      {
+        "check": "LEGAL_BASIS",
+        "state": "UNKNOWN",
+        "reason": "Base legal não avaliada para envio.",
+        "evidenceRef": null
+      }
+    ],
+    "signals": {
+      "whatsappOptIn": "UNKNOWN",
+      "optOutSuppression": "UNKNOWN",
+      "touchHistory": "UNKNOWN",
+      "businessHours": "UNKNOWN",
+      "timezone": null
+    }
+  },
+  "approvalPending": {
+    "required": false,
+    "status": "NOT_REQUIRED",
+    "action": null,
+    "approverRole": null,
+    "requestId": null,
+    "reason": ""
+  },
+  "handoffs": [],
+  "execution": {
+    "actionType": "DRAFT_ONLY",
+    "performed": false,
+    "state": "PREPARED",
+    "executionId": null,
+    "idempotencyKey": null,
+    "toolCalls": []
+  },
+  "metrics": {},
+  "nextStep": "Supervisor avalia pendências e decide se oferece próximo passo consultivo.",
+  "resumo_humano": "Preparei um diagnóstico preliminar para liderança e coordenação; usei somente o contexto informado, sem realizar alterações."
+}

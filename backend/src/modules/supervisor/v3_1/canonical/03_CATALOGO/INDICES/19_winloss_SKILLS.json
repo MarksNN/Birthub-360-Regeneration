@@ -1,0 +1,228 @@
+{
+  "agentId": "winloss",
+  "agentName": "Analista de Win/Loss e Aprendizado",
+  "playbooks": [
+    {
+      "id": "P1",
+      "name": "Classificação e integridade",
+      "path": "02_PLAYBOOKS/19_winloss/P1_WINLOSS.md",
+      "skillIds": [
+        "comercial.winloss.analisar-vitorias",
+        "comercial.winloss.analisar-perdas",
+        "comercial.winloss.categorizar-motivos",
+        "comercial.winloss.revisar-dados-faltantes",
+        "comercial.winloss.agrupar-razoes-de-churn-comercial"
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "Padrões por segmento e rival",
+      "path": "02_PLAYBOOKS/19_winloss/P2_WINLOSS.md",
+      "skillIds": [
+        "comercial.winloss.detectar-padrao-por-segmento",
+        "comercial.winloss.comparar-concorrentes",
+        "comercial.winloss.examinar-ciclo-de-venda",
+        "comercial.winloss.identificar-objecoes-recorrentes",
+        "comercial.winloss.comparar-valor-percebido",
+        "comercial.winloss.analisar-mudancas-por-trimestre",
+        "comercial.winloss.avaliar-influencia-de-descontos",
+        "comercial.winloss.comparar-contas-similares"
+      ]
+    },
+    {
+      "id": "P3",
+      "name": "Hipóteses e testes",
+      "path": "02_PLAYBOOKS/19_winloss/P3_WINLOSS.md",
+      "skillIds": [
+        "comercial.winloss.criar-hipoteses",
+        "comercial.winloss.testar-hipotese-com-dados",
+        "comercial.winloss.estimar-impacto-de-iniciativas"
+      ]
+    },
+    {
+      "id": "P4",
+      "name": "Ações e feedback a times",
+      "path": "02_PLAYBOOKS/19_winloss/P4_WINLOSS.md",
+      "skillIds": [
+        "comercial.winloss.priorizar-recomendacoes",
+        "comercial.winloss.propor-ajustes-de-playbook",
+        "comercial.winloss.informar-lideranca",
+        "comercial.winloss.identificar-best-practices",
+        "comercial.winloss.conectar-objecoes-ao-produto"
+      ]
+    },
+    {
+      "id": "P5",
+      "name": "Aprendizado auditável",
+      "path": "02_PLAYBOOKS/19_winloss/P5_WINLOSS.md",
+      "skillIds": [
+        "comercial.winloss.medir-impacto",
+        "comercial.winloss.criar-banco-de-aprendizados"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "comercial.winloss.analisar-vitorias",
+      "name": "Analisar vitórias",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1
+    },
+    {
+      "id": "comercial.winloss.analisar-perdas",
+      "name": "Analisar perdas",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2
+    },
+    {
+      "id": "comercial.winloss.categorizar-motivos",
+      "name": "Categorizar motivos",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 3
+    },
+    {
+      "id": "comercial.winloss.detectar-padrao-por-segmento",
+      "name": "Detectar padrão por segmento",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 4
+    },
+    {
+      "id": "comercial.winloss.comparar-concorrentes",
+      "name": "Comparar concorrentes",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 5
+    },
+    {
+      "id": "comercial.winloss.examinar-ciclo-de-venda",
+      "name": "Examinar ciclo de venda",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 6
+    },
+    {
+      "id": "comercial.winloss.identificar-objecoes-recorrentes",
+      "name": "Identificar objeções recorrentes",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 7
+    },
+    {
+      "id": "comercial.winloss.comparar-valor-percebido",
+      "name": "Comparar valor percebido",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 8
+    },
+    {
+      "id": "comercial.winloss.revisar-dados-faltantes",
+      "name": "Revisar dados faltantes",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 9
+    },
+    {
+      "id": "comercial.winloss.criar-hipoteses",
+      "name": "Criar hipóteses",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 10
+    },
+    {
+      "id": "comercial.winloss.priorizar-recomendacoes",
+      "name": "Priorizar recomendações",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 11
+    },
+    {
+      "id": "comercial.winloss.propor-ajustes-de-playbook",
+      "name": "Propor ajustes de playbook",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 12
+    },
+    {
+      "id": "comercial.winloss.informar-lideranca",
+      "name": "Informar liderança",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 13
+    },
+    {
+      "id": "comercial.winloss.medir-impacto",
+      "name": "Medir impacto",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 14
+    },
+    {
+      "id": "comercial.winloss.agrupar-razoes-de-churn-comercial",
+      "name": "Agrupar razões de churn comercial",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 15
+    },
+    {
+      "id": "comercial.winloss.analisar-mudancas-por-trimestre",
+      "name": "Analisar mudanças por trimestre",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 16
+    },
+    {
+      "id": "comercial.winloss.testar-hipotese-com-dados",
+      "name": "Testar hipótese com dados",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 17
+    },
+    {
+      "id": "comercial.winloss.avaliar-influencia-de-descontos",
+      "name": "Avaliar influência de descontos",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 18
+    },
+    {
+      "id": "comercial.winloss.identificar-best-practices",
+      "name": "Identificar best practices",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 19
+    },
+    {
+      "id": "comercial.winloss.estimar-impacto-de-iniciativas",
+      "name": "Estimar impacto de iniciativas",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 20
+    },
+    {
+      "id": "comercial.winloss.conectar-objecoes-ao-produto",
+      "name": "Conectar objeções ao produto",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 21
+    },
+    {
+      "id": "comercial.winloss.criar-banco-de-aprendizados",
+      "name": "Criar banco de aprendizados",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 22
+    },
+    {
+      "id": "comercial.winloss.comparar-contas-similares",
+      "name": "Comparar contas similares",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 23
+    }
+  ],
+  "skillCount": 23
+}

@@ -1,0 +1,228 @@
+{
+  "agentId": "parcerias",
+  "agentName": "Estrategista de Parcerias e Canais",
+  "playbooks": [
+    {
+      "id": "P1",
+      "name": "Mapeamento do ecossistema",
+      "path": "02_PLAYBOOKS/18_parcerias/P1_PARCERIAS.md",
+      "skillIds": [
+        "comercial.parcerias.identificar-parceiros",
+        "comercial.parcerias.mapear-ecossistema",
+        "comercial.parcerias.avaliar-fit-estrategico",
+        "comercial.parcerias.classificar-potencial-de-canal",
+        "comercial.parcerias.pesquisar-alianca",
+        "comercial.parcerias.identificar-territorios-complementares",
+        "comercial.parcerias.priorizar-parceiros",
+        "comercial.parcerias.mapear-integradores",
+        "comercial.parcerias.definir-criterios-de-parceiro"
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "Proposta e contato com parceiros",
+      "path": "02_PLAYBOOKS/18_parcerias/P2_PARCERIAS.md",
+      "skillIds": [
+        "comercial.parcerias.criar-proposta-de-valor-conjunto",
+        "comercial.parcerias.sugerir-co-marketing",
+        "comercial.parcerias.criar-roteiro-de-abordagem",
+        "comercial.parcerias.planejar-eventos-conjuntos"
+      ]
+    },
+    {
+      "id": "P3",
+      "name": "Programa e ativação",
+      "path": "02_PLAYBOOKS/18_parcerias/P3_PARCERIAS.md",
+      "skillIds": [
+        "comercial.parcerias.gerar-plano-de-ativacao",
+        "comercial.parcerias.modelar-canal-de-revenda",
+        "comercial.parcerias.criar-programa-de-indicacao",
+        "comercial.parcerias.projetar-expansao-regional"
+      ]
+    },
+    {
+      "id": "P4",
+      "name": "Indicações e atribuição",
+      "path": "02_PLAYBOOKS/18_parcerias/P4_PARCERIAS.md",
+      "skillIds": [
+        "comercial.parcerias.mensurar-indicacoes",
+        "comercial.parcerias.registrar-handoff",
+        "comercial.parcerias.calcular-receita-assistida"
+      ]
+    },
+    {
+      "id": "P5",
+      "name": "Conflito e saúde de canal",
+      "path": "02_PLAYBOOKS/18_parcerias/P5_PARCERIAS.md",
+      "skillIds": [
+        "comercial.parcerias.analisar-risco-de-concentracao",
+        "comercial.parcerias.gerar-matriz-de-conflito-comercial",
+        "comercial.parcerias.monitorar-saude-de-parcerias"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "comercial.parcerias.identificar-parceiros",
+      "name": "Identificar parceiros",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1
+    },
+    {
+      "id": "comercial.parcerias.mapear-ecossistema",
+      "name": "Mapear ecossistema",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2
+    },
+    {
+      "id": "comercial.parcerias.avaliar-fit-estrategico",
+      "name": "Avaliar fit estratégico",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 3
+    },
+    {
+      "id": "comercial.parcerias.classificar-potencial-de-canal",
+      "name": "Classificar potencial de canal",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 4
+    },
+    {
+      "id": "comercial.parcerias.pesquisar-alianca",
+      "name": "Pesquisar aliança",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 5
+    },
+    {
+      "id": "comercial.parcerias.criar-proposta-de-valor-conjunto",
+      "name": "Criar proposta de valor conjunto",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 6
+    },
+    {
+      "id": "comercial.parcerias.identificar-territorios-complementares",
+      "name": "Identificar territórios complementares",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 7
+    },
+    {
+      "id": "comercial.parcerias.priorizar-parceiros",
+      "name": "Priorizar parceiros",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 8
+    },
+    {
+      "id": "comercial.parcerias.sugerir-co-marketing",
+      "name": "Sugerir co-marketing",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 9
+    },
+    {
+      "id": "comercial.parcerias.criar-roteiro-de-abordagem",
+      "name": "Criar roteiro de abordagem",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 10
+    },
+    {
+      "id": "comercial.parcerias.gerar-plano-de-ativacao",
+      "name": "Gerar plano de ativação",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 11
+    },
+    {
+      "id": "comercial.parcerias.mensurar-indicacoes",
+      "name": "Mensurar indicações",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 12
+    },
+    {
+      "id": "comercial.parcerias.registrar-handoff",
+      "name": "Registrar handoff",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 13
+    },
+    {
+      "id": "comercial.parcerias.analisar-risco-de-concentracao",
+      "name": "Analisar risco de concentração",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 14
+    },
+    {
+      "id": "comercial.parcerias.modelar-canal-de-revenda",
+      "name": "Modelar canal de revenda",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 15
+    },
+    {
+      "id": "comercial.parcerias.mapear-integradores",
+      "name": "Mapear integradores",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 16
+    },
+    {
+      "id": "comercial.parcerias.criar-programa-de-indicacao",
+      "name": "Criar programa de indicação",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 17
+    },
+    {
+      "id": "comercial.parcerias.definir-criterios-de-parceiro",
+      "name": "Definir critérios de parceiro",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 18
+    },
+    {
+      "id": "comercial.parcerias.planejar-eventos-conjuntos",
+      "name": "Planejar eventos conjuntos",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 19
+    },
+    {
+      "id": "comercial.parcerias.calcular-receita-assistida",
+      "name": "Calcular receita assistida",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 20
+    },
+    {
+      "id": "comercial.parcerias.gerar-matriz-de-conflito-comercial",
+      "name": "Gerar matriz de conflito comercial",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 21
+    },
+    {
+      "id": "comercial.parcerias.monitorar-saude-de-parcerias",
+      "name": "Monitorar saúde de parcerias",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 22
+    },
+    {
+      "id": "comercial.parcerias.projetar-expansao-regional",
+      "name": "Projetar expansão regional",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 23
+    }
+  ],
+  "skillCount": 23
+}

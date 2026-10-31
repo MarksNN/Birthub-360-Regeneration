@@ -1,0 +1,17 @@
+{
+  "agents": 19,
+  "skillsExpected": 463,
+  "skillsActual": 463,
+  "uniqueSkillIds": 463,
+  "playbooks": 99,
+  "examplesJSON": 38,
+  "evalCases": 209,
+  "status": "VALIDACAO_ESTRUTURAL_APROVADA_COM_PENDENCIAS_DE_HOMOLOGACAO",
+  "modelEval": "NOT_RUN",
+  "productionIntegrations": "NOT_TESTED",
+  "grantsChanged": false,
+  "consultiveFallbackTest": "PASS",
+  "unknownSkillTest": "PASS",
+  "promptChars19": 80145,
+  "filesValidatedAgainstSchema": 38
+}

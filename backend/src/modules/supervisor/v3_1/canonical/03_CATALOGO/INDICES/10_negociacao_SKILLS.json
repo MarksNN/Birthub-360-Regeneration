@@ -1,0 +1,236 @@
+{
+  "agentId": "negociacao",
+  "agentName": "Closer de Negociação e Valor",
+  "playbooks": [
+    {
+      "id": "P1",
+      "name": "Diagnóstico e plano do deal",
+      "path": "02_PLAYBOOKS/10_negociacao/P1_NEGOCIACAO.md",
+      "skillIds": [
+        "comercial.negociacao.analisar-oportunidade",
+        "comercial.negociacao.criar-estrategia-de-negociacao",
+        "comercial.negociacao.preparar-reuniao-de-fechamento",
+        "comercial.negociacao.detectar-impasses",
+        "comercial.negociacao.priorizar-oportunidades",
+        "comercial.negociacao.estimar-cenario-de-fechamento"
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "Valor e diferenciação",
+      "path": "02_PLAYBOOKS/10_negociacao/P2_NEGOCIACAO.md",
+      "skillIds": [
+        "comercial.negociacao.gerar-argumentos-de-valor",
+        "comercial.negociacao.comparar-concorrentes",
+        "comercial.negociacao.criar-resumo-para-decisores",
+        "comercial.negociacao.gerar-contra-argumentos-baseados-em-fatos",
+        "comercial.negociacao.reforcar-diferenciais",
+        "comercial.negociacao.identificar-custo-da-inacao"
+      ]
+    },
+    {
+      "id": "P3",
+      "name": "Comitê e compras",
+      "path": "02_PLAYBOOKS/10_negociacao/P3_NEGOCIACAO.md",
+      "skillIds": [
+        "comercial.negociacao.identificar-comite-decisor",
+        "comercial.negociacao.preparar-procurement",
+        "comercial.negociacao.mapear-poder-de-decisao"
+      ]
+    },
+    {
+      "id": "P4",
+      "name": "Objeções e concessões",
+      "path": "02_PLAYBOOKS/10_negociacao/P4_NEGOCIACAO.md",
+      "skillIds": [
+        "comercial.negociacao.mapear-objecoes",
+        "comercial.negociacao.gerir-concessoes-propostas",
+        "comercial.negociacao.simular-objecoes",
+        "comercial.negociacao.analisar-postura-do-comprador"
+      ]
+    },
+    {
+      "id": "P5",
+      "name": "Próximos passos e recuperação",
+      "path": "02_PLAYBOOKS/10_negociacao/P5_NEGOCIACAO.md",
+      "skillIds": [
+        "comercial.negociacao.construir-plano-mutuo",
+        "comercial.negociacao.validar-proximos-passos",
+        "comercial.negociacao.sugerir-proposta-comercial",
+        "comercial.negociacao.elaborar-estrategia-multi-ano",
+        "comercial.negociacao.criar-roteiro-de-reengajamento"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "comercial.negociacao.analisar-oportunidade",
+      "name": "Analisar oportunidade",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1
+    },
+    {
+      "id": "comercial.negociacao.criar-estrategia-de-negociacao",
+      "name": "Criar estratégia de negociação",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2
+    },
+    {
+      "id": "comercial.negociacao.mapear-objecoes",
+      "name": "Mapear objeções",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 3
+    },
+    {
+      "id": "comercial.negociacao.gerar-argumentos-de-valor",
+      "name": "Gerar argumentos de valor",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 4
+    },
+    {
+      "id": "comercial.negociacao.preparar-reuniao-de-fechamento",
+      "name": "Preparar reunião de fechamento",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 5
+    },
+    {
+      "id": "comercial.negociacao.comparar-concorrentes",
+      "name": "Comparar concorrentes",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 6
+    },
+    {
+      "id": "comercial.negociacao.identificar-comite-decisor",
+      "name": "Identificar comitê decisor",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 7
+    },
+    {
+      "id": "comercial.negociacao.construir-plano-mutuo",
+      "name": "Construir plano mútuo",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 8
+    },
+    {
+      "id": "comercial.negociacao.gerir-concessoes-propostas",
+      "name": "Gerir concessões propostas",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 9
+    },
+    {
+      "id": "comercial.negociacao.validar-proximos-passos",
+      "name": "Validar próximos passos",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 10
+    },
+    {
+      "id": "comercial.negociacao.sugerir-proposta-comercial",
+      "name": "Sugerir proposta comercial",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 11
+    },
+    {
+      "id": "comercial.negociacao.detectar-impasses",
+      "name": "Detectar impasses",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 12
+    },
+    {
+      "id": "comercial.negociacao.criar-resumo-para-decisores",
+      "name": "Criar resumo para decisores",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 13
+    },
+    {
+      "id": "comercial.negociacao.priorizar-oportunidades",
+      "name": "Priorizar oportunidades",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 14
+    },
+    {
+      "id": "comercial.negociacao.simular-objecoes",
+      "name": "Simular objeções",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 15
+    },
+    {
+      "id": "comercial.negociacao.analisar-postura-do-comprador",
+      "name": "Analisar postura do comprador",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 16
+    },
+    {
+      "id": "comercial.negociacao.gerar-contra-argumentos-baseados-em-fatos",
+      "name": "Gerar contra-argumentos baseados em fatos",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 17
+    },
+    {
+      "id": "comercial.negociacao.preparar-procurement",
+      "name": "Preparar procurement",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 18
+    },
+    {
+      "id": "comercial.negociacao.mapear-poder-de-decisao",
+      "name": "Mapear poder de decisão",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 19
+    },
+    {
+      "id": "comercial.negociacao.reforcar-diferenciais",
+      "name": "Reforçar diferenciais",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 20
+    },
+    {
+      "id": "comercial.negociacao.estimar-cenario-de-fechamento",
+      "name": "Estimar cenário de fechamento",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 21
+    },
+    {
+      "id": "comercial.negociacao.identificar-custo-da-inacao",
+      "name": "Identificar custo da inação",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 22
+    },
+    {
+      "id": "comercial.negociacao.elaborar-estrategia-multi-ano",
+      "name": "Elaborar estratégia multi-ano",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 23
+    },
+    {
+      "id": "comercial.negociacao.criar-roteiro-de-reengajamento",
+      "name": "Criar roteiro de reengajamento",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 24
+    }
+  ],
+  "skillCount": 24
+}

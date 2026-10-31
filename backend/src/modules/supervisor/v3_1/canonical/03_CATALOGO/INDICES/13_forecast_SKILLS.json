@@ -1,0 +1,236 @@
+{
+  "agentId": "forecast",
+  "agentName": "Estrategista de Pipeline e Forecast",
+  "playbooks": [
+    {
+      "id": "P1",
+      "name": "Leitura e integridade",
+      "path": "02_PLAYBOOKS/13_forecast/P1_FORECAST.md",
+      "skillIds": [
+        "comercial.forecast.ler-pipeline",
+        "comercial.forecast.analisar-cobertura",
+        "comercial.forecast.identificar-pipeline-inflado",
+        "comercial.forecast.auditar-premissas",
+        "comercial.forecast.calcular-aging"
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "Previsão e estágios",
+      "path": "02_PLAYBOOKS/13_forecast/P2_FORECAST.md",
+      "skillIds": [
+        "comercial.forecast.explicar-forecast",
+        "comercial.forecast.separar-commit-e-best-case",
+        "comercial.forecast.calcular-gap-da-meta",
+        "comercial.forecast.prever-conversao-a-partir-de-motor-real",
+        "comercial.forecast.detectar-vies-otimista",
+        "comercial.forecast.calibrar-probabilidade-baseada-em-evidencia"
+      ]
+    },
+    {
+      "id": "P3",
+      "name": "Velocidade e variações",
+      "path": "02_PLAYBOOKS/13_forecast/P3_FORECAST.md",
+      "skillIds": [
+        "comercial.forecast.avaliar-velocidade",
+        "comercial.forecast.acompanhar-tendencia",
+        "comercial.forecast.explicar-variacoes",
+        "comercial.forecast.criar-ponte-mensal",
+        "comercial.forecast.analisar-sazonalidade"
+      ]
+    },
+    {
+      "id": "P4",
+      "name": "Cenários por segmentação",
+      "path": "02_PLAYBOOKS/13_forecast/P4_FORECAST.md",
+      "skillIds": [
+        "comercial.forecast.simular-cenarios",
+        "comercial.forecast.comparar-forecasts-por-segmento",
+        "comercial.forecast.simular-meta-por-territorio",
+        "comercial.forecast.visualizar-impacto-de-churn-na-receita"
+      ]
+    },
+    {
+      "id": "P5",
+      "name": "Governança executiva",
+      "path": "02_PLAYBOOKS/13_forecast/P5_FORECAST.md",
+      "skillIds": [
+        "comercial.forecast.emitir-resumo-executivo",
+        "comercial.forecast.calcular-acuracia-historica",
+        "comercial.forecast.analisar-riscos-por-deal",
+        "comercial.forecast.fazer-revisao-semanal-de-forecast"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "comercial.forecast.ler-pipeline",
+      "name": "Ler pipeline",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1
+    },
+    {
+      "id": "comercial.forecast.analisar-cobertura",
+      "name": "Analisar cobertura",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2
+    },
+    {
+      "id": "comercial.forecast.explicar-forecast",
+      "name": "Explicar forecast",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 3
+    },
+    {
+      "id": "comercial.forecast.separar-commit-e-best-case",
+      "name": "Separar commit e best case",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 4
+    },
+    {
+      "id": "comercial.forecast.calcular-gap-da-meta",
+      "name": "Calcular gap da meta",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 5
+    },
+    {
+      "id": "comercial.forecast.avaliar-velocidade",
+      "name": "Avaliar velocidade",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 6
+    },
+    {
+      "id": "comercial.forecast.prever-conversao-a-partir-de-motor-real",
+      "name": "Prever conversão a partir de motor real",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 7
+    },
+    {
+      "id": "comercial.forecast.identificar-pipeline-inflado",
+      "name": "Identificar pipeline inflado",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 8
+    },
+    {
+      "id": "comercial.forecast.auditar-premissas",
+      "name": "Auditar premissas",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 9
+    },
+    {
+      "id": "comercial.forecast.acompanhar-tendencia",
+      "name": "Acompanhar tendência",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 10
+    },
+    {
+      "id": "comercial.forecast.simular-cenarios",
+      "name": "Simular cenários",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 11
+    },
+    {
+      "id": "comercial.forecast.explicar-variacoes",
+      "name": "Explicar variações",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 12
+    },
+    {
+      "id": "comercial.forecast.calcular-aging",
+      "name": "Calcular aging",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 13
+    },
+    {
+      "id": "comercial.forecast.emitir-resumo-executivo",
+      "name": "Emitir resumo executivo",
+      "playbookId": "P5",
+      "catalogStage": "Essencial",
+      "number": 14
+    },
+    {
+      "id": "comercial.forecast.comparar-forecasts-por-segmento",
+      "name": "Comparar forecasts por segmento",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 15
+    },
+    {
+      "id": "comercial.forecast.detectar-vies-otimista",
+      "name": "Detectar viés otimista",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 16
+    },
+    {
+      "id": "comercial.forecast.calcular-acuracia-historica",
+      "name": "Calcular acurácia histórica",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 17
+    },
+    {
+      "id": "comercial.forecast.criar-ponte-mensal",
+      "name": "Criar ponte mensal",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 18
+    },
+    {
+      "id": "comercial.forecast.analisar-riscos-por-deal",
+      "name": "Analisar riscos por deal",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 19
+    },
+    {
+      "id": "comercial.forecast.calibrar-probabilidade-baseada-em-evidencia",
+      "name": "Calibrar probabilidade baseada em evidência",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 20
+    },
+    {
+      "id": "comercial.forecast.simular-meta-por-territorio",
+      "name": "Simular meta por território",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 21
+    },
+    {
+      "id": "comercial.forecast.visualizar-impacto-de-churn-na-receita",
+      "name": "Visualizar impacto de churn na receita",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 22
+    },
+    {
+      "id": "comercial.forecast.analisar-sazonalidade",
+      "name": "Analisar sazonalidade",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 23
+    },
+    {
+      "id": "comercial.forecast.fazer-revisao-semanal-de-forecast",
+      "name": "Fazer revisão semanal de forecast",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 24
+    }
+  ],
+  "skillCount": 24
+}

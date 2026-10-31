@@ -1,0 +1,244 @@
+{
+  "agentId": "icp",
+  "agentName": "Arquiteto de ICP e Territórios",
+  "playbooks": [
+    {
+      "id": "P1",
+      "name": "Desenho e validação do ICP",
+      "path": "02_PLAYBOOKS/03_icp/P1_ICP.md",
+      "skillIds": [
+        "comercial.icp.construir-icp",
+        "comercial.icp.refinar-icp",
+        "comercial.icp.criar-anti-icp",
+        "comercial.icp.criar-criterios-de-inclusao",
+        "comercial.icp.documentar-hipoteses",
+        "comercial.icp.definir-clusters-de-icp",
+        "comercial.icp.diferenciar-icp-por-produto"
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "Tamanho e potencial de mercado",
+      "path": "02_PLAYBOOKS/03_icp/P2_ICP.md",
+      "skillIds": [
+        "comercial.icp.identificar-verticais",
+        "comercial.icp.mapear-tam-sam-som",
+        "comercial.icp.priorizar-nichos",
+        "comercial.icp.estimar-potencial",
+        "comercial.icp.estimar-densidade-de-contas",
+        "comercial.icp.analisar-saturacao",
+        "comercial.icp.detectar-mercado-emergente"
+      ]
+    },
+    {
+      "id": "P3",
+      "name": "Carteiras e territórios",
+      "path": "02_PLAYBOOKS/03_icp/P3_ICP.md",
+      "skillIds": [
+        "comercial.icp.definir-tier-de-contas",
+        "comercial.icp.distribuir-territorios",
+        "comercial.icp.detectar-sobreposicao",
+        "comercial.icp.recomendar-regioes",
+        "comercial.icp.balancear-carteiras",
+        "comercial.icp.simular-potencial-de-quotas"
+      ]
+    },
+    {
+      "id": "P4",
+      "name": "Whitespace e expansão",
+      "path": "02_PLAYBOOKS/03_icp/P4_ICP.md",
+      "skillIds": [
+        "comercial.icp.medir-whitespace",
+        "comercial.icp.modelar-expansao-geografica",
+        "comercial.icp.medir-sazonalidade"
+      ]
+    },
+    {
+      "id": "P5",
+      "name": "Experimentos de segmentação",
+      "path": "02_PLAYBOOKS/03_icp/P5_ICP.md",
+      "skillIds": [
+        "comercial.icp.incorporar-win-loss",
+        "comercial.icp.testar-mudancas-de-segmentacao"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "comercial.icp.construir-icp",
+      "name": "Construir ICP",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 1
+    },
+    {
+      "id": "comercial.icp.refinar-icp",
+      "name": "Refinar ICP",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 2
+    },
+    {
+      "id": "comercial.icp.criar-anti-icp",
+      "name": "Criar anti-ICP",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 3
+    },
+    {
+      "id": "comercial.icp.identificar-verticais",
+      "name": "Identificar verticais",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 4
+    },
+    {
+      "id": "comercial.icp.mapear-tam-sam-som",
+      "name": "Mapear TAM/SAM/SOM",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 5
+    },
+    {
+      "id": "comercial.icp.priorizar-nichos",
+      "name": "Priorizar nichos",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 6
+    },
+    {
+      "id": "comercial.icp.medir-whitespace",
+      "name": "Medir whitespace",
+      "playbookId": "P4",
+      "catalogStage": "Essencial",
+      "number": 7
+    },
+    {
+      "id": "comercial.icp.definir-tier-de-contas",
+      "name": "Definir tier de contas",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 8
+    },
+    {
+      "id": "comercial.icp.distribuir-territorios",
+      "name": "Distribuir territórios",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 9
+    },
+    {
+      "id": "comercial.icp.detectar-sobreposicao",
+      "name": "Detectar sobreposição",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 10
+    },
+    {
+      "id": "comercial.icp.recomendar-regioes",
+      "name": "Recomendar regiões",
+      "playbookId": "P3",
+      "catalogStage": "Essencial",
+      "number": 11
+    },
+    {
+      "id": "comercial.icp.estimar-potencial",
+      "name": "Estimar potencial",
+      "playbookId": "P2",
+      "catalogStage": "Essencial",
+      "number": 12
+    },
+    {
+      "id": "comercial.icp.criar-criterios-de-inclusao",
+      "name": "Criar critérios de inclusão",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 13
+    },
+    {
+      "id": "comercial.icp.documentar-hipoteses",
+      "name": "Documentar hipóteses",
+      "playbookId": "P1",
+      "catalogStage": "Essencial",
+      "number": 14
+    },
+    {
+      "id": "comercial.icp.modelar-expansao-geografica",
+      "name": "Modelar expansão geográfica",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 15
+    },
+    {
+      "id": "comercial.icp.estimar-densidade-de-contas",
+      "name": "Estimar densidade de contas",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 16
+    },
+    {
+      "id": "comercial.icp.analisar-saturacao",
+      "name": "Analisar saturação",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 17
+    },
+    {
+      "id": "comercial.icp.balancear-carteiras",
+      "name": "Balancear carteiras",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 18
+    },
+    {
+      "id": "comercial.icp.simular-potencial-de-quotas",
+      "name": "Simular potencial de quotas",
+      "playbookId": "P3",
+      "catalogStage": "Expansão",
+      "number": 19
+    },
+    {
+      "id": "comercial.icp.definir-clusters-de-icp",
+      "name": "Definir clusters de ICP",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 20
+    },
+    {
+      "id": "comercial.icp.diferenciar-icp-por-produto",
+      "name": "Diferenciar ICP por produto",
+      "playbookId": "P1",
+      "catalogStage": "Expansão",
+      "number": 21
+    },
+    {
+      "id": "comercial.icp.medir-sazonalidade",
+      "name": "Medir sazonalidade",
+      "playbookId": "P4",
+      "catalogStage": "Expansão",
+      "number": 22
+    },
+    {
+      "id": "comercial.icp.incorporar-win-loss",
+      "name": "Incorporar win/loss",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 23
+    },
+    {
+      "id": "comercial.icp.detectar-mercado-emergente",
+      "name": "Detectar mercado emergente",
+      "playbookId": "P2",
+      "catalogStage": "Expansão",
+      "number": 24
+    },
+    {
+      "id": "comercial.icp.testar-mudancas-de-segmentacao",
+      "name": "Testar mudanças de segmentação",
+      "playbookId": "P5",
+      "catalogStage": "Expansão",
+      "number": 25
+    }
+  ],
+  "skillCount": 25
+}
