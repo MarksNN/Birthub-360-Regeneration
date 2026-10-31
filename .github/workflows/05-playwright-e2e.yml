@@ -1,0 +1,61 @@
+name: "Birthub Regen / 05 - Playwright E2E"
+on:
+  workflow_dispatch:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  e2e:
+    name: "E2E / Edge Linux / Aplicação isolada"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: ci_user
+          POSTGRES_PASSWORD: ci_test_password
+          POSTGRES_DB: birthhub_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U ci_user -d birthhub_ci"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: "postgresql://ci_user:ci_test_password@localhost:5432/birthhub_ci?schema=public"
+      JWT_SECRET: "ci-only-not-for-production"
+      NODE_ENV: development
+      PORT: "3001"
+      CORS_ORIGIN: "http://127.0.0.1:5173"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-regeneration
+      - name: Banco de testes
+        run: |
+          npm --prefix backend run db:push
+          npm --prefix backend run db:seed
+      - name: Instalar navegador Edge e dependências
+        working-directory: backend
+        run: npx playwright install --with-deps msedge
+      - name: Inicializar API e frontend isolados
+        run: |
+          (npm --prefix backend run dev > /tmp/birthub-api.log 2>&1 &)
+          (npm --prefix frontend run dev -- --host 127.0.0.1 > /tmp/birthub-ui.log 2>&1 &)
+          for i in $(seq 1 90); do
+            if curl -fsS http://127.0.0.1:3001/api/health >/dev/null && curl -fsS http://127.0.0.1:5173 >/dev/null; then exit 0; fi
+            sleep 2
+          done
+          cat /tmp/birthub-api.log /tmp/birthub-ui.log
+          exit 1
+      - name: Executar Playwright E2E
+        run: npm --prefix backend run test:e2e
+      - name: Guardar evidências de falha
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: birthub-regen-e2e-evidencias
+          path: |
+            backend/test-results/
+            backend/playwright-report/
+          if-no-files-found: ignore
+          retention-days: 7
