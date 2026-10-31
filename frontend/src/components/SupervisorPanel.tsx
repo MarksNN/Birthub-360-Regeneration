@@ -21,6 +21,31 @@ export const SupervisorPanel: React.FC<SupervisorPanelProps> = ({
   const [missionLoading, setMissionLoading] = useState(false);
   const [executionResult, setExecutionResult] = useState<any>(null);
   const [missionResult, setMissionResult] = useState<any>(null);
+  const [v31Loading, setV31Loading] = useState(false);
+  const [v31Result, setV31Result] = useState<any>(null);
+
+  const handleRunV31 = async () => {
+    if (!prompt.trim()) return;
+    setV31Loading(true);
+    setV31Result(null);
+    setExecutionResult(null);
+    try {
+      const res = await api.orchestrateCommercialV31({
+        userPrompt: prompt,
+        mode: 'CONSULTIVO'
+      });
+      if (res.success) {
+        setV31Result(res.data);
+        if (onRefreshData) onRefreshData();
+      } else {
+        setV31Result({ error: res.error || 'Falha na orquestração V3.1' });
+      }
+    } catch (err: any) {
+      setV31Result({ error: err.message || 'Falha de comunicação V3.1' });
+    } finally {
+      setV31Loading(false);
+    }
+  };
 
   const resolveTargetModule = (): SupervisorContextModule => {
     if (supervisorContext) return supervisorContext;
@@ -170,6 +195,15 @@ export const SupervisorPanel: React.FC<SupervisorPanelProps> = ({
       <div className="mt-2 flex flex-wrap items-center gap-2">
         <button
           type="button"
+          disabled={v31Loading || !prompt.trim()}
+          onClick={handleRunV31}
+          className="px-3 py-1.5 text-[11px] font-mono font-bold rounded-control border border-neon-blue/60 text-neon-blue bg-neon-blue/10 hover:bg-neon-blue/20 transition-all flex items-center gap-1.5 disabled:opacity-50"
+        >
+          <Sparkles className="w-3.5 h-3.5" />
+          {v31Loading ? 'Orquestrando V3.1...' : 'Motor V3.1 (19 Especialistas)'}
+        </button>
+        <button
+          type="button"
           data-testid="supervisor-mission-btn"
           disabled={missionLoading}
           onClick={handleMission}
@@ -181,6 +215,45 @@ export const SupervisorPanel: React.FC<SupervisorPanelProps> = ({
           A missão não executa escrita sem aprovação de ADMIN ou MANAGER.
         </span>
       </div>
+
+      {v31Result && (
+        <div className="mt-3 p-4 rounded-card border border-neon-blue/40 bg-surface2/90 space-y-2.5">
+          {v31Result.error ? (
+            <p className="text-xs text-neon-danger">{v31Result.error}</p>
+          ) : (
+            <>
+              <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono border-b border-border pb-2">
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-neon-blue/20 text-neon-blue border border-neon-blue/30">
+                    COMERCIAL V3.1
+                  </span>
+                  <span className="font-bold text-foreground">
+                    {v31Result.assignedAgent?.name} ({v31Result.assignedAgent?.id})
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 text-muted text-[11px]">
+                  <span>Status: <strong className="text-neon-green">{v31Result.status}</strong></span>
+                  <span>•</span>
+                  <span>{v31Result.executionTimeMs}ms</span>
+                </div>
+              </div>
+              <div className="text-xs text-foreground leading-relaxed">
+                <span className="font-bold text-neon-blue">Síntese do Especialista:</span> {v31Result.resumo_humano}
+              </div>
+              {v31Result.skillsUsed?.length > 0 && (
+                <div className="flex flex-wrap items-center gap-1.5 text-[10px] font-mono text-muted">
+                  <span className="text-foreground">Skills Aplicadas:</span>
+                  {v31Result.skillsUsed.map((s: string) => (
+                    <span key={s} className="px-1.5 py-0.5 rounded bg-surface border border-border">
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      )}
 
       {missionResult && (
         <div

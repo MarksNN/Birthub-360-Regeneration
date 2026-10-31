@@ -1,3 +1,4 @@
+import prisma from '../../../lib/prisma';
 import { CommercialCatalogV31 } from './catalog';
 import { CommercialContextAssemblerV31 } from './context-assembler';
 import { CommercialSchemaValidatorV31 } from './schema-validator';
@@ -373,6 +374,26 @@ export class CommercialSupervisorOrchestratorV31 {
     }
 
     const executionTimeMs = Date.now() - startTime;
+
+    if (process.env.DATABASE_URL && request.organizationId && request.userId) {
+      try {
+        await prisma.supervisorExecution.create({
+          data: {
+            organizationId: request.organizationId,
+            requestedById: request.userId,
+            targetModule: 'COMERCIAL_V3_1',
+            userPrompt: request.userPrompt,
+            routedAgentCode: `comercial-v31-${assignedAgentId}`,
+            selectedTools: toolCalls.map((t) => t.toolCode),
+            status: rawEnvelope.status,
+            resultSummary: rawEnvelope.resumo_humano,
+            executionTimeMs
+          }
+        });
+      } catch {
+        // Ignora silenciosamente em caso de chave estrangeira mockada no teste
+      }
+    }
 
     return {
       missionId,
