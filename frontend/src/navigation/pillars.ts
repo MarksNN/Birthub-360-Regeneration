@@ -215,6 +215,16 @@ export const EIGHT_PILLARS: PillarDefinition[] = [
     supervisorContext: 'COPILOT',
     submodules: [
       {
+        id: 'commercial_matrix_v31',
+        label: 'Matriz Comercial V3.1 (19 Agentes)',
+        path: '/copilot/commercial-matrix-v31',
+        pillarId: 'copilot',
+        supervisorContext: 'COPILOT',
+        minRole: 'VIEWER',
+        isImplemented: true,
+        description: 'Matriz Operacional V3.1 com 19 Especialistas, 463 Habilidades e 99 Playbooks procedimentais.'
+      },
+      {
         id: 'agents_catalog',
         label: 'Catálogo dos 394 Agentes',
         path: '/copilot/agents-catalog',

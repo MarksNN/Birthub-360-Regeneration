@@ -13,6 +13,7 @@ import { PipelineKanbanView } from './components/PipelineKanbanView';
 import { ActivitiesView } from './components/ActivitiesView';
 import { RevOpsDashboardView } from './components/RevOpsDashboardView';
 import { AgentsCatalogView } from './components/AgentsCatalogView';
+import { CommercialV31MatrixView } from './components/CommercialV31MatrixView';
 import { IntegrationHubView } from './components/IntegrationHubView';
 import {
   findSubmoduleByPath,
@@ -309,6 +310,10 @@ export function App() {
 
               {(activeSubmodule.id === 'revops' || activeSubmodule.id === 'weighted_forecast') && (
                 <RevOpsDashboardView metrics={metrics} loading={loadingData} />
+              )}
+
+              {activeSubmodule.id === 'commercial_matrix_v31' && (
+                <CommercialV31MatrixView />
               )}
 
               {activeSubmodule.id === 'agents_catalog' && (

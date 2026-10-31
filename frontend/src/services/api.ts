@@ -99,6 +99,15 @@ export const api = {
     return res.json();
   },
 
+  async updateContact(id: string, data: any) {
+    const res = await fetch(`${API_BASE}/crm/contacts/${id}`, {
+      method: 'PUT',
+      headers: this.getHeaders(),
+      body: JSON.stringify(data)
+    });
+    return res.json();
+  },
+
   async deleteContact(id: string) {
     const res = await fetch(`${API_BASE}/crm/contacts/${id}`, {
       method: 'DELETE',
@@ -342,14 +351,18 @@ export const api = {
 
   async prepareIntegrationProposal(id: string, data: any) {
     const res = await fetch(API_BASE + '/integrations/admin/projects/' + encodeURIComponent(id) + '/proposal', {
-      method: 'POST', headers: this.getHeaders(), body: JSON.stringify(data)
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify(data)
     });
     return res.json();
   },
 
   async updateIntegrationPricingParameter(key: string, value: number) {
     const res = await fetch(API_BASE + '/integrations/admin/pricing-parameters/' + encodeURIComponent(key), {
-      method: 'PATCH', headers: this.getHeaders(), body: JSON.stringify({ value })
+      method: 'PATCH',
+      headers: this.getHeaders(),
+      body: JSON.stringify({ value })
     });
     return res.json();
   },
@@ -370,8 +383,60 @@ export const api = {
       body: JSON.stringify({ approvalId, decision })
     });
     return res.json();
-  }
-};
+  },
+
+  // COMERCIAL V3.1 MULTIAGENTES (19 Agentes & 463 Habilidades)
+  async getCommercialV31Catalog() {
+    const res = await fetch(`${API_BASE}/v3_1/catalog`, {
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  async getCommercialV31Skills(agentId?: string) {
+    const params = agentId ? `?agentId=${encodeURIComponent(agentId)}` : '';
+    const res = await fetch(`${API_BASE}/v3_1/skills${params}`, {
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  async getCommercialV31Agent(agentId: string) {
+    const res = await fetch(`${API_BASE}/v3_1/agents/${encodeURIComponent(agentId)}`, {
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  async assembleCommercialV31Context(agentId: string, skillIds: string[]) {
+    const res = await fetch(`${API_BASE}/v3_1/context`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify({ agentId, skillIds })
+    });
+    return res.json();
+  },
+
+  async validateCommercialV31Envelope(envelope: any) {
+    const res = await fetch(`${API_BASE}/v3_1/validate`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify(envelope)
+    });
+    return res.json();
+  },
+
+  async orchestrateCommercialV31(payload: {
+    userPrompt: string;
+    targetAgentId?: string;
+    targetSkillIds?: string[];
+    contextData?: Record<string, any>;
+    mode?: 'CONSULTIVO' | 'OPERACIONAL';
+  }) {
+    const res = await fetch(`${API_BASE}/v3_1/orchestrate`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify(payload)
     });
     return res.json();
   }
