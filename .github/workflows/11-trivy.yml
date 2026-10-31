@@ -1,0 +1,40 @@
+name: "Birthub Regen / 11 - Trivy"
+on:
+  workflow_dispatch:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  trivy:
+    name: "SCA / Segredos / Configurações"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Relatório SARIF Trivy (sem bloquear geração)
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: vuln,secret,misconfig
+          format: sarif
+          output: trivy-report.sarif
+          exit-code: "0"
+      - name: Anexar SARIF à execução
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: birthub-regen-trivy-sarif
+          path: trivy-report.sarif
+          if-no-files-found: ignore
+          retention-days: 14
+      - name: Gate HIGH / CRITICAL
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: vuln,secret,misconfig
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          exit-code: "1"
+          skip-setup-trivy: true
