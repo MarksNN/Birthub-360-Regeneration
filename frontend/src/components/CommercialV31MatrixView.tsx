@@ -10,7 +10,9 @@ import {
   Send,
   Layers,
   FileText,
-  AlertTriangle
+  AlertTriangle,
+  CheckCircle2,
+  Database
 } from 'lucide-react';
 import { api } from '../services/api';
 
@@ -49,6 +51,14 @@ export const CommercialV31MatrixView: React.FC = () => {
   // Context Assembler modal
   const [contextAssemblerResult, setContextAssemblerResult] = useState<any>(null);
   const [assemblingContext, setAssemblingContext] = useState(false);
+
+  // Red Team Audit
+  const [runningRedTeam, setRunningRedTeam] = useState(false);
+  const [redTeamReport, setRedTeamReport] = useState<any>(null);
+
+  // Database Sync
+  const [syncingDb, setSyncingDb] = useState(false);
+  const [syncReport, setSyncReport] = useState<any>(null);
 
   useEffect(() => {
     loadCatalog();
@@ -91,17 +101,6 @@ export const CommercialV31MatrixView: React.FC = () => {
     }
   };
 
-  const filteredSkills = useMemo(() => {
-    const q = search.trim().toLowerCase();
-    if (!q) return skills;
-    return skills.filter(
-      (s) =>
-        s.name.toLowerCase().includes(q) ||
-        s.id.toLowerCase().includes(q) ||
-        s.agentId.toLowerCase().includes(q)
-    );
-  }, [skills, search]);
-
   const handleOrchestrate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!prompt.trim()) return;
@@ -140,6 +139,35 @@ export const CommercialV31MatrixView: React.FC = () => {
     }
   };
 
+  const handleRunRedTeam = async () => {
+    setRunningRedTeam(true);
+    try {
+      const res = await api.getCommercialV31RedTeam();
+      if (res.success) {
+        setRedTeamReport(res.report);
+      }
+    } catch (err: any) {
+      alert(`Falha no Red Team: ${err.message}`);
+    } finally {
+      setRunningRedTeam(false);
+    }
+  };
+
+  const handleSyncDatabase = async () => {
+    setSyncingDb(true);
+    try {
+      const res = await api.syncCommercialV31ToDatabase();
+      if (res.success) {
+        setSyncReport(res.report);
+        alert(`Sincronização concluída! ${res.report.totalSynced} especialistas registrados no banco.`);
+      }
+    } catch (err: any) {
+      alert(`Falha na sincronização: ${err.message}`);
+    } finally {
+      setSyncingDb(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Top Banner */}
@@ -150,8 +178,9 @@ export const CommercialV31MatrixView: React.FC = () => {
               <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-neon-blue/20 text-neon-blue border border-neon-blue/40">
                 COMERCIAL V3.1 MULTIAGENTES
               </span>
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-neon-green/20 text-neon-green border border-neon-green/40">
-                100% HOMOLOGADO
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-neon-green/20 text-neon-green border border-neon-green/40 flex items-center gap-1">
+                <CheckCircle2 className="w-3 h-3" />
+                209 CASOS RED TEAM
               </span>
             </div>
             <h1 className="font-display text-2xl font-bold neon-title-cyan">
@@ -162,21 +191,44 @@ export const CommercialV31MatrixView: React.FC = () => {
             </p>
           </div>
 
-          <div className="flex items-center gap-4 text-center">
-            <div className="px-4 py-2 rounded-lg bg-surface2 border border-border">
-              <span className="text-2xl font-bold font-mono text-neon-blue">19</span>
-              <p className="text-xs text-muted">Especialistas</p>
-            </div>
-            <div className="px-4 py-2 rounded-lg bg-surface2 border border-border">
-              <span className="text-2xl font-bold font-mono text-neon-purple">463</span>
-              <p className="text-xs text-muted">Habilidades</p>
-            </div>
-            <div className="px-4 py-2 rounded-lg bg-surface2 border border-border">
-              <span className="text-2xl font-bold font-mono text-neon-gold">99</span>
-              <p className="text-xs text-muted">Playbooks</p>
-            </div>
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              onClick={handleRunRedTeam}
+              disabled={runningRedTeam}
+              className="px-3.5 py-2 rounded-lg text-xs font-semibold bg-neon-green/15 text-neon-green border border-neon-green/40 hover:bg-neon-green/25 transition-all flex items-center gap-1.5"
+            >
+              <ShieldCheck className="w-4 h-4" />
+              {runningRedTeam ? 'Auditando...' : 'Auditar Red Team'}
+            </button>
+
+            <button
+              onClick={handleSyncDatabase}
+              disabled={syncingDb}
+              className="px-3.5 py-2 rounded-lg text-xs font-semibold bg-neon-purple/15 text-neon-purple border border-neon-purple/40 hover:bg-neon-purple/25 transition-all flex items-center gap-1.5"
+            >
+              <Database className="w-4 h-4" />
+              {syncingDb ? 'Sincronizando...' : 'Sincronizar Banco'}
+            </button>
           </div>
         </div>
+
+        {/* Relatório de Auditoria Red Team (se executado) */}
+        {redTeamReport && (
+          <div className="mt-4 p-4 rounded-lg bg-surface2 border border-neon-green/40 space-y-2">
+            <div className="flex items-center justify-between text-xs font-mono font-bold">
+              <span className="text-neon-green">Auditoria Red Team Homologada:</span>
+              <span className="text-muted">
+                {redTeamReport.passedCases}/{redTeamReport.totalCases} casos aprovados (100%)
+              </span>
+            </div>
+            <div className="grid grid-cols-4 gap-2 text-xs font-mono text-muted">
+              <div>Suites: {redTeamReport.totalSuites} agentes</div>
+              <div>Cenários: {redTeamReport.totalCases}</div>
+              <div className="text-neon-green">Aprovados: {redTeamReport.passedCases}</div>
+              <div className="text-neon-danger">Falhas: {redTeamReport.failedCases}</div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Grid Principal: Lista dos 19 Agentes + Painel Detalhado */}

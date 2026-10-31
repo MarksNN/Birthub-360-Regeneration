@@ -439,5 +439,20 @@ export const api = {
       body: JSON.stringify(payload)
     });
     return res.json();
+  },
+
+  async getCommercialV31RedTeam() {
+    const res = await fetch(`${API_BASE}/v3_1/redteam`, {
+      headers: this.getHeaders()
+    });
+    return res.json();
+  },
+
+  async syncCommercialV31ToDatabase() {
+    const res = await fetch(`${API_BASE}/v3_1/sync-database`, {
+      method: 'POST',
+      headers: this.getHeaders()
+    });
+    return res.json();
   }
 };

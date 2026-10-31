@@ -3,6 +3,8 @@ import { CommercialCatalogV31 } from './catalog';
 import { CommercialContextAssemblerV31 } from './context-assembler';
 import { CommercialSchemaValidatorV31 } from './schema-validator';
 import { CommercialSupervisorOrchestratorV31 } from './orchestrator';
+import { CommercialRedTeamRunnerV31 } from './redteam-runner';
+import { syncCommercialV31CatalogToDatabase } from './seeder';
 import { AgentIdV31 } from './types';
 
 const router = Router();
@@ -161,6 +163,38 @@ router.post('/orchestrate', async (req: Request, res: Response) => {
     return res.json({
       success: true,
       data: response
+    });
+  } catch (error: any) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+/**
+ * GET /api/supervisor/v3_1/redteam
+ * Executa a suite de Red Team (209 casos) e retorna o relatório de conformidade
+ */
+router.get('/redteam', (req: Request, res: Response) => {
+  try {
+    const report = CommercialRedTeamRunnerV31.runFullRedTeamSuite();
+    return res.json({
+      success: true,
+      report
+    });
+  } catch (error: any) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+/**
+ * POST /api/supervisor/v3_1/sync-database
+ * Sincroniza a Matriz Comercial V3.1 com o banco de dados (Prisma)
+ */
+router.post('/sync-database', async (req: Request, res: Response) => {
+  try {
+    const report = await syncCommercialV31CatalogToDatabase();
+    return res.json({
+      success: true,
+      report
     });
   } catch (error: any) {
     return res.status(500).json({ success: false, error: error.message });

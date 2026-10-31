@@ -46,13 +46,20 @@ export class CommercialPolicyGuardV31 {
    * - LGPD / Legítimo interesse verificado
    * - Opt-out / supressão checado
    * - Nenhum check com status UNKNOWN ou FAIL
-   * - Nenhum signal impeditivo (optOutSuppression, touchHistory, etc.)
+   * - Nenhum signal impeditivo (optOutSuppression, touchHistory, whatsappOptIn, etc.)
    */
   public static evaluateSendEligibility(compliance: ComplianceV31): { eligible: boolean; reasons: string[] } {
     const reasons: string[] = [];
 
     if (compliance.channel === 'NONE') {
       return { eligible: false, reasons: ['Canal é NONE — nenhuma comunicação configurada'] };
+    }
+
+    // Regra crítica para WhatsApp
+    if (compliance.channel === 'WHATSAPP' || compliance.channel === 'MULTICHANNEL') {
+      if (compliance.signals.whatsappOptIn !== 'CONFIRMED') {
+        reasons.push(`WhatsApp opt-in em estado ${compliance.signals.whatsappOptIn}; envio direto não autorizado.`);
+      }
     }
 
     const failedChecks = compliance.checks.filter((c) => c.state === 'FAIL');
@@ -66,15 +73,15 @@ export class CommercialPolicyGuardV31 {
     }
 
     if (compliance.signals.optOutSuppression !== 'CLEAR') {
-      reasons.push(`Sinal optOutSuppression (${compliance.signals.optOutSuppression}) impede envio real`);
+      reasons.push(`Sinal optOutSuppression (${compliance.signals.optOutSuppression}) impede envio real.`);
     }
 
     if (compliance.signals.touchHistory !== 'NO_CONFLICT') {
-      reasons.push(`Sinal touchHistory (${compliance.signals.touchHistory}) impede envio real`);
+      reasons.push(`Sinal touchHistory (${compliance.signals.touchHistory}) impede envio real.`);
     }
 
     if (compliance.signals.businessHours !== 'WITHIN_WINDOW' && compliance.signals.businessHours !== 'NOT_APPLICABLE') {
-      reasons.push(`Sinal businessHours (${compliance.signals.businessHours}) fora da janela autorizada`);
+      reasons.push(`Sinal businessHours (${compliance.signals.businessHours}) fora da janela autorizada.`);
     }
 
     const eligible = reasons.length === 0;
