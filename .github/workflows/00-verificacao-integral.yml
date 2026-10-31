@@ -1,0 +1,97 @@
+name: "Birthub Regen / 00 - Verificação Integral"
+on:
+  workflow_dispatch:
+    inputs:
+      include_e2e:
+        description: "Incluir E2E Playwright (Edge)"
+        type: boolean
+        default: true
+      include_sonar:
+        description: "Incluir SonarQube (requer SONAR_TOKEN e variables)"
+        type: boolean
+        default: false
+permissions:
+  contents: read
+  security-events: write
+concurrency:
+  group: birthub-regen-manual-suite-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  quality:
+    name: "01 / Qualidade"
+    uses: ./.github/workflows/01-quality.yml
+  database:
+    name: "02 / Banco"
+    uses: ./.github/workflows/02-database.yml
+  integration:
+    name: "03 / Integração"
+    uses: ./.github/workflows/03-integration.yml
+  agents:
+    name: "04 / Supervisor e Agentes"
+    uses: ./.github/workflows/04-supervisor-agents.yml
+  e2e:
+    name: "05 / E2E"
+    if: ${{ inputs.include_e2e }}
+    uses: ./.github/workflows/05-playwright-e2e.yml
+  deps:
+    name: "06 / Dependências"
+    uses: ./.github/workflows/06-dependencies.yml
+  codeql:
+    name: "07 / CodeQL"
+    uses: ./.github/workflows/07-codeql.yml
+    permissions:
+      contents: read
+      security-events: write
+  sonar:
+    name: "08 / SonarQube"
+    if: ${{ inputs.include_sonar }}
+    uses: ./.github/workflows/08-sonarqube.yml
+    secrets: inherit
+  compose:
+    name: "09 / Docker Compose"
+    uses: ./.github/workflows/09-docker-compose.yml
+  package:
+    name: "10 / Pacote de Homologação"
+    uses: ./.github/workflows/10-release-package.yml
+  trivy:
+    name: "11 / Trivy"
+    uses: ./.github/workflows/11-trivy.yml
+  gate:
+    name: "Gate Final / Bloqueia falhas reais"
+    if: always()
+    needs: [quality, database, integration, agents, e2e, deps, codeql, sonar, compose, package, trivy]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      QUALITY: ${{ needs.quality.result }}
+      DATABASE: ${{ needs.database.result }}
+      INTEGRATION: ${{ needs.integration.result }}
+      AGENTS: ${{ needs.agents.result }}
+      E2E: ${{ needs.e2e.result }}
+      DEPS: ${{ needs.deps.result }}
+      CODEQL: ${{ needs.codeql.result }}
+      SONAR: ${{ needs.sonar.result }}
+      COMPOSE: ${{ needs.compose.result }}
+      PACKAGE: ${{ needs.package.result }}
+      TRIVY: ${{ needs.trivy.result }}
+      E2E_REQUIRED: ${{ inputs.include_e2e }}
+      SONAR_REQUIRED: ${{ inputs.include_sonar }}
+    steps:
+      - name: Validar resultados de todos os gates obrigatórios
+        shell: bash
+        run: |
+          set -euo pipefail
+          failed=0
+          for job in QUALITY DATABASE INTEGRATION AGENTS DEPS CODEQL COMPOSE PACKAGE TRIVY; do
+            result="${!job}"
+            echo "$job => $result"
+            if [[ "$result" != "success" ]]; then failed=1; fi
+          done
+          echo "E2E => $E2E (obrigatório: $E2E_REQUIRED)"
+          echo "SONAR => $SONAR (obrigatório: $SONAR_REQUIRED)"
+          if [[ "$E2E_REQUIRED" == "true" && "$E2E" != "success" ]]; then failed=1; fi
+          if [[ "$SONAR_REQUIRED" == "true" && "$SONAR" != "success" ]]; then failed=1; fi
+          if [[ "$failed" -ne 0 ]]; then
+            echo "::error::Regeneração não aprovada nos gates selecionados"; exit 1
+          fi
+          echo "Gate final aprovado: somente resultados efetivamente executados e verdes."

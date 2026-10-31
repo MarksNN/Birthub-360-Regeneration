@@ -1,0 +1,22 @@
+name: "Birthub Regen / 09 - Docker Compose"
+on:
+  workflow_dispatch:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  compose:
+    name: "Validar Compose / PostgreSQL 16"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validar sintaxe
+        run: docker compose config --quiet
+      - name: Subir PostgreSQL efêmero no runner
+        run: docker compose -p birthubregen-ci up -d --wait postgres
+      - name: Verificar prontidão
+        run: docker compose -p birthubregen-ci exec -T postgres pg_isready -U birthhub_user -d birthhub360_regen
+      - name: Desligar e apagar volumes efêmeros
+        if: always()
+        run: docker compose -p birthubregen-ci down --volumes --remove-orphans

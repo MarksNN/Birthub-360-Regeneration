@@ -1,0 +1,32 @@
+name: "Birthub Regen / 10 - Artefato de Homologação"
+on:
+  workflow_dispatch:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  package:
+    name: "Empacotar somente / Sem deploy"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-regeneration
+      - name: Compilar artefatos
+        run: |
+          npm --prefix backend run build
+          npm --prefix frontend run build
+      - name: Empacotar artefatos gerados
+        shell: bash
+        run: |
+          tar -czf birthub360-regeneration-build.tar.gz backend/dist frontend/dist
+          sha256sum birthub360-regeneration-build.tar.gz > birthub360-regeneration-build.sha256
+      - name: Publicar artefato INTERNO à execução
+        uses: actions/upload-artifact@v4
+        with:
+          name: birthub-regen-build-${{ github.sha }}
+          path: |
+            birthub360-regeneration-build.tar.gz
+            birthub360-regeneration-build.sha256
+          retention-days: 7
+          if-no-files-found: error

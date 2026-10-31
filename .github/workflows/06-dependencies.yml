@@ -1,0 +1,24 @@
+name: "Birthub Regen / 06 - Dependências"
+on:
+  workflow_dispatch:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  dependencies:
+    name: "Auditoria de dependências npm"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-regeneration
+      - name: Detectar arquivos privados versionados
+        shell: bash
+        run: |
+          if git ls-files | grep -E '(^|/)\.env($|\.(local|production|test)$)'; then
+            echo "::error::Arquivo .env privado versionado"; exit 1
+          fi
+      - name: Auditar dependências de produção backend
+        run: npm audit --prefix backend --omit=dev --audit-level=high
+      - name: Auditar dependências de produção frontend
+        run: npm audit --prefix frontend --omit=dev --audit-level=high

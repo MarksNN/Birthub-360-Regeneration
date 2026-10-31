@@ -1,0 +1,49 @@
+name: "Birthub Regen / 02 - Prisma e PostgreSQL"
+on:
+  workflow_dispatch:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  database:
+    name: "Schema / Banco isolado / Seed idempotente"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: ci_user
+          POSTGRES_PASSWORD: ci_test_password
+          POSTGRES_DB: birthhub_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U ci_user -d birthhub_ci"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: "postgresql://ci_user:ci_test_password@localhost:5432/birthhub_ci?schema=public"
+      NODE_ENV: test
+      JWT_SECRET: "ci-only-not-for-production"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-regeneration
+      - name: Validar schema
+        run: npx --prefix backend prisma validate --schema backend/prisma/schema.prisma
+      - name: Sincronizar schema em banco DESCARTÁVEL
+        run: npm --prefix backend run db:push
+      - name: Seed inicial
+        run: npm --prefix backend run db:seed
+      - name: Repetir seed para testar idempotência
+        run: npm --prefix backend run db:seed
+      - name: Verificar presença dos 394 agentes
+        working-directory: backend
+        run: |
+          node - <<'NODE'
+          const {PrismaClient}=require('@prisma/client');
+          const db=new PrismaClient();
+          db.agentRegistration.count().then(n=>{
+            if(n!==394) throw new Error('Catálogo esperado: 394; encontrado: '+n);
+            console.log('Catálogo validado:',n);
+          }).finally(()=>db.$disconnect()).catch(e=>{console.error(e);process.exitCode=1;});
+          NODE

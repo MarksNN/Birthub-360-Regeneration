@@ -1,0 +1,22 @@
+name: "Preparar monorepo Birthub 360"
+description: "Node 22, dependências travadas e Prisma Client sem acesso ao banco local"
+runs:
+  using: composite
+  steps:
+    - name: Configurar Node.js 22
+      uses: actions/setup-node@v4
+      with:
+        node-version: "22"
+        cache: npm
+        cache-dependency-path: |
+          backend/package-lock.json
+          frontend/package-lock.json
+    - name: Instalar backend (lockfile)
+      shell: bash
+      run: npm ci --prefix backend --no-audit --no-fund
+    - name: Instalar frontend (lockfile)
+      shell: bash
+      run: npm ci --prefix frontend --no-audit --no-fund
+    - name: Gerar Prisma Client
+      shell: bash
+      run: npm --prefix backend run db:generate
