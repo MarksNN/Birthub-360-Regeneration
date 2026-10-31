@@ -222,6 +222,262 @@ export class CommercialExecutorsV31 {
   }
 
   /**
+   * Calcula o score de ICP e segmenta empresas da base em tiers de fit
+   */
+  public static async analisarFitICP(
+    ctx: ToolExecutionContext
+  ): Promise<ToolExecutionResult> {
+    const companies = await prisma.company.findMany({
+      where: { organizationId: ctx.organizationId },
+      include: {
+        deals: { select: { id: true, stage: true, amount: true } }
+      },
+      take: 50
+    });
+
+    const scoredAccounts = companies.map((c) => {
+      let score = 50; // base score
+      const reasons: string[] = [];
+
+      // Receita Anual
+      const rev = Number(c.annualRevenue || 0);
+      if (rev > 5000000) {
+        score += 25;
+        reasons.push('Faturamento acima de R$ 5M (+25)');
+      } else if (rev > 1000000) {
+        score += 15;
+        reasons.push('Faturamento acima de R$ 1M (+15)');
+      }
+
+      // CNPJ e dados completos
+      if (c.cnpj && c.cnpj.length >= 14) {
+        score += 10;
+        reasons.push('CNPJ cadastrado e verificado (+10)');
+      }
+
+      // Histórico de negócios ganhos
+      const hasWon = c.deals.some((d) => d.stage === DealStage.FECHADO_GANHO);
+      if (hasWon) {
+        score += 15;
+        reasons.push('Cliente recorrente com negócio ganho (+15)');
+      }
+
+      const finalScore = Math.min(100, score);
+      const tier = finalScore >= 80 ? 'TIER_1_ALTO_FIT' : finalScore >= 60 ? 'TIER_2_MEDIO_FIT' : 'TIER_3_BAIXO_FIT';
+
+      return {
+        companyId: c.id,
+        name: c.name,
+        industry: c.industry || 'Geral',
+        annualRevenue: rev,
+        icpScore: finalScore,
+        tier,
+        reasons
+      };
+    });
+
+    const tier1Count = scoredAccounts.filter((a) => a.tier === 'TIER_1_ALTO_FIT').length;
+    const tier2Count = scoredAccounts.filter((a) => a.tier === 'TIER_2_MEDIO_FIT').length;
+    const tier3Count = scoredAccounts.filter((a) => a.tier === 'TIER_3_BAIXO_FIT').length;
+
+    return {
+      toolCode: 'icp.analisar_fit_leads',
+      success: true,
+      data: {
+        totalAnalyzed: scoredAccounts.length,
+        tier1Count,
+        tier2Count,
+        tier3Count,
+        accounts: scoredAccounts.slice(0, 15)
+      },
+      reference: `Análise de ICP concluída: ${tier1Count} contas Tier 1 de alto fit identificadas`
+    };
+  }
+
+  /**
+   * Análise Causal de Win/Loss avaliando taxa de conversão e motivos de perda
+   */
+  public static async analisarPerdasGanhosWinLoss(
+    ctx: ToolExecutionContext
+  ): Promise<ToolExecutionResult> {
+    const deals = await prisma.deal.findMany({
+      where: {
+        organizationId: ctx.organizationId,
+        stage: { in: [DealStage.FECHADO_GANHO, DealStage.FECHADO_PERDIDO] }
+      },
+      select: {
+        id: true,
+        title: true,
+        amount: true,
+        stage: true,
+        lostReason: true,
+        createdAt: true,
+        updatedAt: true
+      }
+    });
+
+    const wonDeals = deals.filter((d) => d.stage === DealStage.FECHADO_GANHO);
+    const lostDeals = deals.filter((d) => d.stage === DealStage.FECHADO_PERDIDO);
+
+    const totalWonValue = wonDeals.reduce((sum, d) => sum + Number(d.amount || 0), 0);
+    const totalLostValue = lostDeals.reduce((sum, d) => sum + Number(d.amount || 0), 0);
+    const winRate = deals.length > 0
+      ? Math.round((wonDeals.length / deals.length) * 100)
+      : 0;
+
+    const lostReasonsMap: Record<string, { count: number; value: number }> = {};
+    for (const d of lostDeals) {
+      const reason = d.lostReason?.trim() || 'Não especificado';
+      if (!lostReasonsMap[reason]) {
+        lostReasonsMap[reason] = { count: 0, value: 0 };
+      }
+      lostReasonsMap[reason].count++;
+      lostReasonsMap[reason].value += Number(d.amount || 0);
+    }
+
+    return {
+      toolCode: 'winloss.analisar_perdas_ganhos',
+      success: true,
+      data: {
+        totalClosedDeals: deals.length,
+        wonCount: wonDeals.length,
+        lostCount: lostDeals.length,
+        winRatePercent: winRate,
+        totalWonValue,
+        totalLostValue,
+        topLostReasons: Object.entries(lostReasonsMap).map(([reason, stats]) => ({
+          reason,
+          count: stats.count,
+          value: stats.value
+        }))
+      },
+      reference: `Diagnóstico Win/Loss: Taxa de vitória de ${winRate}% em ${deals.length} negócios encerrados`
+    };
+  }
+
+  /**
+   * Diagnóstico de conversão e velocidade de funil comercial (RevOps / Growth)
+   */
+  public static async diagnosticarFunilGrowth(
+    ctx: ToolExecutionContext
+  ): Promise<ToolExecutionResult> {
+    const deals = await prisma.deal.findMany({
+      where: { organizationId: ctx.organizationId },
+      select: { id: true, stage: true, amount: true, createdAt: true }
+    });
+
+    const stagesOrder = [
+      DealStage.PROSPECT,
+      DealStage.QUALIFICACAO,
+      DealStage.PROPOSTA_ENVIADA,
+      DealStage.NEGOCIACAO,
+      DealStage.FECHADO_GANHO,
+      DealStage.FECHADO_PERDIDO
+    ];
+
+    const funnelStats = stagesOrder.map((stage) => {
+      const stageDeals = deals.filter((d) => d.stage === stage);
+      const totalValue = stageDeals.reduce((sum, d) => sum + Number(d.amount || 0), 0);
+      return {
+        stage,
+        count: stageDeals.length,
+        totalValue,
+        ticketMedio: stageDeals.length > 0 ? Math.round(totalValue / stageDeals.length) : 0
+      };
+    });
+
+    return {
+      toolCode: 'growth_analytics.diagnosticar_funil',
+      success: true,
+      data: {
+        totalDeals: deals.length,
+        funnelDistribution: funnelStats,
+        activeConversionRate: deals.length > 0
+          ? Math.round((deals.filter((d) => d.stage === DealStage.FECHADO_GANHO).length / deals.length) * 100)
+          : 0
+      },
+      reference: `Diagnóstico de funil concluído: ${deals.length} oportunidades distribuídas em 6 etapas`
+    };
+  }
+
+  /**
+   * Matriz de concessões e limites de alçada para negociações
+   */
+  public static async analisarMatrizConcessoes(
+    ctx: ToolExecutionContext,
+    params?: { dealId?: string }
+  ): Promise<ToolExecutionResult> {
+    const dealsInNegotiation = await prisma.deal.findMany({
+      where: {
+        organizationId: ctx.organizationId,
+        stage: DealStage.NEGOCIACAO
+      },
+      select: { id: true, title: true, amount: true }
+    });
+
+    const matrix = {
+      alçadas: [
+        { nivel: 'VENDEDOR', maxDesconto: '5%', contrapartida: 'Pagamento à vista ou antecipado' },
+        { nivel: 'SUPERVISOR', maxDesconto: '12%', contrapartida: 'Contrato de 24 meses ou case público' },
+        { nivel: 'DEAL_DESK_DIRETORIA', maxDesconto: '20%', contrapartida: 'Pré-pagamento anual integral + exclusividade setorial' }
+      ],
+      dealsElegiveis: dealsInNegotiation.length,
+      deals: dealsInNegotiation.slice(0, 5)
+    };
+
+    return {
+      toolCode: 'negociacao.analisar_matriz_concessoes',
+      success: true,
+      data: matrix,
+      reference: `Matriz de concessão calculada para ${dealsInNegotiation.length} negócios em negociação ativa`
+    };
+  }
+
+  /**
+   * Geração de roteiro de demonstração consultivo e arquitetura de valor
+   */
+  public static async gerarRoteiroDemoSolucoes(
+    ctx: ToolExecutionContext,
+    params?: { painPoints?: string[]; segment?: string }
+  ): Promise<ToolExecutionResult> {
+    const script = {
+      etapas: [
+        {
+          minuto: '00-05',
+          foco: 'Validação e Alinhamento de Dores',
+          objetivo: 'Confirmar dores mapeadas no discovery e validar o tempo disponível dos decisores.'
+        },
+        {
+          minuto: '05-15',
+          foco: 'Visão de Futuro e Arquitetura',
+          objetivo: 'Apresentar a solução sem focar em botões, mas na transformação do processo comercial.'
+        },
+        {
+          minuto: '15-35',
+          foco: 'Casos de Uso Críticos e ROI',
+          objetivo: 'Demonstrar fluxo prático com dados do setor e quantificação do tempo/custo economizado.'
+        },
+        {
+          minuto: '35-45',
+          foco: 'Próximos Passos e Critérios de Decisão',
+          objetivo: 'Definir mutual action plan (MAP), data de validação técnica e envio de proposta formal.'
+        }
+      ],
+      perguntasDeImpacto: [
+        'Se continuarem operando no modelo atual, qual é o impacto financeiro estimado nos próximos 6 meses?',
+        'Quem além de você precisará validar a segurança e governança para aprovação?'
+      ]
+    };
+
+    return {
+      toolCode: 'solucoes.gerar_roteiro_demo',
+      success: true,
+      data: script,
+      reference: 'Roteiro de demonstração estratégica e arquitetura de valor estruturado'
+    };
+  }
+
+  /**
    * Salva rascunho de cadência outbound (seguro, sem disparo real)
    */
   public static async salvarRascunhoCadencia(

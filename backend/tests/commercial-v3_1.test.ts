@@ -230,6 +230,10 @@ describe('Birthub 360 Comercial V3.1 — Matriz de 19 Especialistas e 463 Habili
       expect(CommercialSupervisorOrchestratorV31.routeIntent('Defina o ICP ideal para o segmento de tecnologia').agentId).toBe('icp');
       expect(CommercialSupervisorOrchestratorV31.routeIntent('Avalie o risco e saúde do deal estagnado').agentId).toBe('deal_health');
       expect(CommercialSupervisorOrchestratorV31.routeIntent('Projete a receita e o forecast do próximo trimestre').agentId).toBe('forecast');
+      expect(CommercialSupervisorOrchestratorV31.routeIntent('Analise os motivos de perda dos negócios no win/loss').agentId).toBe('winloss');
+      expect(CommercialSupervisorOrchestratorV31.routeIntent('Diagnosticar funil comercial de growth e conversão de receita').agentId).toBe('growth_analytics');
+      expect(CommercialSupervisorOrchestratorV31.routeIntent('Conduzir negociação e concessão de descontos com cliente').agentId).toBe('negociacao');
+      expect(CommercialSupervisorOrchestratorV31.routeIntent('Estruturar roteiro de demonstração técnica da solução').agentId).toBe('solucoes');
     });
 
     it('deve executar uma missão comercial gerando síntese humana legível e envelope semântico V3.1', async () => {

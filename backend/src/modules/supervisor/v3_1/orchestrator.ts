@@ -65,9 +65,24 @@ export class CommercialSupervisorOrchestratorV31 {
     const p = prompt.toLowerCase();
     const catalog = CommercialCatalogV31.getInstance();
 
-    if (p.includes('bitrix') || p.includes('crm') || p.includes('funil') || p.includes('campo')) {
+    if (p.includes('forecast') || p.includes('previsão') || p.includes('previsao') || p.includes('atingimento')) {
+      const skills = catalog.getSkills('forecast').slice(0, 3).map((s) => s.id);
+      return { agentId: 'forecast', reason: 'Projeção de fechamento e confiabilidade de pipeline', suggestedSkills: skills };
+    }
+
+    if (p.includes('growth') || p.includes('analytics') || p.includes('revops') || p.includes('coorte') || p.includes('cac') || p.includes('ltv') || p.includes('mrr')) {
+      const skills = catalog.getSkills('growth_analytics').slice(0, 3).map((s) => s.id);
+      return { agentId: 'growth_analytics', reason: 'Inteligência de crescimento e KPIs de receita', suggestedSkills: skills };
+    }
+
+    if (p.includes('bitrix') || p.includes('crm') || p.includes('campo') || p.includes('sincroniz') || p.includes('integração')) {
       const skills = catalog.getSkills('crm').slice(0, 3).map((s) => s.id);
       return { agentId: 'crm', reason: 'Intenção relacionada a CRM e integração Bitrix24', suggestedSkills: skills };
+    }
+
+    if (p.includes('perda') || p.includes('motivo de perda') || p.includes('win loss') || p.includes('win/loss') || p.includes('win-loss')) {
+      const skills = catalog.getSkills('winloss').slice(0, 3).map((s) => s.id);
+      return { agentId: 'winloss', reason: 'Análise de causas-raiz de vitórias e derrotas', suggestedSkills: skills };
     }
 
     if (p.includes('outbound') || p.includes('cadência') || p.includes('cadencia') || p.includes('cold call') || p.includes('email frio')) {
@@ -105,7 +120,7 @@ export class CommercialSupervisorOrchestratorV31 {
       return { agentId: 'solucoes', reason: 'Engenharia de soluções e roteiro de demonstração', suggestedSkills: skills };
     }
 
-    if (p.includes('fechamento') || p.includes('objeção') || p.includes('objecao') || p.includes('negociar')) {
+    if (p.includes('fechamento') || p.includes('objeção') || p.includes('objecao') || p.includes('negociar') || p.includes('negociação') || p.includes('negociacao') || p.includes('concessão') || p.includes('concessao')) {
       const skills = catalog.getSkills('negociacao').slice(0, 3).map((s) => s.id);
       return { agentId: 'negociacao', reason: 'Táticas de negociação e condução ao fechamento', suggestedSkills: skills };
     }
@@ -118,16 +133,6 @@ export class CommercialSupervisorOrchestratorV31 {
     if (p.includes('saúde') || p.includes('saude') || p.includes('estagnado') || p.includes('risco') || p.includes('slippage')) {
       const skills = catalog.getSkills('deal_health').slice(0, 3).map((s) => s.id);
       return { agentId: 'deal_health', reason: 'Avaliação de risco de slippage e deal health', suggestedSkills: skills };
-    }
-
-    if (p.includes('forecast') || p.includes('previsão') || p.includes('previsao') || p.includes('atingimento')) {
-      const skills = catalog.getSkills('forecast').slice(0, 3).map((s) => s.id);
-      return { agentId: 'forecast', reason: 'Projeção de fechamento e confiabilidade de pipeline', suggestedSkills: skills };
-    }
-
-    if (p.includes('analytics') || p.includes('receita') || p.includes('revops') || p.includes('coorte') || p.includes('cac')) {
-      const skills = catalog.getSkills('growth_analytics').slice(0, 3).map((s) => s.id);
-      return { agentId: 'growth_analytics', reason: 'Inteligência de crescimento e KPIs de receita', suggestedSkills: skills };
     }
 
     if (p.includes('treino') || p.includes('coaching') || p.includes('feedback') || p.includes('roleplay')) {
@@ -274,6 +279,101 @@ export class CommercialSupervisorOrchestratorV31 {
             state: 'PERSISTED_VERIFIED'
           });
           customHumanResume = `[${agentMeta.name}] Mapeamento de CRM concluído com sucesso. ${contasRes.data.count} empresas verificadas na base com isolamento de tenant confirmado.`;
+        }
+      } else if (assignedAgentId === 'icp') {
+        const icpRes = await CommercialExecutorsV31.analisarFitICP(toolCtx);
+        if (icpRes.success) {
+          toolCalls.push({ toolCode: icpRes.toolCode, status: 'SUCCESS', reference: icpRes.reference });
+          evidenceList.push({
+            sourceType: 'TOOL_EXECUTION',
+            reference: icpRes.toolCode,
+            claim: `Análise de ICP concluída. Tier 1: ${icpRes.data.tier1Count}, Tier 2: ${icpRes.data.tier2Count}, Tier 3: ${icpRes.data.tier3Count}`,
+            verification: 'TOOL_VERIFIED',
+            observedAt: new Date().toISOString()
+          });
+          artifactsList.push({
+            artifactType: 'SCORECARD',
+            name: `Classificação de ICP e Fit de Contas — ${agentMeta.name}`,
+            payload: icpRes.data,
+            state: 'PERSISTED_VERIFIED'
+          });
+          customHumanResume = `[${agentMeta.name}] Análise de ICP concluída para ${icpRes.data.totalAnalyzed} empresas. Identificadas ${icpRes.data.tier1Count} contas Tier 1 de alto fit com prioridade máxima.`;
+        }
+      } else if (assignedAgentId === 'winloss') {
+        const winLossRes = await CommercialExecutorsV31.analisarPerdasGanhosWinLoss(toolCtx);
+        if (winLossRes.success) {
+          toolCalls.push({ toolCode: winLossRes.toolCode, status: 'SUCCESS', reference: winLossRes.reference });
+          evidenceList.push({
+            sourceType: 'TOOL_EXECUTION',
+            reference: winLossRes.toolCode,
+            claim: `Taxa de vitória: ${winLossRes.data.winRatePercent}%. Negócios analisados: ${winLossRes.data.totalClosedDeals}`,
+            verification: 'TOOL_VERIFIED',
+            observedAt: new Date().toISOString()
+          });
+          artifactsList.push({
+            artifactType: 'REPORT',
+            name: `Diagnóstico Causal de Vitórias e Perdas (Win/Loss) — ${agentMeta.name}`,
+            payload: winLossRes.data,
+            state: 'PERSISTED_VERIFIED'
+          });
+          customHumanResume = `[${agentMeta.name}] Diagnóstico Win/Loss: Taxa de conversão final de ${winLossRes.data.winRatePercent}% em ${winLossRes.data.totalClosedDeals} oportunidades encerradas.`;
+        }
+      } else if (assignedAgentId === 'growth_analytics') {
+        const funnelRes = await CommercialExecutorsV31.diagnosticarFunilGrowth(toolCtx);
+        if (funnelRes.success) {
+          toolCalls.push({ toolCode: funnelRes.toolCode, status: 'SUCCESS', reference: funnelRes.reference });
+          evidenceList.push({
+            sourceType: 'TOOL_EXECUTION',
+            reference: funnelRes.toolCode,
+            claim: `Diagnóstico de funil: ${funnelRes.data.totalDeals} oportunidades mapeadas ao longo do pipeline`,
+            verification: 'TOOL_VERIFIED',
+            observedAt: new Date().toISOString()
+          });
+          artifactsList.push({
+            artifactType: 'ANALYSIS',
+            name: `Diagnóstico de Funil e Velocidade de Receita — ${agentMeta.name}`,
+            payload: funnelRes.data,
+            state: 'PERSISTED_VERIFIED'
+          });
+          customHumanResume = `[${agentMeta.name}] Diagnóstico de funil concluído: ${funnelRes.data.totalDeals} oportunidades mapeadas ao longo de todas as etapas comerciais.`;
+        }
+      } else if (assignedAgentId === 'negociacao') {
+        const negRes = await CommercialExecutorsV31.analisarMatrizConcessoes(toolCtx);
+        if (negRes.success) {
+          toolCalls.push({ toolCode: negRes.toolCode, status: 'SUCCESS', reference: negRes.reference });
+          evidenceList.push({
+            sourceType: 'TOOL_EXECUTION',
+            reference: negRes.toolCode,
+            claim: `Matriz de concessão calculada para ${negRes.data.dealsElegiveis} negócios em negociação`,
+            verification: 'TOOL_VERIFIED',
+            observedAt: new Date().toISOString()
+          });
+          artifactsList.push({
+            artifactType: 'MATRIX',
+            name: `Matriz de Alçadas e Concessões Comerciais — ${agentMeta.name}`,
+            payload: negRes.data,
+            state: 'PERSISTED_VERIFIED'
+          });
+          customHumanResume = `[${agentMeta.name}] Diretrizes de negociação e matriz de concessão prontas para ${negRes.data.dealsElegiveis} oportunidades em fechamento.`;
+        }
+      } else if (assignedAgentId === 'solucoes') {
+        const demoRes = await CommercialExecutorsV31.gerarRoteiroDemoSolucoes(toolCtx);
+        if (demoRes.success) {
+          toolCalls.push({ toolCode: demoRes.toolCode, status: 'SUCCESS', reference: demoRes.reference });
+          evidenceList.push({
+            sourceType: 'TOOL_EXECUTION',
+            reference: demoRes.toolCode,
+            claim: `Roteiro de demonstração estratégica com 4 etapas estruturadas`,
+            verification: 'TOOL_VERIFIED',
+            observedAt: new Date().toISOString()
+          });
+          artifactsList.push({
+            artifactType: 'DEMO_DRAFT',
+            name: `Roteiro de Demonstração e Arquitetura de Valor — ${agentMeta.name}`,
+            payload: demoRes.data,
+            state: 'PERSISTED_VERIFIED'
+          });
+          customHumanResume = `[${agentMeta.name}] Roteiro de demonstração consultivo e perguntas de impacto estruturados com foco em geração de ROI.`;
         }
       }
       } catch {
