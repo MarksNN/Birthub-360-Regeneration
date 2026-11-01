@@ -105,8 +105,10 @@ export const SupervisorPanel: React.FC<SupervisorPanelProps> = ({
     setMissionLoading(true);
     try {
       const res = await api.decideSupervisorMission(mission.id, approval.id, decision);
-
-      else setMissionResult({ error: res.error || 'Decisão recusada' });
+      if (res.success) {
+        setMissionResult(res.data);
+        if (onRefreshData) onRefreshData();
+      } else setMissionResult({ error: res.error || 'Decisão recusada' });
     } catch (err: any) {
       setMissionResult({ error: err.message || 'Falha de comunicação' });
     } finally {

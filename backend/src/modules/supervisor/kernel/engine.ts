@@ -105,7 +105,8 @@ export function nowIso(runtime: Runtime): string {
 }
 
 function nextId(runtime: Runtime, prefix: string): string {
-
+  runtime.seq += 1;
+  return `${prefix}-${runtime.seq}`;
 }
 
 function audit(
