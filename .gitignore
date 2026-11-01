@@ -33,3 +33,9 @@ test-results/
 **/test-results/
 playwright-report/
 **/playwright-report/
+backend/coverage
+frontend/coverage
+backend/coverage/
+frontend/coverage/
+backend/coverage
+backend/coverage

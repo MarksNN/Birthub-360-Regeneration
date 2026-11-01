@@ -70,9 +70,9 @@ describe('Birthub 360 - Fase 02 CRM, Pipeline & RevOps Integration Tests', () =>
   });
 
   it('2. Pipeline Kanban: Transição de Estágio e Histórico com Persistência', async () => {
-    // Buscar um negócio existente
+    // Buscar um negócio existente que não seja o que já está fechado, para evitar que o teste 4 falhe
     const deal = await prisma.deal.findFirst({
-      where: { organizationId: orgId }
+      where: { organizationId: orgId, id: 'deal-vtech-enterprise' }
     });
     expect(deal).toBeDefined();
 
@@ -137,6 +137,12 @@ describe('Birthub 360 - Fase 02 CRM, Pipeline & RevOps Integration Tests', () =>
   });
 
   it('4. Revenue Intelligence: Cálculos de Pipeline, Weighted Forecast e Win Rate', async () => {
+    // Ensure there is at least one won deal for the tests
+    const dealToWin = await prisma.deal.findFirst({ where: { organizationId: orgId, id: 'deal-agrosul-iot' } });
+    if (dealToWin && dealToWin.stage !== DealStage.FECHADO_GANHO) {
+       await prisma.deal.update({ where: { id: dealToWin.id }, data: { stage: DealStage.FECHADO_GANHO, probability: 100 } });
+    }
+
     const deals = await prisma.deal.findMany({ where: { organizationId: orgId } });
     expect(deals.length).toBeGreaterThanOrEqual(3);
 
