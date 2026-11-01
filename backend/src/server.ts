@@ -37,12 +37,7 @@ app.get('/api/health', (req, res) => {
   res.json({
     status: 'ONLINE',
     service: 'Birthub 360 Regeneration API',
-    phase: 'FASE 03 - INTEGRATION FACTORY & UNIVERSAL CONNECTOR HUB + V3.1 MULTIAGENTES',
-    commercial_v3_1: {
-      agents: 19,
-      skills: 463,
-      playbooks: 99
-    },
+
     timestamp: new Date().toISOString()
   });
 });

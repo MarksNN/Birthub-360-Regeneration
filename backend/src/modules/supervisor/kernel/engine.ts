@@ -1,3 +1,4 @@
+
 import { EXECUTORS } from "./executors";
 import {
   detectForeignOrganization,
@@ -104,8 +105,7 @@ export function nowIso(runtime: Runtime): string {
 }
 
 function nextId(runtime: Runtime, prefix: string): string {
-  runtime.seq += 1;
-  return `${prefix}-${runtime.seq}`;
+
 }
 
 function audit(
@@ -873,6 +873,7 @@ export function decideApproval(
 ): DecisionResult {
   const mission = visibleMission(runtime, missionId, principal);
   if (!mission) return { ok: false, error: "Missão não encontrada.", mission: null };
+
   if (!isApprover(principal) || !sameOrganization(principal, mission.organizationId)) {
     audit(runtime, mission, principal.id, "aprovacao_recusada", "Papel ou organização não autorizam a decisão.");
     return { ok: false, error: "Papel insuficiente para aprovar nesta organização.", mission };

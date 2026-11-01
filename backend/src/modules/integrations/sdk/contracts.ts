@@ -43,7 +43,11 @@ export type CatalogHomologationStatus =
   | 'IN_TESTING'
   | 'HOMOLOGATED'
   | 'AVAILABLE'
-  | 'DEPRECATED';
+  | 'DEPRECATED'
+  | 'IMPLEMENTED'
+  | 'MOCK_VERIFIED'
+  | 'LIVE_VERIFIED'
+  | 'NOT_VERIFIED';
 
 /** Transformações declarativas permitidas no mapeamento de campos (lista branca). */
 export const ALLOWED_FIELD_TRANSFORMS = [

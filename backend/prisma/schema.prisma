@@ -350,10 +350,9 @@ model SupervisorExecution {
   @@map("supervisor_executions")
 }
 
-// =====================================================================================
+
 // FASE 03 — INTEGRATION FACTORY & UNIVERSAL CONNECTOR HUB
 // Modelos aditivos. Nenhuma tabela das Fases 00–02 é alterada de forma destrutiva.
-// =====================================================================================
 
 enum PlatformRole {
   PLATFORM_ADMIN       // Operador administrador do Birthub 360 (todas as ações administrativas)

@@ -302,17 +302,7 @@ export async function approveMission(
   approvalId: string,
   decision: "aprovada" | "rejeitada",
 ) {
-  const stored = await read(missionId, user.organizationId);
-  if (!stored) return null;
-  const foreign = await foreignOrgs(user.organizationId);
-  const runtime = hydrate(stored, catalogFor(user.organizationId, foreign));
-  const before = snapshot(runtime.accounts);
-  const result = decideApproval(runtime, missionId, approvalId, decision, principalFromUser(user));
-  if (!result.mission) return { mission: null, ok: false, error: result.error, crmCommit: { updated: [], conflicts: [] } };
-  const crmCommit = await commitStages(user.organizationId, user.userId, before, runtime.accounts);
-  noteCommit(result.mission, crmCommit);
-  await save(capture(runtime, result.mission), stored.mission.requesterId);
-  return { mission: result.mission, ok: result.ok, error: result.error, crmCommit };
+
 }
 
 export function resumeMission(user: SessionUser, missionId: string) {
