@@ -20,11 +20,7 @@ export const CNPJ_MANIFEST: ProviderManifest = {
   homologationStatus: 'MOCK_VERIFIED'
 };
 
-export class CNPJAuthAdapter implements AuthenticationAdapter {
-  readonly type = 'NONE';
-  async validateConfiguration(ctx: ConnectorContext) { return { valid: true, issues: [] }; }
-  async authorize(ctx: ConnectorContext) { return {}; }
-}
+import { BaseMockAuthAdapter, BaseMockHealthCheck } from '../../mock-utils';
 
 export class CNPJEntityMapper implements EntityMapper {
   toLocal(entity: string, remote: Record<string, unknown>) {
@@ -49,9 +45,9 @@ export class CNPJTestSuite implements ConnectorTestSuite {
 
 export class CNPJAdapter implements ConnectorAdapter {
   readonly manifest = CNPJ_MANIFEST;
-  readonly auth = new CNPJAuthAdapter();
+  readonly auth = new BaseMockAuthAdapter();
   readonly mapper = new CNPJEntityMapper();
-  readonly health = { async check() { return { healthy: true, details: 'CNPJ mock health' }; } };
+  readonly health = new BaseMockHealthCheck('CNPJ');
   readonly testSuite = new CNPJTestSuite();
   async query(ctx: ConnectorContext, entity: string, criteria: Record<string, unknown>): Promise<RemoteRecord[]> {
     if (entity === 'cnpj' && criteria.cnpj) {

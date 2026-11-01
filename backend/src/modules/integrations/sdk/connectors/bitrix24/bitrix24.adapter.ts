@@ -67,11 +67,13 @@ export class Bitrix24OutboundAdapter implements OutboundSyncAdapter {
   }
 }
 
+import { BaseMockHealthCheck } from '../../mock-utils';
+
 export class Bitrix24Adapter implements ConnectorAdapter {
   readonly manifest = BITRIX24_MANIFEST;
   readonly auth = new Bitrix24AuthAdapter();
   readonly mapper = new Bitrix24EntityMapper();
-  readonly health = { async check() { return { healthy: true, details: 'Bitrix24 mock health' }; } };
+  readonly health = new BaseMockHealthCheck('Bitrix24');
   readonly testSuite = new Bitrix24TestSuite();
   readonly inbound = new Bitrix24InboundAdapter();
   readonly outbound = new Bitrix24OutboundAdapter();

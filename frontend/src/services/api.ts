@@ -246,33 +246,11 @@ export const api = {
     return res.json();
   },
 
-  async startSupervisorMission(payload: {
-    prompt: string;
-    correlationId?: string;
-    slots?: { accountId?: string; newStage?: string; requestedSystem?: string };
-  }) {
-    const res = await fetch(`${API_BASE}/supervisor/missions`, {
-      method: 'POST',
-      headers: this.getHeaders(),
-      body: JSON.stringify(payload)
-    });
-    return res.json();
-  },
-
   // FASE 03 — INTEGRATION FACTORY & UNIVERSAL CONNECTOR HUB
   async getIntegrationCatalog(category?: string) {
     const params = category ? `?category=${encodeURIComponent(category)}` : '';
     const res = await fetch(`${API_BASE}/integrations/catalog${params}`, {
       headers: this.getHeaders()
-    });
-    return res.json();
-  },
-
-  async decideSupervisorMission(missionId: string, approvalId: string, decision: 'aprovada' | 'rejeitada') {
-    const res = await fetch(`${API_BASE}/supervisor/missions/${missionId}/approve`, {
-      method: 'POST',
-      headers: this.getHeaders(),
-      body: JSON.stringify({ approvalId, decision })
     });
     return res.json();
   },

@@ -34,7 +34,7 @@ app.get('/api/health', (req, res) => {
   res.json({
     status: 'ONLINE',
     service: 'Birthub 360 Regeneration API',
-    phase: 'FASE 03 - INTEGRATION FACTORY & UNIVERSAL CONNECTOR HUB (COM SUPERVISOR)',
+    phase: 'FASE 03 - INTEGRATION FACTORY & UNIVERSAL CONNECTOR HUB',
     timestamp: new Date().toISOString()
   });
 });

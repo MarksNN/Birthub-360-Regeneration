@@ -89,7 +89,6 @@ model Organization {
   dealHistories      DealStageHistory[]
   agentRegistrations AgentRegistration[]
   agentExecutions    SupervisorExecution[]
-  supervisorMissions SupervisorMissionRecord[]
 
   // Fase 03 — Integration Factory & Universal Connector Hub
   integrationProjects     IntegrationProject[]
@@ -122,7 +121,6 @@ model User {
   auditLogsTriggered  AuditLog[]   @relation("UserAuditLogs")
   dealHistoriesMoved  DealStageHistory[] @relation("UserDealHistories")
   executionsRequested SupervisorExecution[]
-  missionsRequested   SupervisorMissionRecord[]
 
   // Fase 03 — Papel do operador da plataforma (separado do RBAC da organização cliente)
   platformRole                   PlatformRole?
@@ -350,26 +348,11 @@ model SupervisorExecution {
   @@map("supervisor_executions")
 }
 
-model SupervisorMissionRecord {
-  id             String   @id
-  organizationId String
-  requestedById  String
-  correlationId  String
-  status         String
-  payload        Json
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
 
-  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  requestedBy  User         @relation(fields: [requestedById], references: [id], onDelete: Cascade)
-
-  @@unique([organizationId, correlationId])
-  @@index([organizationId])
-  @@map("supervisor_missions")
-}
-
+// =====================================================================================
 // FASE 03 — INTEGRATION FACTORY & UNIVERSAL CONNECTOR HUB
 // Modelos aditivos. Nenhuma tabela das Fases 00–02 é alterada de forma destrutiva.
+// =====================================================================================
 
 enum PlatformRole {
   PLATFORM_ADMIN       // Operador administrador do Birthub 360 (todas as ações administrativas)
