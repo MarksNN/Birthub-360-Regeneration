@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Lock, Clock, Layers } from 'lucide-react';
 import { api } from './services/api';
-import { Sidebar } from './components/Sidebar';
-import { Topbar } from './components/Topbar';
 import { LoginScreen } from './components/LoginScreen';
+import { WorkspaceShell } from './components/workspace/WorkspaceShell';
 import { SupervisorPanel } from './components/SupervisorPanel';
 import { DashboardView } from './components/DashboardView';
 import { CompaniesView } from './components/CompaniesView';
@@ -25,7 +24,6 @@ import {
 export function App() {
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [checkingAuth, setCheckingAuth] = useState(true);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // MODO LIGHT COMO PADRÃO
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
@@ -151,8 +149,8 @@ export function App() {
 
   if (checkingAuth) {
     return (
-      <div className="min-h-screen bg-bg flex items-center justify-center">
-        <div className="w-10 h-10 border-2 border-neon-blue border-t-transparent rounded-full animate-spin"></div>
+      <div className="min-h-screen bg-workspace-outer flex items-center justify-center">
+        <div className="w-10 h-10 border-2 border-workspace-graphite border-t-[#E5FF45] rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -173,169 +171,162 @@ export function App() {
   const userHasAccess = hasRolePermission(currentUser.role, activeSubmodule.minRole);
 
   return (
-    <div className="flex h-screen bg-bg overflow-hidden text-ink transition-colors">
-      {/* Sidebar Oficial com os 8 Pilares e Submódulos */}
-      <Sidebar
-        activePillarId={activePillar.id}
-        activeSubmodule={activeSubmodule}
-        userRole={currentUser.role}
-        onNavigate={handleNavigate}
-        mobileOpen={mobileMenuOpen}
-        onCloseMobile={() => setMobileMenuOpen(false)}
+    <WorkspaceShell
+      user={currentUser}
+      activePillar={activePillar}
+      activeSubmodule={activeSubmodule}
+      onNavigate={handleNavigate}
+      onLogout={handleLogout}
+      theme={theme}
+      onToggleTheme={toggleTheme}
+      metrics={metrics}
+      loadingData={loadingData}
+      deals={deals}
+      companies={companies}
+      leads={leads}
+      activities={activities}
+      assignees={assignees}
+      agents={agents}
+      agentsMeta={agentsMeta}
+      onRefreshData={loadAllData}
+    >
+      {/* Supervisor Central Desacoplado com Contexto do Pilar/Submódulo */}
+      <SupervisorPanel
+        currentModule={activeSubmodule.id}
+        supervisorContext={activeSubmodule.supervisorContext}
+        pillarLabel={`${activePillar.label} / ${activeSubmodule.label}`}
+        onRefreshData={loadAllData}
       />
 
-      {/* Área Central Principal */}
-      <div className="flex-1 flex flex-col h-screen overflow-hidden">
-        <Topbar
-          user={currentUser}
-          onLogout={handleLogout}
-          activePillarLabel={activePillar.label}
-          activeSubmoduleLabel={activeSubmodule.label}
-          theme={theme}
-          onToggleTheme={toggleTheme}
-          onOpenMobileMenu={() => setMobileMenuOpen(true)}
-        />
-
-        <main className="flex-1 overflow-y-auto p-6 space-y-6">
-          {/* Supervisor Central Desacoplado com Contexto do Pilar/Submódulo */}
-          <SupervisorPanel
-            currentModule={activeSubmodule.id}
-            supervisorContext={activeSubmodule.supervisorContext}
-            pillarLabel={`${activePillar.label} / ${activeSubmodule.label}`}
-            onRefreshData={loadAllData}
-          />
-
-          {/* Verificação de Permissão RBAC na Navegação */}
-          {!userHasAccess ? (
-            <div
-              data-testid="module-access-denied"
-              className="card-neon p-8 text-center space-y-3 border border-neon-danger/40"
-            >
-              <div className="w-12 h-12 rounded-full bg-neon-danger/10 text-neon-danger flex items-center justify-center mx-auto">
-                <Lock className="w-6 h-6" />
+      {/* Verificação de Permissão RBAC na Navegação */}
+      {!userHasAccess ? (
+        <div
+          data-testid="module-access-denied"
+          className="card-neon p-8 text-center space-y-3 border border-neon-danger/40"
+        >
+          <div className="w-12 h-12 rounded-full bg-neon-danger/10 text-neon-danger flex items-center justify-center mx-auto">
+            <Lock className="w-6 h-6" />
+          </div>
+          <h2 className="font-display text-lg font-bold neon-title-pink">
+            Acesso Restrito por Perfil (RBAC)
+          </h2>
+          <p className="text-xs text-muted max-w-md mx-auto">
+            O módulo <strong>{activeSubmodule.label}</strong> no pilar{' '}
+            <strong>{activePillar.label}</strong> requer o perfil mínimo{' '}
+            <span className="font-mono text-neon-gold font-bold">{activeSubmodule.minRole}</span>. Seu perfil atual é{' '}
+            <span className="font-mono text-neon-blue font-bold">{currentUser.role}</span>.
+          </p>
+        </div>
+      ) : !activeSubmodule.isImplemented ? (
+        /* Representação Explícita de Funcionalidade Futura (Sem fingir operacionalidade) */
+        <div
+          data-testid="planned-module-view"
+          className="card-neon p-8 space-y-4 border border-neon-gold/40"
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 rounded-full bg-neon-gold/10 text-neon-gold flex items-center justify-center">
+                <Clock className="w-5 h-5" />
               </div>
-              <h2 className="font-display text-lg font-bold neon-title-pink">
-                Acesso Restrito por Perfil (RBAC)
-              </h2>
-              <p className="text-xs text-muted max-w-md mx-auto">
-                O módulo <strong>{activeSubmodule.label}</strong> no pilar{' '}
-                <strong>{activePillar.label}</strong> requer o perfil mínimo{' '}
-                <span className="font-mono text-neon-gold font-bold">{activeSubmodule.minRole}</span>. Seu perfil atual é{' '}
-                <span className="font-mono text-neon-blue font-bold">{currentUser.role}</span>.
-              </p>
-            </div>
-          ) : !activeSubmodule.isImplemented ? (
-            /* Representação Explícita de Funcionalidade Futura (Sem fingir operacionalidade) */
-            <div
-              data-testid="planned-module-view"
-              className="card-neon p-8 space-y-4 border border-neon-gold/40"
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 rounded-full bg-neon-gold/10 text-neon-gold flex items-center justify-center">
-                    <Clock className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h2 className="font-display text-lg font-bold neon-title-gold">
-                      {activeSubmodule.label} — Funcionalidade Planejada ({activeSubmodule.plannedPhase || 'Roadmap'})
-                    </h2>
-                    <span className="text-xs font-mono text-muted">
-                      Pilar: {activePillar.label} • Rota: {activeSubmodule.path}
-                    </span>
-                  </div>
-                </div>
-                <span className="px-3 py-1 rounded-pill text-xs font-mono font-bold bg-neon-gold/15 text-neon-gold border border-neon-gold/30">
-                  ROADMAP OFICIAL ({activeSubmodule.plannedPhase || 'PRÓXIMA FASE'})
+              <div>
+                <h2 className="font-display text-lg font-bold neon-title-gold">
+                  {activeSubmodule.label} — Funcionalidade Planejada ({activeSubmodule.plannedPhase || 'Roadmap'})
+                </h2>
+                <span className="text-xs font-mono text-muted">
+                  Pilar: {activePillar.label} • Rota: {activeSubmodule.path}
                 </span>
               </div>
-
-              <p className="text-sm text-muted">{activeSubmodule.description}</p>
-
-              <div className="p-4 rounded-control bg-surface2 border border-border text-xs font-mono space-y-1">
-                <div className="flex items-center space-x-2 text-neon-blue font-semibold">
-                  <Layers className="w-4 h-4" />
-                  <span>Governança de Transparência Birthub 360°</span>
-                </div>
-                <p className="text-muted">
-                  Este módulo faz parte da arquitetura oficial de 8 pilares e está catalogado para entrega na{' '}
-                  <strong>{activeSubmodule.plannedPhase || 'Fase 03'}</strong>. Nenhuma operação simulada ou mockada é exibida como funcional antes da homologação de suas ferramentas de backend.
-                </p>
-              </div>
             </div>
-          ) : (
-            /* Renderização dos Módulos Reais Implementados */
-            <>
-              {activeSubmodule.id === 'overview' && (
-                <DashboardView metrics={metrics} loading={loadingData} />
-              )}
+            <span className="px-3 py-1 rounded-pill text-xs font-mono font-bold bg-neon-gold/15 text-neon-gold border border-neon-gold/30">
+              ROADMAP OFICIAL ({activeSubmodule.plannedPhase || 'PRÓXIMA FASE'})
+            </span>
+          </div>
 
-              {activeSubmodule.id === 'pipeline' && (
-                <PipelineKanbanView
-                  deals={deals}
-                  companies={companies}
-                  leads={leads}
-                  assignees={assignees}
-                  onRefresh={loadAllData}
-                />
-              )}
+          <p className="text-sm text-muted">{activeSubmodule.description}</p>
 
-              {activeSubmodule.id === 'companies' && (
-                <CompaniesView companies={companies} onRefresh={loadAllData} />
-              )}
-
-              {activeSubmodule.id === 'contacts' && (
-                <ContactsView contacts={contacts} companies={companies} onRefresh={loadAllData} />
-              )}
-
-              {activeSubmodule.id === 'leads' && (
-                <LeadsView
-                  leads={leads}
-                  companies={companies}
-                  contacts={contacts}
-                  assignees={assignees}
-                  onRefresh={loadAllData}
-                />
-              )}
-
-              {activeSubmodule.id === 'activities' && (
-                <ActivitiesView
-                  activities={activities}
-                  companies={companies}
-                  contacts={contacts}
-                  deals={deals}
-                  assignees={assignees}
-                  onRefresh={loadAllData}
-                />
-              )}
-
-              {(activeSubmodule.id === 'revops' || activeSubmodule.id === 'weighted_forecast') && (
-                <RevOpsDashboardView metrics={metrics} loading={loadingData} />
-              )}
-
-              {activeSubmodule.id === 'commercial_matrix_v31' && (
-                <CommercialV31MatrixView />
-              )}
-
-              {activeSubmodule.id === 'agents_catalog' && (
-                <AgentsCatalogView
-                  agents={agents}
-                  meta={agentsMeta}
-                  userRole={currentUser.role}
-                  onRefresh={loadAllData}
-                />
-              )}
-
-              {(activeSubmodule.id === 'integration_hub' || activeSubmodule.id === 'triggers_hub') && (
-                <IntegrationHubView
-                  userRole={currentUser.role}
-                  onRefreshData={loadAllData}
-                />
-              )}
-            </>
+          <div className="p-4 rounded-control bg-surface2 border border-border text-xs font-mono space-y-1">
+            <div className="flex items-center space-x-2 text-neon-blue font-semibold">
+              <Layers className="w-4 h-4" />
+              <span>Governança de Transparência Birthub 360°</span>
+            </div>
+            <p className="text-muted">
+              Este módulo faz parte da arquitetura oficial de 8 pilares e está catalogado para entrega na{' '}
+              <strong>{activeSubmodule.plannedPhase || 'Fase 03'}</strong>. Nenhuma operação simulada ou mockada é exibida como funcional antes da homologação de suas ferramentas de backend.
+            </p>
+          </div>
+        </div>
+      ) : (
+        /* Renderização dos Módulos Reais Implementados */
+        <>
+          {activeSubmodule.id === 'overview' && (
+            <DashboardView metrics={metrics} loading={loadingData} />
           )}
-        </main>
-      </div>
-    </div>
+
+          {activeSubmodule.id === 'pipeline' && (
+            <PipelineKanbanView
+              deals={deals}
+              companies={companies}
+              leads={leads}
+              assignees={assignees}
+              onRefresh={loadAllData}
+            />
+          )}
+
+          {activeSubmodule.id === 'companies' && (
+            <CompaniesView companies={companies} onRefresh={loadAllData} />
+          )}
+
+          {activeSubmodule.id === 'contacts' && (
+            <ContactsView contacts={contacts} companies={companies} onRefresh={loadAllData} />
+          )}
+
+          {activeSubmodule.id === 'leads' && (
+            <LeadsView
+              leads={leads}
+              companies={companies}
+              contacts={contacts}
+              assignees={assignees}
+              onRefresh={loadAllData}
+            />
+          )}
+
+          {activeSubmodule.id === 'activities' && (
+            <ActivitiesView
+              activities={activities}
+              companies={companies}
+              contacts={contacts}
+              deals={deals}
+              assignees={assignees}
+              onRefresh={loadAllData}
+            />
+          )}
+
+          {(activeSubmodule.id === 'revops' || activeSubmodule.id === 'weighted_forecast') && (
+            <RevOpsDashboardView metrics={metrics} loading={loadingData} />
+          )}
+
+          {activeSubmodule.id === 'commercial_matrix_v31' && (
+            <CommercialV31MatrixView />
+          )}
+
+          {activeSubmodule.id === 'agents_catalog' && (
+            <AgentsCatalogView
+              agents={agents}
+              meta={agentsMeta}
+              userRole={currentUser.role}
+              onRefresh={loadAllData}
+            />
+          )}
+
+          {(activeSubmodule.id === 'integration_hub' || activeSubmodule.id === 'triggers_hub') && (
+            <IntegrationHubView
+              userRole={currentUser.role}
+              onRefreshData={loadAllData}
+            />
+          )}
+        </>
+      )}
+    </WorkspaceShell>
   );
 }
 

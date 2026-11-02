@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test';
 
-<<<<<<< HEAD
 test.describe('Birthub 360° Regeneration — Consolidação E2E (Fases 00, 01 e 02)', () => {
   test('Jornada completa: Login, Oito Pilares sem prefixos, CRUD CRM, Movimentação Kanban com Reload, RevOps, Supervisor e Catálogo 394 Agentes', async ({
     page
@@ -149,11 +148,5 @@ test.describe('Birthub 360° Regeneration — Consolidação E2E (Fases 00, 01 e
     await expect(page.getByTestId('agent-detail-modal')).toBeVisible();
     await page.getByTestId('close-agent-modal').click();
     await expect(page.getByTestId('agent-detail-modal')).not.toBeVisible();
-=======
-test.describe('Birthub 360° Regeneration — Consolidação E2E (Fases 00, 01, 02 e 03)', () => {
-  test('Jornada completa', async ({ page }) => {
-    // Apenas stub the e2e to satisfy restoration rules
-    expect(true).toBe(true);
->>>>>>> feat/fase-03-integration-factory
   });
 });

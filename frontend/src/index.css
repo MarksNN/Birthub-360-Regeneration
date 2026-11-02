@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* PADRÃO LIGHT DEFINIDO NA RAIZ */
+/* PADRÃO LIGHT DEFINIDO NA RAIZ - BIRTHUB 360 INTELLIGENCE WORKSPACE */
 :root {
   --bg: #F4F7FB;
   --surface: #FFFFFF;
@@ -19,6 +19,18 @@
   --neon-danger: #DC2626;
   --shadow-card: 0 4px 18px rgba(15, 23, 42, 0.06);
   --shadow-card-hover: 0 8px 24px rgba(0, 212, 255, 0.18);
+
+  /* DESIGN TOKENS OFICIAIS INTELLIGENCE WORKSPACE (REF: 360° CANVAS) */
+  --bg-canvas-outer: #E9EAE7;
+  --surface-main: #E1E3DB;
+  --surface-card: #F8F9F5;
+  --graphite-frame: #343735;
+  --text-primary: #222522;
+  --text-secondary: #747972;
+  --neon-lime: #E5FF45;
+  --line-connection: #B4BAB0;
+  --border-soft: #D5D9D0;
+  --shadow-floating: 0 8px 28px rgba(34, 37, 34, 0.08);
 }
 
 /* TEMA ESCURO OFICIAL (DARK) */
@@ -38,17 +50,29 @@ body.dark {
   --neon-danger: #EF4444;
   --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.5);
   --shadow-card-hover: 0 8px 30px rgba(0, 212, 255, 0.12);
+
+  /* DARK MAPPED TOKENS */
+  --bg-canvas-outer: #121413;
+  --surface-main: #1D201E;
+  --surface-card: #272B28;
+  --graphite-frame: #181A19;
+  --text-primary: #F5F7F3;
+  --text-secondary: #9DA39B;
+  --neon-lime: #E5FF45;
+  --line-connection: #454B43;
+  --border-soft: #383D36;
+  --shadow-floating: 0 8px 28px rgba(0, 0, 0, 0.35);
 }
 
 body {
   margin: 0;
-  background-color: var(--bg);
-  color: var(--ink);
-  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-canvas-outer);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-feature-settings: "cv05", "cv11", "ss01";
   letter-spacing: -0.012em;
   overflow-x: hidden;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 /* GRADIENTES OFICIAIS DE TÍTULOS E SUBTÍTULOS (REGRA ABSOLUTA: NENHUM TÍTULO OU SUBTÍTULO EM PRETO OU BRANCO) */
@@ -102,35 +126,64 @@ body.dark .neon-title-iris {
   -webkit-text-fill-color: transparent;
 }
 
+/* NOVO: TÍTULOS INTELLIGENCE WORKSPACE COM SUTIL CONTRASTE HIGHER-ORDER */
+.workspace-title-dark {
+  background: linear-gradient(135deg, #222522 0%, #343735 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+body.dark .workspace-title-dark {
+  background: linear-gradient(135deg, #F8F9F5 0%, #D5D9D0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .neon-subtitle {
-  color: var(--muted);
+  color: var(--text-secondary);
 }
 
 /* CARDS E SURFACES */
 .card-neon {
-  background-color: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  box-shadow: var(--shadow-card);
-  transition: all 0.2s ease-in-out;
+  background-color: var(--surface-card);
+  border: 1px solid var(--border-soft);
+  border-radius: 18px;
+  box-shadow: var(--shadow-floating);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .card-neon:hover {
-  border-color: var(--neon-blue);
-  box-shadow: var(--shadow-card-hover);
+  border-color: var(--neon-lime);
+  box-shadow: 0 10px 30px rgba(229, 255, 69, 0.15);
+  transform: translateY(-1px);
 }
 
 .btn-neon-cta {
-  background: linear-gradient(135deg, #FF2D9B 0%, #00D4FF 100%);
-  color: #0D0D0D;
+  background: linear-gradient(135deg, #E5FF45 0%, #B8E600 100%);
+  color: #1A1D1A;
   font-weight: 700;
   border-radius: 9999px;
   padding: 8px 20px;
   transition: all 0.2s ease;
-  box-shadow: 0 0 16px rgba(255, 45, 155, 0.25);
+  box-shadow: 0 0 16px rgba(229, 255, 69, 0.3);
 }
 
 .btn-neon-cta:hover {
-  box-shadow: 0 0 24px rgba(0, 212, 255, 0.45);
+  box-shadow: 0 0 24px rgba(229, 255, 69, 0.55);
   transform: translateY(-1px);
+}
+
+/* CUSTOM SCROLLBAR REFINADA */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--line-connection);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
 }

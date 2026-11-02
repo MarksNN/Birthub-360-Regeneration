@@ -14,6 +14,17 @@ export default {
         ink: 'var(--ink)',
         muted: 'var(--muted)',
         border: 'var(--border)',
+        workspace: {
+          outer: 'var(--bg-canvas-outer)',
+          surface: 'var(--surface-main)',
+          card: 'var(--surface-card)',
+          graphite: 'var(--graphite-frame)',
+          primary: 'var(--text-primary)',
+          secondary: 'var(--text-secondary)',
+          lime: 'var(--neon-lime)',
+          line: 'var(--line-connection)',
+          soft: 'var(--border-soft)'
+        },
         neon: {
           blue: 'var(--neon-blue)',
           pink: 'var(--neon-pink)',
@@ -33,6 +44,7 @@ export default {
         card: '16px',
         modal: '20px',
         pill: '9999px',
+        canvas: '32px'
       }
     },
   },
