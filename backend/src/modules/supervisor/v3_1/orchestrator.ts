@@ -375,6 +375,177 @@ export class CommercialSupervisorOrchestratorV31 {
           });
           customHumanResume = `[${agentMeta.name}] Roteiro de demonstração consultivo e perguntas de impacto estruturados com foco em geração de ROI.`;
         }
+      } else if (assignedAgentId === 'account_intel') {
+        const intelRes = await CommercialExecutorsV31.mapearStakeholdersAccountIntel(toolCtx);
+        if (intelRes.success) {
+          toolCalls.push({ toolCode: intelRes.toolCode, status: 'SUCCESS', reference: intelRes.reference });
+          evidenceList.push({
+            sourceType: 'TOOL_EXECUTION',
+            reference: intelRes.toolCode,
+            claim: `${intelRes.data.totalContacts} contatos analisados: ${intelRes.data.economicDecisionMakers} decisores econômicos, ${intelRes.data.technicalDecisionMakers} decisores técnicos, ${intelRes.data.champions} campeões`,
+            verification: 'TOOL_VERIFIED',
+            observedAt: new Date().toISOString()
+          });
+          artifactsList.push({
+            artifactType: 'ROUTING_PLAN',
+            name: `Mapeamento de Stakeholders e Organograma — ${agentMeta.name}`,
+            payload: intelRes.data,
+            state: 'PERSISTED_VERIFIED'
+          });
+          customHumanResume = `[${agentMeta.name}] Mapeamento de organograma finalizado. Identificados ${intelRes.data.economicDecisionMakers} decisores econômicos e ${intelRes.data.champions} campeões internos.`;
+        }
+      } else if (assignedAgentId === 'prospeccao') {
+        const leadRes = await CommercialExecutorsV31.enriquecerLeadsProspeccao(toolCtx);
+        if (leadRes.success) {
+          toolCalls.push({ toolCode: leadRes.toolCode, status: 'SUCCESS', reference: leadRes.reference });
+          evidenceList.push({
+            sourceType: 'TOOL_EXECUTION',
+            reference: leadRes.toolCode,
+            claim: `${leadRes.data.readyForOutboundCount} leads com dados completos prontos para abordagem outbound`,
+            verification: 'TOOL_VERIFIED',
+            observedAt: new Date().toISOString()
+          });
+          artifactsList.push({
+            artifactType: 'EVENT_OUTREACH_PLAN',
+            name: `Auditoria e Enriquecimento de Leads — ${agentMeta.name}`,
+            payload: leadRes.data,
+            state: 'PERSISTED_VERIFIED'
+          });
+          customHumanResume = `[${agentMeta.name}] Base de prospecção higienizada. ${leadRes.data.readyForOutboundCount} leads prontos para cadência outbound e ${leadRes.data.needsEnrichmentCount} encaminhados para enriquecimento.`;
+        }
+      } else if (assignedAgentId === 'intencao') {
+        const intentRes = await CommercialExecutorsV31.calcularScoreIntencao(toolCtx);
+        if (intentRes.success) {
+          toolCalls.push({ toolCode: intentRes.toolCode, status: 'SUCCESS', reference: intentRes.reference });
+          evidenceList.push({
+            sourceType: 'TOOL_EXECUTION',
+            reference: intentRes.toolCode,
+            claim: `${intentRes.data.hotWindowCount} oportunidades identificadas em janela de compra quente (<48h)`,
+            verification: 'TOOL_VERIFIED',
+            observedAt: new Date().toISOString()
+          });
+          artifactsList.push({
+            artifactType: 'SCORECARD',
+            name: `Scorecard de Intenção e Timing de Compra — ${agentMeta.name}`,
+            payload: intentRes.data,
+            state: 'PERSISTED_VERIFIED'
+          });
+          customHumanResume = `[${agentMeta.name}] Sinais de compra detectados: ${intentRes.data.hotWindowCount} negócios encontram-se em janela prioritária de compra com interações recentes.`;
+        }
+      } else if (assignedAgentId === 'sdr') {
+        const sdrRes = await CommercialExecutorsV31.gerarRoteiroDiscoverySDR(toolCtx);
+        if (sdrRes.success) {
+          toolCalls.push({ toolCode: sdrRes.toolCode, status: 'SUCCESS', reference: sdrRes.reference });
+          evidenceList.push({
+            sourceType: 'TOOL_EXECUTION',
+            reference: sdrRes.toolCode,
+            claim: `Metodologia SPIN Selling e critérios BANT estruturados para qualificação comercial`,
+            verification: 'TOOL_VERIFIED',
+            observedAt: new Date().toISOString()
+          });
+          artifactsList.push({
+            artifactType: 'QUALIFICATION_BRIEF',
+            name: `Roteiro de Discovery e Critérios de Qualificação — ${agentMeta.name}`,
+            payload: sdrRes.data,
+            state: 'PERSISTED_VERIFIED'
+          });
+          customHumanResume = `[${agentMeta.name}] Framework de discovery SPIN Selling e matriz BANT gerados para conduzir reuniões de qualificação de alto impacto.`;
+        }
+      } else if (assignedAgentId === 'deal_desk') {
+        const ddRes = await CommercialExecutorsV31.avaliarViabilidadeDealDesk(toolCtx);
+        if (ddRes.success) {
+          toolCalls.push({ toolCode: ddRes.toolCode, status: 'SUCCESS', reference: ddRes.reference });
+          evidenceList.push({
+            sourceType: 'TOOL_EXECUTION',
+            reference: ddRes.toolCode,
+            claim: `${ddRes.data.dealsAnalisados} propostas avaliadas com política de margem e alçadas`,
+            verification: 'TOOL_VERIFIED',
+            observedAt: new Date().toISOString()
+          });
+          artifactsList.push({
+            artifactType: 'QUOTE_DRAFT',
+            name: `Análise de Viabilidade Econômica e Margem — ${agentMeta.name}`,
+            payload: ddRes.data,
+            state: 'PERSISTED_VERIFIED'
+          });
+          customHumanResume = `[${agentMeta.name}] Auditoria Deal Desk realizada. ${ddRes.data.dealsAnalisados} oportunidades verificadas quanto à margem de contribuição líquida e governança de desconto.`;
+        }
+      } else if (assignedAgentId === 'coaching') {
+        const coachRes = await CommercialExecutorsV31.avaliarCompetenciasCoaching(toolCtx);
+        if (coachRes.success) {
+          toolCalls.push({ toolCode: coachRes.toolCode, status: 'SUCCESS', reference: coachRes.reference });
+          evidenceList.push({
+            sourceType: 'TOOL_EXECUTION',
+            reference: coachRes.toolCode,
+            claim: `Diagnóstico comportamental e técnico gerado para ${coachRes.data.totalReps} consultores comerciais`,
+            verification: 'TOOL_VERIFIED',
+            observedAt: new Date().toISOString()
+          });
+          artifactsList.push({
+            artifactType: 'TRAINING_PLAN',
+            name: `Plano de Capacitação e Coaching Individual — ${agentMeta.name}`,
+            payload: coachRes.data,
+            state: 'PERSISTED_VERIFIED'
+          });
+          customHumanResume = `[${agentMeta.name}] Diagnóstico de competências concluído para ${coachRes.data.totalReps} membros da equipe comercial com planos personalizados de treinamento.`;
+        }
+      } else if (assignedAgentId === 'expansao') {
+        const expRes = await CommercialExecutorsV31.identificarOportunidadesExpansao(toolCtx);
+        if (expRes.success) {
+          toolCalls.push({ toolCode: expRes.toolCode, status: 'SUCCESS', reference: expRes.reference });
+          evidenceList.push({
+            sourceType: 'TOOL_EXECUTION',
+            reference: expRes.toolCode,
+            claim: `R$ ${expRes.data.pipelineTotalExpansao.toLocaleString('pt-BR')} em pipeline potencial de expansão identificado`,
+            verification: 'TOOL_VERIFIED',
+            observedAt: new Date().toISOString()
+          });
+          artifactsList.push({
+            artifactType: 'FOLLOWUP_PLAN',
+            name: `Plano de Expansão e Upsell na Base Instalada — ${agentMeta.name}`,
+            payload: expRes.data,
+            state: 'PERSISTED_VERIFIED'
+          });
+          customHumanResume = `[${agentMeta.name}] Mapeamento de expansão concluído. Identificado potencial de R$ ${expRes.data.pipelineTotalExpansao.toLocaleString('pt-BR')} em upsell e cross-sell na carteira ativa.`;
+        }
+      } else if (assignedAgentId === 'parcerias') {
+        const parcRes = await CommercialExecutorsV31.calcularComissionamentoParcerias(toolCtx);
+        if (parcRes.success) {
+          toolCalls.push({ toolCode: parcRes.toolCode, status: 'SUCCESS', reference: parcRes.reference });
+          evidenceList.push({
+            sourceType: 'TOOL_EXECUTION',
+            reference: parcRes.toolCode,
+            claim: `Estrutura de 3 tiers de parceiros e projeção de comissões de canais calculada`,
+            verification: 'TOOL_VERIFIED',
+            observedAt: new Date().toISOString()
+          });
+          artifactsList.push({
+            artifactType: 'PLAN',
+            name: `Estrutura de Canais e Comissionamento de Parcerias — ${agentMeta.name}`,
+            payload: parcRes.data,
+            state: 'PERSISTED_VERIFIED'
+          });
+          customHumanResume = `[${agentMeta.name}] Ecossistema de canais estruturado em 3 níveis (Silver, Gold, Platinum) com regras de comissionamento e contrapartidas definidas.`;
+        }
+      } else if (assignedAgentId === 'gestao') {
+        const gestRes = await CommercialExecutorsV31.avaliarAtingimentoMetasGestao(toolCtx);
+        if (gestRes.success) {
+          toolCalls.push({ toolCode: gestRes.toolCode, status: 'SUCCESS', reference: gestRes.reference });
+          evidenceList.push({
+            sourceType: 'TOOL_EXECUTION',
+            reference: gestRes.toolCode,
+            claim: `Atingimento de meta em ${gestRes.data.percentualAtingido}% com índice de cobertura ${gestRes.data.indiceCoberturaPipeline}`,
+            verification: 'TOOL_VERIFIED',
+            observedAt: new Date().toISOString()
+          });
+          artifactsList.push({
+            artifactType: 'REPORT',
+            name: `Scorecard Executivo de Metas e Governança — ${agentMeta.name}`,
+            payload: gestRes.data,
+            state: 'PERSISTED_VERIFIED'
+          });
+          customHumanResume = `[${agentMeta.name}] Painel de diretoria: Atingimento consolidado em ${gestRes.data.percentualAtingido}% com índice de cobertura de pipeline de ${gestRes.data.indiceCoberturaPipeline}.`;
+        }
       }
       } catch {
         // Em fallback de ambiente sem banco, preserva o modo consultivo sem quebrar
