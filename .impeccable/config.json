@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "createdAt": "2026-11-02T16:02:44.750Z",
+        "reason": "Oficial Brandbook Birthub 360"
+      }
+    ]
+  }
+}

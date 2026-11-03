@@ -14,7 +14,10 @@ import {
   ChevronRight,
   Terminal,
   Activity,
-  AlertCircle
+  AlertCircle,
+  ShieldCheck,
+  Zap,
+  Lock
 } from 'lucide-react';
 import { api } from '../../services/api';
 import { SupervisorContextModule } from '../../navigation/pillars';
@@ -115,30 +118,24 @@ export const SupervisorCommandPanel: React.FC<SupervisorCommandPanelProps> = ({
       aria-modal="true"
       aria-labelledby="supervisor-panel-title"
     >
-      <div
-        className="w-full max-w-4xl max-h-[92vh] flex flex-col bg-workspace-card rounded-canvas border-2 border-workspace-graphite shadow-2xl overflow-hidden text-workspace-primary"
-        style={{
-          backgroundColor: 'var(--surface-card)',
-          borderRadius: '28px'
-        }}
-      >
-        {/* Header do Painel de Comando */}
-        <div className="p-6 bg-[#343735] text-white flex items-center justify-between border-b border-black/20">
+      <div className="w-full max-w-4xl max-h-[92vh] flex flex-col bg-surface rounded-card border border-border shadow-2xl overflow-hidden text-ink">
+        {/* Header Executivo do Command Center */}
+        <div className="p-6 bg-gradient-to-r from-[#0B132B] to-[#131F42] text-white flex items-center justify-between border-b border-white/10">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-full bg-[#E5FF45] text-[#343735] flex items-center justify-center font-bold shadow-md">
+            <div className="w-10 h-10 rounded-full bg-neon-blue/20 text-neon-blue flex items-center justify-center font-bold border border-neon-blue/40 shadow-sm">
               <BrainCircuit className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <h2 id="supervisor-panel-title" className="font-display font-black text-lg neon-title-cyan">
-                  Supervisor 360° — Command Center
+                <h2 id="supervisor-panel-title" className="font-display font-bold text-lg text-white">
+                  Supervisor Núcleo — 360° Intelligence Orchestrator
                 </h2>
-                <span className="px-2 py-0.5 rounded-pill bg-[#E5FF45] text-[#343735] text-[10px] font-mono font-black">
-                  ORCHESTRATOR
+                <span className="badge-telemetry bg-sky-500/20 text-neon-blue border border-sky-500/40">
+                  394 AGENTES
                 </span>
               </div>
               <span className="text-xs text-white/70 font-mono">
-                Contexto Ativo: <span className="text-[#E5FF45] font-semibold">{supervisorContext}</span> • 394 Agentes Catalogados
+                Contexto Ativo: <span className="text-neon-blue font-semibold">{supervisorContext}</span> • Governança RBAC & Aprovação HITL
               </span>
             </div>
           </div>
@@ -156,17 +153,17 @@ export const SupervisorCommandPanel: React.FC<SupervisorCommandPanelProps> = ({
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           {/* Prompts Sugeridos de Missão */}
           <div className="space-y-2">
-            <span className="text-[11px] font-mono uppercase tracking-wider text-workspace-secondary font-medium block">
-              Missões Rápidas Recomendadas:
+            <span className="text-[11px] font-mono uppercase tracking-wider text-muted font-semibold block">
+              Missões Rápidas Recomendadas para este Módulo:
             </span>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {quickPrompts.map((qp, idx) => (
                 <button
                   key={idx}
                   onClick={() => setPrompt(qp)}
-                  className="text-left p-3 rounded-control bg-workspace-surface hover:bg-white/80 dark:hover:bg-black/30 border border-workspace-soft text-xs text-workspace-primary transition-all flex items-start space-x-2 group"
+                  className="text-left p-3 rounded-control bg-surface2 hover:bg-surface border border-border text-xs text-ink transition-all flex items-start space-x-2.5 group"
                 >
-                  <Sparkles className="w-4 h-4 text-[#343735] dark:text-[#E5FF45] shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
+                  <Sparkles className="w-4 h-4 text-neon-blue shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
                   <span className="leading-relaxed line-clamp-2">{qp}</span>
                 </button>
               ))}
@@ -182,33 +179,33 @@ export const SupervisorCommandPanel: React.FC<SupervisorCommandPanelProps> = ({
                 placeholder="Insira sua ordem ou missão estratégica para o Supervisor 360°..."
                 rows={3}
                 data-testid="supervisor-prompt-input"
-                className="w-full p-4 rounded-card bg-workspace-surface border border-workspace-soft focus:border-[#343735] dark:focus:border-[#E5FF45] focus:outline-none text-sm font-mono leading-relaxed resize-none shadow-inner"
+                className="w-full p-4 rounded-control bg-surface2 border border-border focus:border-neon-blue focus:outline-none text-sm font-mono leading-relaxed resize-none shadow-inner text-ink"
               />
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div className="flex items-center space-x-2">
                 <button
                   type="button"
                   onClick={() => setActiveTab('EXECUTE')}
                   className={`px-3 py-1.5 rounded-pill text-xs font-mono font-medium transition-all ${
                     activeTab === 'EXECUTE'
-                      ? 'bg-[#343735] text-white shadow-sm'
-                      : 'text-workspace-secondary hover:bg-workspace-surface'
+                      ? 'bg-neon-blue text-white shadow-sm'
+                      : 'text-muted hover:bg-surface2'
                   }`}
                 >
-                  Consulta Direta
+                  Consulta Rápida
                 </button>
                 <button
                   type="button"
                   onClick={() => setActiveTab('MISSION')}
                   className={`px-3 py-1.5 rounded-pill text-xs font-mono font-medium transition-all ${
                     activeTab === 'MISSION'
-                      ? 'bg-[#343735] text-white shadow-sm'
-                      : 'text-workspace-secondary hover:bg-workspace-surface'
+                      ? 'bg-neon-iris text-white shadow-sm'
+                      : 'text-muted hover:bg-surface2'
                   }`}
                 >
-                  Missão Autônoma & Delegação
+                  Missão Autônoma & HITL
                 </button>
               </div>
 
@@ -216,7 +213,7 @@ export const SupervisorCommandPanel: React.FC<SupervisorCommandPanelProps> = ({
                 <button
                   type="button"
                   onClick={() => setPrompt('')}
-                  className="px-4 py-2 rounded-pill text-xs font-mono text-workspace-secondary hover:text-workspace-primary"
+                  className="px-4 py-2 rounded-pill text-xs font-mono text-muted hover:text-ink transition-colors"
                 >
                   Limpar
                 </button>
@@ -226,11 +223,11 @@ export const SupervisorCommandPanel: React.FC<SupervisorCommandPanelProps> = ({
                     type="submit"
                     disabled={loading || !prompt.trim()}
                     data-testid="supervisor-submit-btn"
-                    className="px-5 py-2 rounded-pill bg-[#E5FF45] hover:bg-[#d6f030] text-[#343735] font-bold text-xs font-mono shadow-md flex items-center space-x-2 transition-all disabled:opacity-50"
+                    className="btn-neon-primary text-xs shadow-md disabled:opacity-50"
                   >
                     {loading ? (
                       <>
-                        <div className="w-3.5 h-3.5 border-2 border-[#343735] border-t-transparent rounded-full animate-spin"></div>
+                        <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                         <span>Processando...</span>
                       </>
                     ) : (
@@ -245,12 +242,12 @@ export const SupervisorCommandPanel: React.FC<SupervisorCommandPanelProps> = ({
                     type="button"
                     onClick={handleStartMission}
                     disabled={loading || !prompt.trim()}
-                    className="px-5 py-2 rounded-pill bg-[#343735] hover:bg-black text-[#E5FF45] font-bold text-xs font-mono shadow-md flex items-center space-x-2 transition-all disabled:opacity-50"
+                    className="btn-neon-cta text-xs shadow-md disabled:opacity-50"
                   >
                     {loading ? (
                       <>
-                        <div className="w-3.5 h-3.5 border-2 border-[#E5FF45] border-t-transparent rounded-full animate-spin"></div>
-                        <span>Delegando...</span>
+                        <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        <span>Despachando...</span>
                       </>
                     ) : (
                       <>
@@ -264,65 +261,65 @@ export const SupervisorCommandPanel: React.FC<SupervisorCommandPanelProps> = ({
             </div>
           </form>
 
-          {/* Resultado de Execução Estruturado e Conectado */}
+          {/* Resultado de Execução Estruturado */}
           {executionResult && (
             <div
               data-testid="supervisor-execution-result"
-              className="p-5 rounded-canvas bg-workspace-surface border border-workspace-soft space-y-4 animate-in fade-in duration-300"
-              style={{ borderRadius: '24px' }}
+              className="p-5 rounded-card bg-surface2 border border-border space-y-4 animate-in fade-in duration-300"
             >
-              <div className="flex items-center justify-between pb-3 border-b border-workspace-soft">
+              <div className="flex items-center justify-between pb-3 border-b border-border">
                 <div className="flex items-center space-x-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#E5FF45] animate-pulse"></span>
-                  <h3 className="font-display font-bold text-sm text-workspace-primary">
+                  <span className="w-2.5 h-2.5 rounded-full bg-neon-blue animate-pulse"></span>
+                  <h3 className="font-display font-bold text-sm text-ink">
                     Síntese do Supervisor & Agente Alocado
                   </h3>
                 </div>
-                <span className="px-2.5 py-0.5 rounded-pill bg-[#343735] text-white text-[10px] font-mono">
+                <span className="badge-telemetry bg-surface text-ink border border-border">
                   {executionResult.suggestedAgentCode || 'SUPERVISOR_KERNEL'}
                 </span>
               </div>
 
-              {/* Grid Conectada de Evidências */}
+              {/* Grid de Evidências */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <div className="p-3 rounded-card bg-workspace-card border border-workspace-soft">
-                  <span className="text-[10px] font-mono text-workspace-secondary uppercase block">
+                <div className="p-3 rounded-control bg-surface border border-border">
+                  <span className="text-[10px] font-mono text-muted uppercase block">
                     Agente Responsável
                   </span>
                   <div className="flex items-center space-x-2 mt-1">
-                    <Bot className="w-4 h-4 text-workspace-graphite" />
-                    <span className="font-bold text-xs text-workspace-primary">
+                    <Bot className="w-4 h-4 text-neon-blue" />
+                    <span className="font-bold text-xs text-ink">
                       {executionResult.suggestedAgentName || 'Closer Sales AI'}
                     </span>
                   </div>
                 </div>
 
-                <div className="p-3 rounded-card bg-workspace-card border border-workspace-soft">
-                  <span className="text-[10px] font-mono text-workspace-secondary uppercase block">
+                <div className="p-3 rounded-control bg-surface border border-border">
+                  <span className="text-[10px] font-mono text-muted uppercase block">
                     Status Operacional
                   </span>
-                  <span className="font-mono text-xs font-bold text-workspace-primary mt-1 block">
+                  <span className="font-mono text-xs font-bold text-ink mt-1 block">
                     {executionResult.operationalStatus || 'EXECUTABLE'}
                   </span>
                 </div>
 
-                <div className="p-3 rounded-card bg-workspace-card border border-workspace-soft">
-                  <span className="text-[10px] font-mono text-workspace-secondary uppercase block">
+                <div className="p-3 rounded-control bg-surface border border-border">
+                  <span className="text-[10px] font-mono text-muted uppercase block">
                     Permissão RBAC
                   </span>
-                  <span className="font-mono text-xs font-bold text-[#16A34A] mt-1 block">
+                  <span className="font-mono text-xs font-bold text-emerald-600 dark:text-emerald-400 mt-1 block flex items-center gap-1">
+                    <ShieldCheck className="w-3.5 h-3.5" />
                     {executionResult.authorizationCheck?.hasPermission ? 'AUTORIZADO' : 'HOMOLOGADO'}
                   </span>
                 </div>
               </div>
 
               {/* Raciocínio & Output do Agente */}
-              <div className="p-4 rounded-control bg-workspace-card border border-workspace-soft font-mono text-xs leading-relaxed space-y-2">
-                <div className="flex items-center space-x-2 text-workspace-secondary font-bold">
-                  <Terminal className="w-4 h-4 text-[#343735] dark:text-[#E5FF45]" />
-                  <span>Resultado e Plano de Ação Gerado:</span>
+              <div className="p-4 rounded-control bg-surface border border-border font-mono text-xs leading-relaxed space-y-2">
+                <div className="flex items-center space-x-2 text-muted font-bold">
+                  <Terminal className="w-4 h-4 text-neon-blue" />
+                  <span>Resultado e Parecer do Supervisor:</span>
                 </div>
-                <div className="whitespace-pre-wrap text-workspace-primary">
+                <div className="whitespace-pre-wrap text-ink">
                   {executionResult.simulatedOutput ||
                     executionResult.humanSynthesis ||
                     JSON.stringify(executionResult, null, 2)}
@@ -331,20 +328,20 @@ export const SupervisorCommandPanel: React.FC<SupervisorCommandPanelProps> = ({
             </div>
           )}
 
-          {/* Resultado de Missão Autônoma */}
+          {/* Resultado de Missão Autônoma com Trilha de Auditoria */}
           {missionResult && (
-            <div className="p-5 rounded-canvas bg-workspace-surface border border-workspace-soft space-y-3">
+            <div className="p-5 rounded-card bg-surface2 border border-border space-y-3">
               <div className="flex items-center space-x-2">
-                <CheckCircle2 className="w-4 h-4 text-[#16A34A]" />
-                <h3 className="font-display font-bold text-sm text-workspace-primary">
-                  Missão Criada e Registrada no PostgreSQL
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <h3 className="font-display font-bold text-sm text-ink">
+                  Missão Aberta & Auditada no PostgreSQL
                 </h3>
               </div>
-              <p className="text-xs font-mono text-workspace-secondary">
-                ID da Missão: <span className="font-bold text-workspace-primary">{missionResult.id || 'mission-live'}</span> •
-                Status: <span className="text-[#E5FF45] bg-[#343735] px-2 py-0.5 rounded-pill font-bold">{missionResult.status || 'STARTED'}</span>
+              <p className="text-xs font-mono text-muted">
+                ID da Missão: <span className="font-bold text-ink">{missionResult.id || 'mission-live'}</span> •
+                Status: <span className="text-neon-blue bg-sky-500/10 px-2 py-0.5 rounded-pill font-bold border border-sky-500/30">{missionResult.status || 'STARTED'}</span>
               </p>
-              <pre className="p-3 rounded-control bg-workspace-card border border-workspace-soft text-[11px] font-mono overflow-x-auto text-workspace-primary">
+              <pre className="p-3 rounded-control bg-surface border border-border text-[11px] font-mono overflow-x-auto text-ink">
                 {JSON.stringify(missionResult, null, 2)}
               </pre>
             </div>

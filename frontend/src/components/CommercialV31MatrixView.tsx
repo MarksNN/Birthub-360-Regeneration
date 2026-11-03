@@ -169,33 +169,33 @@ export const CommercialV31MatrixView: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Top Banner */}
-      <div className="card-neon p-6 relative overflow-hidden border border-neon-blue/40">
+    <div className="space-y-6" data-testid="commercial-v31-matrix-view">
+      {/* Top Banner Bento */}
+      <div className="card-neon p-6 relative overflow-hidden border border-neon-blue/30">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-neon-blue/20 text-neon-blue border border-neon-blue/40">
+              <span className="badge-telemetry bg-sky-500/10 text-neon-blue border border-sky-500/30">
                 COMERCIAL V3.1 MULTIAGENTES
               </span>
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-neon-green/20 text-neon-green border border-neon-green/40 flex items-center gap-1">
+              <span className="badge-telemetry bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
                 <CheckCircle2 className="w-3 h-3" />
                 209 CASOS RED TEAM
               </span>
             </div>
-            <h1 className="font-display text-2xl font-bold neon-title-cyan">
-              Matriz Operacional de 19 Especialistas e 463 Habilidades
+            <h1 className="font-display text-2xl font-bold text-ink">
+              Matriz Operacional de 19 Especialistas & 463 Habilidades
             </h1>
-            <p className="text-sm text-muted">
+            <p className="text-xs text-muted">
               Orquestração canônica com injeção de Core Compartilhado, descoberta de playbooks sob demanda e governança estrita de LGPD/B2B.
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2.5">
             <button
               onClick={handleRunRedTeam}
               disabled={runningRedTeam}
-              className="px-3.5 py-2 rounded-lg text-xs font-semibold bg-neon-green/15 text-neon-green border border-neon-green/40 hover:bg-neon-green/25 transition-all flex items-center gap-1.5"
+              className="px-3.5 py-2 rounded-control text-xs font-mono font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all flex items-center gap-1.5"
             >
               <ShieldCheck className="w-4 h-4" />
               {runningRedTeam ? 'Auditando...' : 'Auditar Red Team'}
@@ -204,7 +204,7 @@ export const CommercialV31MatrixView: React.FC = () => {
             <button
               onClick={handleSyncDatabase}
               disabled={syncingDb}
-              className="px-3.5 py-2 rounded-lg text-xs font-semibold bg-neon-purple/15 text-neon-purple border border-neon-purple/40 hover:bg-neon-purple/25 transition-all flex items-center gap-1.5"
+              className="px-3.5 py-2 rounded-control text-xs font-mono font-bold bg-purple-500/10 text-neon-iris border border-purple-500/30 hover:bg-purple-500/20 transition-all flex items-center gap-1.5"
             >
               <Database className="w-4 h-4" />
               {syncingDb ? 'Sincronizando...' : 'Sincronizar Banco'}
@@ -212,11 +212,11 @@ export const CommercialV31MatrixView: React.FC = () => {
           </div>
         </div>
 
-        {/* Relatório de Auditoria Red Team (se executado) */}
+        {/* Relatório de Auditoria Red Team */}
         {redTeamReport && (
-          <div className="mt-4 p-4 rounded-lg bg-surface2 border border-neon-green/40 space-y-2">
+          <div className="mt-4 p-4 rounded-control bg-surface2 border border-emerald-500/30 space-y-2">
             <div className="flex items-center justify-between text-xs font-mono font-bold">
-              <span className="text-neon-green">Auditoria Red Team Homologada:</span>
+              <span className="text-emerald-600 dark:text-emerald-400">Auditoria Red Team Homologada:</span>
               <span className="text-muted">
                 {redTeamReport.passedCases}/{redTeamReport.totalCases} casos aprovados (100%)
               </span>
@@ -224,8 +224,8 @@ export const CommercialV31MatrixView: React.FC = () => {
             <div className="grid grid-cols-4 gap-2 text-xs font-mono text-muted">
               <div>Suites: {redTeamReport.totalSuites} agentes</div>
               <div>Cenários: {redTeamReport.totalCases}</div>
-              <div className="text-neon-green">Aprovados: {redTeamReport.passedCases}</div>
-              <div className="text-neon-danger">Falhas: {redTeamReport.failedCases}</div>
+              <div className="text-emerald-600 dark:text-emerald-400 font-bold">Aprovados: {redTeamReport.passedCases}</div>
+              <div className="text-rose-600 dark:text-rose-400 font-bold">Falhas: {redTeamReport.failedCases}</div>
             </div>
           </div>
         )}
@@ -235,8 +235,8 @@ export const CommercialV31MatrixView: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Coluna Esquerda: Lista dos 19 Especialistas */}
         <div className="lg:col-span-5 space-y-3">
-          <div className="flex items-center justify-between pb-2">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-muted flex items-center gap-2">
+          <div className="flex items-center justify-between pb-2 border-b border-border">
+            <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-muted flex items-center gap-2">
               <Users className="w-4 h-4 text-neon-blue" />
               19 Agentes Especialistas
             </h2>
@@ -245,7 +245,7 @@ export const CommercialV31MatrixView: React.FC = () => {
 
           <div className="space-y-2 max-h-[620px] overflow-y-auto pr-1">
             {loading ? (
-              <div className="p-8 text-center text-muted">Carregando catálogo...</div>
+              <div className="p-8 text-center text-xs font-mono text-muted">Carregando catálogo V3.1...</div>
             ) : (
               agents.map((agent) => {
                 const isSelected = selectedAgentId === agent.id;
@@ -253,20 +253,20 @@ export const CommercialV31MatrixView: React.FC = () => {
                   <button
                     key={agent.id}
                     onClick={() => setSelectedAgentId(agent.id)}
-                    className={`w-full text-left p-3.5 rounded-lg border transition-all flex items-center justify-between ${
+                    className={`w-full text-left p-3.5 rounded-control border transition-all flex items-center justify-between ${
                       isSelected
-                        ? 'bg-neon-blue/10 border-neon-blue shadow-lg shadow-neon-blue/10'
-                        : 'bg-surface hover:bg-surface2 border-border hover:border-border-hover'
+                        ? 'bg-sky-500/10 border-neon-blue shadow-sm'
+                        : 'bg-surface hover:bg-surface2 border-border'
                     }`}
                   >
                     <div className="space-y-0.5">
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-sm text-foreground">{agent.name}</span>
-                        <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-surface2 text-muted border border-border">
+                        <span className="font-bold text-xs text-ink">{agent.name}</span>
+                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-surface2 text-muted border border-border">
                           {agent.id}
                         </span>
                       </div>
-                      <div className="flex items-center gap-3 text-xs text-muted font-mono">
+                      <div className="flex items-center gap-3 text-[11px] text-muted font-mono">
                         <span>{agent.skills} skills</span>
                         <span>•</span>
                         <span>{agent.playbooks} playbooks</span>
@@ -287,19 +287,19 @@ export const CommercialV31MatrixView: React.FC = () => {
         {/* Coluna Direita: Detalhes do Especialista Selecionado e Ações */}
         <div className="lg:col-span-7 space-y-4">
           {loadingDetails ? (
-            <div className="card-neon p-12 text-center text-muted">
+            <div className="card-neon p-12 text-center text-xs font-mono text-muted">
               Carregando detalhes do especialista...
             </div>
           ) : agentDetails?.agent ? (
-            <div className="card-neon p-6 space-y-5 border border-border">
+            <div className="card-neon p-6 space-y-5">
               {/* Header do Agente */}
               <div className="flex items-start justify-between border-b border-border pb-4">
                 <div>
                   <div className="flex items-center gap-2">
-                    <h3 className="font-display text-xl font-bold text-foreground">
+                    <h3 className="font-display text-lg font-bold text-ink">
                       {agentDetails.agent.name}
                     </h3>
-                    <span className="px-2 py-0.5 rounded text-xs font-mono font-bold bg-neon-purple/20 text-neon-purple border border-neon-purple/30">
+                    <span className="badge-telemetry bg-purple-500/10 text-neon-iris border border-purple-500/30">
                       ID: {agentDetails.agent.id}
                     </span>
                   </div>
@@ -311,17 +311,17 @@ export const CommercialV31MatrixView: React.FC = () => {
                 <button
                   onClick={handleAssembleContext}
                   disabled={assemblingContext}
-                  className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-neon-blue/15 text-neon-blue border border-neon-blue/40 hover:bg-neon-blue/25 transition-all flex items-center gap-1.5"
+                  className="btn-neon-primary text-xs"
                 >
                   <Terminal className="w-3.5 h-3.5" />
-                  {assemblingContext ? 'Montando...' : 'Simular Contexto'}
+                  <span>{assemblingContext ? 'Montando...' : 'Simular Contexto'}</span>
                 </button>
               </div>
 
               {/* Estatísticas e Playbooks */}
               <div className="grid grid-cols-2 gap-3">
-                <div className="p-3 rounded-lg bg-surface2 border border-border">
-                  <div className="flex items-center gap-2 text-xs text-muted mb-1">
+                <div className="p-3.5 rounded-control bg-surface2 border border-border">
+                  <div className="flex items-center gap-2 text-xs font-mono font-semibold text-muted mb-1">
                     <BookOpen className="w-3.5 h-3.5 text-neon-gold" />
                     <span>Playbooks Vinculados ({agentDetails.playbooks?.length || 0})</span>
                   </div>
@@ -329,7 +329,7 @@ export const CommercialV31MatrixView: React.FC = () => {
                     {agentDetails.playbooks?.map((pb: any) => (
                       <span
                         key={pb.id}
-                        className="px-2 py-0.5 rounded text-[11px] font-mono bg-surface text-foreground border border-border"
+                        className="px-2 py-0.5 rounded text-[11px] font-mono bg-surface text-ink border border-border"
                       >
                         {pb.id}
                       </span>
@@ -337,23 +337,23 @@ export const CommercialV31MatrixView: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="p-3 rounded-lg bg-surface2 border border-border">
-                  <div className="flex items-center gap-2 text-xs text-muted mb-1">
-                    <ShieldCheck className="w-3.5 h-3.5 text-neon-green" />
+                <div className="p-3.5 rounded-control bg-surface2 border border-border">
+                  <div className="flex items-center gap-2 text-xs font-mono font-semibold text-muted mb-1">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                     <span>Governança V3.1</span>
                   </div>
-                  <p className="text-xs text-muted mt-1">
+                  <p className="text-xs text-muted mt-1 font-mono leading-relaxed">
                     Isolamento por tenant, verificação estrita de opt-out e execução de playbooks sob demanda.
                   </p>
                 </div>
               </div>
 
-              {/* Resultado da Montagem do Contexto (se disparado) */}
+              {/* Resultado da Montagem do Contexto */}
               {contextAssemblerResult && (
-                <div className="p-4 rounded-lg bg-surface2 border border-neon-blue/40 space-y-2">
+                <div className="p-4 rounded-control bg-surface2 border border-sky-500/30 space-y-2">
                   <div className="flex items-center justify-between text-xs font-mono text-neon-blue font-bold">
                     <span>Context Assembler — Flags de Validação:</span>
-                    <span className="text-neon-green">schemaReady: true</span>
+                    <span className="text-emerald-600 dark:text-emerald-400">schemaReady: true</span>
                   </div>
                   <div className="grid grid-cols-3 gap-2 text-[11px] font-mono text-muted">
                     <div>indexInjected: {String(contextAssemblerResult.flags.indexInjected)}</div>
@@ -361,10 +361,10 @@ export const CommercialV31MatrixView: React.FC = () => {
                     <div>bootstrapConsultivo: {String(!contextAssemblerResult.flags.operationalAllowedByBootstrap)}</div>
                   </div>
                   <details className="mt-2 text-xs">
-                    <summary className="cursor-pointer text-muted hover:text-foreground font-mono">
+                    <summary className="cursor-pointer text-muted hover:text-ink font-mono">
                       Ver prompt completo gerado ({contextAssemblerResult.contextPrompt.length} chars)
                     </summary>
-                    <pre className="mt-2 p-3 rounded bg-black/40 text-[11px] text-muted overflow-x-auto max-h-48">
+                    <pre className="mt-2 p-3 rounded-control bg-black/30 text-[11px] font-mono text-muted overflow-x-auto max-h-48">
                       {contextAssemblerResult.contextPrompt}
                     </pre>
                   </details>
@@ -373,7 +373,7 @@ export const CommercialV31MatrixView: React.FC = () => {
 
               {/* Lista de Habilidades do Agente */}
               <div className="space-y-2">
-                <div className="flex items-center justify-between text-xs font-semibold text-muted">
+                <div className="flex items-center justify-between text-xs font-mono font-semibold text-muted">
                   <span>Habilidades Homologadas ({agentDetails.index?.skills?.length || 0})</span>
                   <span>Playbook</span>
                 </div>
@@ -381,13 +381,13 @@ export const CommercialV31MatrixView: React.FC = () => {
                   {agentDetails.index?.skills?.map((skill: any) => (
                     <div
                       key={skill.id}
-                      className="p-2.5 rounded bg-surface border border-border flex items-center justify-between text-xs hover:border-border-hover transition-colors"
+                      className="p-2.5 rounded-control bg-surface border border-border flex items-center justify-between text-xs hover:border-sky-500/40 transition-colors"
                     >
                       <div className="space-y-0.5">
-                        <span className="font-semibold text-foreground">{skill.name}</span>
+                        <span className="font-semibold text-ink">{skill.name}</span>
                         <div className="text-[11px] font-mono text-muted">{skill.id}</div>
                       </div>
-                      <span className="px-2 py-0.5 rounded font-mono text-[10px] bg-neon-gold/15 text-neon-gold border border-neon-gold/30">
+                      <span className="badge-telemetry bg-amber-500/10 text-neon-gold border border-amber-500/20 text-[10px]">
                         {skill.playbookId}
                       </span>
                     </div>
@@ -396,7 +396,7 @@ export const CommercialV31MatrixView: React.FC = () => {
               </div>
             </div>
           ) : (
-            <div className="card-neon p-12 text-center text-muted">
+            <div className="card-neon p-12 text-center text-xs font-mono text-muted">
               Selecione um especialista para visualizar suas diretrizes e habilidades.
             </div>
           )}
@@ -404,10 +404,10 @@ export const CommercialV31MatrixView: React.FC = () => {
       </div>
 
       {/* Terminal de Orquestração V3.1 em Tempo Real */}
-      <div className="card-neon p-6 space-y-4 border border-border">
+      <div className="card-neon p-6 space-y-4">
         <div className="flex items-center gap-2">
           <Terminal className="w-5 h-5 text-neon-blue" />
-          <h3 className="font-display text-lg font-bold text-foreground">
+          <h3 className="font-display text-base font-bold text-ink">
             Console de Execução do Supervisor V3.1
           </h3>
           <span className="text-xs font-mono text-muted">
@@ -420,23 +420,23 @@ export const CommercialV31MatrixView: React.FC = () => {
             type="text"
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            placeholder="Ex: Verifique a fila de leads e mapeamento de campos no Bitrix24..."
-            className="flex-1 px-4 py-2.5 rounded-lg bg-surface2 border border-border text-foreground text-sm focus:outline-none focus:border-neon-blue font-mono placeholder:text-muted"
+            placeholder="Ex: Verifique a fila de leads e mapeamento de campos no CRM..."
+            className="flex-1 px-4 py-2.5 rounded-control bg-surface2 border border-border text-ink text-xs focus:outline-none focus:border-neon-blue font-mono placeholder:text-muted"
           />
           <button
             type="submit"
             disabled={orchestrating || !prompt.trim()}
-            className="px-5 py-2.5 rounded-lg bg-neon-blue text-black font-bold text-sm hover:opacity-90 transition-all flex items-center gap-2 disabled:opacity-50"
+            className="btn-neon-primary text-xs shadow-md disabled:opacity-50"
           >
-            <Send className="w-4 h-4" />
-            {orchestrating ? 'Orquestrando...' : 'Executar'}
+            <Send className="w-3.5 h-3.5" />
+            <span>{orchestrating ? 'Orquestrando...' : 'Executar'}</span>
           </button>
         </form>
 
         {orchestrationResult && (
-          <div className="p-4 rounded-lg bg-surface2 border border-border space-y-3">
+          <div className="p-4 rounded-control bg-surface2 border border-border space-y-3 font-mono text-xs">
             {orchestrationResult.error ? (
-              <div className="flex items-center gap-2 text-neon-danger text-sm">
+              <div className="flex items-center gap-2 text-rose-600 dark:text-rose-400 text-xs">
                 <AlertTriangle className="w-4 h-4" />
                 <span>{orchestrationResult.error}</span>
               </div>
@@ -444,28 +444,28 @@ export const CommercialV31MatrixView: React.FC = () => {
               <>
                 <div className="flex items-center justify-between border-b border-border pb-2">
                   <div className="flex items-center gap-2">
-                    <span className="px-2 py-0.5 rounded text-xs font-bold font-mono bg-neon-green/20 text-neon-green">
+                    <span className="badge-telemetry bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                       STATUS: {orchestrationResult.status}
                     </span>
-                    <span className="text-xs font-mono text-muted">
+                    <span className="text-xs text-muted">
                       Agente: {orchestrationResult.assignedAgent?.name} ({orchestrationResult.assignedAgent?.id})
                     </span>
                   </div>
-                  <span className="text-xs font-mono text-muted">
+                  <span className="text-xs text-muted">
                     {orchestrationResult.executionTimeMs}ms
                   </span>
                 </div>
 
-                <div className="text-sm text-foreground">
+                <div className="text-xs text-ink">
                   <span className="font-bold text-neon-blue">Síntese do Supervisor:</span>{' '}
                   {orchestrationResult.resumo_humano}
                 </div>
 
                 {orchestrationResult.skillsUsed && (
-                  <div className="flex items-center gap-2 text-xs font-mono text-muted">
-                    <span className="text-foreground">Skills Aplicadas:</span>
+                  <div className="flex items-center gap-2 text-[11px] text-muted">
+                    <span className="text-ink">Skills Aplicadas:</span>
                     {orchestrationResult.skillsUsed.map((sid: string) => (
-                      <span key={sid} className="px-1.5 py-0.5 rounded bg-surface border border-border">
+                      <span key={sid} className="px-1.5 py-0.5 rounded bg-surface border border-border text-neon-iris">
                         {sid}
                       </span>
                     ))}

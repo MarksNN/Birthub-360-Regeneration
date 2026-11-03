@@ -3,7 +3,21 @@ import {
   Plus, 
   Search, 
   History,
-  X
+  X,
+  TrendingUp,
+  DollarSign,
+  Briefcase,
+  Layers,
+  ArrowRight,
+  User,
+  Building2,
+  Calendar,
+  AlertCircle,
+  CheckCircle2,
+  Clock,
+  Sparkles,
+  ChevronRight,
+  Filter
 } from 'lucide-react';
 import { api } from '../services/api';
 
@@ -44,12 +58,12 @@ export const PipelineKanbanView: React.FC<PipelineKanbanViewProps> = ({
   const [loading, setLoading] = useState(false);
 
   const stages = [
-    { id: 'PROSPECT', label: 'Prospecção', color: 'border-muted', defaultProb: 20 },
-    { id: 'QUALIFICACAO', label: 'Qualificação', color: 'border-neon-blue', defaultProb: 40 },
-    { id: 'PROPOSTA_ENVIADA', label: 'Proposta Enviada', color: 'border-neon-iris', defaultProb: 60 },
-    { id: 'NEGOCIACAO', label: 'Negociação', color: 'border-neon-gold', defaultProb: 80 },
-    { id: 'FECHADO_GANHO', label: 'Fechado Ganho', color: 'border-neon-success', defaultProb: 100 },
-    { id: 'FECHADO_PERDIDO', label: 'Fechado Perdido', color: 'border-neon-danger', defaultProb: 0 }
+    { id: 'PROSPECT', label: 'Prospecção', color: 'border-slate-300 dark:border-slate-700', badgeColor: 'bg-slate-500/10 text-slate-600 dark:text-slate-400', defaultProb: 20 },
+    { id: 'QUALIFICACAO', label: 'Qualificação', color: 'border-sky-500', badgeColor: 'bg-sky-500/10 text-neon-blue', defaultProb: 40 },
+    { id: 'PROPOSTA_ENVIADA', label: 'Proposta Enviada', color: 'border-purple-500', badgeColor: 'bg-purple-500/10 text-neon-iris', defaultProb: 60 },
+    { id: 'NEGOCIACAO', label: 'Negociação', color: 'border-amber-500', badgeColor: 'bg-amber-500/10 text-neon-gold', defaultProb: 80 },
+    { id: 'FECHADO_GANHO', label: 'Fechado Ganho', color: 'border-emerald-500', badgeColor: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400', defaultProb: 100 },
+    { id: 'FECHADO_PERDIDO', label: 'Fechado Perdido', color: 'border-rose-500', badgeColor: 'bg-rose-500/10 text-rose-600 dark:text-rose-400', defaultProb: 0 }
   ];
 
   const formatCurrency = (val: number) => {
@@ -154,59 +168,91 @@ export const PipelineKanbanView: React.FC<PipelineKanbanViewProps> = ({
     return matchSearch && matchAssignee;
   });
 
+  const totalPipelineAmount = filteredDeals.reduce((sum, d) => sum + (d.stage !== 'FECHADO_PERDIDO' ? d.amount : 0), 0);
+  const weightedPipelineAmount = filteredDeals.reduce((sum, d) => sum + (d.stage !== 'FECHADO_PERDIDO' ? d.amount * (d.probability / 100) : 0), 0);
+
   return (
     <div className="space-y-6" data-testid="pipeline-kanban-view">
-      {/* Header do Funil */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      {/* HEADER DE COMANDO DO PIPELINE */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-2 border-b border-border">
         <div>
-          <h2 className="font-display text-xl font-bold neon-title-gold">
-            Pipeline Comercial & Funil Visual (Kanban 360°)
-          </h2>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="badge-telemetry bg-amber-500/10 text-neon-gold border border-amber-500/30">
+              <TrendingUp className="w-3 h-3" />
+              KANBAN 360° • FUNIL VISUAL
+            </span>
+            <span className="badge-telemetry bg-sky-500/10 text-neon-blue border border-sky-500/30">
+              DRAG & DROP ATIVO
+            </span>
+          </div>
+          <h1 className="text-xl md:text-2xl font-display font-bold text-ink">
+            Gestão & Cadência de Negócios do Pipeline
+          </h1>
           <p className="text-xs text-muted">
-            Movimentação de oportunidades via Drag-and-Drop com persistência e histórico de etapas
+            Transições de estágio auditadas pelo Supervisor com recálculo instantâneo de previsão ponderada.
           </p>
         </div>
 
-        <div className="flex items-center space-x-3">
-          <div className="relative">
-            <Search className="w-4 h-4 text-muted absolute left-3 top-2.5" />
-            <input
-              type="text"
-              placeholder="Buscar oportunidade..."
-              value={searchTerm}
-              onChange={e => setSearchTerm(e.target.value)}
-              className="bg-surface border border-border rounded-control pl-9 pr-3 py-1.5 text-xs text-ink focus:outline-none focus:border-neon-gold"
-            />
+        {/* Resumo Rápido de Forecast */}
+        <div className="flex items-center gap-4 bg-surface p-2 px-4 rounded-card border border-border text-xs font-mono">
+          <div>
+            <span className="text-[10px] text-muted block uppercase">Volume Ativo</span>
+            <span className="font-bold text-ink text-sm">{formatCurrency(totalPipelineAmount)}</span>
           </div>
-
-          <select
-            value={filterAssignee}
-            onChange={e => setFilterAssignee(e.target.value)}
-            className="bg-surface border border-border rounded-control px-3 py-1.5 text-xs text-ink focus:outline-none"
-          >
-            <option value="ALL">Todos os Responsáveis</option>
-            {assignees.map(u => (
-              <option key={u.id} value={u.id}>{u.name} ({u.role})</option>
-            ))}
-          </select>
-
-          <button
-            type="button"
-            onClick={() => setShowModal(true)}
-            data-testid="new-deal-btn"
-            className="btn-neon-cta flex items-center space-x-2 text-xs"
-          >
-            <Plus className="w-4 h-4" />
-            <span>Nova Oportunidade</span>
-          </button>
+          <div className="w-[1px] h-6 bg-border"></div>
+          <div>
+            <span className="text-[10px] text-neon-gold block uppercase font-semibold">Forecast Ponderado</span>
+            <span className="font-bold text-neon-gold text-sm">{formatCurrency(weightedPipelineAmount)}</span>
+          </div>
         </div>
       </div>
 
-      {/* Grid de Colunas do Funil */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-3 overflow-x-auto pb-4">
+      {/* BARRA DE FILTROS & AÇÃO RÁPIDA */}
+      <div className="card-neon p-3 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+        <div className="flex flex-1 items-center gap-3">
+          <div className="relative flex-1 max-w-md">
+            <Search className="w-4 h-4 text-muted absolute left-3 top-2.5" />
+            <input
+              type="text"
+              placeholder="Buscar por oportunidade ou empresa..."
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+              className="w-full bg-surface2 border border-border rounded-control pl-9 pr-3 py-1.5 text-xs text-ink focus:outline-none focus:border-neon-blue font-mono"
+            />
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Filter className="w-3.5 h-3.5 text-muted" />
+            <select
+              value={filterAssignee}
+              onChange={e => setFilterAssignee(e.target.value)}
+              className="bg-surface2 border border-border rounded-control px-3 py-1.5 text-xs text-ink focus:outline-none font-mono"
+            >
+              <option value="ALL">Todos os Responsáveis ({assignees.length})</option>
+              {assignees.map(u => (
+                <option key={u.id} value={u.id}>{u.name} ({u.role})</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setShowModal(true)}
+          data-testid="new-deal-btn"
+          className="btn-neon-cta flex items-center space-x-2 text-xs"
+        >
+          <Plus className="w-4 h-4" />
+          <span>Criar Oportunidade</span>
+        </button>
+      </div>
+
+      {/* GRID KANBAN DE 6 COLUNAS */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-3.5 overflow-x-auto pb-4">
         {stages.map(st => {
           const colDeals = filteredDeals.filter(d => d.stage === st.id);
           const colTotal = colDeals.reduce((sum, d) => sum + d.amount, 0);
+          const colWeighted = colDeals.reduce((sum, d) => sum + (d.amount * (d.probability / 100)), 0);
 
           return (
             <div
@@ -214,25 +260,34 @@ export const PipelineKanbanView: React.FC<PipelineKanbanViewProps> = ({
               data-testid={`kanban-col-${st.id}`}
               onDragOver={handleDragOver}
               onDrop={(e) => handleDrop(e, st.id)}
-              className="bg-surface2/60 border border-border rounded-card p-3 min-h-[500px] flex flex-col transition-colors hover:border-neon-gold/30"
+              className="bg-surface2/50 border border-border/80 rounded-card p-3 min-h-[580px] flex flex-col transition-all hover:border-neon-blue/40"
             >
-              {/* Header da Coluna */}
-              <div className="mb-3 pb-2 border-b border-border">
+              {/* Header da Coluna com Métricas do Estágio */}
+              <div className="mb-3 pb-2.5 border-b border-border">
                 <div className="flex items-center justify-between">
-                  <span className="font-display font-semibold text-xs text-ink truncate">
-                    {st.label}
-                  </span>
-                  <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-pill bg-surface text-muted">
+                  <div className="flex items-center gap-1.5">
+                    <span className={`w-2 h-2 rounded-full ${st.badgeColor.replace('/10', '')}`}></span>
+                    <span className="font-display font-bold text-xs text-ink truncate">
+                      {st.label}
+                    </span>
+                  </div>
+                  <span className="badge-telemetry bg-surface text-ink border border-border text-[10px]">
                     {colDeals.length}
                   </span>
                 </div>
-                <span className="block text-[11px] font-mono text-neon-gold font-bold mt-1">
-                  {formatCurrency(colTotal)}
-                </span>
+                
+                <div className="mt-1.5 flex items-baseline justify-between font-mono">
+                  <span className="text-xs font-bold text-ink">
+                    {formatCurrency(colTotal)}
+                  </span>
+                  <span className="text-[10px] text-muted">
+                    Pond: {formatCurrency(colWeighted)}
+                  </span>
+                </div>
               </div>
 
-              {/* Cards da Coluna */}
-              <div className="flex-1 space-y-2.5 overflow-y-auto">
+              {/* Cards de Negócios na Coluna */}
+              <div className="flex-1 space-y-2.5 overflow-y-auto pr-0.5">
                 {colDeals.length > 0 ? (
                   colDeals.map(deal => (
                     <div
@@ -240,66 +295,62 @@ export const PipelineKanbanView: React.FC<PipelineKanbanViewProps> = ({
                       data-testid={`deal-card-${deal.id}`}
                       draggable
                       onDragStart={(e) => handleDragStart(e, deal.id)}
-                      className="bg-surface border border-border rounded-control p-3 shadow-sm hover:border-neon-blue/40 cursor-grab active:cursor-grabbing transition-all select-none space-y-2"
+                      className="bg-surface border border-border rounded-control p-3.5 shadow-sm hover:border-neon-blue hover:shadow-md cursor-grab active:cursor-grabbing transition-all select-none space-y-2.5 group"
                     >
-                      <div className="flex items-start justify-between">
-                        <span className="font-semibold text-xs text-ink block line-clamp-2">
+                      {/* Título & Botão de Histórico */}
+                      <div className="flex items-start justify-between gap-1.5">
+                        <span className="font-semibold text-xs text-ink line-clamp-2 leading-snug">
                           {deal.title}
                         </span>
                         <button
                           type="button"
                           onClick={() => handleOpenHistory(deal)}
-                          className="text-muted hover:text-neon-iris p-0.5"
-                          title="Ver histórico de movimentações"
+                          className="text-muted hover:text-neon-blue p-1 rounded-control hover:bg-surface2 transition-colors flex-shrink-0"
+                          title="Trilha de auditoria e movimentações"
                         >
                           <History className="w-3.5 h-3.5" />
                         </button>
                       </div>
 
-                      <div className="text-[11px] text-muted">
-                        <span className="text-neon-blue font-medium block truncate">
-                          {deal.company?.name || 'Sem empresa'}
-                        </span>
-                        {deal.assignedTo && (
-                          <span className="text-[10px] text-muted block mt-0.5">
-                            Resp: <strong className="text-ink">{deal.assignedTo.name}</strong>
-                          </span>
-                        )}
+                      {/* Empresa Vinculada */}
+                      <div className="flex items-center gap-1.5 text-[11px] text-muted truncate font-mono">
+                        <Building2 className="w-3 h-3 text-muted shrink-0" />
+                        <span className="truncate">{deal.company?.name || 'Cliente Direto'}</span>
                       </div>
 
-                      <div className="pt-2 border-t border-border flex items-center justify-between text-xs">
-                        <span className="font-mono font-bold text-neon-gold">
+                      {/* Rodapé do Card: Valor & Probabilidade */}
+                      <div className="pt-2 border-t border-border/70 flex items-center justify-between font-mono">
+                        <span className="font-bold text-xs text-ink">
                           {formatCurrency(deal.amount)}
                         </span>
-                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-surface2 text-neon-success font-semibold">
+                        <span className={`text-[10px] px-1.5 py-0.5 rounded-pill font-bold ${
+                          deal.probability >= 80 
+                            ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20' 
+                            : deal.probability >= 50
+                            ? 'bg-amber-500/10 text-neon-gold border border-amber-500/20'
+                            : 'bg-sky-500/10 text-neon-blue border border-sky-500/20'
+                        }`}>
                           {deal.probability}%
                         </span>
                       </div>
 
-                      <div className="pt-1">
-                        <select
-                          aria-label={`Mover etapa de ${deal.title}`}
-                          data-testid={`deal-stage-select-${deal.id}`}
-                          value={deal.stage}
-                          onChange={(e) => moveDealToStage(deal.id, e.target.value)}
-                          className="w-full bg-surface2 border border-border rounded px-1.5 py-1 text-[10px] text-ink focus:outline-none focus:border-neon-gold"
-                        >
-                          {stages.map(s => (
-                            <option key={s.id} value={s.id}>{s.label}</option>
-                          ))}
-                        </select>
-                      </div>
-
-                      {deal.lostReason && (
-                        <div className="text-[10px] text-neon-danger bg-neon-danger/10 px-2 py-1 rounded">
-                          Perda: {deal.lostReason}
+                      {/* Responsável Comercial */}
+                      {deal.assignedTo && (
+                        <div className="flex items-center justify-between text-[10px] text-muted pt-1">
+                          <span className="flex items-center gap-1 truncate font-mono">
+                            <User className="w-3 h-3 text-muted" />
+                            {deal.assignedTo.name}
+                          </span>
+                          <span className="text-[9px] font-mono uppercase px-1 rounded bg-surface2">
+                            {deal.assignedTo.role}
+                          </span>
                         </div>
                       )}
                     </div>
                   ))
                 ) : (
-                  <div className="h-24 border border-dashed border-border rounded-control flex items-center justify-center text-[10px] text-muted">
-                    Arraste cards para cá
+                  <div className="h-32 border-2 border-dashed border-border/60 rounded-control flex items-center justify-center text-[11px] font-mono text-muted text-center p-3">
+                    Arraste um negócio para cá
                   </div>
                 )}
               </div>
@@ -308,89 +359,89 @@ export const PipelineKanbanView: React.FC<PipelineKanbanViewProps> = ({
         })}
       </div>
 
-      {/* Modal Histórico da Oportunidade */}
-      {showHistoryModal && selectedDealForHistory && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-surface border border-neon-iris/40 rounded-card p-6 w-full max-w-lg shadow-2xl">
-            <div className="flex items-center justify-between mb-4 pb-2 border-b border-border">
+      {/* MODAL: NOVA OPORTUNIDADE (BENTO MODAL) */}
+      {showModal && (
+        <div
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="w-full max-w-lg bg-surface rounded-card border border-border shadow-2xl overflow-hidden text-ink">
+            <div className="p-5 bg-surface2 border-b border-border flex items-center justify-between">
               <div>
-                <h3 className="font-display font-bold text-base neon-title-iris">
-                  Histórico de Movimentações: {selectedDealForHistory.title}
+                <h3 className="font-display font-bold text-base text-ink">
+                  Criar Nova Oportunidade Comercial
                 </h3>
-                <span className="text-xs text-muted font-mono">
-                  Auditoria e registro de transições de etapas
-                </span>
+                <p className="text-xs text-muted">
+                  Preencha os dados estratégicos para alocação no pipeline ativo.
+                </p>
               </div>
               <button
-                type="button"
-                onClick={() => setShowHistoryModal(false)}
-                className="text-muted hover:text-ink p-1"
+                onClick={() => setShowModal(false)}
+                className="w-8 h-8 rounded-full hover:bg-surface text-muted hover:text-ink flex items-center justify-center"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="max-h-72 overflow-y-auto space-y-3">
-              {loadingHistory ? (
-                <div className="text-center py-6 text-xs text-muted">Carregando histórico...</div>
-              ) : dealHistoryList.length > 0 ? (
-                dealHistoryList.map(h => (
-                  <div key={h.id} className="p-3 bg-surface2 rounded-control border border-border text-xs space-y-1">
-                    <div className="flex items-center justify-between font-mono text-[11px]">
-                      <span className="text-neon-blue font-semibold">
-                        {h.fromStage} → {h.toStage}
-                      </span>
-                      <span className="text-muted">
-                        {new Date(h.createdAt).toLocaleString('pt-BR')}
-                      </span>
-                    </div>
-                    <div className="text-muted">
-                      Movido por: <strong className="text-ink">{h.movedBy?.name || 'Sistema'}</strong>
-                    </div>
-                    {h.notes && (
-                      <div className="text-[11px] text-muted italic">"{h.notes}"</div>
-                    )}
-                  </div>
-                ))
-              ) : (
-                <div className="text-center py-6 text-xs text-muted">Nenhum histórico registrado para este negócio.</div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Modal Novo Negócio */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-surface border border-neon-gold/40 rounded-card p-6 w-full max-w-md shadow-2xl">
-            <h3 className="font-display font-bold text-lg neon-title-gold mb-4">
-              Nova Oportunidade no Funil
-            </h3>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div>
-                <label className="text-xs text-muted block mb-1">Título da Oportunidade *</label>
+                <label className="text-xs font-mono text-muted block mb-1">
+                  Título da Oportunidade *
+                </label>
                 <input
                   type="text"
                   required
-                  data-testid="deal-title-input"
-                  placeholder="Ex: Contrato Anual Torre de Controle"
+                  placeholder="Ex: Contrato Anual Enterprise — Expansão LATAM"
                   value={form.title}
                   onChange={e => setForm({ ...form, title: e.target.value })}
-                  className="w-full bg-surface2 border border-border rounded-control px-3 py-2 text-sm text-ink focus:outline-none focus:border-neon-gold"
+                  className="w-full bg-surface2 border border-border rounded-control px-3.5 py-2 text-xs text-ink focus:outline-none focus:border-neon-blue font-mono"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs text-muted block mb-1">Empresa</label>
+                  <label className="text-xs font-mono text-muted block mb-1">
+                    Valor Total (R$) *
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    required
+                    placeholder="150000"
+                    value={form.amount}
+                    onChange={e => setForm({ ...form, amount: e.target.value })}
+                    className="w-full bg-surface2 border border-border rounded-control px-3.5 py-2 text-xs text-ink focus:outline-none focus:border-neon-blue font-mono font-bold"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs font-mono text-muted block mb-1">
+                    Probabilidade (%: {form.probability}%)
+                  </label>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    step="5"
+                    value={form.probability}
+                    onChange={e => setForm({ ...form, probability: Number(e.target.value) })}
+                    className="w-full mt-2 accent-neon-blue"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-mono text-muted block mb-1">
+                    Empresa Vinculada
+                  </label>
                   <select
-                    data-testid="deal-company-select"
                     value={form.companyId}
                     onChange={e => setForm({ ...form, companyId: e.target.value })}
-                    className="w-full bg-surface2 border border-border rounded-control px-3 py-2 text-sm text-ink focus:outline-none focus:border-neon-gold"
+                    className="w-full bg-surface2 border border-border rounded-control px-3 py-2 text-xs text-ink focus:outline-none font-mono"
                   >
-                    <option value="">Selecione...</option>
+                    <option value="">Selecione uma conta...</option>
                     {companies.map(c => (
                       <option key={c.id} value={c.id}>{c.name}</option>
                     ))}
@@ -398,42 +449,15 @@ export const PipelineKanbanView: React.FC<PipelineKanbanViewProps> = ({
                 </div>
 
                 <div>
-                  <label className="text-xs text-muted block mb-1">Lead de Origem</label>
-                  <select
-                    data-testid="deal-lead-select"
-                    value={form.leadId}
-                    onChange={e => setForm({ ...form, leadId: e.target.value })}
-                    className="w-full bg-surface2 border border-border rounded-control px-3 py-2 text-sm text-ink focus:outline-none focus:border-neon-gold"
-                  >
-                    <option value="">Selecione...</option>
-                    {leads.map(l => (
-                      <option key={l.id} value={l.id}>{l.title}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="text-xs text-muted block mb-1">Valor Total (R$) *</label>
-                  <input
-                    type="number"
-                    required
-                    data-testid="deal-amount-input"
-                    placeholder="Ex: 150000"
-                    value={form.amount}
-                    onChange={e => setForm({ ...form, amount: e.target.value })}
-                    className="w-full bg-surface2 border border-border rounded-control px-3 py-2 text-sm text-ink focus:outline-none focus:border-neon-gold"
-                  />
-                </div>
-                <div>
-                  <label className="text-xs text-muted block mb-1">Responsável Comercial</label>
+                  <label className="text-xs font-mono text-muted block mb-1">
+                    Responsável Comercial
+                  </label>
                   <select
                     value={form.assignedToId}
                     onChange={e => setForm({ ...form, assignedToId: e.target.value })}
-                    className="w-full bg-surface2 border border-border rounded-control px-3 py-2 text-sm text-ink focus:outline-none focus:border-neon-gold"
+                    className="w-full bg-surface2 border border-border rounded-control px-3 py-2 text-xs text-ink focus:outline-none font-mono"
                   >
-                    <option value="">Selecione...</option>
+                    <option value="">Selecione o Closer/SDR...</option>
                     {assignees.map(u => (
                       <option key={u.id} value={u.id}>{u.name} ({u.role})</option>
                     ))}
@@ -443,46 +467,130 @@ export const PipelineKanbanView: React.FC<PipelineKanbanViewProps> = ({
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs text-muted block mb-1">Etapa Inicial</label>
+                  <label className="text-xs font-mono text-muted block mb-1">
+                    Estágio Inicial
+                  </label>
                   <select
                     value={form.stage}
                     onChange={e => setForm({ ...form, stage: e.target.value })}
-                    className="w-full bg-surface2 border border-border rounded-control px-3 py-2 text-sm text-ink focus:outline-none focus:border-neon-gold"
+                    className="w-full bg-surface2 border border-border rounded-control px-3 py-2 text-xs text-ink focus:outline-none font-mono"
                   >
-                    {stages.map(s => (
-                      <option key={s.id} value={s.id}>{s.label}</option>
+                    {stages.map(st => (
+                      <option key={st.id} value={st.id}>{st.label}</option>
                     ))}
                   </select>
                 </div>
+
                 <div>
-                  <label className="text-xs text-muted block mb-1">Data Prevista Fechamento</label>
+                  <label className="text-xs font-mono text-muted block mb-1">
+                    Fechamento Estimado
+                  </label>
                   <input
                     type="date"
                     value={form.expectedClose}
                     onChange={e => setForm({ ...form, expectedClose: e.target.value })}
-                    className="w-full bg-surface2 border border-border rounded-control px-3 py-2 text-sm text-ink focus:outline-none focus:border-neon-gold"
+                    className="w-full bg-surface2 border border-border rounded-control px-3 py-2 text-xs text-ink focus:outline-none font-mono"
                   />
                 </div>
               </div>
 
-              <div className="flex justify-end space-x-3 pt-3">
+              <div className="pt-4 border-t border-border flex items-center justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 rounded-pill bg-surface2 text-xs text-muted hover:text-ink border border-border"
+                  className="px-4 py-2 rounded-control text-xs font-mono text-muted hover:text-ink"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
-                  data-testid="save-deal-btn"
-                  className="btn-neon-cta text-xs"
+                  className="btn-neon-cta text-xs shadow-md disabled:opacity-50"
                 >
-                  {loading ? 'Salvando...' : 'Salvar no Funil'}
+                  {loading ? 'Cadastrando...' : 'Confirmar Oportunidade'}
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: HISTÓRICO DE MOVIMENTAÇÕES (AUDITORIA DO SUPERVISOR) */}
+      {showHistoryModal && selectedDealForHistory && (
+        <div
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="w-full max-w-xl bg-surface rounded-card border border-border shadow-2xl overflow-hidden text-ink">
+            <div className="p-5 bg-surface2 border-b border-border flex items-center justify-between">
+              <div>
+                <div className="flex items-center gap-2 mb-0.5">
+                  <span className="badge-telemetry bg-sky-500/10 text-neon-blue border border-sky-500/30">
+                    TRILHA DE AUDITORIA
+                  </span>
+                  <span className="text-xs font-mono text-muted">ID: {selectedDealForHistory.id.slice(0, 8)}</span>
+                </div>
+                <h3 className="font-display font-bold text-base text-ink">
+                  {selectedDealForHistory.title}
+                </h3>
+              </div>
+              <button
+                onClick={() => setShowHistoryModal(false)}
+                className="w-8 h-8 rounded-full hover:bg-surface text-muted hover:text-ink flex items-center justify-center"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="p-6 max-h-[70vh] overflow-y-auto space-y-4">
+              {loadingHistory ? (
+                <div className="py-12 text-center text-xs font-mono text-muted flex items-center justify-center gap-2">
+                  <div className="w-4 h-4 border-2 border-neon-blue border-t-transparent rounded-full animate-spin"></div>
+                  <span>Recuperando log de transições do banco PostgreSQL...</span>
+                </div>
+              ) : dealHistoryList.length > 0 ? (
+                <div className="space-y-4 relative before:absolute before:inset-0 before:left-3.5 before:w-0.5 before:bg-border">
+                  {dealHistoryList.map((hist, idx) => (
+                    <div key={idx} className="relative flex items-start gap-4 text-xs font-mono">
+                      <div className="w-7 h-7 rounded-full bg-surface border-2 border-neon-blue flex items-center justify-center text-neon-blue shrink-0 z-10 shadow-xs">
+                        <Clock className="w-3.5 h-3.5" />
+                      </div>
+                      <div className="p-3.5 bg-surface2 rounded-control border border-border flex-1 space-y-1">
+                        <div className="flex items-center justify-between text-muted text-[11px]">
+                          <span>{new Date(hist.createdAt).toLocaleString('pt-BR')}</span>
+                          <span className="font-semibold text-ink">{hist.user?.name || 'Supervisor Autônomo'}</span>
+                        </div>
+                        <div className="text-ink font-semibold flex items-center gap-2 pt-1">
+                          <span className="text-muted">{hist.oldStage || 'Início'}</span>
+                          <ArrowRight className="w-3.5 h-3.5 text-neon-blue" />
+                          <span className="text-neon-blue font-bold">{hist.newStage}</span>
+                        </div>
+                        {hist.lostReason && (
+                          <div className="text-rose-600 dark:text-rose-400 text-[11px] pt-1">
+                            Motivo da perda: {hist.lostReason}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="py-8 text-center text-xs text-muted font-mono">
+                  Nenhuma transição registrada para esta oportunidade até o momento.
+                </div>
+              )}
+            </div>
+
+            <div className="p-4 bg-surface2 border-t border-border text-right">
+              <button
+                type="button"
+                onClick={() => setShowHistoryModal(false)}
+                className="px-4 py-2 rounded-control bg-surface border border-border text-xs font-mono font-medium hover:bg-surface2"
+              >
+                Fechar Trilha
+              </button>
+            </div>
           </div>
         </div>
       )}

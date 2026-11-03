@@ -55,17 +55,7 @@ export const WorkspaceShell: React.FC<WorkspaceShellProps> = ({
   children
 }) => {
   // Modo de visualização do Canvas (Overview, Timeline, Flow)
-  const [viewMode, setViewMode] = useState<WorkspaceViewMode>(() => {
-    return activeSubmodule.id === 'overview' ? 'TIMELINE' : 'OVERVIEW';
-  });
-
-  useEffect(() => {
-    if (activeSubmodule.id === 'overview') {
-      setViewMode('TIMELINE');
-    } else {
-      setViewMode('OVERVIEW');
-    }
-  }, [activeSubmodule.id]);
+  const [viewMode, setViewMode] = useState<WorkspaceViewMode>('OVERVIEW');
 
   // Estado do Command Center do Supervisor
   const [supervisorOpen, setSupervisorOpen] = useState(false);

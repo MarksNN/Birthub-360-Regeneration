@@ -9,7 +9,15 @@ import {
   Wrench,
   Eye,
   XCircle,
-  Sparkles
+  Sparkles,
+  Bot,
+  ShieldCheck,
+  ChevronRight,
+  Terminal,
+  Activity,
+  Zap,
+  Filter,
+  X
 } from 'lucide-react';
 import { api } from '../services/api';
 
@@ -100,7 +108,7 @@ export const AgentsCatalogView: React.FC<AgentsCatalogViewProps> = ({
   const renderStatusBadge = (status: string, isExecutable: boolean) => {
     if (status === 'EXECUTABLE' && isExecutable) {
       return (
-        <span className="px-2 py-0.5 rounded-pill text-[10px] font-mono uppercase font-bold bg-neon-success/10 text-neon-success border border-neon-success/30 flex items-center space-x-1">
+        <span className="badge-telemetry bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
           <CheckCircle2 className="w-3 h-3" />
           <span>EXECUTABLE</span>
         </span>
@@ -108,7 +116,7 @@ export const AgentsCatalogView: React.FC<AgentsCatalogViewProps> = ({
     }
     if (status === 'AVAILABLE') {
       return (
-        <span className="px-2 py-0.5 rounded-pill text-[10px] font-mono uppercase font-bold bg-neon-blue/10 text-neon-blue border border-neon-blue/30 flex items-center space-x-1">
+        <span className="badge-telemetry bg-sky-500/10 text-neon-blue border border-sky-500/30">
           <Layers className="w-3 h-3" />
           <span>AVAILABLE</span>
         </span>
@@ -116,14 +124,14 @@ export const AgentsCatalogView: React.FC<AgentsCatalogViewProps> = ({
     }
     if (status === 'DISABLED') {
       return (
-        <span className="px-2 py-0.5 rounded-pill text-[10px] font-mono uppercase font-bold bg-neon-danger/10 text-neon-danger border border-neon-danger/30 flex items-center space-x-1">
+        <span className="badge-telemetry bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/30">
           <XCircle className="w-3 h-3" />
           <span>DISABLED</span>
         </span>
       );
     }
     return (
-      <span className="px-2 py-0.5 rounded-pill text-[10px] font-mono uppercase font-bold bg-surface2 text-muted border border-border flex items-center space-x-1">
+      <span className="badge-telemetry bg-surface2 text-muted border border-border">
         <Clock className="w-3 h-3" />
         <span>REGISTERED</span>
       </span>
@@ -132,46 +140,57 @@ export const AgentsCatalogView: React.FC<AgentsCatalogViewProps> = ({
 
   return (
     <div className="space-y-6" data-testid="agents-catalog-view">
-      {/* Header & Resumo Estatístico dos 394 Agentes */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      {/* HEADER DE COMANDO DOS 394 AGENTES */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-2 border-b border-border">
         <div>
-          <h2 className="font-display text-xl font-bold neon-title-iris">
-            Catálogo Oficial & Governança dos {counts.total} Agentes
-          </h2>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="badge-telemetry bg-purple-500/10 text-neon-iris border border-purple-500/30">
+              <Bot className="w-3 h-3" />
+              SWARM INTELLIGENCE OS
+            </span>
+            <span className="badge-telemetry bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+              <ShieldCheck className="w-3 h-3" />
+              CAPABILITY GATED
+            </span>
+          </div>
+          <h1 className="text-xl md:text-2xl font-display font-bold text-ink">
+            Catálogo & Governança dos 394 Agentes Autônomos
+          </h1>
           <p className="text-xs text-muted">
-            Mapeamento integral fiel (379 normalizados + 15 célula comercial) com separação entre REGISTERED, AVAILABLE, EXECUTABLE e DISABLED
+            Matriz completa de agentes especializados com segregação de privilégios, ferramentas e contratos machine-readable.
           </p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono">
-          <div className="px-3 py-2 rounded-control bg-surface border border-border">
-            <span className="text-muted block text-[10px]">TOTAL OFICIAL</span>
-            <span data-testid="catalog-total-count" className="text-sm font-bold neon-title-brand">
+        {/* 4 BENTO CARDS DE STATS NO TOPO */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs font-mono">
+          <div className="p-2.5 rounded-control bg-surface border border-border">
+            <span className="text-muted block text-[10px] uppercase font-semibold">Total Oficial</span>
+            <span data-testid="catalog-total-count" className="text-base font-bold text-ink">
               {counts.total}
             </span>
           </div>
-          <div className="px-3 py-2 rounded-control bg-surface border border-neon-success/30">
-            <span className="text-muted block text-[10px]">EXECUTABLE</span>
-            <span data-testid="catalog-executable-count" className="text-sm font-bold text-neon-success">
+          <div className="p-2.5 rounded-control bg-surface border border-emerald-500/30">
+            <span className="text-muted block text-[10px] uppercase font-semibold">Executáveis</span>
+            <span data-testid="catalog-executable-count" className="text-base font-bold text-emerald-600 dark:text-emerald-400">
               {counts.executable}
             </span>
           </div>
-          <div className="px-3 py-2 rounded-control bg-surface border border-neon-blue/30">
-            <span className="text-muted block text-[10px]">AVAILABLE</span>
-            <span data-testid="catalog-available-count" className="text-sm font-bold text-neon-blue">
+          <div className="p-2.5 rounded-control bg-surface border border-sky-500/30">
+            <span className="text-muted block text-[10px] uppercase font-semibold">Disponíveis</span>
+            <span data-testid="catalog-available-count" className="text-base font-bold text-neon-blue">
               {counts.available}
             </span>
           </div>
-          <div className="px-3 py-2 rounded-control bg-surface border border-border">
-            <span className="text-muted block text-[10px]">REGISTERED</span>
-            <span data-testid="catalog-registered-count" className="text-sm font-bold neon-title-gold">
+          <div className="p-2.5 rounded-control bg-surface border border-amber-500/30">
+            <span className="text-muted block text-[10px] uppercase font-semibold">Registrados</span>
+            <span data-testid="catalog-registered-count" className="text-base font-bold text-neon-gold">
               {counts.registered}
             </span>
           </div>
         </div>
       </div>
 
-      {/* Barra de Pesquisa e Filtros */}
+      {/* BARRA DE PESQUISA & FILTROS MULTI-CRITÉRIO */}
       <div className="card-neon p-4 flex flex-col md:flex-row items-stretch md:items-center gap-3">
         <div className="relative flex-1">
           <Search className="w-4 h-4 text-muted absolute left-3 top-2.5" />
@@ -181,58 +200,60 @@ export const AgentsCatalogView: React.FC<AgentsCatalogViewProps> = ({
             placeholder="Pesquisar nos 394 agentes por nome, código, função, domínio ou capacidade..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-surface2 border border-border rounded-control pl-9 pr-3 py-2 text-xs text-ink focus:outline-none focus:border-neon-iris"
+            className="w-full bg-surface2 border border-border rounded-control pl-9 pr-3 py-2 text-xs text-ink focus:outline-none focus:border-neon-iris font-mono"
           />
         </div>
 
-        <select
-          data-testid="agents-domain-filter"
-          value={filterDomain}
-          onChange={(e) => setFilterDomain(e.target.value)}
-          className="bg-surface2 border border-border rounded-control px-3 py-2 text-xs text-ink focus:outline-none"
-        >
-          <option value="ALL">Todos os Domínios ({domains.length})</option>
-          {domains.map((d) => (
-            <option key={d} value={d}>
-              {d} ({agents.filter((a) => a.domain === d).length})
-            </option>
-          ))}
-        </select>
+        <div className="flex flex-wrap items-center gap-2">
+          <select
+            data-testid="agents-domain-filter"
+            value={filterDomain}
+            onChange={(e) => setFilterDomain(e.target.value)}
+            className="bg-surface2 border border-border rounded-control px-3 py-2 text-xs text-ink focus:outline-none font-mono"
+          >
+            <option value="ALL">Todos os Domínios ({domains.length})</option>
+            {domains.map((d) => (
+              <option key={d} value={d}>
+                {d} ({agents.filter((a) => a.domain === d).length})
+              </option>
+            ))}
+          </select>
 
-        <select
-          data-testid="agents-status-filter"
-          value={filterStatus}
-          onChange={(e) => setFilterStatus(e.target.value)}
-          className="bg-surface2 border border-border rounded-control px-3 py-2 text-xs text-ink focus:outline-none"
-        >
-          <option value="ALL">Todos os Status Operacionais</option>
-          <option value="EXECUTABLE">EXECUTABLE ({counts.executable})</option>
-          <option value="AVAILABLE">AVAILABLE ({counts.available})</option>
-          <option value="REGISTERED">REGISTERED ({counts.registered})</option>
-          <option value="DISABLED">DISABLED ({counts.disabled})</option>
-        </select>
+          <select
+            data-testid="agents-status-filter"
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+            className="bg-surface2 border border-border rounded-control px-3 py-2 text-xs text-ink focus:outline-none font-mono"
+          >
+            <option value="ALL">Todos os Status</option>
+            <option value="EXECUTABLE">EXECUTABLE ({counts.executable})</option>
+            <option value="AVAILABLE">AVAILABLE ({counts.available})</option>
+            <option value="REGISTERED">REGISTERED ({counts.registered})</option>
+            <option value="DISABLED">DISABLED ({counts.disabled})</option>
+          </select>
 
-        <select
-          data-testid="agents-scope-filter"
-          value={filterScope}
-          onChange={(e) => setFilterScope(e.target.value)}
-          className="bg-surface2 border border-border rounded-control px-3 py-2 text-xs text-ink focus:outline-none"
-        >
-          <option value="ALL">Todos os Escopos</option>
-          <option value="SPECIALIZED">SPECIALIZED</option>
-          <option value="UNIVERSAL">UNIVERSAL</option>
-        </select>
+          <select
+            data-testid="agents-scope-filter"
+            value={filterScope}
+            onChange={(e) => setFilterScope(e.target.value)}
+            className="bg-surface2 border border-border rounded-control px-3 py-2 text-xs text-ink focus:outline-none font-mono"
+          >
+            <option value="ALL">Todos os Escopos</option>
+            <option value="SPECIALIZED">SPECIALIZED</option>
+            <option value="UNIVERSAL">UNIVERSAL</option>
+          </select>
+        </div>
       </div>
 
-      {/* Contador de Exibição */}
+      {/* METADADOS DA BUSCA */}
       <div className="flex items-center justify-between text-xs font-mono text-muted px-1">
         <span>
-          Exibindo <strong>{filtered.length}</strong> de <strong>{counts.total}</strong> agentes catalogados
+          Filtrados: <strong className="text-ink">{filtered.length}</strong> de <strong className="text-ink">{counts.total}</strong> agentes do ecossistema
         </span>
         {meta?.sourceSnapshot && <span>Snapshot: {meta.sourceSnapshot.slice(0, 10)}</span>}
       </div>
 
-      {/* Grid de Agentes */}
+      {/* GRID DE AGENTES (BENTO CARDS) */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filtered.map((agent) => {
           const isExec = agent.operationalStatus === 'EXECUTABLE' && agent.isExecutable;
@@ -242,59 +263,61 @@ export const AgentsCatalogView: React.FC<AgentsCatalogViewProps> = ({
             <div
               key={agent.agentCode}
               data-testid={`agent-card-${agent.agentCode}`}
-              className="card-neon p-4 flex flex-col justify-between space-y-3"
+              className="card-neon p-5 flex flex-col justify-between space-y-3.5 hover:border-purple-500/40 transition-all"
             >
               <div>
+                {/* Header do Card */}
                 <div className="flex items-center justify-between gap-2 mb-2">
-                  <span className="font-mono text-[10px] text-muted uppercase truncate">
+                  <span className="font-mono text-[10px] text-muted uppercase tracking-wider truncate">
                     {agent.domain} • {agent.subgroup}
                   </span>
                   {renderStatusBadge(agent.operationalStatus, agent.isExecutable)}
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <h4 className="font-display font-bold text-sm neon-title-cyan">
+                <div className="flex items-center justify-between gap-2">
+                  <h3 className="font-display font-bold text-sm text-ink truncate">
                     {agent.name}
-                  </h4>
+                  </h3>
                   <span
-                    className={`px-2 py-0.5 rounded-pill text-[9px] font-mono uppercase font-bold ${
+                    className={`badge-telemetry shrink-0 text-[9px] ${
                       agent.scope === 'UNIVERSAL'
-                        ? 'bg-neon-blue/10 text-neon-blue border border-neon-blue/30'
-                        : 'bg-neon-pink/10 text-neon-pink border border-neon-pink/30'
+                        ? 'bg-sky-500/10 text-neon-blue border border-sky-500/30'
+                        : 'bg-purple-500/10 text-neon-iris border border-purple-500/30'
                     }`}
                   >
                     {agent.scope}
                   </span>
                 </div>
 
-                <div className="flex items-center space-x-2 mt-0.5">
+                <div className="flex items-center space-x-2 mt-1">
                   <span className="font-mono text-[11px] text-muted">{agent.agentCode}</span>
                   {agent.characterRole && (
-                    <span className="text-[10px] font-mono px-1.5 py-0.2 bg-surface2 rounded text-neon-gold">
+                    <span className="text-[10px] font-mono px-1.5 py-0.5 bg-surface2 rounded text-neon-gold border border-border">
                       {agent.characterRole}
                     </span>
                   )}
                 </div>
 
-                <p className="text-xs text-muted mt-2 line-clamp-2">
+                <p className="text-xs text-muted mt-2.5 line-clamp-2 leading-relaxed">
                   {agent.description || agent.mission}
                 </p>
               </div>
 
+              {/* Rodapé do Card com Capacidades & Ações */}
               <div className="pt-3 border-t border-border space-y-2.5">
                 <div className="flex items-center justify-between text-[11px] font-mono">
-                  <span className="text-muted">Perfil Requerido:</span>
-                  <span className="text-neon-gold font-semibold">{agent.requiredRole}</span>
+                  <span className="text-muted">Perfil Mínimo:</span>
+                  <span className="text-ink font-semibold">{agent.requiredRole}</span>
                 </div>
 
-                {/* Capacidades Universais e Especializadas */}
+                {/* Capacidades */}
                 {agent.specializedCapabilities?.length > 0 && (
                   <div>
                     <span className="text-[10px] font-mono text-muted block mb-1">
-                      Capacidades Especializadas ({agent.specializedCapabilities.length}):
+                      Capacidades ({agent.specializedCapabilities.length}):
                     </span>
                     <div className="flex flex-wrap gap-1">
-                      {agent.specializedCapabilities.slice(0, 4).map((c: string) => (
+                      {agent.specializedCapabilities.slice(0, 3).map((c: string) => (
                         <span
                           key={c}
                           className="text-[9px] px-1.5 py-0.5 bg-surface2 rounded text-neon-iris font-mono border border-border"
@@ -302,9 +325,9 @@ export const AgentsCatalogView: React.FC<AgentsCatalogViewProps> = ({
                           {c}
                         </span>
                       ))}
-                      {agent.specializedCapabilities.length > 4 && (
+                      {agent.specializedCapabilities.length > 3 && (
                         <span className="text-[9px] px-1.5 py-0.5 bg-surface2 rounded text-muted font-mono">
-                          +{agent.specializedCapabilities.length - 4}
+                          +{agent.specializedCapabilities.length - 3}
                         </span>
                       )}
                     </div>
@@ -313,7 +336,7 @@ export const AgentsCatalogView: React.FC<AgentsCatalogViewProps> = ({
 
                 {/* Ferramentas Associadas */}
                 {agent.allowedTools?.length > 0 && (
-                  <div className="flex items-center space-x-1 text-[10px] font-mono text-muted">
+                  <div className="flex items-center space-x-1.5 text-[10px] font-mono text-muted">
                     <Wrench className="w-3 h-3 text-neon-blue shrink-0" />
                     <span className="truncate">
                       Tools: {agent.allowedTools.slice(0, 3).join(', ')}
@@ -321,16 +344,16 @@ export const AgentsCatalogView: React.FC<AgentsCatalogViewProps> = ({
                   </div>
                 )}
 
-                {/* Ações: Inspecionar Metadados ou Executar (somente se EXECUTABLE) */}
+                {/* Botões de Ação */}
                 <div className="flex items-center justify-between gap-2 pt-2">
                   <button
                     type="button"
                     data-testid={`inspect-agent-${agent.agentCode}`}
                     onClick={() => setSelectedAgent(agent)}
-                    className="flex-1 py-1.5 px-2.5 rounded-control border border-border bg-surface2 hover:border-neon-blue text-[11px] font-mono text-ink flex items-center justify-center space-x-1 transition-colors"
+                    className="flex-1 py-1.5 px-2.5 rounded-control border border-border bg-surface2 hover:bg-surface text-[11px] font-mono text-ink flex items-center justify-center space-x-1.5 transition-colors font-semibold"
                   >
                     <Eye className="w-3 h-3 text-neon-blue" />
-                    <span>Contrato & Metadados</span>
+                    <span>Dossiê & Contrato</span>
                   </button>
 
                   {isExec ? (
@@ -339,23 +362,23 @@ export const AgentsCatalogView: React.FC<AgentsCatalogViewProps> = ({
                       data-testid={`exec-agent-btn-${agent.agentCode}`}
                       disabled={executingCode === agent.agentCode}
                       onClick={() => handleTestExecute(agent)}
-                      className="py-1.5 px-3 rounded-control bg-neon-success/15 border border-neon-success/40 hover:bg-neon-success/25 text-neon-success text-[11px] font-mono font-bold flex items-center space-x-1 transition-colors"
+                      className="py-1.5 px-3 rounded-control bg-emerald-500/15 border border-emerald-500/40 hover:bg-emerald-500/25 text-emerald-600 dark:text-emerald-400 text-[11px] font-mono font-bold flex items-center space-x-1.5 transition-colors"
                     >
                       <Play className="w-3 h-3" />
                       <span>{executingCode === agent.agentCode ? 'Executando...' : 'Executar'}</span>
                     </button>
                   ) : (
                     <span
-                      title="Agente registrado em governança — execução bloqueada até homologação da ferramenta"
+                      title="Agente em governança — execução restrita a autorização no supervisor"
                       className="py-1.5 px-2.5 rounded-control bg-surface2/60 border border-border text-muted text-[10px] font-mono cursor-not-allowed"
                     >
-                      Somente Registro
+                      Em Governança
                     </span>
                   )}
                 </div>
 
                 {feedback && (
-                  <div className="p-2 rounded bg-surface2 border border-neon-blue/30 text-[11px] font-mono text-ink">
+                  <div className="p-2.5 rounded-control bg-surface2 border border-sky-500/30 text-[11px] font-mono text-ink animate-in fade-in">
                     {feedback.simulatedOutput || feedback.error}
                   </div>
                 )}
@@ -365,116 +388,113 @@ export const AgentsCatalogView: React.FC<AgentsCatalogViewProps> = ({
         })}
       </div>
 
-      {/* Modal de Detalhes Completos do Agente */}
+      {/* MODAL DE DOSSIÊ COMPLETO DO AGENTE */}
       {selectedAgent && (
-        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
-          <div data-testid="agent-detail-modal" className="card-neon bg-surface max-w-2xl w-full p-6 max-h-[85vh] overflow-y-auto space-y-4">
+        <div 
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div data-testid="agent-detail-modal" className="card-neon bg-surface max-w-2xl w-full p-6 max-h-[88vh] overflow-y-auto space-y-4">
             <div className="flex items-start justify-between border-b border-border pb-3">
               <div>
-                <h3 className="font-display text-lg font-bold neon-title-brand">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="badge-telemetry bg-purple-500/10 text-neon-iris border border-purple-500/30">
+                    CONTRATO MACHINE-READABLE
+                  </span>
+                  <span className="text-xs font-mono text-muted">{selectedAgent.domain}</span>
+                </div>
+                <h3 className="font-display text-lg font-bold text-ink">
                   {selectedAgent.name}
                 </h3>
                 <span className="font-mono text-xs text-muted">
-                  ID: {selectedAgent.agentCode} • Origem: {selectedAgent.origin} • Versão: {selectedAgent.sourceVersion?.slice(0, 8)}
+                  Código: {selectedAgent.agentCode} • Origem: {selectedAgent.origin}
                 </span>
               </div>
               <button
                 type="button"
                 data-testid="close-agent-modal"
                 onClick={() => setSelectedAgent(null)}
-                className="px-3 py-1 rounded-control bg-surface2 text-xs font-mono text-muted hover:text-ink"
+                className="w-8 h-8 rounded-full hover:bg-surface2 text-muted hover:text-ink flex items-center justify-center"
               >
-                Fechar
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 text-xs font-mono bg-surface2 p-3 rounded-control">
+            <div className="grid grid-cols-2 gap-3 text-xs font-mono bg-surface2 p-3.5 rounded-control border border-border">
               <div>
-                <span className="text-muted block">Domínio / Subgrupo:</span>
+                <span className="text-muted block text-[10px] uppercase">Domínio / Subgrupo:</span>
                 <span className="text-ink font-semibold">
                   {selectedAgent.domain} / {selectedAgent.subgroup}
                 </span>
               </div>
               <div>
-                <span className="text-muted block">Status Operacional:</span>
+                <span className="text-muted block text-[10px] uppercase">Status Operacional:</span>
                 <span className="text-neon-blue font-bold">{selectedAgent.operationalStatus}</span>
               </div>
               <div>
-                <span className="text-muted block">Escopo & Papel Mínimo:</span>
-                <span className="text-neon-gold font-semibold">
-                  {selectedAgent.scope} • {selectedAgent.requiredRole}
-                </span>
+                <span className="text-muted block text-[10px] uppercase">Papel Requerido (RBAC):</span>
+                <span className="text-ink font-semibold">{selectedAgent.requiredRole}</span>
               </div>
               <div>
-                <span className="text-muted block">Referência de Prompt/Rota:</span>
-                <span className="text-ink truncate block">{selectedAgent.promptRef}</span>
+                <span className="text-muted block text-[10px] uppercase">Escopo de Atuação:</span>
+                <span className="text-neon-iris font-semibold">{selectedAgent.scope}</span>
               </div>
             </div>
 
-            <div className="space-y-2 text-xs">
-              <h4 className="font-display font-semibold neon-title-cyan">Missão & Descrição</h4>
-              <p className="text-muted">{selectedAgent.description}</p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            <div className="space-y-3">
               <div>
-                <h4 className="font-display font-semibold neon-title-iris mb-1">
-                  Capacidades Universais
+                <h4 className="text-xs font-mono font-bold text-ink uppercase tracking-wider mb-1">
+                  Missão Estratégica:
                 </h4>
-                <ul className="list-disc list-inside text-muted font-mono space-y-0.5">
-                  {(selectedAgent.universalCapabilities || []).map((u: string) => (
-                    <li key={u}>{u}</li>
-                  ))}
-                </ul>
+                <p className="text-xs text-muted p-3 bg-surface2 rounded-control border border-border leading-relaxed font-mono">
+                  {selectedAgent.mission || selectedAgent.description}
+                </p>
               </div>
-              <div>
-                <h4 className="font-display font-semibold neon-title-pink mb-1">
-                  Capacidades Especializadas
-                </h4>
-                <ul className="list-disc list-inside text-muted font-mono space-y-0.5">
-                  {(selectedAgent.specializedCapabilities || []).map((s: string) => (
-                    <li key={s}>{s}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-              <div>
-                <h4 className="font-display font-semibold neon-title-gold mb-1">Entradas Esperadas</h4>
-                <ul className="list-disc list-inside text-muted space-y-0.5">
-                  {(selectedAgent.inputs || []).map((inp: string) => (
-                    <li key={inp}>{inp}</li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-display font-semibold neon-title-cyan mb-1">Saídas Esperadas</h4>
-                <ul className="list-disc list-inside text-muted space-y-0.5">
-                  {(selectedAgent.outputs || []).map((out: string) => (
-                    <li key={out}>{out}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {selectedAgent.dependencies?.length > 0 && (
-              <div className="text-xs">
-                <h4 className="font-display font-semibold neon-title-iris mb-1">
-                  Dependências Documentadas
-                </h4>
-                <div className="flex flex-wrap gap-1.5">
-                  {selectedAgent.dependencies.map((dep: string) => (
-                    <span
-                      key={dep}
-                      className="px-2 py-0.5 bg-surface2 rounded border border-border font-mono text-[11px] text-muted"
-                    >
-                      {dep}
-                    </span>
-                  ))}
+              {selectedAgent.systemPrompt && (
+                <div>
+                  <h4 className="text-xs font-mono font-bold text-ink uppercase tracking-wider mb-1">
+                    Prompt Mestre do Agente:
+                  </h4>
+                  <pre className="text-[11px] font-mono text-ink p-3 bg-surface2 rounded-control border border-border overflow-x-auto whitespace-pre-wrap leading-relaxed max-h-48">
+                    {selectedAgent.systemPrompt}
+                  </pre>
                 </div>
-              </div>
-            )}
+              )}
+
+              {selectedAgent.allowedTools?.length > 0 && (
+                <div>
+                  <h4 className="text-xs font-mono font-bold text-ink uppercase tracking-wider mb-1">
+                    Ferramentas Conectadas ({selectedAgent.allowedTools.length}):
+                  </h4>
+                  <div className="flex flex-wrap gap-1.5">
+                    {selectedAgent.allowedTools.map((t: string) => (
+                      <span
+                        key={t}
+                        className="px-2 py-0.5 bg-surface2 rounded-control border border-border text-[11px] font-mono text-neon-blue flex items-center gap-1"
+                      >
+                        <Wrench className="w-3 h-3" />
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="pt-3 border-t border-border flex items-center justify-between">
+              <span className="text-[11px] font-mono text-muted">
+                Governança Auditável pelo Supervisor Núcleo
+              </span>
+              <button
+                type="button"
+                onClick={() => setSelectedAgent(null)}
+                className="btn-neon-primary text-xs shadow-xs"
+              >
+                Fechar Dossiê
+              </button>
+            </div>
           </div>
         </div>
       )}

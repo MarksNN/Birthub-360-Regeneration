@@ -1,5 +1,15 @@
 {
+  "name": "birthhub-360-regeneration",
+  "private": true,
+  "scripts": {
+    "impeccable": "impeccable",
+    "impeccable:detect": "impeccable detect frontend",
+    "impeccable:audit": "impeccable detect http://localhost:5173"
+  },
   "dependencies": {
     "uuid": "^14.0.3"
+  },
+  "devDependencies": {
+    "impeccable": "^4.8.0"
   }
 }

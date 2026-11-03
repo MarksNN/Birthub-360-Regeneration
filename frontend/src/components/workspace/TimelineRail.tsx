@@ -4,41 +4,13 @@ import {
   ChevronUp,
   ChevronDown,
   Plus,
-  Sparkles,
   Bot,
   Mail,
   Zap,
-  TrendingUp,
   FileText,
-  CheckCircle2,
-  AlertTriangle,
-  Building2,
-  Filter
+  CheckCircle2
 } from 'lucide-react';
 import { ConnectedEntityCard } from './ConnectedEntityCard';
-
-export interface TimelineEvent {
-  id: string;
-  periodLabel: string;
-  subPeriod: string;
-  nodeType: 'deal' | 'agent' | 'metric' | 'alert' | 'cadence';
-  actionCapsule: {
-    icon: 'bot' | 'mail' | 'zap' | 'deal' | 'file';
-    label: string;
-    multiplier?: string;
-  };
-  card: {
-    category: string;
-    title: string;
-    badge?: string;
-    metricLabel?: string;
-    metricValue?: string;
-    delta?: string;
-    chartType: 'wave' | 'ecg' | 'bars' | 'sparkline';
-    agentName?: string;
-    tags?: string[];
-  };
-}
 
 interface TimelineRailProps {
   deals: any[];
@@ -52,20 +24,13 @@ interface TimelineRailProps {
 
 export const TimelineRail: React.FC<TimelineRailProps> = ({
   deals = [],
-  companies = [],
-  leads = [],
-  activities = [],
-  agents = [],
   onOpenCardDetail,
   onOpenNewDeal
 }) => {
   const [selectedMonth, setSelectedMonth] = useState('Out');
-  const [activeFilter, setActiveFilter] = useState<'ALL' | 'DEALS' | 'AGENTS' | 'ACTIVITIES'>('ALL');
 
-  // Constrói os blocos cronológicos conectados baseados nos dados reais
   const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
 
-  // Dados reais enriquecidos com apresentação visual idêntica à referência
   const primaryDeal = deals[0] || {
     id: 'deal-primary',
     title: 'Contrato Anual Aurora Enterprise',
@@ -86,14 +51,12 @@ export const TimelineRail: React.FC<TimelineRailProps> = ({
 
   return (
     <div className="relative w-full h-full flex flex-col justify-between overflow-x-auto select-none p-4 md:p-8">
-      {/* Linha horizontal principal de conexão do Canvas */}
       <div className="relative min-w-[1100px] flex-1 pb-24">
         {/* SVG Global de Conexões Curvas (Bezier) */}
         <svg
           className="absolute inset-0 w-full h-full pointer-events-none z-0"
           style={{ minWidth: '1100px' }}
         >
-          {/* Linha mestra horizontal da timeline */}
           <line
             x1="60"
             y1="50"
@@ -101,34 +64,25 @@ export const TimelineRail: React.FC<TimelineRailProps> = ({
             y2="50"
             stroke="var(--line-connection)"
             strokeWidth="2"
-            strokeDasharray="none"
           />
-
-          {/* Ramificação curva 1: nó 1 -> capsule -> card 1 */}
           <path
             d="M 160,50 C 160,110 240,110 240,170"
             fill="none"
             stroke="var(--line-connection)"
             strokeWidth="2"
           />
-
-          {/* Ramificação secundária: nó 1 -> card sintomas/risco */}
           <path
             d="M 160,50 C 160,110 160,250 240,380"
             fill="none"
             stroke="var(--line-connection)"
             strokeWidth="2"
           />
-
-          {/* Ramificação curva 2: nó 2 -> capsule -> card 2 */}
           <path
             d="M 620,50 C 620,110 700,110 700,170"
             fill="none"
             stroke="var(--line-connection)"
             strokeWidth="2"
           />
-
-          {/* Ramificação curva 2 -> card ECG / SLA */}
           <path
             d="M 620,50 C 620,110 620,250 700,380"
             fill="none"
@@ -141,36 +95,33 @@ export const TimelineRail: React.FC<TimelineRailProps> = ({
         <div className="grid grid-cols-2 gap-16 relative z-10">
           {/* ===================== COLUNA 1: OUTUBRO / SPRINT 1 ===================== */}
           <div className="space-y-6">
-            {/* Nó luminoso na linha mestra */}
             <div className="flex items-center space-x-6">
-              {/* Neon Lime Circular Node com ícone de documento */}
               <div className="relative">
                 <button
                   type="button"
                   aria-label="Nó da timeline: Outubro Sprint 1"
-                  className="w-10 h-10 rounded-full bg-[#E5FF45] border-2 border-[#343735] flex items-center justify-center shadow-md hover:scale-110 transition-transform"
+                  className="w-10 h-10 rounded-full bg-neon-blue/15 border-2 border-neon-blue flex items-center justify-center shadow-sm hover:scale-105 transition-transform"
                 >
-                  <FileText className="w-5 h-5 text-[#343735]" />
+                  <FileText className="w-5 h-5 text-neon-blue" />
                 </button>
-                <span className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-[#343735] border border-[#E5FF45]"></span>
+                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 border-2 border-surface"></span>
               </div>
 
-              {/* Rótulo de Período & Controles Verticais */}
               <div className="flex items-center space-x-3">
                 <div>
-                  <span className="font-display text-base font-bold text-workspace-primary block">
+                  <span className="font-display text-base font-bold neon-title-blue block">
                     Outubro
                   </span>
-                  <span className="text-[11px] font-mono text-workspace-secondary">
+                  <span className="text-[11px] font-mono text-muted">
                     Semana 1 • Sprint Ativo
                   </span>
                 </div>
 
-                <div className="flex flex-col bg-workspace-card rounded-pill border border-workspace-soft p-0.5 shadow-sm">
-                  <button className="p-0.5 hover:text-workspace-graphite text-workspace-secondary">
+                <div className="flex flex-col bg-surface rounded-pill border border-border p-0.5 shadow-xs">
+                  <button className="p-0.5 hover:text-neon-blue text-muted">
                     <ChevronUp className="w-3 h-3" />
                   </button>
-                  <button className="p-0.5 hover:text-workspace-graphite text-workspace-secondary">
+                  <button className="p-0.5 hover:text-neon-blue text-muted">
                     <ChevronDown className="w-3 h-3" />
                   </button>
                 </div>
@@ -178,15 +129,15 @@ export const TimelineRail: React.FC<TimelineRailProps> = ({
             </div>
 
             {/* Ação Flutuante Conectada na Curva: Agente / Ação */}
-            <div className="ml-16 inline-flex items-center bg-[#343735] text-white px-3 py-1.5 rounded-pill shadow-sm space-x-2 text-xs font-mono border border-black/20">
-              <div className="w-5 h-5 rounded-full bg-[#E5FF45] text-[#343735] flex items-center justify-center">
+            <div className="ml-16 inline-flex items-center bg-[#0B132B] text-[#F8FAFC] px-3 py-1.5 rounded-pill shadow-sm space-x-2 text-xs font-mono border border-neon-iris/40">
+              <div className="w-5 h-5 rounded-full bg-neon-iris/20 text-neon-iris flex items-center justify-center border border-neon-iris/40">
                 <Bot className="w-3 h-3" />
               </div>
-              <span className="font-semibold text-white">Closer Sales Agent</span>
-              <span className="text-white/60 text-[10px]">x2 exec</span>
+              <span className="font-semibold">Closer Sales Agent</span>
+              <span className="text-neon-blue text-[10px] font-bold">x2 exec</span>
             </div>
 
-            {/* Cartão Conectado 1: Previsão & Oportunidade Principal */}
+            {/* Cartão Conectado 1 */}
             <div className="ml-20 max-w-md">
               <ConnectedEntityCard
                 id="card-out-1"
@@ -203,7 +154,7 @@ export const TimelineRail: React.FC<TimelineRailProps> = ({
               />
             </div>
 
-            {/* Cartão Conectado 2: Análise de Riscos & Alertas (Supervisor) */}
+            {/* Cartão Conectado 2 */}
             <div className="ml-20 max-w-md pt-2">
               <ConnectedEntityCard
                 id="card-out-2"
@@ -222,48 +173,44 @@ export const TimelineRail: React.FC<TimelineRailProps> = ({
 
           {/* ===================== COLUNA 2: NOVEMBRO / SPRINT 2 ===================== */}
           <div className="space-y-6">
-            {/* Nó luminoso na linha mestra */}
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-6">
-                {/* Neon Lime Circular Node com ícone de documento */}
                 <div className="relative">
                   <button
                     type="button"
                     aria-label="Nó da timeline: Novembro Sprint 2"
-                    className="w-10 h-10 rounded-full bg-[#E5FF45] border-2 border-[#343735] flex items-center justify-center shadow-md hover:scale-110 transition-transform"
+                    className="w-10 h-10 rounded-full bg-neon-pink/15 border-2 border-neon-pink flex items-center justify-center shadow-sm hover:scale-105 transition-transform"
                   >
-                    <CheckCircle2 className="w-5 h-5 text-[#343735]" />
+                    <CheckCircle2 className="w-5 h-5 text-neon-pink" />
                   </button>
-                  <span className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-[#343735] border border-[#E5FF45]"></span>
+                  <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-neon-gold border-2 border-surface"></span>
                 </div>
 
-                {/* Rótulo de Período & Controles Verticais */}
                 <div className="flex items-center space-x-3">
                   <div>
-                    <span className="font-display text-base font-bold text-workspace-primary block">
+                    <span className="font-display text-base font-bold neon-title-pink block">
                       Novembro
                     </span>
-                    <span className="text-[11px] font-mono text-workspace-secondary">
+                    <span className="text-[11px] font-mono text-muted">
                       Semana 1 • Projeção & Follow-up
                     </span>
                   </div>
 
-                  <div className="flex flex-col bg-workspace-card rounded-pill border border-workspace-soft p-0.5 shadow-sm">
-                    <button className="p-0.5 hover:text-workspace-graphite text-workspace-secondary">
+                  <div className="flex flex-col bg-surface rounded-pill border border-border p-0.5 shadow-xs">
+                    <button className="p-0.5 hover:text-neon-pink text-muted">
                       <ChevronUp className="w-3 h-3" />
                     </button>
-                    <button className="p-0.5 hover:text-workspace-graphite text-workspace-secondary">
+                    <button className="p-0.5 hover:text-neon-pink text-muted">
                       <ChevronDown className="w-3 h-3" />
                     </button>
                   </div>
                 </div>
               </div>
 
-              {/* Botão de Adição no Rail */}
               {onOpenNewDeal && (
                 <button
                   onClick={onOpenNewDeal}
-                  className="w-9 h-9 rounded-full bg-[#343735] text-white flex items-center justify-center hover:bg-black transition-colors shadow-sm"
+                  className="w-9 h-9 rounded-full bg-neon-blue text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm"
                   title="Criar novo marco ou oportunidade"
                 >
                   <Plus className="w-4 h-4" />
@@ -273,24 +220,24 @@ export const TimelineRail: React.FC<TimelineRailProps> = ({
 
             {/* Ações Flutuantes Conectadas na Curva */}
             <div className="ml-16 flex flex-col space-y-2">
-              <div className="inline-flex items-center bg-[#343735] text-white px-3 py-1.5 rounded-pill shadow-sm space-x-2 text-xs font-mono border border-black/20 w-fit">
-                <div className="w-5 h-5 rounded-full bg-[#E5FF45] text-[#343735] flex items-center justify-center">
+              <div className="inline-flex items-center bg-[#0B132B] text-[#F8FAFC] px-3 py-1.5 rounded-pill shadow-sm space-x-2 text-xs font-mono border border-neon-blue/40 w-fit">
+                <div className="w-5 h-5 rounded-full bg-neon-blue/20 text-neon-blue flex items-center justify-center">
                   <Mail className="w-3 h-3" />
                 </div>
-                <span className="font-semibold text-white">Cadência Multicanal</span>
-                <span className="text-white/60 text-[10px]">x3 disparos</span>
+                <span className="font-semibold">Cadência Multicanal</span>
+                <span className="text-neon-blue text-[10px] font-bold">x3 disparos</span>
               </div>
 
-              <div className="inline-flex items-center bg-[#343735] text-white px-3 py-1.5 rounded-pill shadow-sm space-x-2 text-xs font-mono border border-black/20 w-fit">
-                <div className="w-5 h-5 rounded-full bg-[#E5FF45] text-[#343735] flex items-center justify-center">
+              <div className="inline-flex items-center bg-[#0B132B] text-[#F8FAFC] px-3 py-1.5 rounded-pill shadow-sm space-x-2 text-xs font-mono border border-neon-gold/40 w-fit">
+                <div className="w-5 h-5 rounded-full bg-neon-gold/20 text-neon-gold flex items-center justify-center">
                   <Zap className="w-3 h-3" />
                 </div>
-                <span className="font-semibold text-white">Trigger Hub Sync</span>
-                <span className="text-white/60 text-[10px]">Webhook OK</span>
+                <span className="font-semibold">Trigger Hub Sync</span>
+                <span className="text-emerald-400 text-[10px] font-bold">Webhook OK</span>
               </div>
             </div>
 
-            {/* Cartão Conectado 3: Negociação em Andamento */}
+            {/* Cartão Conectado 3 */}
             <div className="ml-20 max-w-md">
               <ConnectedEntityCard
                 id="card-nov-1"
@@ -307,7 +254,7 @@ export const TimelineRail: React.FC<TimelineRailProps> = ({
               />
             </div>
 
-            {/* Cartão Conectado 4: Pulso Operacional e SLA */}
+            {/* Cartão Conectado 4 */}
             <div className="ml-20 max-w-md pt-2">
               <ConnectedEntityCard
                 id="card-nov-2"
@@ -326,17 +273,14 @@ export const TimelineRail: React.FC<TimelineRailProps> = ({
         </div>
       </div>
 
-      {/* ===================== FLOATING TIMELINE SCRUBBER (BARRA INFERIOR DE MESES) ===================== */}
-      {/* Exatamente como na imagem de referência: barra alongada, fundo off-white translúcido, seleção ativa em grafite */}
+      {/* ===================== FLOATING TIMELINE SCRUBBER ===================== */}
       <div className="fixed bottom-14 left-1/2 -translate-x-1/2 z-20 w-[92%] max-w-4xl">
-        <div className="bg-workspace-card/90 backdrop-blur-md rounded-pill border border-workspace-soft p-1.5 shadow-xl flex items-center justify-between text-xs font-mono">
-          {/* Seletor de Ano */}
-          <div className="flex items-center space-x-2 px-3 py-1.5 bg-[#343735] text-white rounded-pill">
-            <Calendar className="w-3.5 h-3.5 text-[#E5FF45]" />
+        <div className="bg-surface/95 backdrop-blur-md rounded-pill border border-border p-1.5 shadow-xl flex items-center justify-between text-xs font-mono">
+          <div className="flex items-center space-x-2 px-3 py-1.5 bg-[#0B132B] text-[#F8FAFC] rounded-pill border border-neon-blue/30">
+            <Calendar className="w-3.5 h-3.5 text-neon-blue" />
             <span className="font-bold">2026</span>
           </div>
 
-          {/* Relação de Meses com Indicadores e Badges Neon Lime */}
           <div className="flex items-center space-x-1 overflow-x-auto px-2">
             {months.map((m, idx) => {
               const isSelected = selectedMonth === m;
@@ -349,13 +293,15 @@ export const TimelineRail: React.FC<TimelineRailProps> = ({
                   onClick={() => setSelectedMonth(m)}
                   className={`relative px-3 py-1 rounded-pill transition-all text-xs font-semibold flex items-center space-x-1 ${
                     isSelected
-                      ? 'bg-[#343735] text-white shadow-sm'
-                      : 'text-workspace-secondary hover:text-workspace-primary hover:bg-workspace-surface'
+                      ? 'bg-neon-blue text-white shadow-xs font-bold'
+                      : 'text-muted hover:text-ink hover:bg-surface2'
                   }`}
                 >
                   <span>{m}</span>
                   {hasBadge && (
-                    <span className="w-4 h-4 rounded-full bg-[#E5FF45] text-[#222522] font-black text-[9px] flex items-center justify-center -mr-1">
+                    <span className={`w-4 h-4 rounded-full font-bold text-[9px] flex items-center justify-center -mr-1 ${
+                      isSelected ? 'bg-white text-[#0B132B]' : 'bg-neon-iris/20 text-neon-iris'
+                    }`}>
                       {badgeCount}
                     </span>
                   )}
@@ -364,10 +310,10 @@ export const TimelineRail: React.FC<TimelineRailProps> = ({
             })}
           </div>
 
-          {/* Scrubber Actives / Timeline Window Preview */}
-          <div className="hidden md:flex items-center space-x-1 px-3 py-1 bg-[#343735] text-white rounded-pill text-[11px]">
-            <span className="text-[#E5FF45] font-bold">Q4 LIVE</span>
-            <span className="text-white/60">• 19 Agentes</span>
+          <div className="hidden md:flex items-center space-x-1.5 px-3 py-1 bg-[#0B132B] text-[#F8FAFC] rounded-pill text-[11px] border border-neon-iris/30">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="text-neon-blue font-bold">Q4 LIVE</span>
+            <span className="text-slate-400">• 19 Agentes</span>
           </div>
         </div>
       </div>
